@@ -1,31 +1,51 @@
-import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
-
+import { View, Text, Heading, Box, Button } from "native-base";
 export default function TabTwoScreen() {
+  const renderHeading = () => <Heading size={"xl"}>Start A Workout</Heading>;
+
+  const renderQuickStart = () => (
+    <Box marginY={5}>
+      <Heading fontSize={"sm"}>Quick Start</Heading>
+      <Button marginY={3} size="sm" backgroundColor={"info.400"}>
+        <Text fontWeight={"bold"} color="white">
+          Start an Empty Workout
+        </Text>
+      </Button>
+    </Box>
+  );
+
+  const renderTemplatesContainer = () => (
+    <Box
+      flexDirection="row"
+      justifyContent="space-between"
+      alignItems={"center"}
+    >
+      <Heading size={"md"} fontWeight="semibold">
+        Templates
+      </Heading>
+      <Button
+        size="sm"
+        variant="outline"
+        backgroundColor={"info.100"}
+        borderRadius="3xl"
+        borderWidth={0}
+      >
+        <Text
+          fontSize={"xs"}
+          color={"info.600"}
+          textTransform={"uppercase"}
+          fontWeight={"bold"}
+        >
+          Add Template
+        </Text>
+      </Button>
+    </Box>
+  );
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabTwoScreen.tsx" />
+    <View backgroundColor={"white"} padding={3}>
+      {renderHeading()}
+      {renderQuickStart()}
+      {renderTemplatesContainer()}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
