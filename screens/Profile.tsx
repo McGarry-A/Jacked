@@ -8,11 +8,6 @@ import { Box, Heading, View, Text, Button } from "native-base";
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const renderProfile = () => {
     return (
-      <>
-        <Box>
-          <Heading size="xl">My Profile</Heading>
-        </Box>
-        {/* NEEDS TO BE SPLIT INTO SMALLER FUNCS AND NEEDS TO BE A BUTTON / PRESSABLE */}
         <Box
           flexDirection="row"
           alignItems="center"
@@ -43,7 +38,6 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
             <FontAwesome name="chevron-right" color="skyblue" size={15} />
           </Box>
         </Box>
-      </>
     );
   };
 
@@ -76,6 +70,12 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
     );
   };
 
+  const renderScreenHeading = () => (
+        <Box>
+          <Heading size="xl">My Profile</Heading>
+        </Box>
+  )
+
   const renderWidgets = () => {
     return (
       <Box
@@ -92,9 +92,10 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 
   return (
     <View padding="3" backgroundColor={"white"} flexGrow={1}>
-      {renderProfile()}
-      {renderDashboard()}
-      {renderWidgets()}
+      { renderScreenHeading() }
+      { renderProfile() }
+      { renderDashboard() }
+      { renderWidgets() }
     </View>
   );
 }

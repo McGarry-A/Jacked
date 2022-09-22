@@ -43,9 +43,9 @@ export default function TabTwoScreen() {
 
   return (
     <View backgroundColor={"white"} padding={3}>
-      {renderHeading()}
-      {renderQuickStart()}
-      {renderTemplatesContainer()}
+      { renderHeading() }
+      { renderQuickStart() }
+      { renderTemplatesContainer() }
     </View>
   );
 }
