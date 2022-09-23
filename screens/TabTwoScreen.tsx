@@ -1,5 +1,13 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { View, Text, Heading, Box, Button, ScrollView } from "native-base";
+import {
+  Text,
+  Heading,
+  Box,
+  Button,
+  ScrollView,
+  VStack,
+  HStack,
+} from "native-base";
 export default function TabTwoScreen() {
   const renderHeading = () => <Heading size={"xl"}>Start A Workout</Heading>;
 
@@ -42,41 +50,42 @@ export default function TabTwoScreen() {
     </Box>
   );
 
-  const renderTemplates = () => {};
+  const renderTemplateSection = (heading: string) => {
+    return (
+      <Box>
+        <Heading size={"sm"} marginY={2}>
+          {heading}
+        </Heading>
+        <VStack
+          paddingTop={2}
+        >
+          <HStack space={2} w="98%">
+            <Template />
+            <Template />
+          </HStack>
+        </VStack>
+        <VStack
+          style={{}}
+          flexDirection={"row"}
+          flexWrap={"wrap"}
+          justifyContent={""}
+        >
+          <HStack space={2} w="98%">
+            <Template />
+            <Template />
+          </HStack>
+        </VStack>
+      </Box>
+    );
+  };
 
   return (
     <ScrollView backgroundColor={"white"} padding={3}>
       {renderHeading()}
       {renderQuickStart()}
       {renderTemplatesHeader()}
-      <Heading size={"sm"} marginY={2}>
-        My Templates
-      </Heading>
-      <Box
-        flexDirection={"row"}
-        flexWrap={"wrap"}
-        paddingY={2}
-        justifyContent={""}
-      >
-        <Template />
-        <Template />
-        <Template />
-        <Template />
-      </Box>
-      <Heading size={"sm"} marginY={2}>
-        My Templates
-      </Heading>
-      <Box
-        flexDirection={"row"}
-        flexWrap={"wrap"}
-        paddingY={2}
-        justifyContent={""}
-      >
-        <Template />
-        <Template />
-        <Template />
-        <Template />
-      </Box>
+      {renderTemplateSection("My Workouts")}
+      {renderTemplateSection("Example Workouts")}
     </ScrollView>
   );
 }
@@ -84,11 +93,12 @@ export default function TabTwoScreen() {
 export const Template = () => {
   return (
     <Box
-      width={"40"}
+      w={"1/2"}
       borderWidth={1}
       borderRadius={"sm"}
       padding={2}
       borderColor={"gray.200"}
+      marginY={1}
     >
       <Box flexDirection={"row"} alignItems={"center"}>
         <Text
@@ -120,9 +130,15 @@ export const Template = () => {
           Bench Press, Squat, Deadlifts, Rows, Bicep Curls, Cool down
         </Text>
       </Box>
-      <Box flexDirection={'row'} justifyContent='space-between' alignItems={'center'}>
-        <Text fontSize={'xs'} opacity={50}>6 days ago</Text>
-        <FontAwesome name='clock-o' size={15} color='gray' />
+      <Box
+        flexDirection={"row"}
+        justifyContent="space-between"
+        alignItems={"center"}
+      >
+        <Text fontSize={"xs"} opacity={50}>
+          6 days ago
+        </Text>
+        <FontAwesome name="clock-o" size={15} color="gray" />
       </Box>
     </Box>
   );
