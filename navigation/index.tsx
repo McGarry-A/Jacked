@@ -31,6 +31,7 @@ import LinkingConfiguration from "./LinkingConfiguration";
 import { Text } from "native-base";
 import Calendar from "../screens/Calendar";
 import User from "../screens/User";
+import Settings from "../screens/Settings";
 
 export default function Navigation({
   colorScheme,
@@ -67,6 +68,7 @@ function RootNavigator() {
         options={{ title: "Oops!" }}
       />
       <Stack.Screen name="User" component={User} options={{ title: "User" }} />
+      <Stack.Screen name="Settings" component={Settings} options={{ title: "Settings" }} />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
         <Stack.Screen name="Calendar" component={Calendar} />
@@ -99,15 +101,15 @@ function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
           headerRight: () => (
             <Pressable
-              onPress={() => navigation.navigate("Modal")}
+              onPress={() => navigation.navigate("Settings")}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}
             >
               <FontAwesome
-                name="info-circle"
+                name="cog"
                 size={25}
-                color={Colors[colorScheme].text}
+                color={"skyblue"}
                 style={{ marginRight: 15 }}
               />
             </Pressable>
@@ -155,5 +157,5 @@ function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>["name"];
   color: string;
 }) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
+  return <FontAwesome size={30} {...props} />;
 }

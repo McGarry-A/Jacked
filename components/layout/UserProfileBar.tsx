@@ -1,5 +1,5 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { Box, Pressable, Text } from "native-base";
+import { Avatar, Box, Pressable, Text } from "native-base";
 
 interface Props {
   navigation?: any;
@@ -22,18 +22,14 @@ const UserProfileBar = ({ navigation, isClickable = true }: Props) => {
   const renderBody = () => {
     return (
       <Box flexDirection="row" alignItems="center">
-        <Box
+        <Avatar
+          size={"lg"}
           marginY={3}
-          backgroundColor="white"
-          width="16"
-          height="16"
-          alignItems="center"
-          justifyContent="center"
-          borderRadius="full"
-          marginRight={"1"}
+          backgroundColor="info.300"
+          marginRight={"3"}
         >
-          <FontAwesome name="user" size={40} color="grey" />
-        </Box>
+          AM
+        </Avatar>
         <Box flex={1}>
           <Text fontSize="md" fontWeight="semibold">
             Ahmed McGarry
