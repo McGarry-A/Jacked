@@ -1,11 +1,10 @@
 import { FontAwesome } from "@expo/vector-icons";
 
-import EditScreenInfo from "../components/EditScreenInfo";
 import { RootTabScreenProps } from "../types";
 
-import { Box, Heading, View, Text, Button } from "native-base";
+import { Box, Heading, View, Text, Button, ScrollView } from "native-base";
 import { Dimensions } from "react-native";
-import { BarChart } from "react-native-chart-kit";
+import { BarChart, LineChart } from "react-native-chart-kit";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const renderProfile = () => {
@@ -93,52 +92,140 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   };
 
   return (
-    <View padding="3" backgroundColor={"white"} flexGrow={1}>
+    <ScrollView padding="3" backgroundColor={"white"} flexGrow={1}>
       {renderScreenHeading()}
       {renderProfile()}
       {renderDashboard()}
-      {BarChartComponent()}
-    </View>
+      {BarChartWidget()}
+      {lineGraphWidget()}
+    </ScrollView>
   );
 }
 
-const BarChartComponent = () => {
-  const screenWidth = Dimensions.get("window").width - 20;
+const lineGraphWidget = () => {
+  const screenWidth = Dimensions.get("window").width;
   const data = {
     labels: ["1/8", "8/8", "15/8", "22/8", "29/8", "5/9", "12/9"],
     datasets: [
       {
-        data: [1, 2, 3, 4, 5, 6, 7],
+        data: [72, 74, 73, 73, 74, 77, 75.5],
+        color: (opacity = 1) => `rgba(69, 31, 85, ${opacity})`,
       },
     ],
   };
 
-  const chartConfig = {
+  const lineChartConfig = {
     backgroundGradientFrom: "#FFFF",
     backgroundGradientFromOpacity: 0,
     backgroundGradientTo: "#FFFF",
     backgroundGradientToOpacity: 0,
-    color: () => '#808080',
+    color: () => "#808080",
     barPercentage: 0.5,
     barRadius: 5,
-    decimalPlaces: 0,
-    fillShadowGradientFrom:'#451F55',
-    fillShadowGradientFromOpacity: 1,
-    fillShadowGradientToOpacity: 1,
-    fillShadowGradientTo: '#724E91',
+    decimalPlaces: 1,
+    fillShadowGradientOpacityFrom: 0,
+    fillShadowGradientOpacityTo: 0,
+    fillShadowGradientOpacity: 0,
   };
 
   return (
     <Box
+      marginY={1}
       borderWidth={2}
       borderColor={"whitesmoke"}
       borderRadius={10}
       padding={2}
       overflow={"hidden"}
     >
+      <WidgetHeader title="Weight" subtitle="Progression" />
+      <LineChart
+        data={data}
+        width={screenWidth}
+        height={160}
+        yAxisLabel=""
+        chartConfig={lineChartConfig}
+        yAxisSuffix="kg"
+        withInnerLines={false}
+        segments={4}
+        style={{
+          marginVertical: 8,
+          marginHorizontal: -10,
+          borderRadius: 16,
+        }}
+      />
+    </Box>
+  );
+};
+
+const BarChartWidget = () => {
+  const screenWidth = Dimensions.get("window").width - 20;
+  const data = {
+    labels: ["1/8", "8/8", "15/8", "22/8", "29/8", "5/9", "12/9"],
+    datasets: [
+      {
+        data: [5, 2, 3, 2, 5, 3, 4],
+      },
+    ],
+  };
+
+  const barChartConfig = {
+    backgroundGradientFrom: "#FFFF",
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: "#FFFF",
+    backgroundGradientToOpacity: 0,
+    color: () => "#808080",
+    barPercentage: 0.5,
+    barRadius: 5,
+    decimalPlaces: 0,
+    fillShadowGradientFrom: "#451F55",
+    fillShadowGradientFromOpacity: 1,
+    fillShadowGradientToOpacity: 1,
+    fillShadowGradientTo: "#724E91",
+  };
+
+  return (
+    <Box
+      borderWidth={2}
+      marginY={1}
+      borderColor={"whitesmoke"}
+      borderRadius={10}
+      padding={2}
+      overflow={"hidden"}
+    >
+      <WidgetHeader title="Session" subtitle="Frequency" />
+      <BarChart
+        data={data}
+        width={screenWidth}
+        height={160}
+        yAxisLabel=""
+        chartConfig={barChartConfig}
+        yAxisSuffix=""
+        withInnerLines
+        showBarTops={false}
+        fromZero
+        segments={4}
+        style={{
+          marginVertical: 8,
+          borderRadius: 16,
+          paddingRight: 0,
+        }}
+      />
+    </Box>
+  );
+};
+
+export const WidgetHeader = ({
+  title,
+  subtitle,
+}: {
+  title: string;
+  subtitle: string;
+}) => {
+  return (
+    <Box>
       <Box flexDirection={"row"} alignItems={"center"}>
         <Heading size={"sm"} flex={1}>
-          Workouts Per Week
+          {title}
         </Heading>
         <Box
           justifyContent={"center"}
@@ -157,25 +244,8 @@ const BarChartComponent = () => {
         </Box>
       </Box>
       <Text fontSize={"sm"} fontWeight={"semibold"} marginY={1} opacity={70}>
-        Activity
+        {subtitle}
       </Text>
-      <BarChart
-        data={data}
-        width={screenWidth}
-        height={160}
-        yAxisLabel=""
-        chartConfig={chartConfig}
-        yAxisSuffix=""
-        withInnerLines
-        showBarTops={false}
-        fromZero
-        segments={4}
-        style={{
-          marginVertical: 8,
-          borderRadius: 16,
-          paddingRight: 0,
-        }}
-      />
     </Box>
   );
 };
