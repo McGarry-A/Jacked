@@ -90,10 +90,15 @@ export default function TabTwoScreen() {
   );
 }
 
-export const Template = () => {
+interface TemplateProps {
+  width?: "half" | "full"
+}
+
+export const Template = ({ width }: TemplateProps) => {
+  const isFullWidth = width === "full" ? "full" : "1/2"
   return (
     <Box
-      w={"1/2"}
+      w={isFullWidth}
       borderWidth={1}
       borderRadius={"sm"}
       padding={2}
