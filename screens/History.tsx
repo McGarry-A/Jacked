@@ -1,5 +1,5 @@
 import { FlatList, Heading, Box } from "native-base";
-import { Template } from "./TabTwoScreen";
+import Template from "../components/layout/Template";
 
 export default function TabThreeScreen() {
   const renderHeading = () => <Heading size={"xl"}>History</Heading>;
