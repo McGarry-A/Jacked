@@ -32,6 +32,7 @@ import { Text } from "native-base";
 import Calendar from "../screens/Calendar";
 import User from "../screens/User";
 import Settings from "../screens/Settings";
+import ActiveWorkout from "../screens/ActiveWorkout";
 
 export default function Navigation({
   colorScheme,
@@ -72,6 +73,7 @@ function RootNavigator() {
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
         <Stack.Screen name="Calendar" component={Calendar} />
+        <Stack.Screen name="ActiveWorkout" component={ActiveWorkout} />
       </Stack.Group>
     </Stack.Navigator>
   );

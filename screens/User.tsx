@@ -6,7 +6,7 @@ export default function User() {
     return <UserProfileBar isClickable={false} />;
   };
   return (
-    <View backgroundColor={"white"} padding={3}>
+    <View backgroundColor={"white"} padding={3} flex={1}>
       {renderUserProfileBar()}
     </View>
   );

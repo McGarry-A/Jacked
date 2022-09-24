@@ -1,3 +1,4 @@
+
 import {
   Text,
   Heading,
@@ -8,13 +9,13 @@ import {
   HStack,
 } from "native-base";
 import Template from "../components/layout/Template";
-export default function TabTwoScreen() {
+export default function TabTwoScreen({ navigation }: any) {
   const renderHeading = () => <Heading size={"xl"}>Start A Workout</Heading>;
 
   const renderQuickStart = () => (
     <Box marginY={5}>
       <Heading fontSize={"sm"}>Quick Start</Heading>
-      <Button marginY={3} size="sm" backgroundColor={"info.400"}>
+      <Button onPress={() => navigation.navigate("ActiveWorkout")} marginY={3} size="sm" backgroundColor={"info.400"}>
         <Text fontWeight={"bold"} color="white">
           Start an Empty Workout
         </Text>

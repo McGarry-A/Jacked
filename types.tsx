@@ -20,6 +20,7 @@ export type RootStackParamList = {
   Calendar: undefined;
   User: undefined;
   Settings: undefined;
+  ActiveWorkout: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
