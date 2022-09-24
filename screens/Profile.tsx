@@ -120,8 +120,6 @@ const lineGraphWidget = () => {
     backgroundGradientTo: "#FFFF",
     backgroundGradientToOpacity: 0,
     color: () => "#808080",
-    barPercentage: 0.5,
-    barRadius: 5,
     decimalPlaces: 1,
     fillShadowGradientOpacityFrom: 0,
     fillShadowGradientOpacityTo: 0,

@@ -1,19 +1,11 @@
-import { StyleSheet } from 'react-native';
-
-import { Text, View } from '../components/Themed';
+import { Heading, ScrollView } from "native-base";
 
 export default function TabThreeScreen() {
+  const renderHeading = () => <Heading size={"xl"}>History</Heading>;
+
   return (
-    <View style={styles.container}>
-      <Text>Tab Three</Text>
-    </View>
+    <ScrollView backgroundColor={"white"} padding={3}>
+      {renderHeading()}
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-});
