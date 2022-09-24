@@ -1,0 +1,72 @@
+import { FontAwesome } from "@expo/vector-icons";
+import { Box, Pressable, Text } from "native-base";
+
+interface Props {
+  navigation?: any;
+  isClickable?: boolean;
+}
+
+const UserProfileBar = ({ navigation, isClickable = true }: Props) => {
+  const renderChevron = () => {
+    if (isClickable) {
+      return (
+        <Box marginLeft={"auto"}>
+          <FontAwesome name="chevron-right" color="skyblue" size={15} />
+        </Box>
+      );
+    }
+
+    return null;
+  };
+
+  const renderBody = () => {
+    return (
+      <Box flexDirection="row" alignItems="center">
+        <Box
+          marginY={3}
+          backgroundColor="white"
+          width="16"
+          height="16"
+          alignItems="center"
+          justifyContent="center"
+          borderRadius="full"
+          marginRight={"1"}
+        >
+          <FontAwesome name="user" size={40} color="grey" />
+        </Box>
+        <Box flex={1}>
+          <Text fontSize="md" fontWeight="semibold">
+            Ahmed McGarry
+          </Text>
+          <Text fontSize="sm" opacity={60}>
+            19 Workouts
+          </Text>
+        </Box>
+        {renderChevron()}
+      </Box>
+    );
+  };
+
+  if (isClickable && navigation) {
+    return (
+      <Pressable
+        flexDirection="row"
+        alignItems="center"
+        onPress={() => navigation.navigate("User")}
+        style={({ pressed }) => ({
+          opacity: pressed ? 0.5 : 1,
+        })}
+      >
+        {renderBody()}
+      </Pressable>
+    );
+  }
+
+  return (
+    <Box paddingRight={2} marginTop={2}>
+      {renderBody()}
+    </Box>
+  );
+};
+
+export default UserProfileBar;

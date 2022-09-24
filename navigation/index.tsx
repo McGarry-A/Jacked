@@ -30,6 +30,7 @@ import {
 import LinkingConfiguration from "./LinkingConfiguration";
 import { Text } from "native-base";
 import Calendar from "../screens/Calendar";
+import User from "../screens/User";
 
 export default function Navigation({
   colorScheme,
@@ -65,6 +66,7 @@ function RootNavigator() {
         component={NotFoundScreen}
         options={{ title: "Oops!" }}
       />
+      <Stack.Screen name="User" component={User} options={{ title: "User" }} />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
         <Stack.Screen name="Calendar" component={Calendar} />
@@ -135,7 +137,9 @@ function BottomTabNavigator() {
                 opacity: pressed ? 0.5 : 1,
               })}
             >
-              <Text marginRight={3} color={'info.400'} fontSize={'lg'}>Calendar</Text>
+              <Text marginRight={3} color={"info.400"} fontSize={"lg"}>
+                Calendar
+              </Text>
             </Pressable>
           ),
         })}

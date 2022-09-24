@@ -18,6 +18,7 @@ const linking: LinkingOptions<RootStackParamList> = {
           Profile: {
             screens: {
               TabOneScreen: 'one',
+              UserScreen: 'user'
             },
           },
           TabTwo: {
@@ -34,6 +35,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       },
       Modal: 'modal',
       Calendar: 'calendar',
+      User: 'user',
       NotFound: '*',
     },
   },
