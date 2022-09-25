@@ -16,9 +16,18 @@ const Exercises = () => {
   const renderExerciseFilter = () => {
     return (
       <Box>
-        <Box flexDir={'row'} justifyContent="center" alignItems={'center'} h={10} borderWidth={1} paddingX={2} borderRadius={5} borderColor={"gray.300"}>
-            <FontAwesome name="search" color="black" />
-            <Input placeholder="Search" borderWidth={0} flex={1}/>
+        <Box
+          flexDir={"row"}
+          justifyContent="center"
+          alignItems={"center"}
+          h={10}
+          borderWidth={1}
+          paddingX={2}
+          borderRadius={5}
+          borderColor={"gray.300"}
+        >
+          <FontAwesome name="search" color="black" />
+          <Input placeholder="Search" borderWidth={0} flex={1} />
         </Box>
         <HStack marginY={1} flexDir={"row"} space={1}>
           <Button
@@ -44,16 +53,22 @@ const Exercises = () => {
     );
   };
 
-  return (
-    <View flex={1} backgroundColor="white" padding={3}>
-      {renderHeading()}
-      {renderExerciseFilter()}
+  const renderExerciseList = () => {
+    return (
       <FlatList
         data={Object.values(data)}
         renderItem={({ item }) => <ExerciseCard item={{ ...item }} />}
         keyExtractor={(item) => item.id}
         marginTop={2}
       ></FlatList>
+    );
+  };
+
+  return (
+    <View flex={1} backgroundColor="white" padding={3}>
+      {renderHeading()}
+      {renderExerciseFilter()}
+      {renderExerciseList()}
     </View>
   );
 };

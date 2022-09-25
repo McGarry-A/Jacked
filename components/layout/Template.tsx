@@ -32,7 +32,6 @@ const Template = ({ width }: TemplateProps) => {
             name="ellipsis-h"
             size={15}
             color={"skyblue"}
-            style={{ margin: "auto" }}
           />
         </Box>
       </Box>
