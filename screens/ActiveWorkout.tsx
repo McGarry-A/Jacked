@@ -27,7 +27,7 @@ const ActiveWorkout = () => {
         </Box>
         <Timer />
       </Box>
-      <Box marginTop={"auto"}>
+      <Box marginBottom={2}>
         <Button marginY={1} backgroundColor="info.400" height={10}>
           <Text color="white" fontWeight="semibold">
             Add A Lift

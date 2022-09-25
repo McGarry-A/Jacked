@@ -93,13 +93,14 @@ function BottomTabNavigator() {
       initialRouteName="Profile"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
+        tabBarStyle: [{ backgroundColor: "#202744", paddingTop: 5 }]
       }}
     >
       <BottomTab.Screen
         name="Profile"
         component={Profile}
         options={({ navigation }: RootTabScreenProps<"Profile">) => ({
-          title: "",
+          title: "Profile",
           tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
           headerRight: () => (
             <Pressable
@@ -122,7 +123,7 @@ function BottomTabNavigator() {
         name="TabTwo"
         component={TabTwoScreen}
         options={{
-          title: "",
+          title: "Start",
           tabBarIcon: ({ color }) => <TabBarIcon name="plus" color={color} />,
         }}
       />
@@ -130,7 +131,7 @@ function BottomTabNavigator() {
         name="History"
         component={History}
         options={({ navigation }: RootTabScreenProps<"History">) => ({
-          title: "",
+          title: "History",
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="history" color={color} />
           ),
