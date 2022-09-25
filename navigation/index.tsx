@@ -4,6 +4,8 @@
  *
  */
 import { FontAwesome } from "@expo/vector-icons";
+import { Ionicons } from '@expo/vector-icons'; 
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   NavigationContainer,
@@ -33,6 +35,7 @@ import Calendar from "../screens/Calendar";
 import User from "../screens/User";
 import Settings from "../screens/Settings";
 import ActiveWorkout from "../screens/ActiveWorkout";
+import Exercises from "../screens/Exercises";
 
 export default function Navigation({
   colorScheme,
@@ -125,6 +128,14 @@ function BottomTabNavigator() {
         options={{
           title: "Start",
           tabBarIcon: ({ color }) => <TabBarIcon name="plus" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Exercises"
+        component={Exercises}
+        options={{
+          title: "Exercises",
+          tabBarIcon: ({ color }) => <TabBarIcon name='gg' color={color} />,
         }}
       />
       <BottomTab.Screen

@@ -4,12 +4,10 @@ import {
   Box,
   Button,
   Heading,
-  ScrollView,
-  Spacer,
   Text,
   Pressable,
 } from "native-base";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Timer from "../components/Timer";
 
 const ActiveWorkout = () => {

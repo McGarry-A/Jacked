@@ -32,6 +32,7 @@ export type RootTabParamList = {
   Profile: undefined;
   TabTwo: undefined;
   History: undefined;
+  Exercises: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<

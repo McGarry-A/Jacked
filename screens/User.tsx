@@ -1,4 +1,4 @@
-import { Text, View } from "native-base";
+import { View } from "native-base";
 import UserProfileBar from "../components/layout/UserProfileBar";
 
 export default function User() {
