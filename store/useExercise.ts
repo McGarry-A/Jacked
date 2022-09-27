@@ -17,23 +17,21 @@ interface ExercisesInterface {
 }
 
 interface state {
-  getExercises: () => Promise<ExercisesInterface[] | PostgrestError>,
+  exercises: () => Promise<ExercisesInterface[] | PostgrestError>
 }
 
 const useExercises = create<state>()(
       (set) => ({
-        getExercises: () => getExercises()
-      })
+        exercises: async () => {
+          const { data, error } = await supabase
+            .from('Exercisess')
+            .select()
+          if (error) return error
+          return data as ExercisesInterface[]
+        }
+        }
+      )
 )
-
-
-const getExercises = async () => {
-  const { data, error } = await supabase
-    .from('Exercisess')
-    .select()
-  if (error) return error
-  return data as ExercisesInterface[]
-}
 
 
 export default useExercises
