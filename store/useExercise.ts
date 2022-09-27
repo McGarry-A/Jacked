@@ -1,58 +1,39 @@
+import { PostgrestError } from '@supabase/supabase-js';
 import create from 'zustand'
-
+import { supabase } from '../supabase/supabaseClient'
+import { devtools, persist }  from 'zustand/middleware'
 // AN EXERCISE IS A PATTERN OF MOVEMENT 
 // EXERCISES ARE THE MOVEMENT ONLY AND DO NOT SAVE ANY DETAILS OF ANYONE PERFORMING THAT MOVEMENT
 // A LIFT IF A PATTERN OF MOVEMENT WITH THOSE DETAILS ATTATCHED TO THE MOVEMENT
 
-const useExercise = create(( set ) => ({
-    exercises: startingExercises,
-    addExercise: (newExercise: ExerciseInterface) => set((state: ExerciseInterface) => ({ exercises: {...state.exercise}, newExercise })),
-    deleteExercise: (id: string) => set((state: ExerciseInterface) => {
-        const newState = delete state[id]
-        return newState
-    }   
-)}))
+interface ExercisesInterface {
+  id: number;
+  created_at: string;
+  exercise_name: string;
+  targets: string;
+  category: string;
+  description: string;
+  image: string;
+}
+
+interface state {
+  getExercises: () => Promise<ExercisesInterface[] | PostgrestError>,
+}
+
+const useExercises = create<state>()(
+      (set) => ({
+        getExercises: () => getExercises()
+      })
+)
 
 
-interface ExerciseInterface {
-    [key: string]: {
-      name: string;
-      category: "Barbell" | "Dumbell" | "Machine" | "Cable";
-      targets: string;
-      id: string;
-    };
-  }
-  
-  const startingExercises: ExerciseInterface = {
-    "ex-01": {
-      name: "Barbell Bench",
-      category: "Barbell",
-      targets: "Chest",
-      id: "ex-01",
-    },
-    "ex-02": {
-      name: "Squat",
-      category: "Barbell",
-      targets: "Legs",
-      id: "ex-02",
-    },
-    "ex-03": {
-      name: "Strict Military Press",
-      category: "Barbell",
-      targets: "Shoulders",
-      id: "ex-03",
-    },
-    "ex-04": {
-      name: "Barbell Row",
-      category: "Barbell",
-      targets: "Back",
-      id: "ex-04",
-    },
-    "ex-05": {
-      name: "Incline Dumbell Press",
-      category: "Dumbell",
-      targets: "Chest",
-      id: "ex-05",
-    },
-  };
-  
+const getExercises = async () => {
+  const { data, error } = await supabase
+    .from('Exercisess')
+    .select()
+  if (error) return error
+  return data as ExercisesInterface[]
+}
+
+
+export default useExercises

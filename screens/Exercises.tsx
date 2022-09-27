@@ -13,6 +13,7 @@ import data from "../data";
 
 const Exercises = () => {
   const renderHeading = () => <Heading size={"xl"}>Exercises</Heading>;
+
   const renderExerciseFilter = () => {
     return (
       <Box>
