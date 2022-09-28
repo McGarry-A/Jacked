@@ -11,3 +11,16 @@ export const filteredExerciseList = atom<any[]>([]);
 
 /* MEMORY OF WHAT EXERCISES TO ADD TO THE WORKOUT */
 export const addToWorkoutIds = atom<number[]>([])
+
+export const currentWorkoutAtom = atom( 
+    (get) => {
+        const currentWorkout: any[] = []
+        get(exerciseListAtom).map(el => {
+            if (get(addToWorkoutIds).includes(el.id)) {
+                currentWorkout.push(el)
+            }
+        })
+
+        return currentWorkout
+    }
+)
