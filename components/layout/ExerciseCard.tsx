@@ -1,37 +1,59 @@
-import { Avatar, Box, Pressable, Text } from "native-base";
+import { useAtom } from "jotai";
+import { Avatar, Box, Checkbox, Pressable, Text } from "native-base";
+import { useState } from "react";
+import { addToWorkoutIds } from "../../store/store";
+import generateColor from "../../utils/generateColor";
+import getExerciseInitials from "../../utils/getExerciseInitials";
 
 interface Props {
-  item: {
-    name: string;
-    category: "Barbell" | "Dumbell" | "Machine" | "Cable";
-    targets: string;
-    id: string;
-  };
+  exercise_name: string;
+  category: "Barbell" | "Dumbell" | "Machine" | "Cable" | "Bodyweight";
+  targets: string;
+  description: string;
+  image: string;
+  id: number;
 }
 
 const ExerciseCard = (exercise: Props) => {
-  const generateColor = () => {
-    const randomColor = Math.floor(Math.random() * 16777215)
-      .toString(16)
-      .padStart(6, "0");
-    return `#${randomColor}`;
-  };
+  const { exercise_name, targets } = exercise;
+  const [isActive, setIsActive] = useState(false);
 
-  const getExerciseInitials = (itemName: string) => {
-    return itemName.split(" ").map((el) => {
-      return `${el[0]}`;
-    });
-  };
+  const backgroundColor = isActive ? "info.50" : "white";
+  const [exerciseIds, setExerciseIds] = useAtom(addToWorkoutIds);
+
+  const exersiseIsInState = exerciseIds.includes(exercise.id);
 
   return (
-    <Box borderTopWidth={1} borderBottomWidth={1} paddingY={1} borderColor={'gray.200'}>
-      <Pressable flexDirection={"row"} alignItems="center">
+    <Box padding={2} borderColor={"gray.200"} backgroundColor={backgroundColor}>
+      <Pressable
+        flexDirection={"row"}
+        alignItems="center"
+        onPress={() => {
+          setIsActive(!isActive);
+
+          if (exersiseIsInState) {
+            const newState = [...exerciseIds].filter(
+              (el) => el !== exercise.id
+            );
+            setExerciseIds(newState)
+          }
+          if (!exersiseIsInState) setExerciseIds([...exerciseIds, exercise.id]);
+        }}
+      >
         <Avatar backgroundColor={generateColor()} marginRight={2}>
-          <Text>{getExerciseInitials(exercise.item.name)}</Text>
+          <Text>{getExerciseInitials(exercise_name)}</Text>
         </Avatar>
+        <Box flex={1}>
+          <Text fontWeight={"semibold"}>{exercise_name}</Text>
+          <Text color="text.900">{targets}</Text>
+        </Box>
         <Box>
-          <Text fontWeight={'semibold'}>{exercise.item.name}</Text>
-          <Text fontWeight={''}>{exercise.item.targets}</Text>
+          <Checkbox
+            value="isActive"
+            colorScheme={"info"}
+            isChecked={isActive}
+            aria-label="Add to workout"
+          />
         </Box>
       </Pressable>
     </Box>

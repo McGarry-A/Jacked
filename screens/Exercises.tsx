@@ -9,10 +9,12 @@ import {
   HStack,
 } from "native-base";
 import ExerciseCard from "../components/layout/ExerciseCard";
-import data from "../data";
+import { useExerciseList } from "../hooks/useExerciseList";
 
 const Exercises = () => {
   const renderHeading = () => <Heading size={"xl"}>Exercises</Heading>;
+
+  const { list } = useExerciseList()
 
   const renderExerciseFilter = () => {
     return (
@@ -57,8 +59,8 @@ const Exercises = () => {
   const renderExerciseList = () => {
     return (
       <FlatList
-        data={Object.values(data)}
-        renderItem={({ item }) => <ExerciseCard item={{ ...item }} />}
+        data={list}
+        renderItem={({ item }) => <ExerciseCard {...item} />}
         keyExtractor={(item) => item.id}
         marginTop={2}
       ></FlatList>

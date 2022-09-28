@@ -36,6 +36,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       Modal: 'modal',
       Calendar: 'calendar',
       ActiveWorkout: 'active-workout',
+      AddExercises: 'add-exercises',
       User: 'user',
       NotFound: '*',
     },

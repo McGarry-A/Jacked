@@ -4,7 +4,7 @@
  *
  */
 import { FontAwesome } from "@expo/vector-icons";
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from "@expo/vector-icons";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
@@ -36,6 +36,7 @@ import User from "../screens/User";
 import Settings from "../screens/Settings";
 import ActiveWorkout from "../screens/ActiveWorkout";
 import Exercises from "../screens/Exercises";
+import AddExercises from "../screens/AddExercises";
 
 export default function Navigation({
   colorScheme,
@@ -72,11 +73,22 @@ function RootNavigator() {
         options={{ title: "Oops!" }}
       />
       <Stack.Screen name="User" component={User} options={{ title: "User" }} />
-      <Stack.Screen name="Settings" component={Settings} options={{ title: "Settings" }} />
+      <Stack.Screen
+        name="Settings"
+        component={Settings}
+        options={{ title: "Settings" }}
+      />
+      <Stack.Screen name="ActiveWorkout" component={ActiveWorkout} />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
         <Stack.Screen name="Calendar" component={Calendar} />
-        <Stack.Screen name="ActiveWorkout" component={ActiveWorkout} />
+        <Stack.Screen name="AddExercises" component={AddExercises} options={{
+        headerRight: () => (
+          <Pressable>
+            <Text color={'info.400'} fontSize="lg">Add</Text>
+          </Pressable>
+        )
+      }} />
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -96,7 +108,7 @@ function BottomTabNavigator() {
       initialRouteName="Profile"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
-        tabBarStyle: [{ backgroundColor: "#202744", paddingTop: 5 }]
+        tabBarStyle: [{ backgroundColor: "#202744", paddingTop: 5 }],
       }}
     >
       <BottomTab.Screen
@@ -135,7 +147,7 @@ function BottomTabNavigator() {
         component={Exercises}
         options={{
           title: "Exercises",
-          tabBarIcon: ({ color }) => <TabBarIcon name='gg' color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="gg" color={color} />,
         }}
       />
       <BottomTab.Screen

@@ -1,10 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
 import { NativeBaseProvider } from "native-base";
+import "react-native-url-polyfill/auto";
+import { Provider as JotaiProvider } from "jotai";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -16,8 +17,10 @@ export default function App() {
     return (
       <SafeAreaProvider>
         <NativeBaseProvider>
-          <Navigation colorScheme={colorScheme} />
-          <StatusBar />
+          <JotaiProvider>
+            <Navigation colorScheme={colorScheme} />
+            <StatusBar />
+          </JotaiProvider>
         </NativeBaseProvider>
       </SafeAreaProvider>
     );
