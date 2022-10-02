@@ -1,28 +1,14 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { useAtom } from "jotai";
-import {
-  Box,
-  FlatList,
-  Heading,
-  Input,
-  Skeleton,
-  Text,
-  View,
-} from "native-base";
-import { Suspense } from "react";
+import { Box, FlatList, Heading, Input, Skeleton, View } from "native-base";
+import { Suspense, useEffect } from "react";
 import ExerciseCard from "../components/layout/ExerciseCard";
 import { useExerciseList } from "../hooks/useExerciseList";
-import { addToWorkoutIds } from "../store/store";
 
 const AddExercises = () => {
-  const exerciseList = useExerciseList();
-  const { list } = exerciseList;
-
-  const [exerciseIds] = useAtom(addToWorkoutIds)
+  const { list, isLoading, error } = useExerciseList();
 
   return (
     <View padding={3} backgroundColor={"white"} h="full">
-        <Text>{JSON.stringify(exerciseIds)}</Text>
       <Input
         placeholder="Filter Exercises Here"
         size="lg"

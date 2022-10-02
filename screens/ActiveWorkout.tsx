@@ -14,11 +14,9 @@ import {
 } from "native-base";
 import { useState } from "react";
 import Timer from "../components/Timer";
-import { currentWorkoutAtom } from "../store/store";
 
 const ActiveWorkout = ({ navigation }: any) => {
   const [workoutTitle, setWorkoutTitle] = useState("Quick Workout");
-  const [currentWorkout] = useAtom(currentWorkoutAtom);
 
   return (
     <View padding={3} flex={1} backgroundColor={"white"}>
@@ -32,9 +30,6 @@ const ActiveWorkout = ({ navigation }: any) => {
           </Pressable>
         </Box>
         <Timer />
-      </Box>
-      <Box>
-        <Text>{JSON.stringify(currentWorkout)}</Text>
       </Box>
       <Box marginBottom={2}>
         <Button

@@ -1,13 +1,11 @@
-import { useAtom } from "jotai";
 import { Avatar, Box, Checkbox, Pressable, Text } from "native-base";
 import { useState } from "react";
-import { addToWorkoutIds } from "../../store/store";
 import generateColor from "../../utils/generateColor";
 import getExerciseInitials from "../../utils/getExerciseInitials";
 
 interface Props {
   exercise_name: string;
-  category: "Barbell" | "Dumbell" | "Machine" | "Cable" | "Bodyweight";
+  category: string;
   targets: string;
   description: string;
   image: string;
@@ -19,26 +17,13 @@ const ExerciseCard = (exercise: Props) => {
   const [isActive, setIsActive] = useState(false);
 
   const backgroundColor = isActive ? "info.50" : "white";
-  const [exerciseIds, setExerciseIds] = useAtom(addToWorkoutIds);
-
-  const exersiseIsInState = exerciseIds.includes(exercise.id);
 
   return (
     <Box padding={2} borderColor={"gray.200"} backgroundColor={backgroundColor}>
       <Pressable
         flexDirection={"row"}
         alignItems="center"
-        onPress={() => {
-          setIsActive(!isActive);
-
-          if (exersiseIsInState) {
-            const newState = [...exerciseIds].filter(
-              (el) => el !== exercise.id
-            );
-            setExerciseIds(newState)
-          }
-          if (!exersiseIsInState) setExerciseIds([...exerciseIds, exercise.id]);
-        }}
+        onPress={() => setIsActive((state) => !state)}
       >
         <Avatar backgroundColor={generateColor()} marginRight={2}>
           <Text>{getExerciseInitials(exercise_name)}</Text>
@@ -53,6 +38,9 @@ const ExerciseCard = (exercise: Props) => {
             colorScheme={"info"}
             isChecked={isActive}
             aria-label="Add to workout"
+            borderWidth={"0"}
+            outlineColor="white"
+            _checked={{ backgroundColor: "info.200" }}
           />
         </Box>
       </Pressable>

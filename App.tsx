@@ -5,7 +5,6 @@ import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
 import { NativeBaseProvider } from "native-base";
 import "react-native-url-polyfill/auto";
-import { Provider as JotaiProvider } from "jotai";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -17,10 +16,8 @@ export default function App() {
     return (
       <SafeAreaProvider>
         <NativeBaseProvider>
-          <JotaiProvider>
-            <Navigation colorScheme={colorScheme} />
-            <StatusBar />
-          </JotaiProvider>
+          <Navigation colorScheme={colorScheme} />
+          <StatusBar />
         </NativeBaseProvider>
       </SafeAreaProvider>
     );

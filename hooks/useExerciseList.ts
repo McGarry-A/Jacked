@@ -1,16 +1,10 @@
-import { useAtom } from "jotai";
-import { useEffect } from "react";
-import {
-  errorAtom,
-  exerciseListAtom,
-  isLoadingAtom,
-} from "../store/store";
+import { useEffect, useState } from "react";
 import { supabase } from "../supabase/supabaseClient";
 
 export const useExerciseList = () => {
-  const [list, setList] = useAtom(exerciseListAtom);
-  const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
-  const [error, setError] = useAtom(errorAtom);
+  const [list, setList] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchWorkouts = async () => {
