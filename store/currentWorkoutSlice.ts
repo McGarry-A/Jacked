@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import CurrentWorkoutInterface from "../types/CurrentWorkoutInterface";
 
 const initialState: CurrentWorkoutInterface = {
+  workoutTitle: '',
   exercises: {},
   exerciseOrder: [],
   startTime: "",

@@ -1,36 +1,33 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { useAtom } from "jotai";
-import {
-  View,
-  Box,
-  Button,
-  Heading,
-  Text,
-  Pressable,
-  Modal,
-  Input,
-  Center,
-  VStack,
-} from "native-base";
+import { View, Box, Button, Text, Pressable, Input } from "native-base";
 import { useState } from "react";
 import Timer from "../components/Timer";
 
 const ActiveWorkout = ({ navigation }: any) => {
   const [workoutTitle, setWorkoutTitle] = useState("Quick Workout");
+  const [inputIsDisabled, setInputIsDisabled] = useState(true);
 
-  return (
-    <View padding={3} flex={1} backgroundColor={"white"}>
-      <Box flex={1}>
-        <Box flexDirection={"row"} alignItems="center">
-          <Heading marginY={2} marginRight="3">
-            {workoutTitle}
-          </Heading>
-          <Pressable onPress={() => {}}>
+  const renderHeading = () => {
+    return (
+      <Input
+        flexDirection={"row"}
+        alignItems="center"
+        value={workoutTitle}
+        isDisabled={inputIsDisabled}
+        onChangeText={(text) => setWorkoutTitle(text)}
+        InputRightElement={
+          <Pressable onPress={() => setInputIsDisabled(!inputIsDisabled)}>
             <FontAwesome name="pencil" size={20} />
           </Pressable>
-        </Box>
-        <Timer />
-      </Box>
+        }
+      ></Input>
+    );
+  };
+
+  const renderTimer = () => <Timer />;
+
+  const renderButtons = () => {
+    return (
       <Box marginBottom={2}>
         <Button
           onPress={() => navigation.navigate("AddExercises")}
@@ -48,6 +45,16 @@ const ActiveWorkout = ({ navigation }: any) => {
           </Text>
         </Button>
       </Box>
+    );
+  };
+
+  return (
+    <View padding={3} flex={1} backgroundColor={"white"}>
+      {renderHeading()}
+      {renderTimer()}
+      {/* SETS AND REPS GO HERE */}
+      <Box flex={1}></Box>
+      {renderButtons()}
     </View>
   );
 };
