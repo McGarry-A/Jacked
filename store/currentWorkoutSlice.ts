@@ -1,5 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { supabase } from "../supabase/supabaseClient";
+import { createSlice } from "@reduxjs/toolkit";
 
 interface initialStateInterface {
   exercises: {
@@ -27,22 +26,8 @@ const currentWorkoutSlice = createSlice({
   name: "current_workout",
   initialState: initialState,
   reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(fetchAllExercises.fulfilled, (state, { payload }) => {
-      state.exercises = payload
-    })
-  }
-});
-
-const fetchAllExercises = createAsyncThunk(
-  "exercises/getAllExercises",
-  async () => {
-    const { data, error } = await supabase.from("exercises").select();
-    if (error) return error
-    return data
-  }
-);
+  });
 
 export const {} = currentWorkoutSlice.actions;
 
-export default currentWorkoutSlice;
+export default currentWorkoutSlice.reducer;
