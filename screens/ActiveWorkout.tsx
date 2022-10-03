@@ -1,4 +1,5 @@
 import { FontAwesome } from "@expo/vector-icons";
+import { useAtom } from "jotai";
 import {
   View,
   Box,
@@ -6,12 +7,17 @@ import {
   Heading,
   Text,
   Pressable,
+  Modal,
+  Input,
+  Center,
+  VStack,
 } from "native-base";
 import { useState } from "react";
 import Timer from "../components/Timer";
 
-const ActiveWorkout = () => {
+const ActiveWorkout = ({ navigation }: any) => {
   const [workoutTitle, setWorkoutTitle] = useState("Quick Workout");
+
   return (
     <View padding={3} flex={1} backgroundColor={"white"}>
       <Box flex={1}>
@@ -26,7 +32,12 @@ const ActiveWorkout = () => {
         <Timer />
       </Box>
       <Box marginBottom={2}>
-        <Button marginY={1} backgroundColor="info.400" height={10}>
+        <Button
+          onPress={() => navigation.navigate("AddExercises")}
+          marginY={1}
+          backgroundColor="info.400"
+          height={10}
+        >
           <Text color="white" fontWeight="semibold">
             Add A Lift
           </Text>

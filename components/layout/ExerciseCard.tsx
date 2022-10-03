@@ -1,37 +1,47 @@
-import { Avatar, Box, Pressable, Text } from "native-base";
+import { Avatar, Box, Checkbox, Pressable, Text } from "native-base";
+import { useState } from "react";
+import generateColor from "../../utils/generateColor";
+import getExerciseInitials from "../../utils/getExerciseInitials";
 
 interface Props {
-  item: {
-    name: string;
-    category: "Barbell" | "Dumbell" | "Machine" | "Cable";
-    targets: string;
-    id: string;
-  };
+  exercise_name: string;
+  category: string;
+  targets: string;
+  description: string;
+  image: string;
+  id: number;
 }
 
 const ExerciseCard = (exercise: Props) => {
-  const generateColor = () => {
-    const randomColor = Math.floor(Math.random() * 16777215)
-      .toString(16)
-      .padStart(6, "0");
-    return `#${randomColor}`;
-  };
+  const { exercise_name, targets } = exercise;
+  const [isActive, setIsActive] = useState(false);
 
-  const getExerciseInitials = (itemName: string) => {
-    return itemName.split(" ").map((el) => {
-      return `${el[0]}`;
-    });
-  };
+  const backgroundColor = isActive ? "info.50" : "white";
 
   return (
-    <Box borderTopWidth={1} borderBottomWidth={1} paddingY={1} borderColor={'gray.200'}>
-      <Pressable flexDirection={"row"} alignItems="center">
+    <Box padding={2} borderColor={"gray.200"} backgroundColor={backgroundColor}>
+      <Pressable
+        flexDirection={"row"}
+        alignItems="center"
+        onPress={() => setIsActive((state) => !state)}
+      >
         <Avatar backgroundColor={generateColor()} marginRight={2}>
-          <Text>{getExerciseInitials(exercise.item.name)}</Text>
+          <Text>{getExerciseInitials(exercise_name)}</Text>
         </Avatar>
+        <Box flex={1}>
+          <Text fontWeight={"semibold"}>{exercise_name}</Text>
+          <Text color="text.900">{targets}</Text>
+        </Box>
         <Box>
-          <Text fontWeight={'semibold'}>{exercise.item.name}</Text>
-          <Text fontWeight={''}>{exercise.item.targets}</Text>
+          <Checkbox
+            value="isActive"
+            colorScheme={"info"}
+            isChecked={isActive}
+            aria-label="Add to workout"
+            borderWidth={"0"}
+            outlineColor="white"
+            _checked={{ backgroundColor: "info.200" }}
+          />
         </Box>
       </Pressable>
     </Box>
