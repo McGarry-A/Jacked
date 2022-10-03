@@ -5,6 +5,8 @@ interface CurrentWorkoutInterface {
     exerciseOrder: number[];
     startTime: string;
     finishTime: string;
+    totalSets: number;
+    totalVolume: number;
 }
 
 export default CurrentWorkoutInterface

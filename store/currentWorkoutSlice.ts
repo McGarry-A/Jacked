@@ -6,8 +6,9 @@ const initialState: CurrentWorkoutInterface = {
   exerciseOrder: [],
   startTime: "",
   finishTime: "",
+  totalSets: 0,
+  totalVolume: 0
 };
-/* FUCKED UP HERE CREATE AN EXERCISE LIST SLICE USING THIS CODE TY */
 
 const currentWorkoutSlice = createSlice({
   name: "current_workout",
