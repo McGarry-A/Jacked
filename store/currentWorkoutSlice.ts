@@ -1,20 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import CurrentWorkoutInterface from "../types/CurrentWorkoutInterface";
 
-interface initialStateInterface {
-  exercises: {
-    [key: number]: {
-      exerciseId: number;
-      setScheme: string[];
-      repScheme: string[];
-      weightScheme: string[];
-    };
-  };
-  exerciseOrder: number[];
-  startTime: string;
-  finishTime: string;
-}
-
-const initialState: initialStateInterface = {
+const initialState: CurrentWorkoutInterface = {
   exercises: {},
   exerciseOrder: [],
   startTime: "",

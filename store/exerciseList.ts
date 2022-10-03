@@ -1,15 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import ExerciseInterface from "../types/ExerciseInterface";
 import { supabase } from "../supabase/supabaseClient";
-
-interface ExerciseInterface {
-    id: number;
-    created_at: string;
-    exercise_name: string;
-    targets: string;
-    category: string;
-    description: string;
-    image: string;
-}
 
 interface InitialStateInterface {
     status: "fulfilled" | "pending" | "rejected" | "idle",
