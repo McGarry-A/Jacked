@@ -49,7 +49,7 @@ const AddExercises = () => {
         <Suspense fallback={<Skeleton h={"full"} />}>
           <FlatList
             data={exerciseList}
-            renderItem={({ item }) => <ExerciseCard {...item} />}
+            renderItem={({ item }) => <ExerciseCard {...item} isPressable />}
           />
         </Suspense>
       </Box>
