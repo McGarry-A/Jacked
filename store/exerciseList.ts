@@ -21,10 +21,10 @@ const exerciseListSlice = createSlice({
             state.status = 'fulfilled'
             state.exerciseList = payload
         }),
-        builder.addCase(fetchAllExercises.rejected, (state, action) => {
+        builder.addCase(fetchAllExercises.rejected, (state, _) => {
             state.status = "rejected"
         }),
-        builder.addCase(fetchAllExercises.pending, (state, action) => {
+        builder.addCase(fetchAllExercises.pending, (state, _) => {
             state.status = 'pending'
         })
 }})

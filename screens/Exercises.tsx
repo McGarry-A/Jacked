@@ -7,14 +7,27 @@ import {
   Input,
   Button,
   HStack,
+  Skeleton,
+  Text,
 } from "native-base";
+import { useEffect } from "react";
 import ExerciseCard from "../components/layout/ExerciseCard";
-import { useExerciseList } from "../hooks/useExerciseList";
+import { useAppDispatch, useAppSelector } from "../store";
+import { fetchAllExercises } from "../store/exerciseList";
 
 const Exercises = () => {
-  const renderHeading = () => <Heading size={"xl"}>Exercises</Heading>;
+  const dispatch = useAppDispatch();
+  const { exerciseList, status } = useAppSelector(
+    (state) => state.exerciseListSlice
+  );
 
-  const { list } = useExerciseList()
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchAllExercises());
+    }
+  }, []);
+
+  const renderHeading = () => <Heading size={"xl"}>Exercises</Heading>;
 
   const renderExerciseFilter = () => {
     return (
@@ -57,11 +70,23 @@ const Exercises = () => {
   };
 
   const renderExerciseList = () => {
+    if (status === "pending") {
+      return <Skeleton h={"100%"} />;
+    }
+
+    if (status === "rejected") {
+      return (
+        <Text textAlign={"center"} color={"rose.800"}>
+          There was an error loading this content! Please try again later.
+        </Text>
+      );
+    }
+
     return (
       <FlatList
-        data={list}
+        data={exerciseList}
         renderItem={({ item }) => <ExerciseCard {...item} />}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         marginTop={2}
       ></FlatList>
     );
