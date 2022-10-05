@@ -78,17 +78,24 @@ function RootNavigator() {
         component={Settings}
         options={{ title: "Settings" }}
       />
-      <Stack.Screen name="ActiveWorkout" component={ActiveWorkout} />
+      <Stack.Screen name="ActiveWorkout" component={ActiveWorkout} options={{title: "Active Workout"}} />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
         <Stack.Screen name="Calendar" component={Calendar} />
-        <Stack.Screen name="AddExercises" component={AddExercises} options={{
-        headerRight: () => (
-          <Pressable>
-            <Text color={'info.400'} fontSize="lg">Add</Text>
-          </Pressable>
-        )
-      }} />
+        <Stack.Screen
+          name="AddExercises"
+          component={AddExercises}
+          options={({ navigation }) => ({
+            title: "",
+            headerRight: () => (
+              <Pressable onPress={() => navigation.goBack()}>
+                <Text color={"info.400"} fontSize="lg">
+                  Dismiss
+                </Text>
+              </Pressable>
+            ),
+          })}
+        />
       </Stack.Group>
     </Stack.Navigator>
   );

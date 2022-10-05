@@ -1,10 +1,15 @@
 interface LiftInterface {
-    [key: number]: {
-        exerciseId: number;
-        setScheme: string[];
-        repScheme: string[];
-        weightScheme: string[];
-    }
+  [key: number]: {
+    exerciseId: number;
+    exerciseName: string;
+    sets: SetInterface[];
+  };
 }
 
-export default LiftInterface
+export interface SetInterface {
+  weight: string;
+  reps: string;
+  rpe: number;
+}
+
+export default LiftInterface;

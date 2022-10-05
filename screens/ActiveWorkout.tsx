@@ -1,11 +1,73 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { View, Box, Button, Text, Pressable, Input } from "native-base";
+import {
+  View,
+  Box,
+  Button,
+  Text,
+  Pressable,
+  Input,
+  Heading,
+  HStack,
+  VStack,
+} from "native-base";
+import { useRef } from "react";
 import { useState } from "react";
+import Sets from "../components/Sets";
 import Timer from "../components/Timer";
+import { useAppDispatch, useAppSelector } from "../store";
+import {
+  addSet,
+  addSetNumbers,
+  cancelWorkout,
+  setWorkoutTitle as setWorkoutName,
+} from "../store/currentWorkoutSlice";
 
 const ActiveWorkout = ({ navigation }: any) => {
   const [workoutTitle, setWorkoutTitle] = useState("Quick Workout");
   const [inputIsDisabled, setInputIsDisabled] = useState(true);
+  const workoutTitleRef = useRef<HTMLInputElement>(null);
+
+  const dispatch = useAppDispatch();
+  
+
+  const handleCancelWorkout = () => {
+    dispatch(cancelWorkout());
+    navigation.navigate("Root");
+  };
+
+  const handleEditWorkoutTitle = () => {
+    workoutTitleRef.current!.focus();
+    setInputIsDisabled(!inputIsDisabled);
+    setWorkoutTitle("");
+  };
+
+  const handleSaveWorkoutName = () => {
+    workoutTitleRef.current!.blur();
+    dispatch(setWorkoutName(workoutTitle));
+    setInputIsDisabled(true);
+  };
+
+
+
+  const renderTickOrEdit = () => {
+    if (workoutTitle === "Quick Workout") {
+      return (
+        <Pressable onPress={handleEditWorkoutTitle}>
+          <FontAwesome name="pencil" size={20} />
+        </Pressable>
+      );
+    }
+
+    return (
+      <Pressable>
+        <FontAwesome
+          name="check-square"
+          size={20}
+          onPress={handleSaveWorkoutName}
+        />
+      </Pressable>
+    );
+  };
 
   const renderHeading = () => {
     return (
@@ -15,12 +77,14 @@ const ActiveWorkout = ({ navigation }: any) => {
         value={workoutTitle}
         isDisabled={inputIsDisabled}
         onChangeText={(text) => setWorkoutTitle(text)}
-        InputRightElement={
-          <Pressable onPress={() => setInputIsDisabled(!inputIsDisabled)}>
-            <FontAwesome name="pencil" size={20} />
-          </Pressable>
-        }
-      ></Input>
+        borderWidth={0}
+        _focus={{ backgroundColor: "white" }}
+        fontSize={"xl"}
+        color={"text.800"}
+        ref={workoutTitleRef}
+        editable
+        InputRightElement={renderTickOrEdit()}
+      />
     );
   };
 
@@ -39,7 +103,11 @@ const ActiveWorkout = ({ navigation }: any) => {
             Add A Lift
           </Text>
         </Button>
-        <Button backgroundColor="rose.400" height={10}>
+        <Button
+          backgroundColor="rose.400"
+          height={10}
+          onPress={handleCancelWorkout}
+        >
           <Text color="white" fontWeight={"semibold"}>
             Cancel Workout
           </Text>
@@ -52,7 +120,7 @@ const ActiveWorkout = ({ navigation }: any) => {
     <View padding={3} flex={1} backgroundColor={"white"}>
       {renderHeading()}
       {renderTimer()}
-      {/* SETS AND REPS GO HERE */}
+      <Sets />
       <Box flex={1}></Box>
       {renderButtons()}
     </View>

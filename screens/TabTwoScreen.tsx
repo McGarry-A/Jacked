@@ -9,13 +9,22 @@ import {
   HStack,
 } from "native-base";
 import Template from "../components/layout/Template";
+import { useAppDispatch } from "../store";
+import { startWorkout } from "../store/currentWorkoutSlice";
 export default function TabTwoScreen({ navigation }: any) {
+  const dispatch = useAppDispatch();
+
+  const handlePressQuickStart = () => {
+    dispatch(startWorkout())
+    navigation.navigate("ActiveWorkout")
+  }
+
   const renderHeading = () => <Heading size={"xl"}>Start A Workout</Heading>;
 
   const renderQuickStart = () => (
     <Box marginY={5}>
       <Heading fontSize={"sm"}>Quick Start</Heading>
-      <Button onPress={() => navigation.navigate("ActiveWorkout")} marginY={3} size="sm" backgroundColor={"info.400"}>
+      <Button onPress={handlePressQuickStart} marginY={3} size="sm" backgroundColor={"info.400"}>
         <Text fontWeight={"bold"} color="white">
           Start an Empty Workout
         </Text>

@@ -1,5 +1,7 @@
 import { Avatar, Box, Checkbox, Pressable, Text } from "native-base";
 import { useState } from "react";
+import { useAppDispatch } from "../../store";
+import { addLift } from "../../store/currentWorkoutSlice";
 import generateColor from "../../utils/generateColor";
 import getExerciseInitials from "../../utils/getExerciseInitials";
 
@@ -15,13 +17,19 @@ interface Props {
 
 const ExerciseCard = ({
   exercise_name,
+  id,
   targets,
   isPressable = false,
 }: Props) => {
   const [isActive, setIsActive] = useState(false);
+  const dispatch = useAppDispatch()
+
 
   const backgroundColor = isActive ? "info.50" : "white";
-  const handlePress = () => setIsActive((state) => !state);
+  const handlePress = () => {
+    setIsActive((state) => !state);
+    dispatch(addLift({ exercise_name, id }))
+  }
 
   const renderAvatar = () => {
     return (

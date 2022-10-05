@@ -5,6 +5,8 @@ import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
 import { NativeBaseProvider } from "native-base";
 import "react-native-url-polyfill/auto";
+import { Provider } from "react-redux";
+import store from "./store";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -15,10 +17,12 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <NativeBaseProvider>
-          <Navigation colorScheme={colorScheme} />
-          <StatusBar />
-        </NativeBaseProvider>
+        <Provider store={store}>
+          <NativeBaseProvider>
+            <Navigation colorScheme={colorScheme} />
+            <StatusBar />
+          </NativeBaseProvider>
+        </Provider>
       </SafeAreaProvider>
     );
   }
