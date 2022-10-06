@@ -7,10 +7,14 @@ import { NativeBaseProvider } from "native-base";
 import "react-native-url-polyfill/auto";
 import { Provider } from "react-redux";
 import store from "./store";
+import Auth from "./components/auth/Auth";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
+  const bool = false;
+
+  const renderAuth = () => {};
 
   if (!isLoadingComplete) {
     return null;
@@ -19,8 +23,14 @@ export default function App() {
       <SafeAreaProvider>
         <Provider store={store}>
           <NativeBaseProvider>
-            <Navigation colorScheme={colorScheme} />
-            <StatusBar />
+            {bool ? (
+              <>
+                <Navigation colorScheme={colorScheme} />
+                <StatusBar />
+              </>
+            ) : (
+              <Auth />
+            )}
           </NativeBaseProvider>
         </Provider>
       </SafeAreaProvider>

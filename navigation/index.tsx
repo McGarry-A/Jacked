@@ -38,7 +38,7 @@ import ActiveWorkout from "../screens/ActiveWorkout";
 import Exercises from "../screens/Exercises";
 import AddExercises from "../screens/AddExercises";
 import { useAppDispatch } from "../store";
-import { endWorkout } from "../store/currentWorkoutSlice";
+// import { endWorkout } from "../store/currentWorkoutSlice";
 
 export default function Navigation({
   colorScheme,
@@ -65,7 +65,7 @@ function RootNavigator() {
   const dispatch = useAppDispatch();
 
   const handleFinishWorkout = (navigation: any) => {
-    dispatch(endWorkout());
+    // dispatch(endWorkout());
     navigation.navigate("Profile");
   };
 

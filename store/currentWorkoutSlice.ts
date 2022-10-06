@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { supabase } from "../supabase/supabaseClient";
 import CurrentWorkoutInterface from "../types/CurrentWorkoutInterface";
 
 const initialState: CurrentWorkoutInterface = {
@@ -43,8 +44,11 @@ const currentWorkoutSlice = createSlice({
     deleteSet: (state, { payload }) => {
       const { exerciseId, setId } = payload;
 
-      const newState = state.exercises[exerciseId].sets.splice(Number(setId), 1);
-      state.exercises[exerciseId].sets = newState
+      const newState = state.exercises[exerciseId].sets.splice(
+        Number(setId),
+        1
+      );
+      state.exercises[exerciseId].sets = newState;
     },
     addSetNumbers: (
       state,
@@ -56,12 +60,26 @@ const currentWorkoutSlice = createSlice({
         rpe: 0,
       };
     },
-    endWorkout: (state) => {
-      state.isActive = false
-      state.finishTime = new Date().toLocaleTimeString()
-    }
   },
 });
+
+// export const endWorkout = createAsyncThunk(
+//   "current_workout/endWorkout",
+//   async (_, { getState }) => {
+//     const state: CurrentWorkoutInterface = getState()
+    
+//     const { data, error } = await supabase.from("workouts").insert([
+//       {
+//         exercises: "",
+//         total_sets: "",
+//         total_weight_moved: "",
+//         date: new Date().toLocaleDateString(),
+//         userId: "",
+//         finished_at: state.finishTime
+//       },
+//     ]);
+//   }
+// );
 
 export const {
   startWorkout,
@@ -72,7 +90,6 @@ export const {
   addSet,
   deleteSet,
   addSetNumbers,
-  endWorkout
 } = currentWorkoutSlice.actions;
 
 export default currentWorkoutSlice.reducer;
