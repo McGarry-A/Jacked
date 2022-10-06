@@ -1,4 +1,3 @@
-
 import {
   Text,
   Heading,
@@ -9,26 +8,59 @@ import {
   HStack,
 } from "native-base";
 import Template from "../components/layout/Template";
-import { useAppDispatch } from "../store";
+import { useAppDispatch, useAppSelector } from "../store";
 import { startWorkout } from "../store/currentWorkoutSlice";
 export default function TabTwoScreen({ navigation }: any) {
   const dispatch = useAppDispatch();
+  const isWorkoutActive = useAppSelector(
+    (state) => state.currentWorkoutSlice.isActive
+  );
 
   const handlePressQuickStart = () => {
-    dispatch(startWorkout())
-    navigation.navigate("ActiveWorkout")
+    dispatch(startWorkout());
+    navigation.navigate("ActiveWorkout");
+  };
+
+  const handleContinueWorkout = () => {
+    navigation.navigate("ActiveWorkout");
   }
 
   const renderHeading = () => <Heading size={"xl"}>Start A Workout</Heading>;
 
+  const renderStartOrContinue = () => {
+    if (!isWorkoutActive) {
+      return (
+        <Button
+          onPress={handlePressQuickStart}
+          marginY={3}
+          size="sm"
+          backgroundColor={"info.400"}
+        >
+          <Text fontWeight={"bold"} color="white">
+            Start an Empty Workout
+          </Text>
+        </Button>
+      );
+    }
+
+    return (
+      <Button
+        onPress={handleContinueWorkout}
+        marginY={3}
+        size="sm"
+        backgroundColor={"green.400"}
+      >
+        <Text fontWeight={"bold"} color="white">
+          Continue Workout
+        </Text>
+      </Button>
+    );
+  };
+
   const renderQuickStart = () => (
     <Box marginY={5}>
       <Heading fontSize={"sm"}>Quick Start</Heading>
-      <Button onPress={handlePressQuickStart} marginY={3} size="sm" backgroundColor={"info.400"}>
-        <Text fontWeight={"bold"} color="white">
-          Start an Empty Workout
-        </Text>
-      </Button>
+      {renderStartOrContinue()}
     </Box>
   );
 
@@ -66,9 +98,7 @@ export default function TabTwoScreen({ navigation }: any) {
         <Heading size={"sm"} marginY={2}>
           {heading}
         </Heading>
-        <VStack
-          paddingTop={2}
-        >
+        <VStack paddingTop={2}>
           <HStack space={2} w="98%">
             <Template />
             <Template />
@@ -99,6 +129,3 @@ export default function TabTwoScreen({ navigation }: any) {
     </ScrollView>
   );
 }
-
-
-

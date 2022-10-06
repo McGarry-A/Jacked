@@ -9,6 +9,7 @@ import {
   Heading,
   HStack,
   VStack,
+  ScrollView,
 } from "native-base";
 import { useRef } from "react";
 import { useState } from "react";
@@ -28,7 +29,6 @@ const ActiveWorkout = ({ navigation }: any) => {
   const workoutTitleRef = useRef<HTMLInputElement>(null);
 
   const dispatch = useAppDispatch();
-  
 
   const handleCancelWorkout = () => {
     dispatch(cancelWorkout());
@@ -46,8 +46,6 @@ const ActiveWorkout = ({ navigation }: any) => {
     dispatch(setWorkoutName(workoutTitle));
     setInputIsDisabled(true);
   };
-
-
 
   const renderTickOrEdit = () => {
     if (workoutTitle === "Quick Workout") {
@@ -74,13 +72,14 @@ const ActiveWorkout = ({ navigation }: any) => {
       <Input
         flexDirection={"row"}
         alignItems="center"
+        justifyContent={"space-between"}
         value={workoutTitle}
         isDisabled={inputIsDisabled}
         onChangeText={(text) => setWorkoutTitle(text)}
         borderWidth={0}
+        paddingLeft={0}
         _focus={{ backgroundColor: "white" }}
         fontSize={"xl"}
-        color={"text.800"}
         ref={workoutTitleRef}
         editable
         InputRightElement={renderTickOrEdit()}
@@ -117,13 +116,17 @@ const ActiveWorkout = ({ navigation }: any) => {
   };
 
   return (
-    <View padding={3} flex={1} backgroundColor={"white"}>
-      {renderHeading()}
-      {renderTimer()}
-      <Sets />
-      <Box flex={1}></Box>
-      {renderButtons()}
-    </View>
+    <ScrollView flex={1} backgroundColor={"white"}>
+      <Box padding={3}>
+        {renderHeading()}
+        {renderTimer()}
+      </Box>
+      <Box>
+        <Sets />
+        <Box flex={1}></Box>
+      </Box>
+      <Box padding={3}>{renderButtons()}</Box>
+    </ScrollView>
   );
 };
 

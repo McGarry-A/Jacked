@@ -3,7 +3,6 @@ import {
   Box,
   Heading,
   HStack,
-  Input,
   Text,
   VStack,
   Pressable,
@@ -23,18 +22,20 @@ const Sets = () => {
   };
 
   const renderHeading = (exerciseName: string) => (
-    <Heading size="sm" color={"info.400"}>
+    <Heading size="sm" color={"info.400"} my={2} padding={2}>
       {exerciseName}
     </Heading>
   );
 
   const renderTableHead = () => (
-    <HStack justifyContent={"space-evenly"} alignItems="center">
+    <HStack alignItems="center" justifyContent={"space-between"} my={1} padding={2}>
       <Heading size="sm">Sets</Heading>
       <Heading size="sm">Previous</Heading>
       <Heading size="sm">Kg</Heading>
       <Heading size="sm">Reps</Heading>
-      <FontAwesome name="check" size={10} />
+      <Pressable>
+        <FontAwesome name="check" size={10} />
+      </Pressable>
     </HStack>
   );
 

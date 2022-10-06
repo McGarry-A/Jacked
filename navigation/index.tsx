@@ -37,6 +37,8 @@ import Settings from "../screens/Settings";
 import ActiveWorkout from "../screens/ActiveWorkout";
 import Exercises from "../screens/Exercises";
 import AddExercises from "../screens/AddExercises";
+import { useAppDispatch } from "../store";
+import { endWorkout } from "../store/currentWorkoutSlice";
 
 export default function Navigation({
   colorScheme,
@@ -60,6 +62,13 @@ export default function Navigation({
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const dispatch = useAppDispatch();
+
+  const handleFinishWorkout = (navigation: any) => {
+    dispatch(endWorkout());
+    navigation.navigate("Profile");
+  };
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -78,7 +87,18 @@ function RootNavigator() {
         component={Settings}
         options={{ title: "Settings" }}
       />
-      <Stack.Screen name="ActiveWorkout" component={ActiveWorkout} options={{title: "Active Workout"}} />
+      <Stack.Screen
+        name="ActiveWorkout"
+        component={ActiveWorkout}
+        options={({ navigation }) => ({
+          title: "Active Workout",
+          headerRight: () => (
+            <Pressable onPress={() => handleFinishWorkout(navigation)}>
+              <Text color={"info.400"}>Finish</Text>
+            </Pressable>
+          ),
+        })}
+      />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
         <Stack.Screen name="Calendar" component={Calendar} />

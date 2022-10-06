@@ -1,6 +1,6 @@
 import { Avatar, Box, Checkbox, Pressable, Text } from "native-base";
 import { useState } from "react";
-import { useAppDispatch } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import { addLift } from "../../store/currentWorkoutSlice";
 import generateColor from "../../utils/generateColor";
 import getExerciseInitials from "../../utils/getExerciseInitials";
@@ -21,8 +21,10 @@ const ExerciseCard = ({
   targets,
   isPressable = false,
 }: Props) => {
-  const [isActive, setIsActive] = useState(false);
   const dispatch = useAppDispatch()
+  const exercises = useAppSelector((state) => state.currentWorkoutSlice.exercises)
+  const isInWorkout = Object.keys(exercises).includes(String(id))
+  const [isActive, setIsActive] = useState(isInWorkout);
 
 
   const backgroundColor = isActive ? "info.50" : "white";
