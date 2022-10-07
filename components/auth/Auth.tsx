@@ -1,7 +1,7 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { View, Text, Box, Input, Pressable, FormControl } from "native-base";
-import { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useState } from "react";
+import { supabase } from "../../supabase/supabaseClient";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -9,9 +9,40 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confrimPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
 
   const toggleLoginState = () => {
     setIsLogin(!isLogin);
+  };
+
+  const handleLogin = () => {
+    if (!password || !email)
+      return setError("Please enter username and password");
+  };
+
+  const handleSignup = async () => {
+    console.log("handle sign up");
+    console.log(email);
+    console.log(password);
+    console.log(confrimPassword);
+
+    if (!password || !email || !confrimPassword)
+      return setError("Please enter username and password");
+    if (password !== confrimPassword)
+      return setError("Please ensure passwords match");
+    if (password.length < 6)
+      return setError(
+        "Please ensure that your password is at least 6 characters long."
+      );
+
+    const { user, session, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+    });
+
+    console.log("Signed Up");
+    console.log(user);
+    console.log(session);
   };
 
   const renderEmailField = () => {
@@ -24,6 +55,9 @@ const Auth = () => {
           w="full"
           autoCapitalize={"none"}
           placeholder="Enter Email"
+          backgroundColor={"white"}
+          value={email}
+          onChangeText={(text) => setEmail(text)}
           InputRightElement={
             <FontAwesome
               name="envelope"
@@ -45,6 +79,9 @@ const Auth = () => {
           placeholder="Enter Password"
           type={"password"}
           variant="filled"
+          backgroundColor={"white"}
+          onChangeText={(text) => setPassword(text)}
+          value={password}
           InputRightElement={
             <FontAwesome
               name="anchor"
@@ -66,6 +103,9 @@ const Auth = () => {
           placeholder="Enter Password"
           type={"password"}
           variant="filled"
+          backgroundColor={"white"}
+          value={confrimPassword}
+          onChangeText={(text) => setConfirmPassword(text)}
           InputRightElement={
             <FontAwesome
               name="anchor"
@@ -79,6 +119,7 @@ const Auth = () => {
   };
 
   const renderButton = (iconName: "sign-in", buttonText: string) => {
+    const onPessFunc = buttonText === "Sign-in" ? handleSignup : handleLogin;
     return (
       <Box w={"full"} my={2}>
         <Pressable
@@ -88,6 +129,7 @@ const Auth = () => {
           flexDir="row"
           justifyContent={"center"}
           alignItems="center"
+          onPress={handleSignup}
         >
           <Text textAlign={"center"} color="white" fontWeight={700}>
             {buttonText}
@@ -158,8 +200,24 @@ const Auth = () => {
     }
   };
 
+  const FormContainer: React.FC<{ children: React.ReactNode }> = ({
+    children,
+  }) => {
+    return (
+      <Box
+        shadow={"1"}
+        mx={4}
+        backgroundColor={"whitesmoke"}
+        h={"sm"}
+        my={"auto"}
+      >
+        {children}
+      </Box>
+    );
+  };
+
   return (
-    <View justifyContent={"center"}>
+    <View justifyContent={"center"} h={"full"}>
       {renderLogin()}
       {renderSignin()}
     </View>
