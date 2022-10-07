@@ -7,33 +7,26 @@ import { NativeBaseProvider } from "native-base";
 import "react-native-url-polyfill/auto";
 import { Provider } from "react-redux";
 import store from "./store";
-import Auth from "./components/auth/Auth";
+import AuthProvider from "./components/auth/AuthProvider";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-  const bool = false;
-
-  const renderAuth = () => {};
 
   if (!isLoadingComplete) {
     return null;
   } else {
     return (
-      <SafeAreaProvider>
-        <Provider store={store}>
-          <NativeBaseProvider>
-            {bool ? (
-              <>
-                <Navigation colorScheme={colorScheme} />
-                <StatusBar />
-              </>
-            ) : (
-              <Auth />
-            )}
-          </NativeBaseProvider>
-        </Provider>
-      </SafeAreaProvider>
+      <Provider store={store}>
+        <NativeBaseProvider>
+          <SafeAreaProvider>
+            <AuthProvider>
+              <Navigation colorScheme={colorScheme} />
+              <StatusBar />
+            </AuthProvider>
+          </SafeAreaProvider>
+        </NativeBaseProvider>
+      </Provider>
     );
   }
 }

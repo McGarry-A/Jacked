@@ -1,11 +1,22 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { View, Text, Box, Input, Pressable, FormControl } from "native-base";
+import {
+  View,
+  Text,
+  Box,
+  Input,
+  Pressable,
+  FormControl,
+  Image,
+} from "native-base";
 import React, { useState } from "react";
+import { useAppDispatch } from "../../store";
+import { userLogin, userSignup } from "../../store/userSlice";
 import { supabase } from "../../supabase/supabaseClient";
 
 const Auth = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const dispatch = useAppDispatch();
 
+  const [isLogin, setIsLogin] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confrimPassword, setConfirmPassword] = useState("");
@@ -18,6 +29,8 @@ const Auth = () => {
   const handleLogin = () => {
     if (!password || !email)
       return setError("Please enter username and password");
+
+    dispatch(userLogin({ email: email, password: password }));
   };
 
   const handleSignup = async () => {
@@ -35,14 +48,10 @@ const Auth = () => {
         "Please ensure that your password is at least 6 characters long."
       );
 
-    const { user, session, error } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-    });
+    // returns { user, session }
+    const data = dispatch(userSignup({ email: email, password: password }));
 
     console.log("Signed Up");
-    console.log(user);
-    console.log(session);
   };
 
   const renderEmailField = () => {
@@ -129,7 +138,7 @@ const Auth = () => {
           flexDir="row"
           justifyContent={"center"}
           alignItems="center"
-          onPress={handleSignup}
+          onPress={onPessFunc}
         >
           <Text textAlign={"center"} color="white" fontWeight={700}>
             {buttonText}
@@ -200,26 +209,23 @@ const Auth = () => {
     }
   };
 
-  const FormContainer: React.FC<{ children: React.ReactNode }> = ({
-    children,
-  }) => {
+  const renderHeading = () => {
     return (
-      <Box
-        shadow={"1"}
-        mx={4}
-        backgroundColor={"whitesmoke"}
-        h={"sm"}
-        my={"auto"}
-      >
-        {children}
+      <Box flexDirection={"row"} alignItems="center" pl={5} pt={5}>
+        <Text fontSize={"xs"} fontWeight={700} opacity={50} letterSpacing={2}>
+          JACKED
+        </Text>
       </Box>
     );
   };
 
   return (
     <View justifyContent={"center"} h={"full"}>
-      {renderLogin()}
-      {renderSignin()}
+      <Box mx={4} backgroundColor={"whitesmoke"} h={"sm"} my={"auto"}>
+        {renderHeading()}
+        {renderLogin()}
+        {renderSignin()}
+      </Box>
     </View>
   );
 };

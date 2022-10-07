@@ -1,4 +1,4 @@
-import { Avatar, Box, Checkbox, Pressable, Text } from "native-base";
+import { Avatar, Box, Checkbox, Pressable, Skeleton, Text } from "native-base";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { addLift } from "../../store/currentWorkoutSlice";
@@ -21,17 +21,20 @@ const ExerciseCard = ({
   targets,
   isPressable = false,
 }: Props) => {
-  const dispatch = useAppDispatch()
-  const exercises = useAppSelector((state) => state.currentWorkoutSlice.exercises)
-  const isInWorkout = Object.keys(exercises).includes(String(id))
+  const dispatch = useAppDispatch();
+  const exercises = useAppSelector(
+    (state) => state.currentWorkoutSlice.exercises
+  );
+  const isInWorkout = Object.keys(exercises).includes(String(id));
   const [isActive, setIsActive] = useState(isInWorkout);
 
-
   const backgroundColor = isActive ? "info.50" : "white";
+  const isLoaded =
+    useAppSelector((state) => state.exerciseListSlice.status) === "fulfilled";
   const handlePress = () => {
     setIsActive((state) => !state);
-    dispatch(addLift({ exercise_name, id }))
-  }
+    dispatch(addLift({ exercise_name, id }));
+  };
 
   const renderAvatar = () => {
     return (
@@ -72,15 +75,17 @@ const ExerciseCard = ({
 
   return (
     <Box padding={2} borderColor={"gray.200"} backgroundColor={backgroundColor}>
-      <Pressable
-        flexDirection={"row"}
-        alignItems="center"
-        onPress={isPressable ? handlePress : null}
-      >
-        {renderAvatar()}
-        {renderBody()}
-        {renderCheckbox()}
-      </Pressable>
+      <Skeleton isLoaded={isLoaded} h={12} >
+        <Pressable
+          flexDirection={"row"}
+          alignItems="center"
+          onPress={isPressable ? handlePress : null}
+        >
+          {renderAvatar()}
+          {renderBody()}
+          {renderCheckbox()}
+        </Pressable>
+      </Skeleton>
     </Box>
   );
 };

@@ -135,7 +135,7 @@ function BottomTabNavigator() {
       initialRouteName="Profile"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
-        tabBarStyle: [{ backgroundColor: "#202744", paddingTop: 5 }],
+        tabBarStyle: [{ backgroundColor: "#1f2937", paddingTop: 5 }],
       }}
     >
       <BottomTab.Screen

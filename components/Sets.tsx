@@ -1,12 +1,5 @@
 import { FontAwesome } from "@expo/vector-icons";
-import {
-  Box,
-  Heading,
-  HStack,
-  Text,
-  VStack,
-  Pressable,
-} from "native-base";
+import { Box, Heading, HStack, Text, VStack, Pressable } from "native-base";
 import { useAppDispatch, useAppSelector } from "../store";
 import { addSet } from "../store/currentWorkoutSlice";
 import { SetInterface } from "../types/LiftInterface";
@@ -16,41 +9,50 @@ const Sets = () => {
   const dispatch = useAppDispatch();
   const workoutDetails = useAppSelector((state) => state.currentWorkoutSlice);
   const { exerciseOrder, exercises } = workoutDetails;
+  
 
-  const handleAddSet = (id: number) => {
-    dispatch(addSet(id));
+  const handleAddSet = (exerciseId: number, setNumber: number) => {
+    dispatch(addSet({ exerciseId, setNumber }));
   };
 
   const renderHeading = (exerciseName: string) => (
-    <Heading size="sm" color={"info.400"} my={2} padding={2}>
+    <Heading size="sm" color={"info.400"} my={1} padding={2}>
       {exerciseName}
     </Heading>
   );
 
   const renderTableHead = () => (
-    <HStack alignItems="center" justifyContent={"space-between"} my={1} padding={2}>
-      <Heading size="sm">Sets</Heading>
-      <Heading size="sm">Previous</Heading>
-      <Heading size="sm">Kg</Heading>
-      <Heading size="sm">Reps</Heading>
+    <HStack
+      alignItems="center"
+      justifyContent={"space-between"}
+      my={1}
+      paddingX={2}
+    >
+      <Heading size="xs">Sets</Heading>
+      <Heading size="xs">Previous</Heading>
+      <Heading size="xs">Kg</Heading>
+      <Heading size="xs">Reps</Heading>
       <Pressable>
         <FontAwesome name="check" size={10} />
       </Pressable>
     </HStack>
   );
 
-  const renderAddSet = (exerciseId: number) => (
-    <Pressable
-      w="full"
-      bg={"whitesmoke"}
-      my={2}
-      onPress={() => handleAddSet(exerciseId)}
-    >
-      <Text textAlign={"center"} py={1} fontWeight={700}>
-        Add a set
-      </Text>
-    </Pressable>
-  );
+  const renderAddSet = (exerciseId: number) => {
+    const setNumber = workoutDetails.exercises[exerciseId].sets.length + 1;
+    return (
+      <Pressable
+        w="full"
+        bg={"whitesmoke"}
+        my={2}
+        onPress={() => handleAddSet(exerciseId, setNumber)}
+      >
+        <Text textAlign={"center"} py={1} fontWeight={600}>
+          Add a set
+        </Text>
+      </Pressable>
+    );
+  };
 
   const renderSets = (sets: SetInterface[], exerciseId: number) =>
     Object.keys(sets).map((setId, index) => (
@@ -58,7 +60,7 @@ const Sets = () => {
     ));
 
   return (
-    <VStack>
+    <VStack flex={1} px={3}>
       {exerciseOrder.map((el, index) => {
         const { exerciseName, sets, exerciseId } = exercises[el];
         return (

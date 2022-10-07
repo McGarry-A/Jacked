@@ -92,39 +92,38 @@ const ActiveWorkout = ({ navigation }: any) => {
   const renderButtons = () => {
     return (
       <Box marginBottom={2}>
-        <Button
+        <Pressable
           onPress={() => navigation.navigate("AddExercises")}
           marginY={1}
           backgroundColor="info.400"
-          height={10}
+          height={8}
+          justifyContent={"center"}
         >
-          <Text color="white" fontWeight="semibold">
+          <Text color="white" fontWeight={700} textAlign={"center"}>
             Add A Lift
           </Text>
-        </Button>
-        <Button
-          backgroundColor="rose.400"
-          height={10}
+        </Pressable>
+        <Pressable
+          backgroundColor="red.600"
+          height={8}
           onPress={handleCancelWorkout}
+          justifyContent={"center"}
         >
-          <Text color="white" fontWeight={"semibold"}>
+          <Text color="white" fontWeight={700} textAlign={"center"}>
             Cancel Workout
           </Text>
-        </Button>
+        </Pressable>
       </Box>
     );
   };
 
   return (
-    <ScrollView flex={1} backgroundColor={"white"}>
+    <ScrollView backgroundColor={"white"} h={"full"}>
       <Box padding={3}>
         {renderHeading()}
         {renderTimer()}
       </Box>
-      <Box>
-        <Sets />
-        <Box flex={1}></Box>
-      </Box>
+      <Sets />
       <Box padding={3}>{renderButtons()}</Box>
     </ScrollView>
   );

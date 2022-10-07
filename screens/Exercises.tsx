@@ -9,6 +9,8 @@ import {
   HStack,
   Skeleton,
   Text,
+  Spinner,
+  Pressable,
 } from "native-base";
 import { useEffect } from "react";
 import ExerciseCard from "../components/layout/ExerciseCard";
@@ -46,34 +48,36 @@ const Exercises = () => {
           <Input placeholder="Search" borderWidth={0} flex={1} />
         </Box>
         <HStack marginY={1} flexDir={"row"} space={1}>
-          <Button
+          <Pressable
             flex={1}
-            h={"10"}
+            h={8}
             backgroundColor={"gray.300"}
             color={"text.900"}
             justifyContent={"center"}
+            borderRadius={3}
           >
-            Body Part
-          </Button>
-          <Button
+            <Text textAlign={"center"} color={"text.800"} fontWeight={700}>
+              Body Part
+            </Text>
+          </Pressable>
+          <Pressable
             flex={1}
-            h={"10"}
+            h={8}
             backgroundColor={"gray.300"}
             color={"text.900"}
             justifyContent={"center"}
+            borderRadius={3}
           >
-            Cateogry
-          </Button>
+            <Text textAlign={"center"} color={"text.800"} fontWeight={700}>
+              Cateogry
+            </Text>
+          </Pressable>
         </HStack>
       </Box>
     );
   };
 
   const renderExerciseList = () => {
-    if (status === "pending") {
-      return <Skeleton h={"100%"} />;
-    }
-
     if (status === "rejected") {
       return (
         <Text textAlign={"center"} color={"rose.800"}>

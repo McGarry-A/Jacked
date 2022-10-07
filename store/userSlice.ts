@@ -2,39 +2,78 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { supabase } from "../supabase/supabaseClient";
 
 interface InitialStateInterface {
-    user: object;
-    status: "fulfilled" | "pending" | "rejected" | "idle"
+  user: {
+    isLoggedIn: boolean;
+  };
+  status: "fulfilled" | "pending" | "rejected" | "idle";
 }
 
 const initialState: InitialStateInterface = {
-    user: {},
-    status: "idle"
+  user: {
+    isLoggedIn: false,
+  },
+  status: "idle",
+};
+
+const userSlice = createSlice({
+  name: "user",
+  initialState: initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(userSignup.fulfilled, (state, { payload }) => {
+      state.status = "fulfilled";
+      state.user.isLoggedIn = true;
+    }),
+      builder.addCase(userSignup.rejected, (state, _) => {
+        state.status = "rejected";
+      }),
+      builder.addCase(userSignup.pending, (state, _) => {
+        state.status = "pending";
+      }),
+      builder.addCase(userLogin.fulfilled, (state, { payload }) => {
+        state.status = "fulfilled";
+        state.user.isLoggedIn = true;
+      }),
+      builder.addCase(userLogin.pending, (state) => {
+        state.status = "pending";
+      }),
+      builder.addCase(userLogin.rejected, (state) => {
+        state.status = "rejected";
+      });
+  },
+});
+
+interface AuthPayload {
+  email: string;
+  password: string;
 }
 
-const exerciseListSlice = createSlice({
-    name: "user",
-    initialState: initialState,
-    reducers: {},
-    extraReducers: (builder) => {
-        builder.addCase(fetchUser.fulfilled, (state, { payload }) => {
-            state.status = 'fulfilled'
-            state.user = payload
-        }),
-        builder.addCase(fetchUser.rejected, (state, _) => {
-            state.status = "rejected"
-        }),
-        builder.addCase(fetchUser.pending, (state, _) => {
-            state.status = 'pending'
-        })
-}})
+export const userSignup = createAsyncThunk(
+  "user/userSignup",
+  async (details: AuthPayload, _) => {
+    const { email, password } = details;
+    const { user, session, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+    });
 
-export const fetchUser = createAsyncThunk(
-    'user/fetchUser',
-    async () => {
-        const { data, error } = await supabase.from("exercises").select();
-        if (error) return []
-        return data
-    }
-)
+    const data = { user, session };
+    return data;
+  }
+);
 
-export default exerciseListSlice.reducer
+export const userLogin = createAsyncThunk(
+  "user/userLogin",
+  async (details: AuthPayload, _) => {
+    const { email, password } = details;
+    const { user, session, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+    });
+
+    const data = { user, session };
+    return data;
+  }
+);
+
+export default userSlice.reducer;

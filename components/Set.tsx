@@ -1,7 +1,7 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { Box, HStack, Input, Pressable, Text } from "native-base";
 import { useState } from "react";
-import { useAppDispatch } from "../store";
+import { useAppDispatch, useAppSelector } from "../store";
 import { addSetNumbers, deleteSet } from "../store/currentWorkoutSlice";
 import { SetInterface } from "../types/LiftInterface";
 import { Swipeable } from "react-native-gesture-handler";
@@ -13,19 +13,20 @@ interface Props {
 }
 
 const Set = ({ setId, sets, exerciseId }: Props) => {
+  const { weight, reps, setNumber } = sets[setId as unknown as number];
+
   const [newWeight, setNewWeight] = useState<string>("0");
   const [newReps, setNewReps] = useState<string>("0");
   const [isDone, setIsDone] = useState(false);
 
   const dispatch = useAppDispatch();
-  const { weight, reps } = sets[setId as unknown as number];
 
   const handleUpdateSet = () => {
     dispatch(addSetNumbers({ exerciseId, setId, newWeight, newReps }));
     setIsDone(!isDone);
   };
 
-  const backgroundColor = isDone ? "green.50" : "white";
+  const backgroundColor = isDone ? "emerald.100" : "white";
 
   const renderOnSwipeRight = () => {
     return (
@@ -52,7 +53,9 @@ const Set = ({ setId, sets, exerciseId }: Props) => {
         backgroundColor={backgroundColor}
         paddingX={3}
       >
-        <Text flexBasis={"22%"}>{setId}</Text>
+        <Text flexBasis={"22%"} color="text.900">
+          {setNumber}
+        </Text>
         <Text flex={1}>previous</Text>
         <Box flex={1}>
           <Input

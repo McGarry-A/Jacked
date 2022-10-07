@@ -2,11 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import currentWorkoutSlice from "./currentWorkoutSlice";
 import exerciseListSlice from "./exerciseList"
+import userSlice from "./userSlice";
 
 const store = configureStore({
     reducer: {
         exerciseListSlice,
-        currentWorkoutSlice
+        currentWorkoutSlice,
+        userSlice
     }
 })
 

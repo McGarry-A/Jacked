@@ -10,6 +10,7 @@ export interface SetInterface {
   weight: string;
   reps: string;
   rpe: number;
+  setNumber: number;
 }
 
 export default LiftInterface;

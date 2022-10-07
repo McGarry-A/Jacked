@@ -38,8 +38,14 @@ const currentWorkoutSlice = createSlice({
       };
       state.exerciseOrder.push(id);
     },
-    addSet: (state, { payload }) => {
-      state.exercises[payload].sets.push({ weight: "0", reps: "0", rpe: 0 });
+    addSet: (state, { payload: { exerciseId, setNumber } }) => {
+      
+      state.exercises[exerciseId].sets.push({
+        weight: "0",
+        reps: "0",
+        rpe: 0,
+        setNumber: setNumber
+      })
     },
     deleteSet: (state, { payload }) => {
       const { exerciseId, setId } = payload;
@@ -52,12 +58,13 @@ const currentWorkoutSlice = createSlice({
     },
     addSetNumbers: (
       state,
-      { payload: { exerciseId, setId, newWeight, newReps } }
+      { payload: { exerciseId, setId, newWeight, newReps, setNumber } }
     ) => {
       state.exercises[exerciseId].sets[setId] = {
         weight: newWeight,
         reps: newReps,
         rpe: 0,
+        setNumber: setNumber,
       };
     },
   },
@@ -67,7 +74,7 @@ const currentWorkoutSlice = createSlice({
 //   "current_workout/endWorkout",
 //   async (_, { getState }) => {
 //     const state: CurrentWorkoutInterface = getState()
-    
+
 //     const { data, error } = await supabase.from("workouts").insert([
 //       {
 //         exercises: "",
