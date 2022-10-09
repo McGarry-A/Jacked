@@ -12,6 +12,7 @@ const initialState: CurrentWorkoutInterface = {
   totalSets: 0,
   totalVolume: 0,
   status: "idle",
+  workoutId: 0,
 };
 
 const currentWorkoutSlice = createSlice({
@@ -22,14 +23,18 @@ const currentWorkoutSlice = createSlice({
     setWorkoutTitle: (state, { payload }) => {
       state.workoutTitle = payload;
     },
-    startWorkout: (state) => {
-      const startTime = new Date().toLocaleTimeString();
-      state.startTime = startTime;
-      state.isActive = true;
+    endWorkout: (state) => {
+      Object.assign(state, initialState);
     },
   },
   extraReducers: (builder) => {
     builder
+      .addCase(startWorkout.fulfilled, (state, { payload }) => {
+        const startTime = new Date().toLocaleTimeString();
+        state.workoutId = payload.id;
+        state.startTime = startTime;
+        state.isActive = true;
+      })
       .addCase(addSet.pending, (state, payload) => {
         state.status = "pending";
       })
@@ -62,39 +67,9 @@ const currentWorkoutSlice = createSlice({
         const { id, exerciseId } = payload;
         state.status = "success";
         delete state.exercises[exerciseId].sets[id];
-      })
-      .addCase(endWorkout.fulfilled, (state, _) => {
-        state.status = "success";
-        console.log("reset state to initial")
-        Object.assign(state, initialState)
       });
   },
 });
-
-interface endWorkoutProps {
-  userId: string;
-  workoutTitle: string
-}
-
-export const endWorkout = createAsyncThunk(
-  "current_workout/endWorkout",
-  async (payload: endWorkoutProps, _) => {
-    const { userId, workoutTitle } = payload;
-    const newWorkout = {
-      date: new Date().toLocaleDateString(),
-      user_id: userId,
-      workout_name: workoutTitle
-    };
-
-    const { data, error } = await supabase
-      .from("workouts")
-      .insert([newWorkout]);
-
-    if (error) return console.error(error);
-
-    return data[0];
-  }
-);
 
 interface deleteProps {
   id: number;
@@ -175,13 +150,24 @@ interface addLiftProps {
   userId: string;
 }
 
+interface stateInterface {
+  currentWorkoutSlice: CurrentWorkoutInterface;
+  userSlice: any;
+  ExerciseListSlice: any;
+}
+
 export const addLift = createAsyncThunk(
   "current_workout/addLift",
   async (payload: addLiftProps, { getState }) => {
+    const {
+      currentWorkoutSlice: { workoutId },
+    } = getState() as stateInterface;
+
     const newLift = {
       exercise_id: payload.exerciseId,
       exercise_name: payload.exerciseName,
       user_id: payload.userId,
+      workout_id: workoutId,
     };
 
     const { data, error } = await supabase.from("lifts").insert([newLift]);
@@ -192,7 +178,32 @@ export const addLift = createAsyncThunk(
   }
 );
 
-export const { startWorkout, cancelWorkout, setWorkoutTitle } =
+export const startWorkout = createAsyncThunk(
+  "current_workout/startWorkout",
+  async (payload: startWorkoutProps) => {
+    const { userId } = payload;
+    const newWorkout = {
+      date: new Date().toLocaleDateString(),
+      user_id: userId,
+    };
+
+    const { data, error } = await supabase
+      .from("workouts")
+      .insert([newWorkout]);
+
+    if (error) return console.error(error);
+
+    console.log(data);
+
+    return data[0];
+  }
+);
+
+interface startWorkoutProps {
+  userId: string;
+}
+
+export const { endWorkout, cancelWorkout, setWorkoutTitle } =
   currentWorkoutSlice.actions;
 
 export default currentWorkoutSlice.reducer;

@@ -44,7 +44,7 @@ const Sets = () => {
       <Pressable
         w="full"
         bg={"whitesmoke"}
-        my={2}
+        mt={2}
         onPress={() => handleAddSet(exerciseId, setNumber)}
       >
         <Text textAlign={"center"} py={1} fontWeight={600}>
@@ -55,16 +55,16 @@ const Sets = () => {
   };
 
   const renderSets = (sets: SetInterface, exerciseId: number) =>
-    Object.keys(sets).map((setId, index) => (
-      <Set setId={setId} sets={sets} exerciseId={exerciseId} key={index} />
+    Object.keys(sets).map((setId) => (
+      <Set setId={setId} sets={sets} exerciseId={exerciseId} key={setId} />
     ));
 
   return (
     <VStack flex={1} px={3}>
-      {exerciseOrder.map((el, index) => {
+      {exerciseOrder.map((el) => {
         const { exerciseName, sets, exerciseId } = exercises[el];
         return (
-          <VStack key={index}>
+          <VStack key={el} my={1} borderRadius={3}>
             <Box>
               <VStack>
                 {renderHeading(exerciseName)}

@@ -1,6 +1,7 @@
 import LiftInterface from "./LiftInterface";
 
 interface CurrentWorkoutInterface {
+    workoutId: number;
     workoutTitle: string;
     isActive: boolean
     exercises: LiftInterface

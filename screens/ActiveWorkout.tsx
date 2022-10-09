@@ -1,16 +1,5 @@
 import { FontAwesome } from "@expo/vector-icons";
-import {
-  View,
-  Box,
-  Button,
-  Text,
-  Pressable,
-  Input,
-  Heading,
-  HStack,
-  VStack,
-  ScrollView,
-} from "native-base";
+import { Box, Text, Pressable, Input, ScrollView } from "native-base";
 import { useRef } from "react";
 import { useState } from "react";
 import Sets from "../components/Sets";
@@ -28,12 +17,11 @@ const ActiveWorkout = ({ navigation }: any) => {
   const workoutTitleRef = useRef<HTMLInputElement>(null);
 
   const dispatch = useAppDispatch();
-  const userId = useAppSelector((state) => state.userSlice.user.userId)
 
   const handleEndWorkout = () => {
-    dispatch(endWorkout({ userId: userId, workoutTitle: workoutTitle }))
-    navigation.navigate("Profile")
-  }
+    dispatch(endWorkout());
+    navigation.navigate("Profile");
+  };
 
   const handleCancelWorkout = () => {
     dispatch(cancelWorkout());
