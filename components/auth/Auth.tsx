@@ -16,7 +16,7 @@ import { supabase } from "../../supabase/supabaseClient";
 const Auth = () => {
   const dispatch = useAppDispatch();
 
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confrimPassword, setConfirmPassword] = useState("");

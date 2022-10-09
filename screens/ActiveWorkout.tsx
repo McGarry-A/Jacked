@@ -17,10 +17,9 @@ import Sets from "../components/Sets";
 import Timer from "../components/Timer";
 import { useAppDispatch, useAppSelector } from "../store";
 import {
-  addSet,
-  addSetNumbers,
   cancelWorkout,
   setWorkoutTitle as setWorkoutName,
+  endWorkout,
 } from "../store/currentWorkoutSlice";
 
 const ActiveWorkout = ({ navigation }: any) => {
@@ -29,6 +28,12 @@ const ActiveWorkout = ({ navigation }: any) => {
   const workoutTitleRef = useRef<HTMLInputElement>(null);
 
   const dispatch = useAppDispatch();
+  const userId = useAppSelector((state) => state.userSlice.user.userId)
+
+  const handleEndWorkout = () => {
+    dispatch(endWorkout({ userId: userId, workoutTitle: workoutTitle }))
+    navigation.navigate("Profile")
+  }
 
   const handleCancelWorkout = () => {
     dispatch(cancelWorkout());
@@ -75,10 +80,12 @@ const ActiveWorkout = ({ navigation }: any) => {
         justifyContent={"space-between"}
         value={workoutTitle}
         isDisabled={inputIsDisabled}
+        color={"text.900"}
         onChangeText={(text) => setWorkoutTitle(text)}
         borderWidth={0}
         paddingLeft={0}
         _focus={{ backgroundColor: "white" }}
+        _disabled={{ color: "black", opacity: 100 }}
         fontSize={"xl"}
         ref={workoutTitleRef}
         editable
@@ -88,6 +95,25 @@ const ActiveWorkout = ({ navigation }: any) => {
   };
 
   const renderTimer = () => <Timer />;
+
+  const renderEndWorkout = () => {
+    return (
+      <Box flexDir={"row"} justifyContent={"flex-end"} w="full">
+        <Pressable
+          mt={2}
+          px={6}
+          py={2}
+          shadow={1}
+          backgroundColor="success.400"
+          onPress={handleEndWorkout}
+        >
+          <Text color="white" fontWeight={700} textAlign={"center"}>
+            End
+          </Text>
+        </Pressable>
+      </Box>
+    );
+  };
 
   const renderButtons = () => {
     return (
@@ -119,6 +145,7 @@ const ActiveWorkout = ({ navigation }: any) => {
 
   return (
     <ScrollView backgroundColor={"white"} h={"full"}>
+      {renderEndWorkout()}
       <Box padding={3}>
         {renderHeading()}
         {renderTimer()}

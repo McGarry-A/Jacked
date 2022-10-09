@@ -33,8 +33,13 @@ const ExerciseCard = ({
   const isLoaded =
     useAppSelector((state) => state.exerciseListSlice.status) === "fulfilled";
   const handlePress = () => {
+    const params = {
+      exerciseName: exercise_name,
+      exerciseId: id,
+      userId: userId,
+    };
     setIsActive((state) => !state);
-    dispatch(addLift({ exerciseName: exercise_name, exerciseId: id, userId }));
+    dispatch(addLift(params));
   };
 
   const renderAvatar = () => {

@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { string } from "yargs";
 import { supabase } from "../supabase/supabaseClient";
 import CurrentWorkoutInterface from "../types/CurrentWorkoutInterface";
-import { SetInterface } from "../types/LiftInterface";
 
 const initialState: CurrentWorkoutInterface = {
   workoutTitle: "",
@@ -29,21 +27,6 @@ const currentWorkoutSlice = createSlice({
       state.startTime = startTime;
       state.isActive = true;
     },
-    finishWorkout: (state, _) => {
-      const finishTime = new Date().toLocaleTimeString();
-      state.finishTime = finishTime;
-    },
-    addSetNumbers: (
-      state,
-      { payload: { exerciseId, setId, newWeight, newReps, setNumber } }
-    ) => {
-      state.exercises[exerciseId].sets[setId] = {
-        weight: newWeight,
-        reps: newReps,
-        rpe: 0,
-        setNumber: setNumber,
-      };
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -62,31 +45,73 @@ const currentWorkoutSlice = createSlice({
           rpe: payload.rpe,
           setNumber: payload.setNumber,
         };
-      }),
-      builder
-        .addCase(addLift.fulfilled, (state, { payload }) => {
-          const { exercise_id, exercise_name } = payload;
-          state.exercises[exercise_id] = {
-            exerciseId: exercise_id,
-            exerciseName: exercise_name,
-            sets: {},
-          };
-          state.exerciseOrder.push(exercise_id);
-        })
-        .addCase(addLift.rejected, (state, _) => {
-          state.status = "error";
-        });
+      })
+      .addCase(addLift.fulfilled, (state, { payload }) => {
+        const { exercise_id, exercise_name } = payload;
+        state.exercises[exercise_id] = {
+          exerciseId: exercise_id,
+          exerciseName: exercise_name,
+          sets: {},
+        };
+        state.exerciseOrder.push(exercise_id);
+      })
+      .addCase(addLift.rejected, (state, _) => {
+        state.status = "error";
+      })
+      .addCase(deleteSet.fulfilled, (state, { payload }) => {
+        const { id, exerciseId } = payload;
+        state.status = "success";
+        delete state.exercises[exerciseId].sets[id];
+      })
+      .addCase(endWorkout.fulfilled, (state, _) => {
+        state.status = "success";
+        console.log("reset state to initial")
+        Object.assign(state, initialState)
+      });
   },
 });
 
+interface endWorkoutProps {
+  userId: string;
+  workoutTitle: string
+}
+
+export const endWorkout = createAsyncThunk(
+  "current_workout/endWorkout",
+  async (payload: endWorkoutProps, _) => {
+    const { userId, workoutTitle } = payload;
+    const newWorkout = {
+      date: new Date().toLocaleDateString(),
+      user_id: userId,
+      workout_name: workoutTitle
+    };
+
+    const { data, error } = await supabase
+      .from("workouts")
+      .insert([newWorkout]);
+
+    if (error) return console.error(error);
+
+    return data[0];
+  }
+);
+
+interface deleteProps {
+  id: number;
+  exerciseId: number;
+}
+
 export const deleteSet = createAsyncThunk(
   "current_workout/deleteSet",
-  async (id: number) => {
+  async (payload: deleteProps) => {
+    const { id } = payload;
     const { data, error } = await supabase.from("set").delete().eq("id", id);
 
-    if (error) console.error(error);
-    
-    return data;
+    if (error) return console.error(error);
+
+    console.log(data);
+
+    return data[0];
   }
 );
 
@@ -166,17 +191,8 @@ export const addLift = createAsyncThunk(
     return data[0];
   }
 );
-export const endWorkout = createAsyncThunk(
-  "current_workout/endWorkout",
-  async (_, { getState }) => {}
-);
 
-export const {
-  startWorkout,
-  finishWorkout,
-  cancelWorkout,
-  setWorkoutTitle,
-  addSetNumbers,
-} = currentWorkoutSlice.actions;
+export const { startWorkout, cancelWorkout, setWorkoutTitle } =
+  currentWorkoutSlice.actions;
 
 export default currentWorkoutSlice.reducer;

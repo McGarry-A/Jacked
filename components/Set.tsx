@@ -2,11 +2,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Box, HStack, Input, Pressable, Text } from "native-base";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store";
-import {
-  addSetNumbers,
-  deleteSet,
-  updateSet,
-} from "../store/currentWorkoutSlice";
+import { deleteSet, updateSet } from "../store/currentWorkoutSlice";
 import { SetInterface } from "../types/LiftInterface";
 import { Swipeable } from "react-native-gesture-handler";
 
@@ -36,7 +32,6 @@ const Set = ({ setId, sets, exerciseId }: Props) => {
       },
     };
     dispatch(updateSet(params));
-    // dispatch(addSetNumbers({ exerciseId, setId, newWeight, newReps }));
     setIsDone(!isDone);
   };
 
@@ -53,7 +48,7 @@ const Set = ({ setId, sets, exerciseId }: Props) => {
   };
 
   const handleSwipeRight = () => {
-    dispatch(deleteSet({ exerciseId, setId }));
+    dispatch(deleteSet({ id: Number(setId), exerciseId: exerciseId }));
   };
 
   return (

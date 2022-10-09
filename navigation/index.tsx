@@ -92,11 +92,6 @@ function RootNavigator() {
         component={ActiveWorkout}
         options={({ navigation }) => ({
           title: "Active Workout",
-          headerRight: () => (
-            <Pressable onPress={() => handleFinishWorkout(navigation)}>
-              <Text color={"info.400"}>Finish</Text>
-            </Pressable>
-          ),
         })}
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
