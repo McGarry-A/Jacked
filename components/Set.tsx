@@ -2,14 +2,18 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Box, HStack, Input, Pressable, Text } from "native-base";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store";
-import { addSetNumbers, deleteSet } from "../store/currentWorkoutSlice";
+import {
+  addSetNumbers,
+  deleteSet,
+  updateSet,
+} from "../store/currentWorkoutSlice";
 import { SetInterface } from "../types/LiftInterface";
 import { Swipeable } from "react-native-gesture-handler";
 
 interface Props {
   setId: string;
   exerciseId: number;
-  sets: SetInterface[];
+  sets: SetInterface;
 }
 
 const Set = ({ setId, sets, exerciseId }: Props) => {
@@ -22,7 +26,17 @@ const Set = ({ setId, sets, exerciseId }: Props) => {
   const dispatch = useAppDispatch();
 
   const handleUpdateSet = () => {
-    dispatch(addSetNumbers({ exerciseId, setId, newWeight, newReps }));
+    const params = {
+      setId: Number(setId),
+      newSet: {
+        weight: newWeight,
+        reps: newReps,
+        rpe: 0,
+        setNumber: setNumber,
+      },
+    };
+    dispatch(updateSet(params));
+    // dispatch(addSetNumbers({ exerciseId, setId, newWeight, newReps }));
     setIsDone(!isDone);
   };
 

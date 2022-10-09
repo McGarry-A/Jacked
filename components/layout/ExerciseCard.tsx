@@ -25,6 +25,7 @@ const ExerciseCard = ({
   const exercises = useAppSelector(
     (state) => state.currentWorkoutSlice.exercises
   );
+  const userId = useAppSelector((state) => state.userSlice.user.userId);
   const isInWorkout = Object.keys(exercises).includes(String(id));
   const [isActive, setIsActive] = useState(isInWorkout);
 
@@ -33,7 +34,7 @@ const ExerciseCard = ({
     useAppSelector((state) => state.exerciseListSlice.status) === "fulfilled";
   const handlePress = () => {
     setIsActive((state) => !state);
-    dispatch(addLift({ exercise_name, id }));
+    dispatch(addLift({ exerciseName: exercise_name, exerciseId: id, userId }));
   };
 
   const renderAvatar = () => {
@@ -75,7 +76,7 @@ const ExerciseCard = ({
 
   return (
     <Box padding={2} borderColor={"gray.200"} backgroundColor={backgroundColor}>
-      <Skeleton isLoaded={isLoaded} h={12} >
+      <Skeleton isLoaded={isLoaded} h={12}>
         <Pressable
           flexDirection={"row"}
           alignItems="center"

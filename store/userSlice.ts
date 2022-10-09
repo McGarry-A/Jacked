@@ -4,6 +4,7 @@ import { supabase } from "../supabase/supabaseClient";
 interface InitialStateInterface {
   user: {
     isLoggedIn: boolean;
+    userId: string;
   };
   status: "fulfilled" | "pending" | "rejected" | "idle";
 }
@@ -11,6 +12,7 @@ interface InitialStateInterface {
 const initialState: InitialStateInterface = {
   user: {
     isLoggedIn: false,
+    userId: ""
   },
   status: "idle",
 };
@@ -33,6 +35,7 @@ const userSlice = createSlice({
       builder.addCase(userLogin.fulfilled, (state, { payload }) => {
         state.status = "fulfilled";
         state.user.isLoggedIn = true;
+        state.user.userId = payload.user!.id
       }),
       builder.addCase(userLogin.pending, (state) => {
         state.status = "pending";

@@ -1,16 +1,20 @@
+// liftId should be generated on supabase
 interface LiftInterface {
-  [key: number]: {
+  [key: string]: {
     exerciseId: number;
     exerciseName: string;
-    sets: SetInterface[];
+    sets: SetInterface;
   };
 }
 
+// setId should be generated on supabase 
 export interface SetInterface {
-  weight: string;
-  reps: string;
-  rpe: number;
-  setNumber: number;
+  [key: string]: {
+    weight: string;
+    reps: string;
+    rpe: number;
+    setNumber: number;
+  };
 }
 
 export default LiftInterface;

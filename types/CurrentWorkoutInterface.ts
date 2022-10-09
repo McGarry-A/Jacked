@@ -9,6 +9,7 @@ interface CurrentWorkoutInterface {
     finishTime: string;
     totalSets: number;
     totalVolume: number;
+    status: "pending" | "idle" | "success" | "error"
 }
 
 export default CurrentWorkoutInterface

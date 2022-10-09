@@ -9,7 +9,6 @@ const Sets = () => {
   const dispatch = useAppDispatch();
   const workoutDetails = useAppSelector((state) => state.currentWorkoutSlice);
   const { exerciseOrder, exercises } = workoutDetails;
-  
 
   const handleAddSet = (exerciseId: number, setNumber: number) => {
     dispatch(addSet({ exerciseId, setNumber }));
@@ -39,7 +38,8 @@ const Sets = () => {
   );
 
   const renderAddSet = (exerciseId: number) => {
-    const setNumber = workoutDetails.exercises[exerciseId].sets.length + 1;
+    const setNumber =
+      Object.keys(workoutDetails.exercises[exerciseId].sets).length + 1;
     return (
       <Pressable
         w="full"
@@ -54,7 +54,7 @@ const Sets = () => {
     );
   };
 
-  const renderSets = (sets: SetInterface[], exerciseId: number) =>
+  const renderSets = (sets: SetInterface, exerciseId: number) =>
     Object.keys(sets).map((setId, index) => (
       <Set setId={setId} sets={sets} exerciseId={exerciseId} key={index} />
     ));
