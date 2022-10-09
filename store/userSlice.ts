@@ -33,13 +33,11 @@ const userSlice = createSlice({
         state.status = "pending";
       }),
       builder.addCase(userLogin.fulfilled, (state, { payload }) => {
-        console.log(payload);
+        const user = supabase.auth.user()
+
         state.status = "fulfilled";
         state.user.isLoggedIn = true;
-
-        const userId = supabase.auth.user()
-        console.log(userId)
-        state.user.userId = payload.user!.id;
+        state.user.userId = user!.id;
       }),
       builder.addCase(userLogin.pending, (state) => {
         state.status = "pending";
@@ -65,6 +63,9 @@ export const userSignup = createAsyncThunk(
     });
 
     const data = { user, session };
+
+    if (error) return console.error(error)
+
     return data;
   }
 );
@@ -77,6 +78,8 @@ export const userLogin = createAsyncThunk(
       email: email,
       password: password,
     });
+
+    if (error) return console.error(error)
 
     const data = { user, session };
     return data;
