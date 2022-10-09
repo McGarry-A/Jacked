@@ -52,11 +52,12 @@ const currentWorkoutSlice = createSlice({
         };
       })
       .addCase(addLift.fulfilled, (state, { payload }) => {
-        const { exercise_id, exercise_name } = payload;
+        const { exercise_id, exercise_name, lift_id } = payload;
         state.exercises[exercise_id] = {
           exerciseId: exercise_id,
           exerciseName: exercise_name,
           sets: {},
+          liftId: lift_id,
         };
         state.exerciseOrder.push(exercise_id);
       })
@@ -84,8 +85,6 @@ export const deleteSet = createAsyncThunk(
 
     if (error) return console.error(error);
 
-    console.log(data);
-
     return data[0];
   }
 );
@@ -93,6 +92,7 @@ export const deleteSet = createAsyncThunk(
 interface addSetProps {
   exerciseId: number;
   setNumber: number;
+  liftId: number;
 }
 
 export const addSet = createAsyncThunk(
@@ -104,6 +104,7 @@ export const addSet = createAsyncThunk(
       reps: "0",
       rpe: 0,
       setNumber: payload.setNumber,
+      liftId: payload.liftId,
     };
 
     const { data, error } = await supabase.from("set").insert([newSet]);
@@ -138,8 +139,6 @@ export const updateSet = createAsyncThunk(
       .eq("id", setId);
 
     if (error) return console.error(error);
-    console.log("Data returning is");
-    console.log(data);
     return data;
   }
 );
@@ -194,7 +193,6 @@ export const startWorkout = createAsyncThunk(
     if (error) return console.error(error);
 
     console.log(data);
-
     return data[0];
   }
 );

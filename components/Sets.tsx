@@ -11,7 +11,8 @@ const Sets = () => {
   const { exerciseOrder, exercises } = workoutDetails;
 
   const handleAddSet = (exerciseId: number, setNumber: number) => {
-    dispatch(addSet({ exerciseId, setNumber }));
+    const { liftId } = workoutDetails.exercises[exerciseId];
+    dispatch(addSet({ exerciseId, setNumber, liftId }));
   };
 
   const renderHeading = (exerciseName: string) => (

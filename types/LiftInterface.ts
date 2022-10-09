@@ -4,6 +4,7 @@ interface LiftInterface {
     exerciseId: number;
     exerciseName: string;
     sets: SetInterface;
+    liftId: number;
   };
 }
 
