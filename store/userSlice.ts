@@ -12,7 +12,7 @@ interface InitialStateInterface {
 const initialState: InitialStateInterface = {
   user: {
     isLoggedIn: false,
-    userId: ""
+    userId: "",
   },
   status: "idle",
 };
@@ -33,9 +33,13 @@ const userSlice = createSlice({
         state.status = "pending";
       }),
       builder.addCase(userLogin.fulfilled, (state, { payload }) => {
+        console.log(payload);
         state.status = "fulfilled";
         state.user.isLoggedIn = true;
-        state.user.userId = payload.user!.id
+
+        const userId = supabase.auth.user()
+        console.log(userId)
+        state.user.userId = payload.user!.id;
       }),
       builder.addCase(userLogin.pending, (state) => {
         state.status = "pending";
@@ -69,7 +73,7 @@ export const userLogin = createAsyncThunk(
   "user/userLogin",
   async (details: AuthPayload, _) => {
     const { email, password } = details;
-    const { user, session, error } = await supabase.auth.signUp({
+    const { user, session, error } = await supabase.auth.signIn({
       email: email,
       password: password,
     });
