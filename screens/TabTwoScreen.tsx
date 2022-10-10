@@ -14,7 +14,7 @@ import { supabase } from "../supabase/supabaseClient";
 export default function TabTwoScreen({ navigation }: any) {
   const dispatch = useAppDispatch();
 
-  const userId = supabase.auth.user()
+  const userId = supabase.auth.user();
   const isWorkoutActive = useAppSelector(
     (state) => state.currentWorkoutSlice.isActive
   );
@@ -26,7 +26,7 @@ export default function TabTwoScreen({ navigation }: any) {
 
   const handleContinueWorkout = () => {
     navigation.navigate("ActiveWorkout");
-  }
+  };
 
   const renderHeading = () => <Heading size={"xl"}>Start A Workout</Heading>;
 
@@ -103,8 +103,8 @@ export default function TabTwoScreen({ navigation }: any) {
         </Heading>
         <VStack paddingTop={2}>
           <HStack space={2} w="98%">
-            <Template />
-            <Template />
+            {/* <Template />
+            <Template /> */}
           </HStack>
         </VStack>
         <VStack
@@ -114,8 +114,8 @@ export default function TabTwoScreen({ navigation }: any) {
           justifyContent={""}
         >
           <HStack space={2} w="98%">
-            <Template />
-            <Template />
+            {/* <Template />
+            <Template /> */}
           </HStack>
         </VStack>
       </Box>

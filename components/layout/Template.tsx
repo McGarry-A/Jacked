@@ -1,13 +1,25 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { Badge, Box, HStack, Text } from "native-base";
+import { Badge, Box, HStack, Skeleton, Text } from "native-base";
+import { useAppSelector } from "../../store";
+import { memo } from "react";
 
 interface TemplateProps {
   width?: "half" | "full";
+  workoutName: string | null;
+  date: string;
+  lifts: {
+    [key: number]: {
+      exercise_name: string;
+    };
+  };
 }
 
-const Template = ({ width }: TemplateProps) => {
+const Template = ({ width, workoutName, date, lifts }: TemplateProps) => {
   const isFullWidth = width === "full" ? "full" : "1/2";
   const textSize = width === "full" ? "md" : "sm";
+
+  const isLoaded =
+    useAppSelector((state) => state.workoutHistorySlice.status) === "fulfilled";
 
   const renderHeader = () => {
     return (
@@ -18,7 +30,7 @@ const Template = ({ width }: TemplateProps) => {
           fontWeight={"semibold"}
           color={"darkText"}
         >
-          Template Name
+          {workoutName === null ? "Workout __" : workoutName}
         </Text>
         <Box
           justifyContent={"center"}
@@ -28,11 +40,7 @@ const Template = ({ width }: TemplateProps) => {
           height={"5"}
           borderRadius={4}
         >
-          <FontAwesome
-            name="ellipsis-h"
-            size={15}
-            color={"skyblue"}
-          />
+          <FontAwesome name="ellipsis-h" size={15} color={"skyblue"} />
         </Box>
       </Box>
     );
@@ -63,7 +71,7 @@ const Template = ({ width }: TemplateProps) => {
         alignItems={"center"}
       >
         <Text fontSize={"xs"} opacity={50}>
-          6 days ago
+          {date}
         </Text>
         <FontAwesome name="clock-o" size={15} color="gray" />
       </Box>
@@ -71,10 +79,14 @@ const Template = ({ width }: TemplateProps) => {
   };
 
   const renderLifts = () => {
+    if (Object.keys(lifts).length === 0) return <Text>No Lifts</Text>;
+
     return (
-      <Box marginY={1}>
+      <Box marginY={2}>
         <Text fontSize={"sm"} color={"text.600"}>
-          Bench Press, Squat, Deadlifts, Rows, Bicep Curls, Cool down
+          {Object.values(lifts).map((el, index) => (
+            <>{el.exercise_name}, </>
+          ))}
         </Text>
       </Box>
     );
@@ -89,12 +101,14 @@ const Template = ({ width }: TemplateProps) => {
       borderColor={"gray.200"}
       marginY={1}
     >
-      {renderHeader()}
-      {renderBadges()}
-      {renderLifts()}
-      {renderDaysAgo()}
+      <Skeleton isLoaded={isLoaded}>
+        {renderHeader()}
+        {renderBadges()}
+        {renderLifts()}
+        {renderDaysAgo()}
+      </Skeleton>
     </Box>
   );
 };
 
-export default Template;
+export default memo(Template);

@@ -1,30 +1,38 @@
 import { FlatList, Heading, Box } from "native-base";
 import { useEffect } from "react";
 import Template from "../components/layout/Template";
-import { supabase } from "../supabase/supabaseClient";
+import { useAppDispatch, useAppSelector } from "../store";
+import { getHistory } from "../store/workoutHistorySlice";
 
 export default function TabThreeScreen() {
   // get data from supabase
   // need template name (workouts), date (workouts), lifts (lifts)
 
+  const dispatch = useAppDispatch();
+  const userId = useAppSelector((state) => state.userSlice.user.userId);
+  const history = useAppSelector((state) => state.workoutHistorySlice.history);
+
   useEffect(() => {
-    const getHistory = async () => {
-      const { data, error } = await supabase
-        .from("workouts")
-        .select(`workout_name, date, id, lifts (exercise_name)`);
-
-      if (error) return console.error(error);
-      console.log(data);
-    };
-
-    getHistory();
+    dispatch(getHistory({ userId: userId }));
   }, []);
+
   const renderHeading = () => <Heading size={"xl"}>History</Heading>;
 
   const renderSessions = () => {
-    const data = [1, 2, 3, 4, 5, 5, 6];
     return (
-      <FlatList data={data} renderItem={() => <Template width="full" />} />
+      <FlatList
+        data={history}
+        initialNumToRender={6}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={({ item }) => (
+          <Template
+            width="full"
+            workoutName={item.workout_name}
+            lifts={item.lifts}
+            date={item.date}
+          />
+        )}
+      />
     );
   };
 
