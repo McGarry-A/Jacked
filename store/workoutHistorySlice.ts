@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { supabase } from "../supabase/supabaseClient";
-import {
-  workoutHistoryType,
-} from "../types/WorkoutHistoryInterface";
+import { workoutHistoryType } from "../types/WorkoutHistoryInterface";
 
 interface InitialStateInterface {
   history: workoutHistoryType;
@@ -46,7 +44,8 @@ export const getHistory = createAsyncThunk(
     const { data, error } = await supabase
       .from("workouts")
       .select(`id, workout_name, date, lifts (exercise_name)`)
-      .eq("user_id", payload.userId);
+      .order("id", { ascending: false })
+      .eq("user_id", payload.userId)
 
     if (error) return console.error(error);
     return data as workoutHistoryType;

@@ -1,18 +1,29 @@
-import { Text, View } from "native-base";
-import {
-  Calendar as CalendarComponent,
-  CalendarList,
-  Agenda,
-} from "react-native-calendars";
+import { Spacer, View } from "native-base";
+import { CalendarList } from "react-native-calendars";
+import { useAppSelector } from "../store";
+
 import useTodaysDate from "../hooks/useTodaysDate";
+import BarChartWidget from "../components/widgets/BarChartWidget";
 
 export default function Calendar() {
+  const history = useAppSelector((state) => state.workoutHistorySlice.history);
+  const historyObj = history
+    .map((el) => el.date)
+    .reduce((ac, a) => ({ ...ac, [a]: { selected: true } }), {});
 
-  const maxDate = useTodaysDate()
-  
+  console.log(historyObj);
+
+  console.log(history);
+  const maxDate = useTodaysDate();
+
   return (
-    <View>
-      <CalendarList maxDate={maxDate} />
+    <View backgroundColor={"white"} flex={1}>
+      <CalendarList
+        maxDate={maxDate}
+        markedDates={historyObj}
+        horizontal={true}
+        hideArrows={false}
+      />
     </View>
   );
 }

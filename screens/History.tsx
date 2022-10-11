@@ -5,8 +5,6 @@ import { useAppDispatch, useAppSelector } from "../store";
 import { getHistory } from "../store/workoutHistorySlice";
 
 export default function TabThreeScreen() {
-  // get data from supabase
-  // need template name (workouts), date (workouts), lifts (lifts)
 
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.userSlice.user.userId);

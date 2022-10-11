@@ -180,9 +180,10 @@ export const addLift = createAsyncThunk(
 export const startWorkout = createAsyncThunk(
   "current_workout/startWorkout",
   async (payload: startWorkoutProps) => {
+    
     const { userId } = payload;
     const newWorkout = {
-      date: new Date().toLocaleDateString(),
+      date: new Date().toISOString().split("T")[0],
       user_id: userId,
     };
 

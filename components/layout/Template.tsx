@@ -1,7 +1,8 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { Badge, Box, HStack, Skeleton, Text } from "native-base";
 import { useAppSelector } from "../../store";
-import { memo } from "react";
+import React, { memo } from "react";
+import { Swipeable } from "react-native-gesture-handler";
 
 interface TemplateProps {
   width?: "half" | "full";
@@ -30,7 +31,7 @@ const Template = ({ width, workoutName, date, lifts }: TemplateProps) => {
           fontWeight={"semibold"}
           color={"darkText"}
         >
-          {workoutName === null ? "Workout __" : workoutName}
+          {workoutName === null ? "Quick Workout" : workoutName}
         </Text>
         <Box
           justifyContent={"center"}
@@ -85,29 +86,43 @@ const Template = ({ width, workoutName, date, lifts }: TemplateProps) => {
       <Box marginY={2}>
         <Text fontSize={"sm"} color={"text.600"}>
           {Object.values(lifts).map((el, index) => (
-            <>{el.exercise_name}, </>
+            <React.Fragment key={index}>{el.exercise_name}, </React.Fragment>
           ))}
         </Text>
       </Box>
     );
   };
 
+  const renderOnSwipeRight = () => {
+    return (
+      <Box backgroundColor={"red.500"} w={"full"} justifyContent={"center"}>
+        <Text fontWeight={"700"} textAlign={"center"} color={"white"}>
+          Delete Workout
+        </Text>
+      </Box>
+    );
+  };
+
+  const handleSwipeRight = () => {
+    // dispatch async thunk delete workout
+  };
+
   return (
-    <Box
-      w={isFullWidth}
-      borderWidth={1}
-      borderRadius={"sm"}
-      padding={2}
-      borderColor={"gray.200"}
-      marginY={1}
-    >
-      <Skeleton isLoaded={isLoaded}>
-        {renderHeader()}
-        {renderBadges()}
-        {renderLifts()}
-        {renderDaysAgo()}
-      </Skeleton>
-    </Box>
+    <Skeleton isLoaded={isLoaded}>
+        <Box
+          w={isFullWidth}
+          borderWidth={1}
+          borderRadius={"sm"}
+          padding={2}
+          borderColor={"gray.200"}
+          marginY={1}
+        >
+          {renderHeader()}
+          {/* {renderBadges()} */}
+          {renderLifts()}
+          {renderDaysAgo()}
+        </Box>
+    </Skeleton>
   );
 };
 
