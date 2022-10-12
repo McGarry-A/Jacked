@@ -168,6 +168,7 @@ function BottomTabNavigator() {
         name="Exercises"
         component={Exercises}
         options={{
+          headerTitle: "",
           title: "Exercises",
           tabBarIcon: ({ color }) => <TabBarIcon name="gg" color={color} />,
         }}
@@ -176,6 +177,7 @@ function BottomTabNavigator() {
         name="History"
         component={History}
         options={({ navigation }: RootTabScreenProps<"History">) => ({
+          headerTitle: "",
           title: "History",
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="history" color={color} />
@@ -187,7 +189,7 @@ function BottomTabNavigator() {
                 opacity: pressed ? 0.5 : 1,
               })}
             >
-              <Text marginRight={3} color={"info.400"} fontSize={"lg"}>
+              <Text marginRight={3} color={"info.400"} fontSize={"sm"}>
                 Calendar
               </Text>
             </Pressable>

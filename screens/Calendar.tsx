@@ -21,8 +21,7 @@ export default function Calendar() {
       <CalendarList
         maxDate={maxDate}
         markedDates={historyObj}
-        horizontal={true}
-        hideArrows={false}
+        minDate={"2022-01-01"}
       />
     </View>
   );

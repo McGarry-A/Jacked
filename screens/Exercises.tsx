@@ -11,6 +11,7 @@ import {
   Text,
   Spinner,
   Pressable,
+  VStack,
 } from "native-base";
 import { useEffect } from "react";
 import ExerciseCard from "../components/layout/ExerciseCard";
@@ -29,51 +30,53 @@ const Exercises = () => {
     }
   }, []);
 
-  const renderHeading = () => <Heading size={"xl"}>Exercises</Heading>;
+  const handleFilterBodyPart = () => {};
+  const handleFilterCategory = () => {};
+
+  const renderHeading = () => (
+    <Heading size={"xl"} mb={1} color={"text.800"}>
+      Exercises
+    </Heading>
+  );
+
+  const renderSearchBar = () => (
+    <Input
+      flexDir={"row"}
+      justifyContent="center"
+      alignItems={"center"}
+      paddingX={2}
+      borderRadius={2}
+      borderColor={"gray.200"}
+      fontSize={"md"}
+      placeholder="Search"
+      leftElement={
+        <FontAwesome name="search" color="black" style={{ marginLeft: 10 }} />
+      }
+    />
+  );
+
+  const renderButton = (title: string, actionHandler: () => void) => (
+    <Button
+      flex={1}
+      backgroundColor={"info.400"}
+      onPress={actionHandler}
+      size={"sm"}
+    >
+      <Text textAlign={"center"} color={"white"} fontWeight={"bold"}>
+        {title}
+      </Text>
+    </Button>
+  );
 
   const renderExerciseFilter = () => {
     return (
-      <Box>
-        <Box
-          flexDir={"row"}
-          justifyContent="center"
-          alignItems={"center"}
-          h={10}
-          borderWidth={1}
-          paddingX={2}
-          borderRadius={5}
-          borderColor={"gray.300"}
-        >
-          <FontAwesome name="search" color="black" />
-          <Input placeholder="Search" borderWidth={0} flex={1} />
-        </Box>
-        <HStack marginY={1} flexDir={"row"} space={1}>
-          <Pressable
-            flex={1}
-            h={8}
-            backgroundColor={"gray.300"}
-            color={"text.900"}
-            justifyContent={"center"}
-            borderRadius={3}
-          >
-            <Text textAlign={"center"} color={"text.800"} fontWeight={700}>
-              Body Part
-            </Text>
-          </Pressable>
-          <Pressable
-            flex={1}
-            h={8}
-            backgroundColor={"gray.300"}
-            color={"text.900"}
-            justifyContent={"center"}
-            borderRadius={3}
-          >
-            <Text textAlign={"center"} color={"text.800"} fontWeight={700}>
-              Cateogry
-            </Text>
-          </Pressable>
+      <VStack space={1}>
+        {renderSearchBar()}
+        <HStack flexDir={"row"} space={1}>
+          {renderButton("Body Part", handleFilterBodyPart)}
+          {renderButton("Category", handleFilterCategory)}
         </HStack>
-      </Box>
+      </VStack>
     );
   };
 

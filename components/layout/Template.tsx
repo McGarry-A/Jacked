@@ -1,8 +1,8 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { Badge, Box, HStack, Skeleton, Text } from "native-base";
+import { Badge, Box, HStack, Skeleton, Text, VStack } from "native-base";
 import { useAppSelector } from "../../store";
 import React, { memo } from "react";
-import getDaysAgo from "../../utils/getDaysAgo"
+import getDaysAgo from "../../utils/getDaysAgo";
 
 interface TemplateProps {
   width?: "half" | "full";
@@ -29,7 +29,7 @@ const Template = ({ width, workoutName, date, lifts }: TemplateProps) => {
           flex={1}
           fontSize={textSize}
           fontWeight={"semibold"}
-          color={"darkText"}
+          color={"text.800"}
         >
           {workoutName === null ? "Quick Workout" : workoutName}
         </Text>
@@ -68,13 +68,12 @@ const Template = ({ width, workoutName, date, lifts }: TemplateProps) => {
     return (
       <Box
         flexDirection={"row"}
-        justifyContent="space-between"
         alignItems={"center"}
       >
-        <Text fontSize={"xs"} opacity={50}>
+        <FontAwesome name="clock-o" size={13} color="gray" />
+        <Text fontSize={"xs"} opacity={50} ml={1}>
           {getDaysAgo(date)}
         </Text>
-        <FontAwesome name="clock-o" size={15} color="gray" />
       </Box>
     );
   };
@@ -109,19 +108,20 @@ const Template = ({ width, workoutName, date, lifts }: TemplateProps) => {
 
   return (
     <Skeleton isLoaded={isLoaded}>
-        <Box
-          w={isFullWidth}
-          borderWidth={1}
-          borderRadius={"sm"}
-          padding={2}
-          borderColor={"gray.200"}
-          marginY={1}
-        >
-          {renderHeader()}
-          {/* {renderBadges()} */}
-          {renderLifts()}
-          {renderDaysAgo()}
-        </Box>
+      <VStack
+        space={1}
+        w={isFullWidth}
+        borderWidth={1}
+        borderRadius={"sm"}
+        padding={2}
+        borderColor={"gray.200"}
+        marginY={1}
+      >
+        {renderHeader()}
+        {/* {renderBadges()} */}
+        {renderLifts()}
+        {renderDaysAgo()}
+      </VStack>
     </Skeleton>
   );
 };
