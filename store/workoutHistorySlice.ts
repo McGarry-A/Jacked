@@ -20,11 +20,9 @@ const workoutHistorySlice = createSlice({
     builder
       .addCase(getHistory.fulfilled, (state, { payload }) => {
         if (typeof payload === "object") {
-          const newState = payload.map((el) => {
-            return state.history.push(el);
-          });
+          state.history = []
+          payload.map((el) => (state.history = [...state.history, el]));
         }
-
         state.status = "fulfilled";
       })
       .addCase(getHistory.rejected, (state, _) => {
@@ -45,7 +43,7 @@ export const getHistory = createAsyncThunk(
       .from("workouts")
       .select(`id, workout_name, date, lifts (exercise_name)`)
       .order("id", { ascending: false })
-      .eq("user_id", payload.userId)
+      .eq("user_id", payload.userId);
 
     if (error) return console.error(error);
     return data as workoutHistoryType;

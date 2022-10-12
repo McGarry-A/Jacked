@@ -1,10 +1,11 @@
 import { FlatList, Heading, Box } from "native-base";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Template from "../components/layout/Template";
 import { useAppDispatch, useAppSelector } from "../store";
 import { getHistory } from "../store/workoutHistorySlice";
 
 export default function TabThreeScreen() {
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.userSlice.user.userId);
@@ -12,8 +13,10 @@ export default function TabThreeScreen() {
 
   useEffect(() => {
     dispatch(getHistory({ userId: userId }));
-  }, []);
+    setLoading(false)
+  }, [loading]);
 
+  const toggleRefresh = () => setLoading(!loading);
   const renderHeading = () => <Heading size={"xl"}>History</Heading>;
 
   const renderSessions = () => {
@@ -21,6 +24,8 @@ export default function TabThreeScreen() {
       <FlatList
         data={history}
         initialNumToRender={6}
+        onRefresh={toggleRefresh}
+        refreshing={loading}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => (
           <Template
