@@ -2,7 +2,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Badge, Box, HStack, Skeleton, Text } from "native-base";
 import { useAppSelector } from "../../store";
 import React, { memo } from "react";
-import { Swipeable } from "react-native-gesture-handler";
+import getDaysAgo from "../../utils/getDaysAgo"
 
 interface TemplateProps {
   width?: "half" | "full";
@@ -72,7 +72,7 @@ const Template = ({ width, workoutName, date, lifts }: TemplateProps) => {
         alignItems={"center"}
       >
         <Text fontSize={"xs"} opacity={50}>
-          {date}
+          {getDaysAgo(date)}
         </Text>
         <FontAwesome name="clock-o" size={15} color="gray" />
       </Box>
