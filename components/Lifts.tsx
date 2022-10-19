@@ -2,17 +2,17 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Box, Heading, HStack, Text, VStack, Pressable } from "native-base";
 import { useAppDispatch, useAppSelector } from "../store";
 import { addSet } from "../store/currentWorkoutSlice";
-import { SetInterface } from "../types/LiftInterface";
+import { SetInterface } from "../types/CurrentWorkoutInterface";
 import Set from "./Set";
 
-const Sets = () => {
+const Lifts = () => {
   const dispatch = useAppDispatch();
   const workoutDetails = useAppSelector((state) => state.currentWorkoutSlice);
   const { exerciseOrder, exercises } = workoutDetails;
 
   const handleAddSet = (exerciseId: number, setNumber: number) => {
-    const { liftId } = workoutDetails.exercises[exerciseId];
-    dispatch(addSet({ exerciseId, setNumber, liftId }));
+    // const { liftId } = workoutDetails.exercises[exerciseId];
+    // dispatch(addSet({ exerciseId, setNumber, liftId }));
   };
 
   const renderHeading = (exerciseName: string) => (
@@ -39,14 +39,14 @@ const Sets = () => {
   );
 
   const renderAddSet = (exerciseId: number) => {
-    const setNumber =
-      Object.keys(workoutDetails.exercises[exerciseId].sets).length + 1;
+    // const setNumber =
+    //   Object.keys(workoutDetails.exercises[exerciseId].sets).length + 1;
     return (
       <Pressable
         w="full"
         bg={"whitesmoke"}
         mt={2}
-        onPress={() => handleAddSet(exerciseId, setNumber)}
+        // onPress={() => handleAddSet(exerciseId, setNumber)}
       >
         <Text textAlign={"center"} py={1} fontWeight={600}>
           Add a set
@@ -55,17 +55,17 @@ const Sets = () => {
     );
   };
 
-  const renderSets = (sets: SetInterface, exerciseId: number) =>
-    Object.keys(sets).map((setId) => (
-      <Set setId={setId} sets={sets} exerciseId={exerciseId} key={setId} />
+  const renderSets = (sets: SetInterface[], exerciseId: number) =>
+    sets.map((set) => (
+      <Set set={set} />
     ));
 
   return (
     <VStack flex={1} px={3}>
-      {exerciseOrder.map((el) => {
-        const { exerciseName, sets, exerciseId } = exercises[el];
+      {exercises.map((el) => {
+        const { exerciseName, sets, exerciseId } = el;
         return (
-          <VStack key={el} my={1} borderRadius={3}>
+          <VStack key={el.exerciseId} my={1} borderRadius={3}>
             <Box>
               <VStack>
                 {renderHeading(exerciseName)}
@@ -81,4 +81,4 @@ const Sets = () => {
   );
 };
 
-export default Sets;
+export default Lifts;

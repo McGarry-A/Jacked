@@ -2,13 +2,13 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Box, Text, Pressable, Input, ScrollView } from "native-base";
 import { useRef } from "react";
 import { useState } from "react";
-import Sets from "../components/Sets";
+import Sets from "../components/Lifts";
 import Timer from "../components/Timer";
-import { useAppDispatch, useAppSelector } from "../store";
+import { useAppDispatch } from "../store";
 import {
   cancelWorkout,
   setWorkoutTitle as setWorkoutName,
-  endWorkout,
+  saveWorkout,
 } from "../store/currentWorkoutSlice";
 
 const ActiveWorkout = ({ navigation }: any) => {
@@ -19,7 +19,7 @@ const ActiveWorkout = ({ navigation }: any) => {
   const dispatch = useAppDispatch();
 
   const handleEndWorkout = () => {
-    dispatch(endWorkout());
+    dispatch(saveWorkout());
     navigation.navigate("Profile");
   };
 

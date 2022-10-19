@@ -33,11 +33,19 @@ const ExerciseCard = ({
   const isLoaded =
     useAppSelector((state) => state.exerciseListSlice.status) === "fulfilled";
   const handlePress = () => {
+    // We need to create a temporary lift_id to use as a key in redux
+    // The lift_id used in supabase will be a different id
+    // We can create the lift Id based on the number of
+
+    const liftNumber = Object.keys(exercises).length
+
     const params = {
       exerciseName: exercise_name,
       exerciseId: id,
       userId: userId,
+      liftNumber
     };
+    
     setIsActive((state) => !state);
     dispatch(addLift(params));
   };

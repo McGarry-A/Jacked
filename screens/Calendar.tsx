@@ -1,9 +1,8 @@
-import { Spacer, View } from "native-base";
+import { View } from "native-base";
 import { CalendarList } from "react-native-calendars";
 import { useAppSelector } from "../store";
 
 import useTodaysDate from "../hooks/useTodaysDate";
-import BarChartWidget from "../components/widgets/BarChartWidget";
 
 export default function Calendar() {
   const history = useAppSelector((state) => state.workoutHistorySlice.history);

@@ -2,38 +2,22 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Box, HStack, Input, Pressable, Text } from "native-base";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store";
-import { deleteSet, updateSet } from "../store/currentWorkoutSlice";
-import { SetInterface } from "../types/LiftInterface";
+import { deleteSet } from "../store/currentWorkoutSlice";
 import { Swipeable } from "react-native-gesture-handler";
+import { SetInterface } from "../types/CurrentWorkoutInterface";
 
 interface Props {
-  setId: string;
-  exerciseId: number;
-  sets: SetInterface;
+  set: SetInterface;
 }
 
-const Set = ({ setId, sets, exerciseId }: Props) => {
-  const { weight, reps, setNumber } = sets[setId as unknown as number];
+const Set = ({ set }: Props) => {
+  const { weight, reps, setNumber } = set;
 
   const [newWeight, setNewWeight] = useState<string>("0");
   const [newReps, setNewReps] = useState<string>("0");
   const [isDone, setIsDone] = useState(false);
 
   const dispatch = useAppDispatch();
-
-  const handleUpdateSet = () => {
-    const params = {
-      setId: Number(setId),
-      newSet: {
-        weight: newWeight,
-        reps: newReps,
-        rpe: 0,
-        setNumber: setNumber,
-      },
-    };
-    dispatch(updateSet(params));
-    setIsDone(!isDone);
-  };
 
   const backgroundColor = isDone ? "emerald.100" : "white";
 
@@ -47,9 +31,7 @@ const Set = ({ setId, sets, exerciseId }: Props) => {
     );
   };
 
-  const handleSwipeRight = () => {
-    dispatch(deleteSet({ id: Number(setId), exerciseId: exerciseId }));
-  };
+  const handleSwipeRight = () => {};
 
   return (
     <Swipeable
@@ -92,11 +74,7 @@ const Set = ({ setId, sets, exerciseId }: Props) => {
             color={"text.900"}
           />
         </Box>
-        <Pressable
-          alignItems={"flex-end"}
-          flexShrink={1}
-          onPress={() => handleUpdateSet()}
-        >
+        <Pressable alignItems={"flex-end"} flexShrink={1}>
           <FontAwesome name="check" size={10} />
         </Pressable>
       </HStack>

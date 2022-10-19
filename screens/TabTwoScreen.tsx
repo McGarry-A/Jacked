@@ -7,13 +7,12 @@ import {
   VStack,
   HStack,
 } from "native-base";
-import Template from "../components/layout/Template";
 import { useAppDispatch, useAppSelector } from "../store";
 import { startWorkout } from "../store/currentWorkoutSlice";
 import { supabase } from "../supabase/supabaseClient";
+
 export default function TabTwoScreen({ navigation }: any) {
   const dispatch = useAppDispatch();
-
   const userId = supabase.auth.user();
   const isWorkoutActive = useAppSelector(
     (state) => state.currentWorkoutSlice.isActive
