@@ -1,7 +1,11 @@
 import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { Box, Text, Pressable, Input, ScrollView } from "native-base";
 import { useRef } from "react";
 import { useState } from "react";
+import Lifts from "../components/Lifts";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare"
+import { faSquareCheck } from "@fortawesome/free-solid-svg-icons/faSquareCheck"
 import Sets from "../components/Lifts";
 import Timer from "../components/Timer";
 import { useAppDispatch } from "../store";
@@ -37,25 +41,21 @@ const ActiveWorkout = ({ navigation }: any) => {
   const handleSaveWorkoutName = () => {
     workoutTitleRef.current!.blur();
     dispatch(setWorkoutName(workoutTitle));
-    setInputIsDisabled(true);
+    setInputIsDisabled(!inputIsDisabled);
   };
 
   const renderTickOrEdit = () => {
     if (workoutTitle === "Quick Workout") {
       return (
-        <Pressable onPress={handleEditWorkoutTitle}>
-          <FontAwesome name="pencil" size={20} />
+        <Pressable onPress={handleEditWorkoutTitle} opacity={50}>
+          <FontAwesomeIcon icon={faPenToSquare} size={20} />
         </Pressable>
       );
     }
 
     return (
-      <Pressable>
-        <FontAwesome
-          name="check-square"
-          size={20}
-          onPress={handleSaveWorkoutName}
-        />
+      <Pressable onPress={handleSaveWorkoutName} opacity={50}>
+        <FontAwesomeIcon icon={faSquareCheck} size={20} />
       </Pressable>
     );
   };
@@ -138,7 +138,7 @@ const ActiveWorkout = ({ navigation }: any) => {
         {renderHeading()}
         {renderTimer()}
       </Box>
-      <Sets />
+      <Lifts />
       <Box padding={3}>{renderButtons()}</Box>
     </ScrollView>
   );

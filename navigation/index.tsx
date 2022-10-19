@@ -4,8 +4,10 @@
  *
  */
 import { FontAwesome } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
-
+import { faDumbbell } from "@fortawesome/free-solid-svg-icons/faDumbbell";
+import { faUser } from "@fortawesome/free-solid-svg-icons/faUser";
+import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons/faClockRotateLeft";
+import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   NavigationContainer,
@@ -21,7 +23,6 @@ import useColorScheme from "../hooks/useColorScheme";
 import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import Profile from "../screens/Profile";
-import TabOneScreen from "../screens/Profile";
 import History from "../screens/History";
 import TabTwoScreen from "../screens/TabTwoScreen";
 import {
@@ -37,8 +38,7 @@ import Settings from "../screens/Settings";
 import ActiveWorkout from "../screens/ActiveWorkout";
 import Exercises from "../screens/Exercises";
 import AddExercises from "../screens/AddExercises";
-import { useAppDispatch } from "../store";
-// import { endWorkout } from "../store/currentWorkoutSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 export default function Navigation({
   colorScheme,
@@ -62,13 +62,6 @@ export default function Navigation({
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  const dispatch = useAppDispatch();
-
-  const handleFinishWorkout = (navigation: any) => {
-    // dispatch(endWorkout());
-    navigation.navigate("Profile");
-  };
-
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -138,7 +131,9 @@ function BottomTabNavigator() {
         component={Profile}
         options={({ navigation }: RootTabScreenProps<"Profile">) => ({
           title: "Profile",
-          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <FontAwesomeIcon icon={faUser} color={color} size={25} />
+          ),
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate("Settings")}
@@ -161,7 +156,7 @@ function BottomTabNavigator() {
         component={TabTwoScreen}
         options={{
           title: "Start",
-          tabBarIcon: ({ color }) => <TabBarIcon name="plus" color={color} />,
+          tabBarIcon: ({ color }) => <FontAwesomeIcon icon={faPlus} color={color} size={25} />,
         }}
       />
       <BottomTab.Screen
@@ -170,7 +165,9 @@ function BottomTabNavigator() {
         options={{
           headerTitle: "",
           title: "Exercises",
-          tabBarIcon: ({ color }) => <TabBarIcon name="gg" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <FontAwesomeIcon icon={faDumbbell} color={color} size={25} />
+          ),
         }}
       />
       <BottomTab.Screen
@@ -180,7 +177,7 @@ function BottomTabNavigator() {
           headerTitle: "",
           title: "History",
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="history" color={color} />
+            <FontAwesomeIcon icon={faClockRotateLeft} color={color} size={25} />
           ),
           headerRight: () => (
             <Pressable
@@ -198,14 +195,4 @@ function BottomTabNavigator() {
       />
     </BottomTab.Navigator>
   );
-}
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={30} {...props} />;
 }

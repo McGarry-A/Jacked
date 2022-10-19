@@ -1,18 +1,23 @@
 import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
+import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck"
 import { Box, HStack, Input, Pressable, Text } from "native-base";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store";
-import { deleteSet } from "../store/currentWorkoutSlice";
+import { deleteSet, updateSet } from "../store/currentWorkoutSlice";
 import { Swipeable } from "react-native-gesture-handler";
 import { SetInterface } from "../types/CurrentWorkoutInterface";
 
 interface Props {
-  set: SetInterface;
+  weight: string;
+  reps: string;
+  rpe: number;
+  setNumber: number;
+  liftId: string;
+  setId: string;
 }
 
-const Set = ({ set }: Props) => {
-  const { weight, reps, setNumber } = set;
-
+const Set = ({ weight, reps, rpe, setNumber, liftId, setId }: Props) => {
   const [newWeight, setNewWeight] = useState<string>("0");
   const [newReps, setNewReps] = useState<string>("0");
   const [isDone, setIsDone] = useState(false);
@@ -31,7 +36,29 @@ const Set = ({ set }: Props) => {
     );
   };
 
-  const handleSwipeRight = () => {};
+  const handleSwipeRight = () => {
+    dispatch(deleteSet({ liftId, setId, setNumber }));
+  };
+
+  const handleUpdateSet = () => {
+    const newSet = {
+      weight: newWeight,
+      reps: newReps,
+      rpe: 0,
+      setNumber: setNumber,
+      setId
+    };
+
+    dispatch(
+      updateSet({
+        setId,
+        liftId,
+        newSet,
+      })
+    );
+
+    setIsDone(!isDone);
+  };
 
   return (
     <Swipeable
@@ -44,9 +71,11 @@ const Set = ({ set }: Props) => {
         backgroundColor={backgroundColor}
         paddingX={3}
       >
-        <Text flexBasis={"22%"} color="text.900">
-          {setNumber}
-        </Text>
+        <Box flexBasis={"22%"}>
+          <Text color="text.900" textAlign={"center"} w={5}>
+            {setNumber}
+          </Text>
+        </Box>
         <Text flex={1}>previous</Text>
         <Box flex={1}>
           <Input
@@ -74,8 +103,13 @@ const Set = ({ set }: Props) => {
             color={"text.900"}
           />
         </Box>
-        <Pressable alignItems={"flex-end"} flexShrink={1}>
+        <Pressable
+          alignItems={"flex-end"}
+          flexShrink={1}
+          onPress={handleUpdateSet}
+        >
           <FontAwesome name="check" size={10} />
+          <FontAwesomeIcon icon={faCheck} />
         </Pressable>
       </HStack>
     </Swipeable>

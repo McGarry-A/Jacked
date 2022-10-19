@@ -1,4 +1,5 @@
 import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   View,
   Text,
@@ -12,6 +13,7 @@ import React, { useState } from "react";
 import { useAppDispatch } from "../../store";
 import { userLogin, userSignup } from "../../store/userSlice";
 import { supabase } from "../../supabase/supabaseClient";
+import { faLock } from "@fortawesome/free-solid-svg-icons/faLock";
 
 const Auth = () => {
   const dispatch = useAppDispatch();
@@ -65,6 +67,9 @@ const Auth = () => {
           autoCapitalize={"none"}
           placeholder="Enter Email"
           backgroundColor={"white"}
+          _focus={{
+            borderColor: "info.200",
+          }}
           value={email}
           onChangeText={(text) => setEmail(text)}
           InputRightElement={
@@ -91,9 +96,12 @@ const Auth = () => {
           backgroundColor={"white"}
           onChangeText={(text) => setPassword(text)}
           value={password}
+          _focus={{
+            borderColor: "info.200",
+          }}
           InputRightElement={
-            <FontAwesome
-              name="anchor"
+            <FontAwesomeIcon
+              icon={faLock}
               size={15}
               style={{ marginRight: 8, color: "gray" }}
             />
@@ -115,9 +123,12 @@ const Auth = () => {
           backgroundColor={"white"}
           value={confrimPassword}
           onChangeText={(text) => setConfirmPassword(text)}
+          _focus={{
+            borderColor: "info.200",
+          }}
           InputRightElement={
-            <FontAwesome
-              name="anchor"
+            <FontAwesomeIcon
+              icon={faLock}
               size={15}
               style={{ marginRight: 8, color: "gray" }}
             />

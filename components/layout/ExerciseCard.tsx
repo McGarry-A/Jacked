@@ -1,5 +1,6 @@
 import { Avatar, Box, Checkbox, Pressable, Skeleton, Text } from "native-base";
 import { useState } from "react";
+import useId from "../../hooks/useId";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { addLift } from "../../store/currentWorkoutSlice";
 import generateColor from "../../utils/generateColor";
@@ -37,15 +38,17 @@ const ExerciseCard = ({
     // The lift_id used in supabase will be a different id
     // We can create the lift Id based on the number of
 
-    const liftNumber = Object.keys(exercises).length
+    const liftNumber = Object.keys(exercises).length;
+    const liftId = useId("lift");
 
     const params = {
       exerciseName: exercise_name,
       exerciseId: id,
       userId: userId,
-      liftNumber
+      liftNumber,
+      liftId,
     };
-    
+
     setIsActive((state) => !state);
     dispatch(addLift(params));
   };
