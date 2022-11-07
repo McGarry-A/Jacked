@@ -79,7 +79,7 @@ export const userLogin = createAsyncThunk(
       password: password,
     });
 
-    if (error) return console.error(error)
+    if (error) return error
 
     const data = { user, session };
     return data;

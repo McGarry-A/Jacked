@@ -10,7 +10,7 @@ import {
   Image,
 } from "native-base";
 import React, { useState } from "react";
-import { useAppDispatch } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import { userLogin, userSignup } from "../../store/userSlice";
 import { supabase } from "../../supabase/supabaseClient";
 import { faLock } from "@fortawesome/free-solid-svg-icons/faLock";
@@ -23,6 +23,8 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [confrimPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const reqError =
+    useAppSelector((state) => state.userSlice.status) === "rejected";
 
   const toggleLoginState = () => {
     setIsLogin(!isLogin);
@@ -230,9 +232,20 @@ const Auth = () => {
     );
   };
 
+  const renderRequestError = () => {
+    if (reqError) {
+      return (
+        <Text color={"rose.800"} fontSize="sm">
+          *The details that you entered were incorrect, please try again.
+        </Text>
+      );
+    }
+  };
+
   return (
     <View justifyContent={"center"} h={"full"}>
       <Box mx={4} backgroundColor={"whitesmoke"} h={"sm"} my={"auto"}>
+        {renderRequestError()}
         {renderHeading()}
         {renderLogin()}
         {renderSignin()}
