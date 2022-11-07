@@ -90,10 +90,7 @@ export const saveWorkout = createAsyncThunk(
       user_id: state.userSlice.user.userId,
       workout_name: state.currentWorkoutSlice.workoutTitle,
     };
-
-    // make call to supadb to save workout into tables
-    // add workout to workout table
-    // save workout ID to use in the lift tables
+    
     const { data: workout_data, error: workout_error } = await supabase
       .from("workouts")
       .insert(workout)
@@ -122,31 +119,39 @@ export const saveWorkout = createAsyncThunk(
 
     if (lift_error) return console.error(lift_error);
 
-    console.log(lift_data)
-    // add all sets to set tables
-    // use liftId as foreign key
+    console.log(lift_data) // array of { lift_id }
+
+    // TODO:
+    const setIds = lift_data.map(liftId => {
+      const { lift_id } = liftId
+      const setsArray = Object.values(state.currentWorkoutSlice.exercises[lift_id].sets)
+
+      return setsArray.map(async (el: any) => {
+        try {
+          const newSet = {
+            weight: el.weight,
+            reps: el.reps,
+            rpe: el.rpe,
+            setNumber: el.setNumber,
+            liftId: lift_id
+          }
+
+          const { data: set_data, error: set_error } = await supabase
+            .from("set")
+            .insert(newSet)
+            .select("id")
+          
+          return set_data
+        }
+        catch(error) {
+          console.error("ERROR ADDING SET")
+          return error
+        }
+      })
+    })
+
+    console.log(setIds)
   }
-
-  // add all lifts to lifts tables
-  // use workout Id as foreign key
-  // save liftId to use in the set tables
-
-  /*
-    lift_id > auto
-    created_at > auto
-    exercise_id > ok
-    exercise_name > ok
-    user_id > ok
-    workout_id > ok
-    */
-  /*
-    id
-    created_at 
-    finished_at
-    date
-    user_id
-    workout_name
-  */
 );
 
 type setWorkoutTitleType = string;
