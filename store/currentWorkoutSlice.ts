@@ -24,6 +24,7 @@ const currentWorkoutSlice = createSlice({
       const startTime = new Date().toLocaleTimeString();
       state.startTime = startTime;
       state.isActive = true;
+      state.workoutTitle = "Quick Workout"
     },
     setWorkoutTitle: (state, { payload }: { payload: setWorkoutTitleType }) => {
       state.workoutTitle = payload;
