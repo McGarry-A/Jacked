@@ -6,7 +6,7 @@ interface Props {
   status: string;
   content: string;
   variant: string;
-  dismissFunc: () => void;
+  dismissFunc: () => void
 }
 
 const Notification = ({ status, content, variant, dismissFunc }: Props) => {
