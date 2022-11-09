@@ -8,15 +8,19 @@ import {
   Pressable,
   FormControl,
   Image,
+  useToast,
 } from "native-base";
-import React, { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { userLogin, userSignup } from "../../store/userSlice";
-import { supabase } from "../../supabase/supabaseClient";
+import React, { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../store";
+import { reset, userLogin, userSignup } from "../store/userSlice";
+import { supabase } from "../supabase/supabaseClient";
 import { faLock } from "@fortawesome/free-solid-svg-icons/faLock";
+import Notification from "./Notification";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Auth = () => {
   const dispatch = useAppDispatch();
+  const toast = useToast();
 
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
@@ -233,24 +237,29 @@ const Auth = () => {
   };
 
   const renderRequestError = () => {
+    const errorProps = {
+      status: "error",
+      content: "Incorrect login details",
+      variant: "solid",
+      dismissFunc: () => dispatch(reset())
+    };
+
     if (reqError) {
-      return (
-        <Text color={"rose.800"} fontSize="sm">
-          *The details that you entered were incorrect, please try again.
-        </Text>
-      );
+      return <Notification {...errorProps} />;
     }
   };
 
   return (
-    <View justifyContent={"center"} h={"full"}>
-      <Box mx={4} backgroundColor={"whitesmoke"} h={"sm"} my={"auto"}>
+    <SafeAreaView>
+      <View justifyContent={"center"} h={"full"}>
         {renderRequestError()}
-        {renderHeading()}
-        {renderLogin()}
-        {renderSignin()}
-      </Box>
-    </View>
+        <Box mx={4} backgroundColor={"whitesmoke"} h={"sm"} my={"auto"}>
+          {renderHeading()}
+          {renderLogin()}
+          {renderSignin()}
+        </Box>
+      </View>
+    </SafeAreaView>
   );
 };
 
