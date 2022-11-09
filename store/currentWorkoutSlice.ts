@@ -100,7 +100,7 @@ export const saveWorkout = createAsyncThunk(
     
     const { id } = workout_data[0];
 
-    //REVIEW:
+    //REVIEW: WE CAN DO THIS IN ONE CALL BY CREATING A FUNCTION ON SUPABASE
     const liftsArray = Object.values(state.currentWorkoutSlice.exercises);
     liftsArray.map(async (lift: any) => {
       const formattedLift = {
@@ -140,48 +140,6 @@ export const saveWorkout = createAsyncThunk(
 
       console.log(set_id)
     });
-
-    // console.log(formattedLifts);
-
-    // const { data: lift_data, error: lift_error } = await supabase
-    //   .from("lifts")
-    //   .insert(formattedLifts)
-    //   .select("lift_id");
-
-    // if (lift_error) return console.error(lift_error);
-
-    // console.log(lift_data); // array of { lift_id }
-
-    // TODO:
-    // const setIds = lift_data.map(liftId => {
-    //   const { lift_id } = liftId
-    //   const setsArray = Object.values(state.currentWorkoutSlice.exercises[lift_id].sets)
-
-    //   return setsArray.map(async (el: any) => {
-    //     try {
-    //       const newSet = {
-    //         weight: el.weight,
-    //         reps: el.reps,
-    //         rpe: el.rpe,
-    //         setNumber: el.setNumber,
-    //         liftId: lift_id
-    //       }
-
-    //       const { data: set_data, error: set_error } = await supabase
-    //         .from("set")
-    //         .insert(newSet)
-    //         .select("id")
-
-    //       return set_data
-    //     }
-    //     catch(error) {
-    //       console.error("ERROR ADDING SET")
-    //       return error
-    //     }
-    //   })
-    // })
-
-    //   console.log(setIds)
   }
 );
 
