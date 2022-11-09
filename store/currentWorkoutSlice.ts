@@ -90,67 +90,98 @@ export const saveWorkout = createAsyncThunk(
       user_id: state.userSlice.user.userId,
       workout_name: state.currentWorkoutSlice.workoutTitle,
     };
-    
+
     const { data: workout_data, error: workout_error } = await supabase
       .from("workouts")
       .insert(workout)
       .select("id");
 
     if (workout_error) return console.error(workout_error);
-
+    
     const { id } = workout_data[0];
 
-    const lifts = Object.values(state.currentWorkoutSlice.exercises);
-    const formattedLifts = lifts.map((el: any) => {
-      return {
-        exercise_id: el.exerciseId,
-        exercise_name: el.exerciseName,
+    //REVIEW:
+    const liftsArray = Object.values(state.currentWorkoutSlice.exercises);
+    liftsArray.map(async (lift: any) => {
+      const formattedLift = {
+        exercise_id: lift.exerciseId,
+        exercise_name: lift.exerciseName,
         user_id: state.userSlice.user.userId,
         workout_id: id,
       };
-    });
 
-    console.log(formattedLifts);
-
-    const { data: lift_data, error: lift_error } = await supabase
+      const { data: lift_id, error: lift_error } = await supabase
       .from("lifts")
-      .insert(formattedLifts)
+      .insert(formattedLift)
       .select("lift_id");
 
-    if (lift_error) return console.error(lift_error);
+      if (lift_error) return console.error(lift_error)
 
-    console.log(lift_data) // array of { lift_id }
-
-    // TODO:
-    const setIds = lift_data.map(liftId => {
-      const { lift_id } = liftId
-      const setsArray = Object.values(state.currentWorkoutSlice.exercises[lift_id].sets)
-
-      return setsArray.map(async (el: any) => {
-        try {
-          const newSet = {
-            weight: el.weight,
-            reps: el.reps,
-            rpe: el.rpe,
-            setNumber: el.setNumber,
-            liftId: lift_id
-          }
-
-          const { data: set_data, error: set_error } = await supabase
-            .from("set")
-            .insert(newSet)
-            .select("id")
-          
-          return set_data
-        }
-        catch(error) {
-          console.error("ERROR ADDING SET")
-          return error
+      const sets = Object.values(lift.sets)
+      const formattedSets = sets.map((set: any) => {
+        return {
+          weight: set.weight,
+          reps: set.reps,
+          rpe: set.rpe,
+          setNumber: set.setNumber,
+          liftId: lift_id[0].lift_id,
+          exerciseId: lift.exerciseId
         }
       })
-    })
 
-    console.log(setIds)
+      console.log(formattedSets)
+
+      const { data: set_id, error: set_error } = await supabase
+        .from("set")
+        .insert(formattedSets)
+        .select("id")
+
+      if (set_error) return console.error(set_error)
+
+      console.log(set_id)
+    });
+
+    // console.log(formattedLifts);
+
+    // const { data: lift_data, error: lift_error } = await supabase
+    //   .from("lifts")
+    //   .insert(formattedLifts)
+    //   .select("lift_id");
+
+    // if (lift_error) return console.error(lift_error);
+
+    // console.log(lift_data); // array of { lift_id }
+
+    // TODO:
+    // const setIds = lift_data.map(liftId => {
+    //   const { lift_id } = liftId
+    //   const setsArray = Object.values(state.currentWorkoutSlice.exercises[lift_id].sets)
+
+    //   return setsArray.map(async (el: any) => {
+    //     try {
+    //       const newSet = {
+    //         weight: el.weight,
+    //         reps: el.reps,
+    //         rpe: el.rpe,
+    //         setNumber: el.setNumber,
+    //         liftId: lift_id
+    //       }
+
+    //       const { data: set_data, error: set_error } = await supabase
+    //         .from("set")
+    //         .insert(newSet)
+    //         .select("id")
+
+    //       return set_data
+    //     }
+    //     catch(error) {
+    //       console.error("ERROR ADDING SET")
+    //       return error
+    //     }
+    //   })
+    // })
+
+    //   console.log(setIds)
   }
 );
 
