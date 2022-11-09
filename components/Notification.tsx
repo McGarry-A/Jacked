@@ -12,12 +12,13 @@ interface Props {
 const Notification = ({ status, content, variant, dismissFunc }: Props) => {
   return (
     <Alert
-      maxW={300}
+      maxW={350}
       status={status}
       variant={variant}
       position="absolute"
       right={0}
       top={10}
+      px={2}
     >
       <HStack space={2} alignItems="center">
         <Alert.Icon flexShrink={1} />

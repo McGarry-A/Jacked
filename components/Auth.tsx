@@ -7,28 +7,37 @@ import {
   Input,
   Pressable,
   FormControl,
-  Image,
   useToast,
 } from "native-base";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store";
 import { reset, userLogin, userSignup } from "../store/userSlice";
-import { supabase } from "../supabase/supabaseClient";
 import { faLock } from "@fortawesome/free-solid-svg-icons/faLock";
 import Notification from "./Notification";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Auth = () => {
   const dispatch = useAppDispatch();
-  const toast = useToast();
 
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confrimPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const reqError =
-    useAppSelector((state) => state.userSlice.status) === "rejected";
+  const [error, setError] = useState<string | null>("");
+  const [isLoginRejected, _] = useState(
+    useAppSelector((state) => state.userSlice.status) === "rejected"
+  );
+
+  useEffect(() => {
+    if (isLoginRejected) return setError("Incorrect login details");
+  }, [userLogin]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(reset());
+      setError(null)
+    }, 3000);
+  }, [error]);
 
   const toggleLoginState = () => {
     setIsLogin(!isLogin);
@@ -38,15 +47,16 @@ const Auth = () => {
     if (!password || !email)
       return setError("Please enter username and password");
 
+      // NOTE: 
+      // CHECK VALID EMAIL FUNCTION VALIDATEMAIL IF NOT THROW ERROR
+
     dispatch(userLogin({ email: email, password: password }));
+    console.log(`DISPATCHED ${email} ${password}`);
   };
 
   const handleSignup = async () => {
-    console.log("handle sign up");
-    console.log(email);
-    console.log(password);
-    console.log(confrimPassword);
-
+    // REVIEW: 
+    // DOES THE SIGN UP WORK CORRECTLY?
     if (!password || !email || !confrimPassword)
       return setError("Please enter username and password");
     if (password !== confrimPassword)
@@ -56,8 +66,7 @@ const Auth = () => {
         "Please ensure that your password is at least 6 characters long."
       );
 
-    // returns { user, session }
-    const data = dispatch(userSignup({ email: email, password: password }));
+    dispatch(userSignup({ email: email, password: password }));
 
     console.log("Signed Up");
   };
@@ -145,7 +154,7 @@ const Auth = () => {
   };
 
   const renderButton = (iconName: "sign-in", buttonText: string) => {
-    const onPessFunc = buttonText === "Sign-in" ? handleSignup : handleLogin;
+    const onPessFunc = buttonText === "Sign-In" ? handleSignup : handleLogin;
     return (
       <Box w={"full"} my={2}>
         <Pressable
@@ -236,15 +245,15 @@ const Auth = () => {
     );
   };
 
-  const renderRequestError = () => {
+  const renderErrorNotification = () => {
     const errorProps = {
       status: "error",
-      content: "Incorrect login details",
+      content: error || "",
       variant: "solid",
-      dismissFunc: () => dispatch(reset())
+      dismissFunc: () => dispatch(reset()),
     };
 
-    if (reqError) {
+    if (error) {
       return <Notification {...errorProps} />;
     }
   };
@@ -252,7 +261,7 @@ const Auth = () => {
   return (
     <SafeAreaView>
       <View justifyContent={"center"} h={"full"}>
-        {renderRequestError()}
+        {renderErrorNotification()}
         <Box mx={4} backgroundColor={"whitesmoke"} h={"sm"} my={"auto"}>
           {renderHeading()}
           {renderLogin()}

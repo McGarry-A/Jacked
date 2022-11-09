@@ -37,9 +37,10 @@ const userSlice = createSlice({
       builder.addCase(userLogin.fulfilled, (state, { payload }) => {
         const user = supabase.auth.user()
 
-        state.status = "fulfilled";
+        state.status = "pending";
         state.user.isLoggedIn = true;
         state.user.userId = user!.id;
+        state.status = "fulfilled"
       }),
       builder.addCase(userLogin.pending, (state) => {
         state.status = "pending";
