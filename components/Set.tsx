@@ -108,7 +108,6 @@ const Set = ({ weight, reps, rpe, setNumber, liftId, setId }: Props) => {
           flexShrink={1}
           onPress={handleUpdateSet}
         >
-          <FontAwesome name="check" size={10} />
           <FontAwesomeIcon icon={faCheck} />
         </Pressable>
       </HStack>
