@@ -20,7 +20,9 @@ const initialState: InitialStateInterface = {
 const userSlice = createSlice({
   name: "user",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    reset: (state) => (state = initialState)
+  },
   extraReducers: (builder) => {
     builder.addCase(userSignup.fulfilled, (state, { payload }) => {
       state.status = "fulfilled";
@@ -35,14 +37,15 @@ const userSlice = createSlice({
       builder.addCase(userLogin.fulfilled, (state, { payload }) => {
         const user = supabase.auth.user()
 
-        state.status = "fulfilled";
+        state.status = "pending";
         state.user.isLoggedIn = true;
         state.user.userId = user!.id;
+        state.status = "fulfilled"
       }),
       builder.addCase(userLogin.pending, (state) => {
         state.status = "pending";
       }),
-      builder.addCase(userLogin.rejected, (state) => {
+      builder.addCase(userLogin.rejected, (state, payload) => {
         state.status = "rejected";
       });
   },
@@ -72,18 +75,20 @@ export const userSignup = createAsyncThunk(
 
 export const userLogin = createAsyncThunk(
   "user/userLogin",
-  async (details: AuthPayload, _) => {
+  async (details: AuthPayload, thunkAPI) => {
     const { email, password } = details;
     const { user, session, error } = await supabase.auth.signIn({
       email: email,
       password: password,
     });
 
-    if (error) return error
+    if (error) return thunkAPI.rejectWithValue(error)
 
     const data = { user, session };
     return data;
   }
 );
+
+export const { reset } = userSlice.actions
 
 export default userSlice.reducer;
