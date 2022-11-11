@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { fetchAllExercises } from "../../store/exerciseList";
 import { addLift } from "../../store/currentWorkoutSlice";
 import { RootStackScreenProps } from "../../types";
+import ExerciseInterface from "../../types/ExerciseInterface";
 
 export interface LiftData {
   exerciseId: number;
@@ -24,6 +25,8 @@ export interface LiftData {
 
 const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
   const [liftData, setLiftData] = useState<LiftData[]>([]);
+  const [exercises, setExercises] = useState<ExerciseInterface[]>([]);
+
   const userId = useAppSelector((state) => state.userSlice.user.userId);
 
   const dispatch = useAppDispatch();
@@ -34,6 +37,9 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchAllExercises());
+    }
+    if (status === "fulfilled") {
+      setExercises(exerciseList);
     }
   }, []);
 
@@ -49,6 +55,11 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
     navigation.goBack();
   };
 
+  const handleFilterExercises = (text: string) => {
+    const filteredExercises = exerciseList.filter((el) => el.exercise_name.includes(text))
+    setExercises(filteredExercises)
+  };
+
   const renderInput = () => {
     return (
       <Input
@@ -57,6 +68,7 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
         type="text"
         variant={"filled"}
         marginBottom={2}
+        onChangeText={(text) => handleFilterExercises(text)}
         InputLeftElement={
           <FontAwesome
             name="search"
@@ -85,7 +97,7 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
       <Box my={2} flexGrow={1}>
         <Suspense fallback={<Skeleton h={"full"} />}>
           <FlatList
-            data={exerciseList}
+            data={exercises}
             renderItem={({ item }) => <ExerciseCard {...item} {...liftProps} />}
           />
         </Suspense>
