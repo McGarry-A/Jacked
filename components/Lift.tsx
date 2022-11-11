@@ -45,7 +45,7 @@ const Lift = (props: Props) => {
 
   const handleSwipeRight = () => {
     dispatch(deleteLift({ liftId }));
-    swipeableRef.current.close();
+    swipeableRef.current && swipeableRef.current.close();
   };
 
   const handleAddSet = (liftId: string) => {

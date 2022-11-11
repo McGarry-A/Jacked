@@ -2,7 +2,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
 import { Box, HStack, Input, Pressable, Text } from "native-base";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store";
 import { deleteSet, updateSet } from "../store/currentWorkoutSlice";
 import { Swipeable } from "react-native-gesture-handler";
@@ -21,6 +21,8 @@ const Set = ({ weight, reps, rpe, setNumber, liftId, setId }: Props) => {
   const [newWeight, setNewWeight] = useState<string>("0");
   const [newReps, setNewReps] = useState<string>("0");
   const [isDone, setIsDone] = useState(false);
+
+  const swipeableRef = useRef<null | any>(null)
 
   const dispatch = useAppDispatch();
 
@@ -45,6 +47,7 @@ const Set = ({ weight, reps, rpe, setNumber, liftId, setId }: Props) => {
 
   const handleSwipeRight = () => {
     dispatch(deleteSet({ liftId, setId, setNumber }));
+    swipeableRef.current && swipeableRef.current.close()
   };
 
   const handleUpdateSet = () => {
@@ -72,6 +75,7 @@ const Set = ({ weight, reps, rpe, setNumber, liftId, setId }: Props) => {
       renderRightActions={renderOnSwipeRight}
       onSwipeableOpen={handleSwipeRight}
       rightThreshold={10}
+      ref={swipeableRef}
     >
       <HStack
         alignItems={"center"}
