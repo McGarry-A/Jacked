@@ -1,11 +1,11 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { Box, Text, Pressable, Input, ScrollView } from "native-base";
+import { Box, Text, Pressable, Input, ScrollView, View } from "native-base";
 import { useRef } from "react";
 import { useState } from "react";
 import Lifts from "../components/Lifts";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare"
-import { faSquareCheck } from "@fortawesome/free-solid-svg-icons/faSquareCheck"
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
+import { faSquareCheck } from "@fortawesome/free-solid-svg-icons/faSquareCheck";
 import Sets from "../components/Lifts";
 import Timer from "../components/Timer";
 import { useAppDispatch } from "../store";
@@ -132,7 +132,7 @@ const ActiveWorkout = ({ navigation }: any) => {
   };
 
   return (
-    <ScrollView backgroundColor={"white"} h={"full"}>
+    <View backgroundColor={"white"} h={"full"}>
       {renderEndWorkout()}
       <Box padding={3}>
         {renderHeading()}
@@ -140,7 +140,7 @@ const ActiveWorkout = ({ navigation }: any) => {
       </Box>
       <Lifts />
       <Box padding={3}>{renderButtons()}</Box>
-    </ScrollView>
+    </View>
   );
 };
 

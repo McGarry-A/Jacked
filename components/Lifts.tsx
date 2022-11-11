@@ -1,5 +1,13 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { Box, Heading, HStack, Text, VStack, Pressable } from "native-base";
+import {
+  Box,
+  Heading,
+  HStack,
+  Text,
+  VStack,
+  Pressable,
+  ScrollView,
+} from "native-base";
 import useId from "../hooks/useId";
 import { useAppDispatch, useAppSelector } from "../store";
 import { addSet } from "../store/currentWorkoutSlice";
@@ -63,23 +71,25 @@ const Lifts = () => {
     ));
 
   return (
-    <VStack flex={1} px={3}>
-      {Object.values(exercises).map((el) => {
-        const { exerciseName, sets, liftId } = el;
-        return (
-          <VStack my={1} borderRadius={3} key={liftId}>
-            <Box>
-              <VStack>
-                {renderHeading(exerciseName)}
-                {renderTableHead()}
-                {renderSets(sets, liftId)}
-              </VStack>
-            </Box>
-            {renderAddSet(liftId)}
-          </VStack>
-        );
-      })}
-    </VStack>
+    <ScrollView>
+      <VStack flex={1} px={3}>
+        {Object.values(exercises).map((el) => {
+          const { exerciseName, sets, liftId } = el;
+          return (
+            <VStack my={1} borderRadius={3} key={liftId}>
+              <Box>
+                <VStack>
+                  {renderHeading(exerciseName)}
+                  {renderTableHead()}
+                  {renderSets(sets, liftId)}
+                </VStack>
+              </Box>
+              {renderAddSet(liftId)}
+            </VStack>
+          );
+        })}
+      </VStack>
+    </ScrollView>
   );
 };
 
