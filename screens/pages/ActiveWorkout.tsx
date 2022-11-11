@@ -13,14 +13,14 @@ import { useRef } from "react";
 import { useState } from "react";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import { faSquareCheck } from "@fortawesome/free-solid-svg-icons/faSquareCheck";
-import Timer from "../components/Timer";
-import { useAppDispatch, useAppSelector } from "../store";
+import Timer from "../../components/Timer";
+import { useAppDispatch, useAppSelector } from "../../store";
 import {
   cancelWorkout,
   setWorkoutTitle as setWorkoutName,
   saveWorkout,
-} from "../store/currentWorkoutSlice";
-import Lift from "../components/Lift";
+} from "../../store/currentWorkoutSlice";
+import Lift from "../../components/Lift";
 
 const ActiveWorkout = ({ navigation }: any) => {
   const [workoutTitle, setWorkoutTitle] = useState("Quick Workout");

@@ -21,11 +21,9 @@ import { ColorSchemeName, Pressable } from "react-native";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
-import ModalScreen from "../screens/ModalScreen";
-import NotFoundScreen from "../screens/NotFoundScreen";
-import Profile from "../screens/Profile";
-import History from "../screens/History";
-import TabTwoScreen from "../screens/TabTwoScreen";
+import Profile from "../screens/root/Profile";
+import History from "../screens/root/History";
+import TabTwoScreen from "../screens/root/TabTwoScreen";
 import {
   RootStackParamList,
   RootTabParamList,
@@ -33,12 +31,11 @@ import {
 } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
 import { Text } from "native-base";
-import Calendar from "../screens/Calendar";
-import User from "../screens/User";
-import Settings from "../screens/Settings";
-import ActiveWorkout from "../screens/ActiveWorkout";
-import Exercises from "../screens/Exercises";
-import AddExercises from "../screens/AddExercises";
+import Calendar from "../screens/modals/Calendar";
+import Settings from "../screens/pages/Settings";
+import ActiveWorkout from "../screens/pages/ActiveWorkout";
+import Exercises from "../screens/root/Exercises";
+import AddExercises from "../screens/modals/AddExercises";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 export default function Navigation({
@@ -71,12 +68,6 @@ function RootNavigator() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="NotFound"
-        component={NotFoundScreen}
-        options={{ title: "Oops!" }}
-      />
-      <Stack.Screen name="User" component={User} options={{ title: "User" }} />
-      <Stack.Screen
         name="Settings"
         component={Settings}
         options={{ title: "Settings" }}
@@ -89,7 +80,6 @@ function RootNavigator() {
         })}
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
         <Stack.Screen name="Calendar" component={Calendar} />
         <Stack.Screen
           name="AddExercises"
@@ -98,7 +88,11 @@ function RootNavigator() {
             title: "",
             headerRight: () => (
               <Pressable onPress={() => navigation.goBack()}>
-                <FontAwesomeIcon icon={faChevronDown} color={"skyblue"} size={20} />
+                <FontAwesomeIcon
+                  icon={faChevronDown}
+                  color={"skyblue"}
+                  size={20}
+                />
               </Pressable>
             ),
           })}
@@ -155,7 +149,9 @@ function BottomTabNavigator() {
         component={TabTwoScreen}
         options={{
           title: "Start",
-          tabBarIcon: ({ color }) => <FontAwesomeIcon icon={faPlus} color={color} size={25} />,
+          tabBarIcon: ({ color }) => (
+            <FontAwesomeIcon icon={faPlus} color={color} size={25} />
+          ),
         }}
       />
       <BottomTab.Screen

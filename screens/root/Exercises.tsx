@@ -14,9 +14,9 @@ import {
   VStack,
 } from "native-base";
 import { useEffect } from "react";
-import ExerciseCard from "../components/layout/ExerciseCard";
-import { useAppDispatch, useAppSelector } from "../store";
-import { fetchAllExercises } from "../store/exerciseList";
+import ExerciseCard from "../../components/layout/ExerciseCard";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { fetchAllExercises } from "../../store/exerciseList";
 
 const Exercises = () => {
   const dispatch = useAppDispatch();

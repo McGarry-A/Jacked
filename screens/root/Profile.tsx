@@ -1,12 +1,12 @@
 import { FontAwesome } from "@expo/vector-icons";
 
-import { RootTabScreenProps } from "../types";
+import { RootTabScreenProps } from "../../types";
 
 import { Box, Heading, Text, Button, ScrollView, Pressable } from "native-base";
 
-import BarChartWidget from "../components/widgets/BarChartWidget";
-import LineGraphWidget from "../components/widgets/LineGraphWidget";
-import UserProfileBar from "../components/layout/UserProfileBar";
+import BarChartWidget from "../../components/widgets/BarChartWidget";
+import LineGraphWidget from "../../components/widgets/LineGraphWidget";
+import UserProfileBar from "../../components/layout/UserProfileBar";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const renderProfile = () => {
