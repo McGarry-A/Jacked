@@ -1,24 +1,32 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { Box, Text, Pressable, Input, ScrollView, View } from "native-base";
+import {
+  Box,
+  Text,
+  Pressable,
+  Input,
+  ScrollView,
+  View,
+  VStack,
+} from "native-base";
 import { useRef } from "react";
 import { useState } from "react";
-import Lifts from "../components/Lifts";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import { faSquareCheck } from "@fortawesome/free-solid-svg-icons/faSquareCheck";
-import Sets from "../components/Lifts";
 import Timer from "../components/Timer";
-import { useAppDispatch } from "../store";
+import { useAppDispatch, useAppSelector } from "../store";
 import {
   cancelWorkout,
   setWorkoutTitle as setWorkoutName,
   saveWorkout,
 } from "../store/currentWorkoutSlice";
+import Lift from "../components/Lift";
 
 const ActiveWorkout = ({ navigation }: any) => {
   const [workoutTitle, setWorkoutTitle] = useState("Quick Workout");
   const [inputIsDisabled, setInputIsDisabled] = useState(true);
   const workoutTitleRef = useRef<HTMLInputElement>(null);
+  const state = useAppSelector((state) => state.currentWorkoutSlice);
 
   const dispatch = useAppDispatch();
 
@@ -131,6 +139,20 @@ const ActiveWorkout = ({ navigation }: any) => {
     );
   };
 
+  const renderLifts = () => {
+    const { exercises } = state;
+
+    return (
+      <ScrollView>
+        <VStack flex={1} px={3}>
+          {Object.values(exercises).map((el) => (
+            <Lift {...el} />
+          ))}
+        </VStack>
+      </ScrollView>
+    );
+  };
+
   return (
     <View backgroundColor={"white"} h={"full"}>
       {renderEndWorkout()}
@@ -138,7 +160,7 @@ const ActiveWorkout = ({ navigation }: any) => {
         {renderHeading()}
         {renderTimer()}
       </Box>
-      <Lifts />
+      {renderLifts()}
       <Box padding={3}>{renderButtons()}</Box>
     </View>
   );

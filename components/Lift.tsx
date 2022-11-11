@@ -1,27 +1,29 @@
-import { FontAwesome } from "@expo/vector-icons";
-import {
-  Box,
-  Heading,
-  HStack,
-  Text,
-  VStack,
-  Pressable,
-  ScrollView,
-} from "native-base";
+import { Box, Heading, HStack, Pressable, Text, VStack } from "native-base";
+import { SetInterface } from "../types/CurrentWorkoutInterface";
+import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
+import Set from "./Set";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { addSet } from "../store/currentWorkoutSlice";
 import useId from "../hooks/useId";
 import { useAppDispatch, useAppSelector } from "../store";
-import { addSet } from "../store/currentWorkoutSlice";
-import { SetInterface } from "../types/CurrentWorkoutInterface";
-import Set from "./Set";
 
-const Lifts = () => {
+interface Props {
+  exerciseId: number;
+  exerciseName: string;
+  sets: SetInterface;
+  liftNumber: number;
+  liftId: string;
+}
+
+const Lift = (props: Props) => {
+  const { exerciseName, sets, liftId } = props;
+  const workoutState = useAppSelector((state) => state.currentWorkoutSlice);
   const dispatch = useAppDispatch();
-  const workoutDetails = useAppSelector((state) => state.currentWorkoutSlice);
-  const { exerciseOrder, exercises } = workoutDetails;
+
 
   const handleAddSet = (liftId: string) => {
     const setNumber =
-      Object.keys(workoutDetails.exercises[liftId].sets).length + 1;
+      Object.keys(workoutState.exercises[liftId].sets).length + 1;
 
     const setId = useId("set");
     dispatch(addSet({ liftId, setId, setNumber }));
@@ -45,7 +47,7 @@ const Lifts = () => {
       <Heading size="xs">Kg</Heading>
       <Heading size="xs">Reps</Heading>
       <Pressable>
-        <FontAwesome name="check" size={10} />
+        <FontAwesomeIcon icon={faCheck} size={10} />
       </Pressable>
     </HStack>
   );
@@ -71,26 +73,17 @@ const Lifts = () => {
     ));
 
   return (
-    <ScrollView>
-      <VStack flex={1} px={3}>
-        {Object.values(exercises).map((el) => {
-          const { exerciseName, sets, liftId } = el;
-          return (
-            <VStack my={1} borderRadius={3} key={liftId}>
-              <Box>
-                <VStack>
-                  {renderHeading(exerciseName)}
-                  {renderTableHead()}
-                  {renderSets(sets, liftId)}
-                </VStack>
-              </Box>
-              {renderAddSet(liftId)}
-            </VStack>
-          );
-        })}
-      </VStack>
-    </ScrollView>
+    <VStack my={1} borderRadius={3} key={liftId}>
+      <Box>
+        <VStack>
+          {renderHeading(exerciseName)}
+          {renderTableHead()}
+          {renderSets(sets, liftId)}
+        </VStack>
+      </Box>
+      {renderAddSet(liftId)}
+    </VStack>
   );
 };
 
-export default Lifts;
+export default Lift;
