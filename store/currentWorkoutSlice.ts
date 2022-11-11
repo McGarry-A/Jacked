@@ -43,9 +43,12 @@ const currentWorkoutSlice = createSlice({
         state.exerciseOrder.push(liftId);
       });
     },
+    deleteLift: (state, { payload }: { payload: deleteLiftProps }) => {
+      const { liftId } = payload;
+      delete state.exercises[liftId];
+    },
     addSet: (state, { payload }: { payload: addDeleteSetProps }) => {
       const { liftId, setId, setNumber } = payload;
-
       const newSet: SetInterface = {
         [setId]: {
           weight: "0",
@@ -177,6 +180,10 @@ interface startWorkoutProps {
   userId: string;
 }
 
+interface deleteLiftProps {
+  liftId: string;
+}
+
 export const {
   cancelWorkout,
   setWorkoutTitle,
@@ -185,6 +192,7 @@ export const {
   addSet,
   deleteSet,
   updateSet,
+  deleteLift
 } = currentWorkoutSlice.actions;
 
 export default currentWorkoutSlice.reducer;

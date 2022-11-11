@@ -3,9 +3,11 @@ import { SetInterface } from "../types/CurrentWorkoutInterface";
 import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
 import Set from "./Set";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { addSet } from "../store/currentWorkoutSlice";
+import { addSet, deleteLift } from "../store/currentWorkoutSlice";
 import useId from "../hooks/useId";
 import { useAppDispatch, useAppSelector } from "../store";
+import { Swipeable } from "react-native-gesture-handler";
+import { useRef } from "react";
 
 interface Props {
   exerciseId: number;
@@ -14,12 +16,37 @@ interface Props {
   liftNumber: number;
   liftId: string;
 }
-
 const Lift = (props: Props) => {
   const { exerciseName, sets, liftId } = props;
+
   const workoutState = useAppSelector((state) => state.currentWorkoutSlice);
   const dispatch = useAppDispatch();
 
+  const swipeableRef = useRef<null | any>(null);
+
+  const renderOnSwipeRight = (x: any, y: any) => {
+    console.log(x);
+    console.log(y);
+    return (
+      <Box
+        backgroundColor={"red.500"}
+        w={"full"}
+        justifyContent={"flex-end"}
+        flexDir={"row"}
+        alignItems="center"
+        pr={6}
+      >
+        <Text fontWeight={"700"} textAlign={"center"} color={"white"}>
+          Delete Lift
+        </Text>
+      </Box>
+    );
+  };
+
+  const handleSwipeRight = () => {
+    dispatch(deleteLift({ liftId }));
+    swipeableRef.current.close();
+  };
 
   const handleAddSet = (liftId: string) => {
     const setNumber =
@@ -73,16 +100,23 @@ const Lift = (props: Props) => {
     ));
 
   return (
-    <VStack my={1} borderRadius={3} key={liftId}>
-      <Box>
-        <VStack>
-          {renderHeading(exerciseName)}
-          {renderTableHead()}
-          {renderSets(sets, liftId)}
-        </VStack>
-      </Box>
-      {renderAddSet(liftId)}
-    </VStack>
+    <Swipeable
+      ref={swipeableRef}
+      renderRightActions={renderOnSwipeRight}
+      onSwipeableOpen={handleSwipeRight}
+      rightThreshold={10}
+    >
+      <VStack borderRadius={3} key={liftId} backgroundColor={"white"}>
+        <Box>
+          <VStack>
+            {renderHeading(exerciseName)}
+            {renderTableHead()}
+            {renderSets(sets, liftId)}
+          </VStack>
+        </Box>
+        {renderAddSet(liftId)}
+      </VStack>
+    </Swipeable>
   );
 };
 

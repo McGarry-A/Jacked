@@ -1,6 +1,6 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
-import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck"
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
 import { Box, HStack, Input, Pressable, Text } from "native-base";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store";
@@ -28,7 +28,14 @@ const Set = ({ weight, reps, rpe, setNumber, liftId, setId }: Props) => {
 
   const renderOnSwipeRight = () => {
     return (
-      <Box backgroundColor={"red.500"} w={"full"} justifyContent={"center"}>
+      <Box
+        backgroundColor={"red.500"}
+        w={"full"}
+        justifyContent={"flex-end"}
+        flexDir={"row"}
+        alignItems="center"
+        pr={6}
+      >
         <Text fontWeight={"700"} textAlign={"center"} color={"white"}>
           Delete Set
         </Text>
@@ -46,7 +53,7 @@ const Set = ({ weight, reps, rpe, setNumber, liftId, setId }: Props) => {
       reps: newReps,
       rpe: 0,
       setNumber: setNumber,
-      setId
+      setId,
     };
 
     dispatch(
@@ -64,6 +71,7 @@ const Set = ({ weight, reps, rpe, setNumber, liftId, setId }: Props) => {
     <Swipeable
       renderRightActions={renderOnSwipeRight}
       onSwipeableOpen={handleSwipeRight}
+      rightThreshold={10}
     >
       <HStack
         alignItems={"center"}

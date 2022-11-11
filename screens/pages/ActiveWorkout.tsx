@@ -144,9 +144,9 @@ const ActiveWorkout = ({ navigation }: any) => {
 
     return (
       <ScrollView>
-        <VStack flex={1} px={3}>
+        <VStack flex={1} px={3} space={1}>
           {Object.values(exercises).map((el) => (
-            <Lift {...el} />
+            <Lift {...el} key={el.liftId} />
           ))}
         </VStack>
       </ScrollView>
