@@ -138,6 +138,7 @@ export const saveWorkout = createAsyncThunk(
         };
       });
 
+      console.log("formattedSets");
       console.log(formattedSets);
 
       const { data: set_id, error: set_error } = await supabase
@@ -147,6 +148,7 @@ export const saveWorkout = createAsyncThunk(
 
       if (set_error) return console.error(set_error);
 
+      console.log("set_id");
       console.log(set_id);
     });
   }
