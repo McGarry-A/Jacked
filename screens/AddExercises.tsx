@@ -1,7 +1,6 @@
 import { FontAwesome } from "@expo/vector-icons";
 import {
   Box,
-  Button,
   FlatList,
   Heading,
   Input,
@@ -39,10 +38,9 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
   }, []);
 
   const handleAddExercises = () => {
-    const params = liftData.map((el, index) => {
+    const params = liftData.map((el) => {
       return {
         ...el,
-        liftNumber: index,
         userId,
       };
     });
@@ -78,18 +76,17 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
   );
 
   const renderList = () => {
+    const liftProps = {
+      setLiftData,
+      liftData,
+    };
+
     return (
       <Box my={2} flexGrow={1}>
         <Suspense fallback={<Skeleton h={"full"} />}>
           <FlatList
             data={exerciseList}
-            renderItem={({ item }) => (
-              <ExerciseCard
-                {...item}
-                setLiftData={setLiftData}
-                liftData={liftData}
-              />
-            )}
+            renderItem={({ item }) => <ExerciseCard {...item} {...liftProps} />}
           />
         </Suspense>
       </Box>

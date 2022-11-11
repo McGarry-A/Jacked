@@ -30,13 +30,13 @@ const currentWorkoutSlice = createSlice({
       state.workoutTitle = payload;
     },
     addLift: (state, { payload }: { payload: addLiftProps[] }) => {
-      payload.map((el) => {
-        const { exerciseId, exerciseName, liftNumber, liftId } = el;
+      payload.map((el, index) => {
+        const { exerciseId, exerciseName, liftId } = el;
         state.exercises[liftId] = {
           exerciseId,
           exerciseName,
           sets: {},
-          liftNumber,
+          liftNumber: index,
           liftId,
         };
 
@@ -170,7 +170,6 @@ interface addLiftProps {
   exerciseId: number;
   exerciseName: string;
   userId: string;
-  liftNumber: number;
   liftId: string;
 }
 
