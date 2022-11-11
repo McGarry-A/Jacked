@@ -28,7 +28,7 @@ const ActiveWorkout = ({ navigation }: any) => {
   const dispatch = useAppDispatch();
 
   const handleEndWorkout = () => {
-    dispatch(setWorkoutName(workoutTitle))
+    dispatch(setWorkoutName(workoutTitle));
     dispatch(saveWorkout());
     navigation.navigate("Profile");
   };
@@ -113,7 +113,14 @@ const ActiveWorkout = ({ navigation }: any) => {
             alt={"Personal Trainer Training Client"}
             size={"2xl"}
           />
-          <Text>Add some lifts to start your workout!</Text>
+          <Text
+            color={"text.700"}
+            opacity={50}
+            fontWeight="semibold"
+            textTransform="capitalize"
+          >
+            Add some lifts to start your workout!
+          </Text>
         </Box>
       );
     }

@@ -70,11 +70,11 @@ const Lift = (props: Props) => {
       my={1}
       paddingX={2}
     >
-      <Heading size="xs">Sets</Heading>
-      <Heading size="xs">Previous</Heading>
-      <Heading size="xs">Kg</Heading>
-      <Heading size="xs">Reps</Heading>
-      <Pressable onPress={() => handleCheckAllSets()} padding={1}>
+      <Heading size="xs" flexShrink={1}>Sets</Heading>
+      <Heading size="xs" flex={2} textAlign="center">Previous</Heading>
+      <Heading size="xs" flex={2} textAlign="center" mr={1}>Kg</Heading>
+      <Heading size="xs" flex={2} textAlign="center" mr={4}>Reps</Heading>
+      <Pressable flexShrink={1} onPress={() => handleCheckAllSets()} padding={1}>
         <FontAwesomeIcon icon={faCheckDouble} size={10} />
       </Pressable>
     </HStack>

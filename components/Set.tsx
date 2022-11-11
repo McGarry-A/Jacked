@@ -112,15 +112,15 @@ const Set = ({
         backgroundColor={backgroundColor}
         paddingX={2}
       >
-        <Box flexBasis={"22%"}>
+        <Box flex={1}>
           <Text color="text.900" textAlign={"center"} w={5}>
             {setNumber}
           </Text>
         </Box>
-        <Text flex={1} fontSize="xs" opacity={50}>
+        <Text fontSize="xs" opacity={50} flex={2}>
           {previous}
         </Text>
-        <Box flex={1}>
+        <Box flex={2}>
           <Input
             placeholder={weight}
             backgroundColor={"whitesmoke"}
@@ -133,7 +133,7 @@ const Set = ({
             color={"text.900"}
           />
         </Box>
-        <Box flex={1} py={1}>
+        <Box flex={2} py={1}>
           <Input
             placeholder={reps}
             backgroundColor={"whitesmoke"}
