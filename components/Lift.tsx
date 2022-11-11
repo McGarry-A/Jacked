@@ -8,6 +8,7 @@ import useId from "../hooks/useId";
 import { useAppDispatch } from "../store";
 import { Swipeable } from "react-native-gesture-handler";
 import { useRef, useState } from "react";
+import { supabase } from "../supabase/supabaseClient";
 
 interface Props {
   exerciseId: number;
@@ -18,7 +19,7 @@ interface Props {
 }
 const Lift = (props: Props) => {
   const [allDone, setAllDone] = useState<boolean>(false);
-  const { exerciseName, sets, liftId } = props;
+  const { exerciseName, sets, liftId, exerciseId } = props;
   const dispatch = useAppDispatch();
 
   const swipeableRef = useRef<null | any>(null);
@@ -96,10 +97,17 @@ const Lift = (props: Props) => {
 
   const renderSets = (sets: SetInterface, liftId: string) => {
     const setList = Object.values(sets);
+
     return (
       <VStack>
         {setList.map((set) => (
-          <Set {...set} liftId={liftId} key={set.setId} checked={allDone} />
+          <Set
+            {...set}
+            liftId={liftId}
+            key={set.setId}
+            checked={allDone}
+            exerciseId={exerciseId}
+          />
         ))}
       </VStack>
     );

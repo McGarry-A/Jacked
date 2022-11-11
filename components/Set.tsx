@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store";
 import { deleteSet, updateSet } from "../store/currentWorkoutSlice";
 import { Swipeable } from "react-native-gesture-handler";
+import { supabase } from "../supabase/supabaseClient";
+import getPreviousSet from "../supabase/utils/getPreviousSet";
 
 interface Props {
   weight: string;
@@ -15,23 +17,45 @@ interface Props {
   liftId: string;
   setId: string;
   checked: boolean;
+  exerciseId: number;
 }
 
-const Set = ({ weight, reps, rpe, setNumber, liftId, setId, checked }: Props) => {
+const Set = ({
+  weight,
+  reps,
+  setNumber,
+  liftId,
+  setId,
+  checked,
+  exerciseId,
+}: Props) => {
   const [newWeight, setNewWeight] = useState<string>("0");
   const [newReps, setNewReps] = useState<string>("0");
-  const [isDone, setIsDone] = useState<boolean>(false)
+  const [isDone, setIsDone] = useState<boolean>(false);
+  const [previous, setPrevious] = useState<string>("");
 
   useEffect(() => {
-    if (checked === true) setIsDone(true)
-    if (checked === false) setIsDone(false)
-  }, [checked])
+    if (checked === true) setIsDone(true);
+    if (checked === false) setIsDone(false);
+  }, [checked]);
 
-  const swipeableRef = useRef<null | any>(null)
+  const swipeableRef = useRef<null | any>(null);
 
   const dispatch = useAppDispatch();
-
   const backgroundColor = isDone ? "emerald.100" : "white";
+
+  useEffect(() => {
+    const prevData = async () => {
+      const previous = await getPreviousSet({ exerciseId, setNumber });
+      if (!previous) return setPrevious(`Na`);
+      const { weight: prevWeight, reps: prevReps } = previous;
+
+      if (prevWeight && prevReps)
+        return setPrevious(`${prevWeight} Kgs x ${prevReps}`);
+    };
+
+    prevData();
+  }, []);
 
   const renderOnSwipeRight = () => {
     return (
@@ -52,7 +76,7 @@ const Set = ({ weight, reps, rpe, setNumber, liftId, setId, checked }: Props) =>
 
   const handleSwipeRight = () => {
     dispatch(deleteSet({ liftId, setId, setNumber }));
-    swipeableRef.current && swipeableRef.current.close()
+    swipeableRef.current && swipeableRef.current.close();
   };
 
   const handleUpdateSet = () => {
@@ -72,7 +96,7 @@ const Set = ({ weight, reps, rpe, setNumber, liftId, setId, checked }: Props) =>
       })
     );
 
-    setIsDone((isDone) => !isDone)
+    setIsDone((isDone) => !isDone);
   };
 
   return (
@@ -93,7 +117,9 @@ const Set = ({ weight, reps, rpe, setNumber, liftId, setId, checked }: Props) =>
             {setNumber}
           </Text>
         </Box>
-        <Text flex={1}>previous</Text>
+        <Text flex={1} fontSize="xs" opacity={50}>
+          {previous}
+        </Text>
         <Box flex={1}>
           <Input
             placeholder={weight}
