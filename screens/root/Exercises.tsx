@@ -13,13 +13,16 @@ import {
   Pressable,
   VStack,
 } from "native-base";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ExerciseCard from "../../components/layout/ExerciseCard";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { fetchAllExercises } from "../../store/exerciseList";
+import ExerciseInterface from "../../types/ExerciseInterface";
 
 const Exercises = () => {
   const dispatch = useAppDispatch();
+  const [exercises, setExercises] = useState<ExerciseInterface[]>([]);
+
   const { exerciseList, status } = useAppSelector(
     (state) => state.exerciseListSlice
   );
@@ -28,10 +31,20 @@ const Exercises = () => {
     if (status === "idle") {
       dispatch(fetchAllExercises());
     }
+    if (status === "fulfilled") {
+      setExercises(exerciseList);
+    }
   }, []);
 
   const handleFilterBodyPart = () => {};
   const handleFilterCategory = () => {};
+
+  const handleFilter = (text: string) => {
+    const filteredExercises = exerciseList.filter((el) =>
+      el.exercise_name.includes(text)
+    );
+    setExercises(filteredExercises);
+  };
 
   const renderHeading = () => (
     <Heading size={"xl"} mb={1} color={"text.800"}>
@@ -47,6 +60,7 @@ const Exercises = () => {
       paddingX={2}
       borderRadius={2}
       borderColor={"gray.200"}
+      onChangeText={(text) => handleFilter(text)}
       fontSize={"md"}
       placeholder="Search"
       leftElement={
@@ -91,7 +105,7 @@ const Exercises = () => {
 
     return (
       <FlatList
-        data={exerciseList}
+        data={exercises}
         renderItem={({ item }) => <ExerciseCard {...item} />}
         keyExtractor={(item) => item.id.toString()}
         marginTop={2}
