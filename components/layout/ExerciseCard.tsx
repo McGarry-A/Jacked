@@ -58,7 +58,7 @@ const ExerciseCard = ({
 
     //NOTE: REMOVE FROM LIST
     const newState = [...(liftData as LiftData[])];
-    const newData = newState.filter((el) => el.exerciseId === id);
+    const newData = newState.filter((el) => el.exerciseId !== id);
     setLiftData(newData);
     setIsActive(false)
   };

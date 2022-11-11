@@ -43,12 +43,12 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
       return {
         ...el,
         liftNumber: index,
-        userId
-      }
-    })
+        userId,
+      };
+    });
 
-    dispatch(addLift(params))
-    navigation.goBack()
+    dispatch(addLift(params));
+    navigation.goBack();
   };
 
   const renderInput = () => {
@@ -84,7 +84,11 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
           <FlatList
             data={exerciseList}
             renderItem={({ item }) => (
-              <ExerciseCard {...item} setLiftData={setLiftData} liftData={liftData} />
+              <ExerciseCard
+                {...item}
+                setLiftData={setLiftData}
+                liftData={liftData}
+              />
             )}
           />
         </Suspense>
@@ -93,6 +97,11 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
   };
 
   const renderAddExercises = () => {
+    const buttonText =
+      liftData.length < 1
+        ? "Add Exercise"
+        : `Add Selected Exercises (${liftData.length})`;
+
     return (
       <Pressable
         backgroundColor={"info.400"}
@@ -102,7 +111,7 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
         onPress={handleAddExercises}
       >
         <Text fontWeight={700} color={"white"}>
-          Add Selected Exercises
+          {buttonText}
         </Text>
       </Pressable>
     );
