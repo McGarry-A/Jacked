@@ -28,6 +28,7 @@ const ActiveWorkout = ({ navigation }: any) => {
   const dispatch = useAppDispatch();
 
   const handleEndWorkout = () => {
+    dispatch(setWorkoutName(workoutTitle))
     dispatch(saveWorkout());
     navigation.navigate("Profile");
   };
