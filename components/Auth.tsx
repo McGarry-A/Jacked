@@ -1,14 +1,6 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  View,
-  Text,
-  Box,
-  Input,
-  Pressable,
-  FormControl,
-  useToast,
-} from "native-base";
+import { View, Text, Box, Input, Pressable, FormControl } from "native-base";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store";
 import { reset, userLogin, userSignup } from "../store/userSlice";
@@ -35,7 +27,7 @@ const Auth = () => {
   useEffect(() => {
     setTimeout(() => {
       dispatch(reset());
-      setError(null)
+      setError(null);
     }, 3000);
   }, [error]);
 
@@ -47,15 +39,15 @@ const Auth = () => {
     if (!password || !email)
       return setError("Please enter username and password");
 
-      // NOTE: 
-      // CHECK VALID EMAIL FUNCTION VALIDATEMAIL IF NOT THROW ERROR
+    // NOTE:
+    // CHECK VALID EMAIL FUNCTION VALIDATEMAIL IF NOT THROW ERROR
 
     dispatch(userLogin({ email: email, password: password }));
     console.log(`DISPATCHED ${email} ${password}`);
   };
 
   const handleSignup = async () => {
-    // REVIEW: 
+    // REVIEW:
     // DOES THE SIGN UP WORK CORRECTLY?
     if (!password || !email || !confrimPassword)
       return setError("Please enter username and password");

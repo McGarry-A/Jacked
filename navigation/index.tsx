@@ -6,6 +6,7 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { faDumbbell } from "@fortawesome/free-solid-svg-icons/faDumbbell";
 import { faUser } from "@fortawesome/free-solid-svg-icons/faUser";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons/faChevronDown";
 import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons/faClockRotateLeft";
 import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -97,9 +98,7 @@ function RootNavigator() {
             title: "",
             headerRight: () => (
               <Pressable onPress={() => navigation.goBack()}>
-                <Text color={"info.400"} fontSize="lg">
-                  Dismiss
-                </Text>
+                <FontAwesomeIcon icon={faChevronDown} color={"skyblue"} size={20} />
               </Pressable>
             ),
           })}
