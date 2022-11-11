@@ -1,11 +1,31 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { Box, FlatList, Heading, Input, Skeleton, View } from "native-base";
-import { Suspense, useEffect } from "react";
+import {
+  Box,
+  FlatList,
+  Heading,
+  Input,
+  Pressable,
+  Skeleton,
+  Text,
+  View,
+} from "native-base";
+import { Suspense, useEffect, useState } from "react";
 import ExerciseCard from "../components/layout/ExerciseCard";
 import { useAppDispatch, useAppSelector } from "../store";
 import { fetchAllExercises } from "../store/exerciseList";
+import { addLift } from "../store/currentWorkoutSlice";
+import { RootStackScreenProps } from "../types";
 
-const AddExercises = () => {
+export interface LiftData {
+  exerciseId: number;
+  exerciseName: string;
+  liftId: string;
+}
+
+const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
+  const [liftData, setLiftData] = useState<LiftData[]>([]);
+  const userId = useAppSelector((state) => state.userSlice.user.userId);
+
   const dispatch = useAppDispatch();
   const { exerciseList, status } = useAppSelector(
     (state) => state.exerciseListSlice
@@ -16,6 +36,18 @@ const AddExercises = () => {
       dispatch(fetchAllExercises());
     }
   }, []);
+
+  const handleAddExercises = () => {
+    const params = liftData.map((el) => {
+      return {
+        ...el,
+        userId,
+      };
+    });
+
+    dispatch(addLift(params));
+    navigation.goBack();
+  };
 
   const renderInput = () => {
     return (
@@ -44,15 +76,41 @@ const AddExercises = () => {
   );
 
   const renderList = () => {
+    const liftProps = {
+      setLiftData,
+      liftData,
+    };
+
     return (
-      <Box my={2}>
+      <Box my={2} flexGrow={1}>
         <Suspense fallback={<Skeleton h={"full"} />}>
           <FlatList
             data={exerciseList}
-            renderItem={({ item }) => <ExerciseCard {...item} isPressable />}
+            renderItem={({ item }) => <ExerciseCard {...item} {...liftProps} />}
           />
         </Suspense>
       </Box>
+    );
+  };
+
+  const renderAddExercises = () => {
+    const buttonText =
+      liftData.length < 1
+        ? "Add Exercise"
+        : `Add Selected Exercises (${liftData.length})`;
+
+    return (
+      <Pressable
+        backgroundColor={"info.400"}
+        alignItems={"center"}
+        py={2}
+        mb={4}
+        onPress={handleAddExercises}
+      >
+        <Text fontWeight={700} color={"white"}>
+          {buttonText}
+        </Text>
+      </Pressable>
     );
   };
 
@@ -61,6 +119,7 @@ const AddExercises = () => {
       {renderInput()}
       {renderHeading()}
       {renderList()}
+      {renderAddExercises()}
     </View>
   );
 };

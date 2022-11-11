@@ -24,22 +24,24 @@ const currentWorkoutSlice = createSlice({
       const startTime = new Date().toLocaleTimeString();
       state.startTime = startTime;
       state.isActive = true;
-      state.workoutTitle = "Quick Workout"
+      state.workoutTitle = "Quick Workout";
     },
     setWorkoutTitle: (state, { payload }: { payload: setWorkoutTitleType }) => {
       state.workoutTitle = payload;
     },
-    addLift: (state, { payload }: { payload: addLiftProps }) => {
-      const { exerciseId, exerciseName, liftNumber, liftId } = payload;
-      state.exercises[liftId] = {
-        exerciseId,
-        exerciseName,
-        sets: {},
-        liftNumber,
-        liftId,
-      };
+    addLift: (state, { payload }: { payload: addLiftProps[] }) => {
+      payload.map((el, index) => {
+        const { exerciseId, exerciseName, liftId } = el;
+        state.exercises[liftId] = {
+          exerciseId,
+          exerciseName,
+          sets: {},
+          liftNumber: index,
+          liftId,
+        };
 
-      state.exerciseOrder.push(liftId);
+        state.exerciseOrder.push(liftId);
+      });
     },
     addSet: (state, { payload }: { payload: addDeleteSetProps }) => {
       const { liftId, setId, setNumber } = payload;
@@ -98,7 +100,7 @@ export const saveWorkout = createAsyncThunk(
       .select("id");
 
     if (workout_error) return console.error(workout_error);
-    
+
     const { id } = workout_data[0];
 
     //REVIEW: WE CAN DO THIS IN ONE CALL BY CREATING A FUNCTION ON SUPABASE
@@ -112,13 +114,13 @@ export const saveWorkout = createAsyncThunk(
       };
 
       const { data: lift_id, error: lift_error } = await supabase
-      .from("lifts")
-      .insert(formattedLift)
-      .select("lift_id");
+        .from("lifts")
+        .insert(formattedLift)
+        .select("lift_id");
 
-      if (lift_error) return console.error(lift_error)
+      if (lift_error) return console.error(lift_error);
 
-      const sets = Object.values(lift.sets)
+      const sets = Object.values(lift.sets);
       const formattedSets = sets.map((set: any) => {
         return {
           weight: set.weight,
@@ -126,20 +128,20 @@ export const saveWorkout = createAsyncThunk(
           rpe: set.rpe,
           setNumber: set.setNumber,
           liftId: lift_id[0].lift_id,
-          exerciseId: lift.exerciseId
-        }
-      })
+          exerciseId: lift.exerciseId,
+        };
+      });
 
-      console.log(formattedSets)
+      console.log(formattedSets);
 
       const { data: set_id, error: set_error } = await supabase
         .from("set")
         .insert(formattedSets)
-        .select("id")
+        .select("id");
 
-      if (set_error) return console.error(set_error)
+      if (set_error) return console.error(set_error);
 
-      console.log(set_id)
+      console.log(set_id);
     });
   }
 );
@@ -168,7 +170,6 @@ interface addLiftProps {
   exerciseId: number;
   exerciseName: string;
   userId: string;
-  liftNumber: number;
   liftId: string;
 }
 

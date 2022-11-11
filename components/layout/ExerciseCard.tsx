@@ -1,10 +1,10 @@
 import { Avatar, Box, Checkbox, Pressable, Skeleton, Text } from "native-base";
 import { useState } from "react";
-import useId from "../../hooks/useId";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { addLift } from "../../store/currentWorkoutSlice";
 import generateColor from "../../utils/generateColor";
 import getExerciseInitials from "../../utils/getExerciseInitials";
+import { LiftData } from "../../screens/AddExercises";
+import useId from "../../hooks/useId";
 
 interface Props {
   exercise_name: string;
@@ -13,44 +13,54 @@ interface Props {
   description: string;
   image: string;
   id: number;
-  isPressable?: boolean;
+  setLiftData?: React.Dispatch<React.SetStateAction<LiftData[]>>;
+  liftData?: LiftData[];
 }
 
 const ExerciseCard = ({
   exercise_name,
   id,
   targets,
-  isPressable = false,
+  setLiftData,
+  liftData,
 }: Props) => {
   const dispatch = useAppDispatch();
   const exercises = useAppSelector(
     (state) => state.currentWorkoutSlice.exercises
   );
-  const userId = useAppSelector((state) => state.userSlice.user.userId);
+
   const isInWorkout = Object.keys(exercises).includes(String(id));
   const [isActive, setIsActive] = useState(isInWorkout);
 
   const backgroundColor = isActive ? "info.50" : "white";
   const isLoaded =
     useAppSelector((state) => state.exerciseListSlice.status) === "fulfilled";
-  const handlePress = () => {
-    // We need to create a temporary lift_id to use as a key in redux
-    // The lift_id used in supabase will be a different id
-    // We can create the lift Id based on the number of
 
-    const liftNumber = Object.keys(exercises).length;
-    const liftId = useId("lift");
+  // REVIEW:
+  // MIGHT NEED TO CHANGE IF NEGATIVELY AFFECTS EXERCISE PAGE ** ! OPERATOR
+  // ADD FUNCTION SHOULD BE IN THE PARENT COMPONENT
+  const handleAddToLiftData = () => {
+    if (!liftData || !setLiftData) return;
+    console.log("handle add")
+    if (!isActive) {
+      const liftId = useId("lift");
 
-    const params = {
-      exerciseName: exercise_name,
-      exerciseId: id,
-      userId: userId,
-      liftNumber,
-      liftId,
-    };
+      const lift = {
+        exerciseId: id,
+        exerciseName: exercise_name,
+        liftId,
+      };
 
-    setIsActive((state) => !state);
-    dispatch(addLift(params));
+      setLiftData!((liftData) => [...liftData, lift]);
+      setIsActive(true);
+      return;
+    }
+
+    //NOTE: REMOVE FROM LIST
+    const newState = [...(liftData as LiftData[])];
+    const newData = newState.filter((el) => el.exerciseId !== id);
+    setLiftData(newData);
+    setIsActive(false)
   };
 
   const renderAvatar = () => {
@@ -62,7 +72,7 @@ const ExerciseCard = ({
   };
 
   const renderCheckbox = () => {
-    if (isPressable) {
+    if (setLiftData) {
       return (
         <Box>
           <Checkbox
@@ -96,7 +106,7 @@ const ExerciseCard = ({
         <Pressable
           flexDirection={"row"}
           alignItems="center"
-          onPress={isPressable ? handlePress : null}
+          onPress={setLiftData ? handleAddToLiftData : null}
         >
           {renderAvatar()}
           {renderBody()}
