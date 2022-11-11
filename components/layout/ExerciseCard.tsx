@@ -41,7 +41,7 @@ const ExerciseCard = ({
   // ADD FUNCTION SHOULD BE IN THE PARENT COMPONENT
   const handleAddToLiftData = () => {
     if (!liftData || !setLiftData) return;
-    console.log("handle add")
+    console.log("handle add");
     if (!isActive) {
       const liftId = useId("lift");
 
@@ -60,13 +60,20 @@ const ExerciseCard = ({
     const newState = [...(liftData as LiftData[])];
     const newData = newState.filter((el) => el.exerciseId !== id);
     setLiftData(newData);
-    setIsActive(false)
+    setIsActive(false);
   };
 
   const renderAvatar = () => {
     return (
-      <Avatar backgroundColor={generateColor()} marginRight={2}>
-        <Text>{getExerciseInitials(exercise_name)}</Text>
+      <Avatar marginRight={2} backgroundColor={"transparent"}>
+        <Text
+          fontSize={"lg"}
+          fontWeight={"extrabold"}
+          letterSpacing={"lg"}
+          color={"text.800"}
+        >
+          {getExerciseInitials(exercise_name)}
+        </Text>
       </Avatar>
     );
   };
