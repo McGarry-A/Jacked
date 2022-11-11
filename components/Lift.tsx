@@ -1,13 +1,13 @@
 import { Box, Heading, HStack, Pressable, Text, VStack } from "native-base";
 import { SetInterface } from "../types/CurrentWorkoutInterface";
-import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
+import { faCheckDouble } from "@fortawesome/free-solid-svg-icons/faCheckDouble";
 import Set from "./Set";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { addSet, deleteLift } from "../store/currentWorkoutSlice";
 import useId from "../hooks/useId";
-import { useAppDispatch, useAppSelector } from "../store";
+import { useAppDispatch } from "../store";
 import { Swipeable } from "react-native-gesture-handler";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 interface Props {
   exerciseId: number;
@@ -17,16 +17,29 @@ interface Props {
   liftId: string;
 }
 const Lift = (props: Props) => {
+  const [allDone, setAllDone] = useState<boolean>(false);
   const { exerciseName, sets, liftId } = props;
-
-  const workoutState = useAppSelector((state) => state.currentWorkoutSlice);
   const dispatch = useAppDispatch();
 
   const swipeableRef = useRef<null | any>(null);
 
-  const renderOnSwipeRight = (x: any, y: any) => {
-    console.log(x);
-    console.log(y);
+  const handleCheckAllSets = () => {
+    if (allDone === false) setAllDone(true);
+    if (allDone === true) setAllDone(false);
+  };
+
+  const handleSwipeRight = () => {
+    dispatch(deleteLift({ liftId }));
+    swipeableRef.current && swipeableRef.current.close();
+  };
+
+  const handleAddSet = (liftId: string) => {
+    const setId = useId("set");
+
+    dispatch(addSet({ liftId, setId }));
+  };
+
+  const renderOnSwipeRight = () => {
     return (
       <Box
         backgroundColor={"red.500"}
@@ -41,19 +54,6 @@ const Lift = (props: Props) => {
         </Text>
       </Box>
     );
-  };
-
-  const handleSwipeRight = () => {
-    dispatch(deleteLift({ liftId }));
-    swipeableRef.current && swipeableRef.current.close();
-  };
-
-  const handleAddSet = (liftId: string) => {
-    const setNumber =
-      Object.keys(workoutState.exercises[liftId].sets).length + 1;
-
-    const setId = useId("set");
-    dispatch(addSet({ liftId, setId, setNumber }));
   };
 
   const renderHeading = (exerciseName: string) => (
@@ -73,8 +73,8 @@ const Lift = (props: Props) => {
       <Heading size="xs">Previous</Heading>
       <Heading size="xs">Kg</Heading>
       <Heading size="xs">Reps</Heading>
-      <Pressable>
-        <FontAwesomeIcon icon={faCheck} size={10} />
+      <Pressable onPress={() => handleCheckAllSets()} padding={1}>
+        <FontAwesomeIcon icon={faCheckDouble} size={10} />
       </Pressable>
     </HStack>
   );
@@ -94,10 +94,16 @@ const Lift = (props: Props) => {
     );
   };
 
-  const renderSets = (sets: SetInterface, liftId: string) =>
-    Object.values(sets).map((set) => (
-      <Set {...set} liftId={liftId} key={set.setId} />
-    ));
+  const renderSets = (sets: SetInterface, liftId: string) => {
+    const setList = Object.values(sets);
+    return (
+      <VStack>
+        {setList.map((set) => (
+          <Set {...set} liftId={liftId} key={set.setId} checked={allDone} />
+        ))}
+      </VStack>
+    );
+  };
 
   return (
     <Swipeable

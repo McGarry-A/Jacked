@@ -47,8 +47,11 @@ const currentWorkoutSlice = createSlice({
       const { liftId } = payload;
       delete state.exercises[liftId];
     },
-    addSet: (state, { payload }: { payload: addDeleteSetProps }) => {
-      const { liftId, setId, setNumber } = payload;
+    addSet: (state, { payload }: { payload: addSetProps }) => {
+      const { liftId, setId } = payload;
+
+      const setNumber = Object.keys(state.exercises[liftId].sets).length + 1
+      
       const newSet: SetInterface = {
         [setId]: {
           weight: "0",
@@ -61,7 +64,7 @@ const currentWorkoutSlice = createSlice({
 
       state.exercises[liftId].sets[setId] = newSet[setId];
     },
-    deleteSet: (state, { payload }: { payload: addDeleteSetProps }) => {
+    deleteSet: (state, { payload }: { payload: deleteSetProps }) => {
       const { setId, liftId } = payload;
       delete state.exercises[liftId].sets[setId];
     },
@@ -151,10 +154,15 @@ export const saveWorkout = createAsyncThunk(
 
 type setWorkoutTitleType = string;
 
-interface addDeleteSetProps {
+interface deleteSetProps {
   liftId: string;
   setId: string;
   setNumber: number;
+}
+
+interface addSetProps {
+  liftId: string;
+  setId: string;
 }
 
 interface updateSetProps {
