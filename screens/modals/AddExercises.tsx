@@ -82,7 +82,7 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
   };
 
   const renderHeading = () => (
-    <Heading size="sm" color={"text.500"} mb={2}>
+    <Heading size="sm" color={"text.500"} my={2}>
       All Exercises
     </Heading>
   );
