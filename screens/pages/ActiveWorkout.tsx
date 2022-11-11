@@ -8,15 +8,13 @@ import {
   ScrollView,
   View,
   VStack,
+  Image,
 } from "native-base";
 import { useRef } from "react";
 import { useState } from "react";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
-import { faSquareCheck } from "@fortawesome/free-solid-svg-icons/faSquareCheck";
 import Timer from "../../components/Timer";
 import { useAppDispatch, useAppSelector } from "../../store";
 import {
-  cancelWorkout,
   setWorkoutTitle as setWorkoutName,
   saveWorkout,
 } from "../../store/currentWorkoutSlice";
@@ -24,7 +22,6 @@ import Lift from "../../components/Lift";
 
 const ActiveWorkout = ({ navigation }: any) => {
   const [workoutTitle, setWorkoutTitle] = useState("Quick Workout");
-  const [inputIsDisabled, setInputIsDisabled] = useState(true);
   const workoutTitleRef = useRef<HTMLInputElement>(null);
   const state = useAppSelector((state) => state.currentWorkoutSlice);
 
@@ -35,39 +32,6 @@ const ActiveWorkout = ({ navigation }: any) => {
     navigation.navigate("Profile");
   };
 
-  const handleCancelWorkout = () => {
-    dispatch(cancelWorkout());
-    navigation.navigate("Root");
-  };
-
-  const handleEditWorkoutTitle = () => {
-    workoutTitleRef.current!.focus();
-    setInputIsDisabled(!inputIsDisabled);
-    setWorkoutTitle("");
-  };
-
-  const handleSaveWorkoutName = () => {
-    workoutTitleRef.current!.blur();
-    dispatch(setWorkoutName(workoutTitle));
-    setInputIsDisabled(!inputIsDisabled);
-  };
-
-  const renderTickOrEdit = () => {
-    if (workoutTitle === "Quick Workout") {
-      return (
-        <Pressable onPress={handleEditWorkoutTitle} opacity={50}>
-          <FontAwesomeIcon icon={faPenToSquare} size={20} />
-        </Pressable>
-      );
-    }
-
-    return (
-      <Pressable onPress={handleSaveWorkoutName} opacity={50}>
-        <FontAwesomeIcon icon={faSquareCheck} size={20} />
-      </Pressable>
-    );
-  };
-
   const renderHeading = () => {
     return (
       <Input
@@ -75,36 +39,44 @@ const ActiveWorkout = ({ navigation }: any) => {
         alignItems="center"
         justifyContent={"space-between"}
         value={workoutTitle}
-        isDisabled={inputIsDisabled}
-        color={"text.900"}
+        variant={"unstyled"}
         onChangeText={(text) => setWorkoutTitle(text)}
         borderWidth={0}
-        paddingLeft={0}
+        fontWeight={700}
+        color={"text.600"}
         _focus={{ backgroundColor: "white" }}
-        _disabled={{ color: "black", opacity: 100 }}
         fontSize={"xl"}
         ref={workoutTitleRef}
         editable
-        InputRightElement={renderTickOrEdit()}
       />
     );
   };
 
-  const renderTimer = () => <Timer />;
+  const renderTimer = () => (
+    <Box paddingX={3}>
+      <Timer />
+    </Box>
+  );
 
   const renderEndWorkout = () => {
     return (
-      <Box flexDir={"row"} justifyContent={"flex-end"} w="full">
+      <Box flexDir={"row"} justifyContent={"flex-end"} w="full" pr={2}>
         <Pressable
           mt={2}
-          px={6}
+          px={3}
           py={2}
           shadow={1}
+          borderRadius={3}
           backgroundColor="success.400"
           onPress={handleEndWorkout}
         >
-          <Text color="white" fontWeight={700} textAlign={"center"}>
-            End
+          <Text
+            color="white"
+            fontWeight={700}
+            textAlign={"center"}
+            fontSize="sm"
+          >
+            FINISH
           </Text>
         </Pressable>
       </Box>
@@ -125,22 +97,25 @@ const ActiveWorkout = ({ navigation }: any) => {
             Add A Lift
           </Text>
         </Pressable>
-        <Pressable
-          backgroundColor="red.600"
-          height={8}
-          onPress={handleCancelWorkout}
-          justifyContent={"center"}
-        >
-          <Text color="white" fontWeight={700} textAlign={"center"}>
-            Cancel Workout
-          </Text>
-        </Pressable>
       </Box>
     );
   };
 
   const renderLifts = () => {
     const { exercises } = state;
+
+    if (Object.keys(exercises).length < 1) {
+      return (
+        <Box flexGrow={1} justifyContent={"center"} alignItems="center">
+          <Image
+            source={require("../../images/undraw_Powerful_re_frhr.png")}
+            alt={"Personal Trainer Training Client"}
+            size={"2xl"}
+          />
+          <Text>Add some lifts to start your workout!</Text>
+        </Box>
+      );
+    }
 
     return (
       <ScrollView>
@@ -156,10 +131,8 @@ const ActiveWorkout = ({ navigation }: any) => {
   return (
     <View backgroundColor={"white"} h={"full"}>
       {renderEndWorkout()}
-      <Box padding={3}>
-        {renderHeading()}
-        {renderTimer()}
-      </Box>
+      {renderHeading()}
+      {renderTimer()}
       {renderLifts()}
       <Box padding={3}>{renderButtons()}</Box>
     </View>

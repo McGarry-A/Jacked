@@ -37,9 +37,9 @@ const Timer = () => {
   return <Box
     borderWidth={2}
     width={"20"}
-    alignItems="center"
-    backgroundColor={'gray.100'}
-    borderColor={'gray.100'}>{formattedTime}</Box>;
+    alignItems="left"
+    backgroundColor={'gray.50'}
+    borderColor={'gray.50'}>{formattedTime}</Box>;
 };
 
 export default Timer;

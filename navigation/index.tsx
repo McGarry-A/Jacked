@@ -8,6 +8,7 @@ import { faDumbbell } from "@fortawesome/free-solid-svg-icons/faDumbbell";
 import { faUser } from "@fortawesome/free-solid-svg-icons/faUser";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons/faChevronDown";
 import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons/faClockRotateLeft";
+import { faBan } from "@fortawesome/free-solid-svg-icons/faBan";
 import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
@@ -17,7 +18,8 @@ import {
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import { ColorSchemeName, Pressable } from "react-native";
+import { ColorSchemeName } from "react-native";
+import { Pressable } from "native-base";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
@@ -37,6 +39,9 @@ import ActiveWorkout from "../screens/pages/ActiveWorkout";
 import Exercises from "../screens/root/Exercises";
 import AddExercises from "../screens/modals/AddExercises";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { cancelWorkout } from "../store/currentWorkoutSlice";
+import { useAppDispatch } from "../store";
+
 
 export default function Navigation({
   colorScheme,
@@ -60,6 +65,7 @@ export default function Navigation({
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const dispatch = useAppDispatch();
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -77,6 +83,17 @@ function RootNavigator() {
         component={ActiveWorkout}
         options={({ navigation }) => ({
           title: "Active Workout",
+          headerRight: () => (
+            <Pressable
+              onPress={() => {
+                dispatch(cancelWorkout());
+                navigation.navigate("Root");
+              }}
+              justifyContent={"center"}
+            >
+              <FontAwesomeIcon icon={faBan} color={'#ff0033'} size={20}/>
+            </Pressable>
+          ),
         })}
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
