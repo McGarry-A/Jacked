@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import generateColor from "../../utils/generateColor";
 import getExerciseInitials from "../../utils/getExerciseInitials";
-import { LiftData } from "../../screens/AddExercises";
+import { LiftData } from "../../screens/modals/AddExercises";
 import useId from "../../hooks/useId";
 
 interface Props {

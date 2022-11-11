@@ -1,8 +1,8 @@
 import { FlatList, Heading, Box, Text } from "native-base";
 import { useEffect, useState } from "react";
-import Template from "../components/layout/Template";
-import { useAppDispatch, useAppSelector } from "../store";
-import { getHistory } from "../store/workoutHistorySlice";
+import Template from "../../components/layout/Template";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { getHistory } from "../../store/workoutHistorySlice";
 
 export default function TabThreeScreen() {
   const [loading, setLoading] = useState(false);

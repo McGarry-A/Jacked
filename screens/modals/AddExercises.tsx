@@ -10,11 +10,11 @@ import {
   View,
 } from "native-base";
 import { Suspense, useEffect, useState } from "react";
-import ExerciseCard from "../components/layout/ExerciseCard";
-import { useAppDispatch, useAppSelector } from "../store";
-import { fetchAllExercises } from "../store/exerciseList";
-import { addLift } from "../store/currentWorkoutSlice";
-import { RootStackScreenProps } from "../types";
+import ExerciseCard from "../../components/layout/ExerciseCard";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { fetchAllExercises } from "../../store/exerciseList";
+import { addLift } from "../../store/currentWorkoutSlice";
+import { RootStackScreenProps } from "../../types";
 
 export interface LiftData {
   exerciseId: number;
