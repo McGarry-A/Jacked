@@ -23,18 +23,21 @@ import ExerciseInterface from "../../types/ExerciseInterface";
 const Exercises = () => {
   const dispatch = useAppDispatch();
   const [exercises, setExercises] = useState<ExerciseInterface[]>([]);
-  const [bodyPartFilter, setBodyPartFilter] = useState<string[]>([]);
-  const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
+  const [bodyPartFilter, setBodyPartFilter] = useState<string>("");
+  const [categoryFilter, setCategoryFilter] = useState<string>("");
+  const [popoverIsOpen, setPopoverIsOpen] = useState<boolean>(false)
 
   const { exerciseList, status } = useAppSelector(
     (state) => state.exerciseListSlice
   );
 
   const handleBodyPartFilter = (filter: string) => {
-    setBodyPartFilter((bodyPartFilter) => [...bodyPartFilter, filter]);
+    setBodyPartFilter(filter);
   };
 
-  const handleCategoryFilter = () => {};
+  const handleCategoryFilter = (filter: string) => {
+    setCategoryFilter(filter)
+  };
 
   useEffect(() => {
     if (status === "idle") {
@@ -45,9 +48,17 @@ const Exercises = () => {
     }
   }, []);
 
+  const submitHandler = (filter: string) => {
+    const filteredList = exerciseList.filter((el) => el.targets === filter)
+    setExercises(filteredList)
+    setPopoverIsOpen(false)
+  }
+
   const handleClear = () => {
-    setBodyPartFilter([])
-    setCategoryFilter([])
+    setBodyPartFilter("")
+    setCategoryFilter("")
+    setExercises(exerciseList)
+    setPopoverIsOpen(false)
   }
 
   const handleFilter = (text: string) => {
@@ -92,11 +103,12 @@ const Exercises = () => {
     popoverTitle: string;
     popoverList: string[];
     addToFilterHandler: (filter: string) => void;
-    submitHandler: () => void;
+    submitHandler: (filter: string) => void;
     handleClear: () => void;
   }) => (
     <Box
-      backgroundColor={"info.400"}
+      borderColor={"info.400"}
+      borderWidth={1}
       flex={1}
       alignItems="center"
       justifyContent={"center"}
@@ -104,6 +116,7 @@ const Exercises = () => {
       borderRadius={2}
     >
       <Popover
+        isOpen={popoverIsOpen}
         trigger={(triggerProps) => {
           return (
             <Pressable
@@ -111,8 +124,9 @@ const Exercises = () => {
               colorScheme="info"
               justifyContent={"center"}
               alignItems="center"
+              onPress={() => setPopoverIsOpen(true)}
             >
-              <Text color={"white"} fontWeight={700}>
+              <Text fontWeight={700} color={"info.400"}>
                 {title}
               </Text>
             </Pressable>
@@ -121,7 +135,7 @@ const Exercises = () => {
       >
         <Popover.Content accessibilityLabel="Delete Customerd" w="56">
           <Popover.Arrow />
-          <Popover.CloseButton />
+          <Popover.CloseButton onPress={() => setPopoverIsOpen(false)}/>
           <Popover.Header borderBottomWidth={0}>{popoverTitle}</Popover.Header>
           <Popover.Body shadow={0}>
             <VStack space={1}>
@@ -153,7 +167,7 @@ const Exercises = () => {
               <Button
                 colorScheme="lightBlue"
                 variant={"solid"}
-                onPress={() => submitHandler()}
+                onPress={() => submitHandler(bodyPartFilter)}
               >
                 Filter
               </Button>
@@ -170,16 +184,7 @@ const Exercises = () => {
       popoverTitle: "Body Part",
       popoverList: ["Chest", "Back", "Legs", "Arms", "Shoulders"],
       addToFilterHandler: handleBodyPartFilter,
-      submitHandler: () => null,
-      handleClear
-    };
-
-    const categoryProps = {
-      title: "Category",
-      popoverTitle: "Category",
-      popoverList: ["Barbell", "Dumbell", "Bodyweight", "Kettlebell"],
-      addToFilterHandler: handleCategoryFilter,
-      submitHandler: () => null,
+      submitHandler,
       handleClear
     };
 
@@ -188,7 +193,6 @@ const Exercises = () => {
         {renderSearchBar()}
         <HStack flexDir={"row"} space={2} mt={1}>
           {renderButton({ ...bodyPartProps })}
-          {renderButton({ ...categoryProps })}
         </HStack>
       </VStack>
     );
