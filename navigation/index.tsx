@@ -91,7 +91,7 @@ function RootNavigator() {
               }}
               justifyContent={"center"}
             >
-              <FontAwesomeIcon icon={faBan} color={'#ff0033'} size={20}/>
+              <FontAwesomeIcon icon={faBan} color={'#38bdf8'} size={20} style={{ opacity: 50 }}/>
             </Pressable>
           ),
         })}
