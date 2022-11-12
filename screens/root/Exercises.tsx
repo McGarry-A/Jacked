@@ -12,6 +12,7 @@ import {
   Spinner,
   Pressable,
   VStack,
+  Popover,
 } from "native-base";
 import { useEffect, useState } from "react";
 import ExerciseCard from "../../components/layout/ExerciseCard";
@@ -22,10 +23,18 @@ import ExerciseInterface from "../../types/ExerciseInterface";
 const Exercises = () => {
   const dispatch = useAppDispatch();
   const [exercises, setExercises] = useState<ExerciseInterface[]>([]);
+  const [bodyPartFilter, setBodyPartFilter] = useState<string[]>([]);
+  const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
 
   const { exerciseList, status } = useAppSelector(
     (state) => state.exerciseListSlice
   );
+
+  const handleBodyPartFilter = (filter: string) => {
+    setBodyPartFilter((bodyPartFilter) => [...bodyPartFilter, filter]);
+  };
+
+  const handleCategoryFilter = () => {};
 
   useEffect(() => {
     if (status === "idle") {
@@ -36,8 +45,10 @@ const Exercises = () => {
     }
   }, []);
 
-  const handleFilterBodyPart = () => {};
-  const handleFilterCategory = () => {};
+  const handleClear = () => {
+    setBodyPartFilter([])
+    setCategoryFilter([])
+  }
 
   const handleFilter = (text: string) => {
     const filteredExercises = exerciseList.filter((el) =>
@@ -69,26 +80,115 @@ const Exercises = () => {
     />
   );
 
-  const renderButton = (title: string, actionHandler: () => void) => (
-    <Button
-      flex={1}
+  const renderButton = ({
+    title,
+    popoverTitle,
+    popoverList,
+    addToFilterHandler,
+    submitHandler,
+    handleClear,
+  }: {
+    title: string;
+    popoverTitle: string;
+    popoverList: string[];
+    addToFilterHandler: (filter: string) => void;
+    submitHandler: () => void;
+    handleClear: () => void;
+  }) => (
+    <Box
       backgroundColor={"info.400"}
-      onPress={actionHandler}
-      size={"sm"}
+      flex={1}
+      alignItems="center"
+      justifyContent={"center"}
+      h="9"
+      borderRadius={2}
     >
-      <Text textAlign={"center"} color={"white"} fontWeight={"bold"}>
-        {title}
-      </Text>
-    </Button>
+      <Popover
+        trigger={(triggerProps) => {
+          return (
+            <Pressable
+              {...triggerProps}
+              colorScheme="info"
+              justifyContent={"center"}
+              alignItems="center"
+            >
+              <Text color={"white"} fontWeight={700}>
+                {title}
+              </Text>
+            </Pressable>
+          );
+        }}
+      >
+        <Popover.Content accessibilityLabel="Delete Customerd" w="56">
+          <Popover.Arrow />
+          <Popover.CloseButton />
+          <Popover.Header borderBottomWidth={0}>{popoverTitle}</Popover.Header>
+          <Popover.Body shadow={0}>
+            <VStack space={1}>
+              {popoverList.map((el, index) => {
+                return (
+                  <Pressable key={index} onPress={() => addToFilterHandler(el)}>
+                    <Text fontWeight={600} color={"text.500"}>
+                      {el}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </VStack>
+          </Popover.Body>
+          <Popover.Footer
+            justifyContent="flex-end"
+            p={2}
+            borderTopWidth={0}
+            shadow={0}
+          >
+            <Button.Group>
+              <Button
+                colorScheme="blueGray"
+                variant={"outline"}
+                onPress={handleClear}
+              >
+                Clear
+              </Button>
+              <Button
+                colorScheme="lightBlue"
+                variant={"solid"}
+                onPress={() => submitHandler()}
+              >
+                Filter
+              </Button>
+            </Button.Group>
+          </Popover.Footer>
+        </Popover.Content>
+      </Popover>
+    </Box>
   );
 
   const renderExerciseFilter = () => {
+    const bodyPartProps = {
+      title: "Body Part",
+      popoverTitle: "Body Part",
+      popoverList: ["Chest", "Back", "Legs", "Arms", "Shoulders"],
+      addToFilterHandler: handleBodyPartFilter,
+      submitHandler: () => null,
+      handleClear
+    };
+
+    const categoryProps = {
+      title: "Category",
+      popoverTitle: "Category",
+      popoverList: ["Barbell", "Dumbell", "Bodyweight", "Kettlebell"],
+      addToFilterHandler: handleCategoryFilter,
+      submitHandler: () => null,
+      handleClear
+    };
+
     return (
-      <VStack space={1}>
+      <VStack space={1} mt={1}>
         {renderSearchBar()}
-        <HStack flexDir={"row"} space={1}>
-          {renderButton("Body Part", handleFilterBodyPart)}
-          {renderButton("Category", handleFilterCategory)}
+        <HStack flexDir={"row"} space={2} mt={1}>
+          {renderButton({ ...bodyPartProps })}
+          {renderButton({ ...categoryProps })}
         </HStack>
       </VStack>
     );
