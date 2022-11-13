@@ -9,6 +9,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons/faUser";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons/faChevronDown";
 import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons/faClockRotateLeft";
 import { faBan } from "@fortawesome/free-solid-svg-icons/faBan";
+import { faCalendar } from "@fortawesome/free-regular-svg-icons/faCalendar";
 import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
@@ -141,6 +142,7 @@ function BottomTabNavigator() {
         component={Profile}
         options={({ navigation }: RootTabScreenProps<"Profile">) => ({
           title: "Profile",
+          headerTitle: "",
           tabBarIcon: ({ color }) => (
             <FontAwesomeIcon icon={faUser} color={color} size={25} />
           ),
@@ -166,6 +168,7 @@ function BottomTabNavigator() {
         component={TabTwoScreen}
         options={{
           title: "Start",
+          headerTitle: "",
           tabBarIcon: ({ color }) => (
             <FontAwesomeIcon icon={faPlus} color={color} size={25} />
           ),
@@ -194,13 +197,12 @@ function BottomTabNavigator() {
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate("Calendar")}
+              padding={4}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}
             >
-              <Text marginRight={3} color={"info.400"} fontSize={"sm"}>
-                Calendar
-              </Text>
+              <FontAwesomeIcon icon={faCalendar} size={20} color={"skyblue"} />
             </Pressable>
           ),
         })}

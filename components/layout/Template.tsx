@@ -1,8 +1,10 @@
 import { FontAwesome } from "@expo/vector-icons";
+import { faClock } from "@fortawesome/free-regular-svg-icons/faClock"
 import { Badge, Box, HStack, Skeleton, Text, VStack } from "native-base";
 import { useAppSelector } from "../../store";
 import React, { memo } from "react";
 import getDaysAgo from "../../utils/getDaysAgo";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 interface TemplateProps {
   width?: "half" | "full";
@@ -70,7 +72,7 @@ const Template = ({ width, workoutName, date, lifts }: TemplateProps) => {
         flexDirection={"row"}
         alignItems={"center"}
       >
-        <FontAwesome name="clock-o" size={13} color="gray" />
+        <FontAwesomeIcon icon={faClock} size={13} color="gray" />
         <Text fontSize={"xs"} opacity={50} ml={1}>
           {getDaysAgo(date)}
         </Text>
@@ -103,7 +105,7 @@ const Template = ({ width, workoutName, date, lifts }: TemplateProps) => {
   };
 
   const handleSwipeRight = () => {
-    // dispatch async thunk delete workout
+    // NOTE: dispatch async thunk delete workout
   };
 
   return (
