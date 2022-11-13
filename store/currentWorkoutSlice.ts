@@ -95,7 +95,7 @@ export const saveWorkout = createAsyncThunk(
     const state: any = getState();
     const workout = {
       finished_at: null,
-      date: null,
+      date: new Date().toISOString().split("T")[0],
       user_id: state.userSlice.user.userId,
       workout_name: state.currentWorkoutSlice.workoutTitle,
     };

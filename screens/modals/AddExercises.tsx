@@ -38,10 +38,9 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
     if (status === "idle") {
       dispatch(fetchAllExercises());
     }
-    if (status === "fulfilled") {
-      setExercises(exerciseList);
-    }
-  }, []);
+
+    setExercises(exerciseList);
+  }, [status]);
 
   const handleAddExercises = () => {
     const params = liftData.map((el) => {
@@ -56,8 +55,10 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
   };
 
   const handleFilterExercises = (text: string) => {
-    const filteredExercises = exerciseList.filter((el) => el.exercise_name.includes(text))
-    setExercises(filteredExercises)
+    const filteredExercises = exerciseList.filter((el) =>
+      el.exercise_name.includes(text)
+    );
+    setExercises(filteredExercises);
   };
 
   const renderInput = () => {

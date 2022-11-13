@@ -6,6 +6,8 @@ const getDaysAgo = (date: string) => {
 
   const differenceInDays = current.diff(dateMoment, "days");
 
+  console.log(differenceInDays)
+
   if (differenceInDays === 0) return `Today`;
   if (differenceInDays === 1) return `1 day ago`;
   if (differenceInDays < 30) return `${differenceInDays} days ago`;
