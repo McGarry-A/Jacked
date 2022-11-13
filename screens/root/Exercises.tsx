@@ -86,7 +86,7 @@ const Exercises = () => {
       fontSize={"md"}
       placeholder="Search"
       leftElement={
-        <FontAwesome name="search" color="black" style={{ marginLeft: 10 }} />
+        <FontAwesome name="search" color="black" style={{ marginLeft: 10, color: "gray" }} size={15} />
       }
     />
   );
@@ -107,16 +107,17 @@ const Exercises = () => {
     handleClear: () => void;
   }) => (
     <Box
-      borderColor={"info.400"}
-      borderWidth={1}
+      backgroundColor={"info.400"}
       flex={1}
       alignItems="center"
       justifyContent={"center"}
-      h="9"
+      h={9}
       borderRadius={2}
+      padding={0}
     >
       <Popover
         isOpen={popoverIsOpen}
+        placement="bottom"
         trigger={(triggerProps) => {
           return (
             <Pressable
@@ -126,7 +127,7 @@ const Exercises = () => {
               alignItems="center"
               onPress={() => setPopoverIsOpen(true)}
             >
-              <Text fontWeight={700} color={"info.400"}>
+              <Text fontWeight={700} color={"white"}>
                 {title}
               </Text>
             </Pressable>
