@@ -121,6 +121,7 @@ export const ExerciseList: React.FC<Props> = ({
       alignItems="center"
       justifyContent={"center"}
       h={9}
+      my={1}
       borderRadius={2}
       padding={0}
     >
