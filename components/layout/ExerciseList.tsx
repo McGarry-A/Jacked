@@ -8,6 +8,7 @@ import {
   Pressable,
   ScrollView,
   Text,
+  View,
   VStack,
 } from "native-base";
 import { useEffect, useState } from "react";
@@ -117,7 +118,6 @@ export const ExerciseList: React.FC<Props> = ({
   }) => (
     <Box
       backgroundColor={"info.400"}
-      flex={1}
       alignItems="center"
       justifyContent={"center"}
       h={9}
@@ -201,6 +201,18 @@ export const ExerciseList: React.FC<Props> = ({
     return showFilterButtons ? renderPopover({ ...bodyPartProps }) : null;
   };
 
+  const renderList = () => {
+    return (
+      <View>
+        <FlatList
+          data={exercises}
+          renderItem={({ item }) => <ExerciseCard {...item} {...cardProps} />}
+          keyExtractor={(item) => item.id.toString()}
+        />
+      </View>
+    );
+  };
+
   if (status === "rejected") {
     return (
       <Text textAlign={"center"} color={"rose.800"}>
@@ -210,14 +222,10 @@ export const ExerciseList: React.FC<Props> = ({
   }
 
   return (
-    <ScrollView my={2} flexGrow={1}>
+    <VStack my={2} flexGrow={1} space={2}>
       {renderSearchBar()}
       {renderExerciseFilter()}
-      <FlatList
-        data={exercises}
-        renderItem={({ item }) => <ExerciseCard {...item} {...cardProps} />}
-        keyExtractor={(item) => item.id.toString()}
-      />
-    </ScrollView>
+      {renderList()}
+    </VStack>
   );
 };
