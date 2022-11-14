@@ -25,7 +25,7 @@ const Exercises = () => {
   const [exercises, setExercises] = useState<ExerciseInterface[]>([]);
   const [bodyPartFilter, setBodyPartFilter] = useState<string>("");
   const [categoryFilter, setCategoryFilter] = useState<string>("");
-  const [popoverIsOpen, setPopoverIsOpen] = useState<boolean>(false)
+  const [popoverIsOpen, setPopoverIsOpen] = useState<boolean>(false);
 
   const { exerciseList, status } = useAppSelector(
     (state) => state.exerciseListSlice
@@ -36,30 +36,29 @@ const Exercises = () => {
   };
 
   const handleCategoryFilter = (filter: string) => {
-    setCategoryFilter(filter)
+    setCategoryFilter(filter);
   };
 
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchAllExercises());
     }
-    if (status === "fulfilled") {
-      setExercises(exerciseList);
-    }
-  }, []);
+
+    setExercises(exerciseList);
+  }, [status]);
 
   const submitHandler = (filter: string) => {
-    const filteredList = exerciseList.filter((el) => el.targets === filter)
-    setExercises(filteredList)
-    setPopoverIsOpen(false)
-  }
+    const filteredList = exerciseList.filter((el) => el.targets === filter);
+    setExercises(filteredList);
+    setPopoverIsOpen(false);
+  };
 
   const handleClear = () => {
-    setBodyPartFilter("")
-    setCategoryFilter("")
-    setExercises(exerciseList)
-    setPopoverIsOpen(false)
-  }
+    setBodyPartFilter("");
+    setCategoryFilter("");
+    setExercises(exerciseList);
+    setPopoverIsOpen(false);
+  };
 
   const handleFilter = (text: string) => {
     const filteredExercises = exerciseList.filter((el) =>
@@ -86,7 +85,12 @@ const Exercises = () => {
       fontSize={"md"}
       placeholder="Search"
       leftElement={
-        <FontAwesome name="search" color="black" style={{ marginLeft: 10, color: "gray" }} size={15} />
+        <FontAwesome
+          name="search"
+          color="black"
+          style={{ marginLeft: 10, color: "gray" }}
+          size={15}
+        />
       }
     />
   );
@@ -136,7 +140,7 @@ const Exercises = () => {
       >
         <Popover.Content accessibilityLabel="Delete Customerd" w="56">
           <Popover.Arrow />
-          <Popover.CloseButton onPress={() => setPopoverIsOpen(false)}/>
+          <Popover.CloseButton onPress={() => setPopoverIsOpen(false)} />
           <Popover.Header borderBottomWidth={0}>{popoverTitle}</Popover.Header>
           <Popover.Body shadow={0}>
             <VStack space={1}>
@@ -186,7 +190,7 @@ const Exercises = () => {
       popoverList: ["Chest", "Back", "Legs", "Arms", "Shoulders"],
       addToFilterHandler: handleBodyPartFilter,
       submitHandler,
-      handleClear
+      handleClear,
     };
 
     return (

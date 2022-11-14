@@ -1,5 +1,3 @@
-import { FontAwesome } from "@expo/vector-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   Box,
   Text,

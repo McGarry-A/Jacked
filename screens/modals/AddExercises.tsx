@@ -5,6 +5,7 @@ import {
   Heading,
   Input,
   Pressable,
+  ScrollView,
   Skeleton,
   Text,
   View,
@@ -95,14 +96,12 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
     };
 
     return (
-      <Box my={2} flexGrow={1}>
-        <Suspense fallback={<Skeleton h={"full"} />}>
-          <FlatList
-            data={exercises}
-            renderItem={({ item }) => <ExerciseCard {...item} {...liftProps} />}
-          />
-        </Suspense>
-      </Box>
+      <ScrollView my={2} flexGrow={1}>
+        <FlatList
+          data={exercises}
+          renderItem={({ item }) => <ExerciseCard {...item} {...liftProps} />}
+        />
+      </ScrollView>
     );
   };
 
