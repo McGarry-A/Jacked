@@ -16,22 +16,10 @@ export interface LiftData {
 
 const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
   const [liftData, setLiftData] = useState<LiftData[]>([]);
-  const [exercises, setExercises] = useState<ExerciseInterface[]>([]);
 
   const userId = useAppSelector((state) => state.userSlice.user.userId);
 
   const dispatch = useAppDispatch();
-  const { exerciseList, status } = useAppSelector(
-    (state) => state.exerciseListSlice
-  );
-
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchAllExercises());
-    }
-
-    setExercises(exerciseList);
-  }, [status]);
 
   const handleAddExercises = () => {
     const params = liftData.map((el) => {
@@ -43,34 +31,6 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
 
     dispatch(addLift(params));
     navigation.goBack();
-  };
-
-  const handleFilterExercises = (text: string) => {
-    const filteredExercises = exerciseList.filter((el) =>
-      el.exercise_name.includes(text)
-    );
-    setExercises(filteredExercises);
-  };
-
-  const renderInput = () => {
-    return (
-      <Input
-        placeholder="Filter Exercises Here"
-        size="lg"
-        type="text"
-        variant={"filled"}
-        marginBottom={2}
-        onChangeText={(text) => handleFilterExercises(text)}
-        InputLeftElement={
-          <FontAwesome
-            name="search"
-            color="darkgray"
-            style={{ marginHorizontal: 8 }}
-            size={15}
-          />
-        }
-      />
-    );
   };
 
   const renderHeading = () => (
@@ -85,7 +45,12 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
       liftData,
     };
 
-    return <ExerciseList cardProps={liftProps} />;
+    const config = {
+      showInput: true,
+      showFilterButtons: false,
+    };
+
+    return <ExerciseList cardProps={liftProps} config={config} />;
   };
 
   const renderAddExercises = () => {
@@ -111,7 +76,6 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
 
   return (
     <View padding={3} backgroundColor={"white"} h="full">
-      {renderInput()}
       {renderHeading()}
       {renderList()}
       {renderAddExercises()}
