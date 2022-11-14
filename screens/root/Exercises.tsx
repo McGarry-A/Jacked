@@ -2,22 +2,19 @@ import { FontAwesome } from "@expo/vector-icons";
 import {
   View,
   Heading,
-  FlatList,
   Box,
   Input,
   Button,
   HStack,
-  Skeleton,
   Text,
-  Spinner,
   Pressable,
   VStack,
   Popover,
 } from "native-base";
 import { useEffect, useState } from "react";
-import ExerciseCard from "../../components/layout/ExerciseCard";
+import { ExerciseList as ExerciseListComponent } from "../../components/layout/ExerciseList";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { fetchAllExercises } from "../../store/exerciseList";
+import ExerciseList, { fetchAllExercises } from "../../store/exerciseList";
 import ExerciseInterface from "../../types/ExerciseInterface";
 
 const Exercises = () => {
@@ -212,14 +209,7 @@ const Exercises = () => {
       );
     }
 
-    return (
-      <FlatList
-        data={exercises}
-        renderItem={({ item }) => <ExerciseCard {...item} />}
-        keyExtractor={(item) => item.id.toString()}
-        marginTop={2}
-      ></FlatList>
-    );
+    return <ExerciseListComponent data={exercises} />;
   };
 
   return (

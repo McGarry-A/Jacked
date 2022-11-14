@@ -10,13 +10,13 @@ import {
   Text,
   View,
 } from "native-base";
-import { Suspense, useEffect, useState } from "react";
-import ExerciseCard from "../../components/layout/ExerciseCard";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { fetchAllExercises } from "../../store/exerciseList";
 import { addLift } from "../../store/currentWorkoutSlice";
 import { RootStackScreenProps } from "../../types";
 import ExerciseInterface from "../../types/ExerciseInterface";
+import { ExerciseList } from "../../components/layout/ExerciseList";
 
 export interface LiftData {
   exerciseId: number;
@@ -95,14 +95,7 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
       liftData,
     };
 
-    return (
-      <ScrollView my={2} flexGrow={1}>
-        <FlatList
-          data={exercises}
-          renderItem={({ item }) => <ExerciseCard {...item} {...liftProps} />}
-        />
-      </ScrollView>
-    );
+    return <ExerciseList data={exercises} cardProps={liftProps} />;
   };
 
   const renderAddExercises = () => {
