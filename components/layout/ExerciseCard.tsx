@@ -21,6 +21,7 @@ interface Props {
   description: string;
   image: string;
   id: number;
+  status: "pending" | "idle" | "fulfilled" | "rejected";
   setLiftData?: React.Dispatch<React.SetStateAction<LiftData[]>>;
   liftData?: LiftData[];
 }
@@ -31,6 +32,7 @@ const ExerciseCard = ({
   targets,
   setLiftData,
   liftData,
+  status,
 }: Props) => {
   const exercises = useAppSelector(
     (state) => state.currentWorkoutSlice.exercises
@@ -40,8 +42,7 @@ const ExerciseCard = ({
   const [isActive, setIsActive] = useState(isInWorkout);
 
   const backgroundColor = isActive ? "info.50" : "white";
-  const isLoaded =
-    useAppSelector((state) => state.exerciseListSlice.status) === "fulfilled";
+  const isLoaded = status === "fulfilled";
 
   // REVIEW:
   // MIGHT NEED TO CHANGE IF NEGATIVELY AFFECTS EXERCISE PAGE ** ! OPERATOR
@@ -115,8 +116,12 @@ const ExerciseCard = ({
   };
 
   return (
-    <Box padding={2} borderColor={"gray.200"} backgroundColor={backgroundColor}>
-      <Skeleton isLoaded={isLoaded} h={12}>
+    <Skeleton isLoaded={isLoaded} my={2} h={12} startColor={'gray.100'} endColor={"gray.300"}>
+      <Box
+        padding={2}
+        borderColor={"gray.200"}
+        backgroundColor={backgroundColor}
+      >
         <Pressable
           flexDirection={"row"}
           alignItems="center"
@@ -126,8 +131,8 @@ const ExerciseCard = ({
           {renderBody()}
           {renderCheckbox()}
         </Pressable>
-      </Skeleton>
-    </Box>
+      </Box>
+    </Skeleton>
   );
 };
 
