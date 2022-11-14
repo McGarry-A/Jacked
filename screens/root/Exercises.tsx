@@ -201,15 +201,7 @@ const Exercises = () => {
   };
 
   const renderExerciseList = () => {
-    if (status === "rejected") {
-      return (
-        <Text textAlign={"center"} color={"rose.800"}>
-          There was an error loading this content! Please try again later.
-        </Text>
-      );
-    }
-
-    return <ExerciseListComponent data={exercises} />;
+    return <ExerciseListComponent />;
   };
 
   return (

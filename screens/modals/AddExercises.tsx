@@ -1,15 +1,5 @@
 import { FontAwesome } from "@expo/vector-icons";
-import {
-  Box,
-  FlatList,
-  Heading,
-  Input,
-  Pressable,
-  ScrollView,
-  Skeleton,
-  Text,
-  View,
-} from "native-base";
+import { Heading, Input, Pressable, Text, View } from "native-base";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { fetchAllExercises } from "../../store/exerciseList";
@@ -95,7 +85,7 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
       liftData,
     };
 
-    return <ExerciseList data={exercises} cardProps={liftProps} />;
+    return <ExerciseList cardProps={liftProps} />;
   };
 
   const renderAddExercises = () => {
