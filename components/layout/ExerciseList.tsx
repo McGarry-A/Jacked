@@ -206,7 +206,7 @@ export const ExerciseList: React.FC<Props> = ({
       <View>
         <FlatList
           data={exercises}
-          renderItem={({ item }) => <ExerciseCard {...item} {...cardProps} />}
+          renderItem={({ item }) => <ExerciseCard {...item} {...cardProps} status={status} />}
           keyExtractor={(item) => item.id.toString()}
         />
       </View>
