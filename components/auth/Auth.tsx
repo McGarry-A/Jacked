@@ -1,6 +1,14 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { View, Text, Box, Input, Pressable, FormControl } from "native-base";
+import {
+  View,
+  Text,
+  Box,
+  Input,
+  Pressable,
+  FormControl,
+  Spinner,
+} from "native-base";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { reset, userLogin, userSignup } from "../../store/userSlice";
@@ -10,6 +18,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const Auth = () => {
   const dispatch = useAppDispatch();
+
+  const isLoading = useAppSelector(
+    (state) => state.userSlice.status === "pending"
+  );
 
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
@@ -158,14 +170,25 @@ const Auth = () => {
           alignItems="center"
           onPress={onPessFunc}
         >
-          <Text textAlign={"center"} color="white" fontWeight={700}>
-            {buttonText}
-          </Text>
-          <FontAwesome
-            name={iconName}
-            size={15}
-            style={{ color: "white", fontWeight: "700", marginLeft: 8 }}
-          />
+          {isLoading ? (
+            <>
+              <Spinner color="white" />
+              <Text textAlign={"center"} color="white" fontWeight={700}>
+                Loading
+              </Text>
+            </>
+          ) : (
+            <>
+              <Text textAlign={"center"} color="white" fontWeight={700}>
+                {buttonText}
+              </Text>
+              <FontAwesome
+                name={iconName}
+                size={15}
+                style={{ color: "white", fontWeight: "700", marginLeft: 8 }}
+              />
+            </>
+          )}
         </Pressable>
       </Box>
     );
