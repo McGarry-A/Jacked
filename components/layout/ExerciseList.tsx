@@ -222,10 +222,10 @@ export const ExerciseList: React.FC<Props> = ({
   }
 
   return (
-    <VStack my={2} flexGrow={1} space={2}>
+    <View my={2} flexGrow={1}>
       {renderSearchBar()}
       {renderExerciseFilter()}
       {renderList()}
-    </VStack>
+    </View>
   );
 };

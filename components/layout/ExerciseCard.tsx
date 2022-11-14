@@ -1,4 +1,12 @@
-import { Avatar, Box, Checkbox, Pressable, Skeleton, Text } from "native-base";
+import {
+  Avatar,
+  Box,
+  Checkbox,
+  Pressable,
+  Skeleton,
+  Text,
+  VStack,
+} from "native-base";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import generateColor from "../../utils/generateColor";
@@ -24,7 +32,6 @@ const ExerciseCard = ({
   setLiftData,
   liftData,
 }: Props) => {
-  const dispatch = useAppDispatch();
   const exercises = useAppSelector(
     (state) => state.currentWorkoutSlice.exercises
   );
