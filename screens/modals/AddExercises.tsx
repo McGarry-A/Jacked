@@ -1,22 +1,12 @@
 import { FontAwesome } from "@expo/vector-icons";
-import {
-  Box,
-  FlatList,
-  Heading,
-  Input,
-  Pressable,
-  ScrollView,
-  Skeleton,
-  Text,
-  View,
-} from "native-base";
-import { Suspense, useEffect, useState } from "react";
-import ExerciseCard from "../../components/layout/ExerciseCard";
+import { Heading, Input, Pressable, Text, View } from "native-base";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { fetchAllExercises } from "../../store/exerciseList";
 import { addLift } from "../../store/currentWorkoutSlice";
 import { RootStackScreenProps } from "../../types";
 import ExerciseInterface from "../../types/ExerciseInterface";
+import { ExerciseList } from "../../components/layout/ExerciseList";
 
 export interface LiftData {
   exerciseId: number;
@@ -26,22 +16,10 @@ export interface LiftData {
 
 const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
   const [liftData, setLiftData] = useState<LiftData[]>([]);
-  const [exercises, setExercises] = useState<ExerciseInterface[]>([]);
 
   const userId = useAppSelector((state) => state.userSlice.user.userId);
 
   const dispatch = useAppDispatch();
-  const { exerciseList, status } = useAppSelector(
-    (state) => state.exerciseListSlice
-  );
-
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchAllExercises());
-    }
-
-    setExercises(exerciseList);
-  }, [status]);
 
   const handleAddExercises = () => {
     const params = liftData.map((el) => {
@@ -53,34 +31,6 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
 
     dispatch(addLift(params));
     navigation.goBack();
-  };
-
-  const handleFilterExercises = (text: string) => {
-    const filteredExercises = exerciseList.filter((el) =>
-      el.exercise_name.includes(text)
-    );
-    setExercises(filteredExercises);
-  };
-
-  const renderInput = () => {
-    return (
-      <Input
-        placeholder="Filter Exercises Here"
-        size="lg"
-        type="text"
-        variant={"filled"}
-        marginBottom={2}
-        onChangeText={(text) => handleFilterExercises(text)}
-        InputLeftElement={
-          <FontAwesome
-            name="search"
-            color="darkgray"
-            style={{ marginHorizontal: 8 }}
-            size={15}
-          />
-        }
-      />
-    );
   };
 
   const renderHeading = () => (
@@ -95,14 +45,12 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
       liftData,
     };
 
-    return (
-      <ScrollView my={2} flexGrow={1}>
-        <FlatList
-          data={exercises}
-          renderItem={({ item }) => <ExerciseCard {...item} {...liftProps} />}
-        />
-      </ScrollView>
-    );
+    const config = {
+      showInput: true,
+      showFilterButtons: false,
+    };
+
+    return <ExerciseList cardProps={liftProps} config={config} />;
   };
 
   const renderAddExercises = () => {
@@ -128,7 +76,6 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
 
   return (
     <View padding={3} backgroundColor={"white"} h="full">
-      {renderInput()}
       {renderHeading()}
       {renderList()}
       {renderAddExercises()}
