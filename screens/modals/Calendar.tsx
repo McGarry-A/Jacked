@@ -10,9 +10,6 @@ export default function Calendar() {
     .map((el) => el.date)
     .reduce((ac, a) => ({ ...ac, [a]: { selected: true } }), {});
 
-  console.log(historyObj);
-
-  console.log(history);
   const maxDate = useTodaysDate();
 
   return (
