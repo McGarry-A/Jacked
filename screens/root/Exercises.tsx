@@ -1,5 +1,5 @@
 import { View, Heading } from "native-base";
-import { ExerciseList as ExerciseListComponent } from "../../components/layout/ExerciseList";
+import { ExerciseList } from "../../components/layout/ExerciseList";
 
 const Exercises = () => {
   const renderHeading = () => (
@@ -13,7 +13,7 @@ const Exercises = () => {
       showInput: true,
       showFilterButtons: true,
     };
-    return <ExerciseListComponent config={config} />;
+    return <ExerciseList config={config} />;
   };
 
   return (
