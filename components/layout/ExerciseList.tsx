@@ -128,6 +128,7 @@ export const ExerciseList: React.FC<Props> = ({
       <Popover
         isOpen={popoverIsOpen}
         placement="bottom"
+        onClose={() => setPopoverIsOpen(false)}
         trigger={(triggerProps) => {
           return (
             <Pressable

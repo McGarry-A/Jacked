@@ -66,24 +66,22 @@ const Template = ({
           placement="bottom"
           trigger={(triggerProps) => {
             return (
-              <Pressable onPress={() => setPopoverIsOpen(true)}>
-                <FontAwesome
-                  {...triggerProps}
-                  name="ellipsis-h"
-                  size={15}
-                  color={"skyblue"}
-                />
+              <Pressable
+                {...triggerProps}
+                onPress={() => setPopoverIsOpen(true)}
+              >
+                <FontAwesome name="ellipsis-h" size={15} color={"skyblue"} />
               </Pressable>
             );
           }}
         >
-          <Popover.Content>
+          <Popover.Content accessibilityLabel="History Card Popover" w="56">
             <Popover.Arrow />
-            <Popover.CloseButton onPress={() => setPopoverIsOpen(false)} />
+            <Popover.CloseButton onPress={() => setPopoverIsOpen(false)} size={10} />
             <Popover.Body>
               <VStack>
                 <Pressable onPress={() => handleDeleteWorkout(workoutId)}>
-                  <Text>Delete Workout</Text>
+                  <Text textAlign={'center'} color={"rose.500"}>Delete Workout</Text>
                 </Pressable>
               </VStack>
             </Popover.Body>

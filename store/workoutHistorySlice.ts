@@ -20,7 +20,7 @@ const workoutHistorySlice = createSlice({
     builder
       .addCase(getHistory.fulfilled, (state, { payload }) => {
         if (typeof payload === "object") {
-          state.history = []
+          state.history = [];
           payload.map((el) => (state.history = [...state.history, el]));
         }
         state.status = "fulfilled";
@@ -29,14 +29,17 @@ const workoutHistorySlice = createSlice({
         state.status = "rejected";
       })
       .addCase(deleteWorkout.pending, (state, _) => {
-        state.status = "pending"
+        state.status = "pending";
       })
-      .addCase(deleteWorkout.fulfilled, (state, _ ) => {
-        state.status = "fulfilled"
+      .addCase(deleteWorkout.fulfilled, (state, { payload }) => {
+        state.status = "fulfilled";
+        console.log("payload");
+        console.log(payload);
+        state.history.filter((el) => el.id !== payload);
       })
       .addCase(deleteWorkout.rejected, (state, _) => {
-        state.status = "rejected"
-      })
+        state.status = "rejected";
+      });
   },
 });
 
@@ -47,7 +50,6 @@ interface getHistoryProps {
 export const getHistory = createAsyncThunk(
   "workoutHistorySlice/getHistory",
   async (payload: getHistoryProps) => {
-    console.log("Get History");
     const { data, error } = await supabase
       .from("workouts")
       .select(`id, workout_name, date, lifts (exercise_name)`)
@@ -61,22 +63,25 @@ export const getHistory = createAsyncThunk(
 
 export const deleteWorkout = createAsyncThunk(
   "workoutHistorySlice/deleteWorkout",
-  async (payload: { workoutId: number }) => {
+  async (payload: { workoutId: number }, thunkAPI) => {
     const { workoutId } = payload;
 
-    console.log(workoutId)
+    console.log(workoutId);
 
     const { data, error } = await supabase
       .from("workouts")
       .delete()
-      .match({ id: workoutId })
+      .match({ id: workoutId });
 
-      if (error) return console.error(error)
+    if (error) {
+      console.log(error.message);
+      return thunkAPI.rejectWithValue(error);
+    }
 
-      console.log(data)
+    console.log(data);
 
-      return data
+    return workoutId;
   }
-)
+);
 
 export default workoutHistorySlice.reducer;
