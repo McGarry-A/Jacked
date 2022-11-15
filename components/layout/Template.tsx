@@ -1,14 +1,25 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { faClock } from "@fortawesome/free-regular-svg-icons/faClock";
-import { Badge, Box, HStack, Text, VStack } from "native-base";
-import React, { memo } from "react";
+import {
+  Badge,
+  Box,
+  HStack,
+  Popover,
+  Pressable,
+  Text,
+  VStack,
+} from "native-base";
+import React, { memo, useState } from "react";
 import getDaysAgo from "../../utils/getDaysAgo";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { useAppDispatch } from "../../store";
+import { deleteWorkout } from "../../store/workoutHistorySlice";
 
 interface TemplateProps {
   width?: "half" | "full";
   workoutName: string | null;
   date: string;
+  workoutId: number;
   lifts: {
     [key: number]: {
       exercise_name: string;
@@ -17,18 +28,74 @@ interface TemplateProps {
 }
 
 // NOTE:
-// SHOW BAGES: 
+// SHOW BAGES:
 // TOTAL VOLUME
 // TOTAL WEGHT
-// WORKOUT NUMBER 
+// WORKOUT NUMBER
 
-const Template = ({ width, workoutName, date, lifts }: TemplateProps) => {
+const Template = ({
+  width,
+  workoutName,
+  date,
+  lifts,
+  workoutId,
+}: TemplateProps) => {
+  const [popoverIsOpen, setPopoverIsOpen] = useState<boolean>(false);
+
+  const dispatch = useAppDispatch();
+
   const isFullWidth = width === "full" ? "full" : "1/2";
   const textSize = width === "full" ? "md" : "sm";
 
+  const handleDeleteWorkout = (workoutId: number) => {
+    dispatch(deleteWorkout({ workoutId }));
+  };
+
+  const renderPopover = () => {
+    return (
+      <Box
+        justifyContent={"center"}
+        alignItems={"center"}
+        backgroundColor={"info.100"}
+        paddingX={1}
+        height={"5"}
+        borderRadius={4}
+      >
+        <Popover
+          isOpen={popoverIsOpen}
+          placement="bottom"
+          trigger={(triggerProps) => {
+            return (
+              <Pressable onPress={() => setPopoverIsOpen(true)}>
+                <FontAwesome
+                  {...triggerProps}
+                  name="ellipsis-h"
+                  size={15}
+                  color={"skyblue"}
+                />
+              </Pressable>
+            );
+          }}
+        >
+          <Popover.Content>
+            <Popover.Arrow />
+            <Popover.CloseButton onPress={() => setPopoverIsOpen(false)} />
+            <Popover.Body>
+              <VStack>
+                <Pressable onPress={() => handleDeleteWorkout(workoutId)}>
+                  <Text>Delete Workout</Text>
+                </Pressable>
+              </VStack>
+            </Popover.Body>
+          </Popover.Content>
+        </Popover>
+      </Box>
+    );
+  };
+
   const renderHeader = () => {
     return (
-      <HStack alignItems={'center'}>
+      <HStack alignItems={"center"}>
         <Text
           flex={1}
           fontSize={textSize}
@@ -37,16 +104,7 @@ const Template = ({ width, workoutName, date, lifts }: TemplateProps) => {
         >
           {workoutName === null ? "Quick Workout" : workoutName}
         </Text>
-        <Box
-          justifyContent={"center"}
-          alignItems={"center"}
-          backgroundColor={"info.100"}
-          paddingX={1}
-          height={"5"}
-          borderRadius={4}
-        >
-          <FontAwesome name="ellipsis-h" size={15} color={"skyblue"} />
-        </Box>
+        {renderPopover()}
       </HStack>
     );
   };

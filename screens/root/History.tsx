@@ -28,12 +28,13 @@ export default function TabThreeScreen() {
         onRefresh={toggleRefresh}
         refreshing={loading}
         keyExtractor={({ id }) => String(id)}
-        renderItem={({ item: { workout_name, lifts, date } }) => (
+        renderItem={({ item: { workout_name, lifts, date, id } }) => (
           <Template
             width="full"
             workoutName={workout_name}
             lifts={lifts}
             date={date}
+            workoutId={id}
           />
         )}
       />

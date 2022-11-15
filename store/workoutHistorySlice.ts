@@ -27,7 +27,16 @@ const workoutHistorySlice = createSlice({
       })
       .addCase(getHistory.rejected, (state, _) => {
         state.status = "rejected";
-      });
+      })
+      .addCase(deleteWorkout.pending, (state, _) => {
+        state.status = "pending"
+      })
+      .addCase(deleteWorkout.fulfilled, (state, _ ) => {
+        state.status = "fulfilled"
+      })
+      .addCase(deleteWorkout.rejected, (state, _) => {
+        state.status = "rejected"
+      })
   },
 });
 
@@ -49,5 +58,25 @@ export const getHistory = createAsyncThunk(
     return data as workoutHistoryType;
   }
 );
+
+export const deleteWorkout = createAsyncThunk(
+  "workoutHistorySlice/deleteWorkout",
+  async (payload: { workoutId: number }) => {
+    const { workoutId } = payload;
+
+    console.log(workoutId)
+
+    const { data, error } = await supabase
+      .from("workouts")
+      .delete()
+      .match({ id: workoutId })
+
+      if (error) return console.error(error)
+
+      console.log(data)
+
+      return data
+  }
+)
 
 export default workoutHistorySlice.reducer;

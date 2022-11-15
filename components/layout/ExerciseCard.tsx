@@ -1,15 +1,6 @@
-import {
-  Avatar,
-  Box,
-  Checkbox,
-  Pressable,
-  Skeleton,
-  Text,
-  VStack,
-} from "native-base";
+import { Avatar, Box, Checkbox, Pressable, Skeleton, Text } from "native-base";
 import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
-import generateColor from "../../utils/generateColor";
+import { useAppSelector } from "../../store";
 import getExerciseInitials from "../../utils/getExerciseInitials";
 import { LiftData } from "../../screens/modals/AddExercises";
 import useId from "../../hooks/useId";
@@ -21,7 +12,7 @@ interface Props {
   description: string;
   image: string;
   id: number;
-  status: "pending" | "idle" | "fulfilled" | "rejected";
+  status: "idle" | "fulfilled" | "pending" | "rejected";
   setLiftData?: React.Dispatch<React.SetStateAction<LiftData[]>>;
   liftData?: LiftData[];
 }
@@ -49,7 +40,7 @@ const ExerciseCard = ({
   // ADD FUNCTION SHOULD BE IN THE PARENT COMPONENT
   const handleAddToLiftData = () => {
     if (!liftData || !setLiftData) return;
-    console.log("handle add");
+
     if (!isActive) {
       const liftId = useId("lift");
 
@@ -116,12 +107,8 @@ const ExerciseCard = ({
   };
 
   return (
-    <Skeleton isLoaded={isLoaded} my={2} h={12} startColor={'gray.100'} endColor={"gray.300"}>
-      <Box
-        padding={2}
-        borderColor={"gray.200"}
-        backgroundColor={backgroundColor}
-      >
+    <Box padding={2} borderColor={"gray.200"} backgroundColor={backgroundColor}>
+      <Skeleton isLoaded={isLoaded} h={12}>
         <Pressable
           flexDirection={"row"}
           alignItems="center"
@@ -131,8 +118,8 @@ const ExerciseCard = ({
           {renderBody()}
           {renderCheckbox()}
         </Pressable>
-      </Box>
-    </Skeleton>
+      </Skeleton>
+    </Box>
   );
 };
 
