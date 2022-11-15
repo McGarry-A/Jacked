@@ -6,7 +6,9 @@ import {
   ScrollView,
   VStack,
   HStack,
+  View,
 } from "native-base";
+import TemplateCard from "../../components/layout/TemplateCard";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { startWorkout } from "../../store/currentWorkoutSlice";
 import { supabase } from "../../supabase/supabaseClient";
@@ -72,7 +74,7 @@ export default function TabTwoScreen({ navigation }: any) {
       justifyContent="space-between"
       alignItems={"center"}
     >
-      <Heading size={"md"} fontWeight="semibold">
+      <Heading size={"md"} fontWeight="semibold" color={"text.900"}>
         Templates
       </Heading>
       <Button
@@ -97,24 +99,57 @@ export default function TabTwoScreen({ navigation }: any) {
   const renderTemplateSection = (heading: string) => {
     return (
       <Box>
-        <Heading size={"sm"} marginY={2}>
+        <Heading size={"sm"} marginY={2} color={"text.800"}>
           {heading}
         </Heading>
-        <VStack paddingTop={2}>
-          <HStack space={2} w="98%">
-            {/* <Template />
-            <Template /> */}
+        <VStack paddingTop={2} space={2}>
+          <HStack space={2} w="full" flexWrap="wrap">
+            <TemplateCard
+              title="Shoulder Day"
+              author="Ahmed McGarry"
+              lifts={[
+                "Shoulder Press",
+                "Lateral Raises",
+                "Facepulls",
+                "Front raises",
+                "Tricep Pulldowns",
+              ]}
+            />
+            <TemplateCard
+              title="Chest Day"
+              author="Ahmed McGarry"
+              lifts={[
+                "Shoulder Press",
+                "Lateral Raises",
+                "Facepulls",
+                "Front raises",
+                "Tricep Pulldowns",
+              ]}
+            />
           </HStack>
-        </VStack>
-        <VStack
-          style={{}}
-          flexDirection={"row"}
-          flexWrap={"wrap"}
-          justifyContent={""}
-        >
-          <HStack space={2} w="98%">
-            {/* <Template />
-            <Template /> */}
+          <HStack space={2} w="full" flexWrap="wrap">
+            <TemplateCard
+              title="Leg Day"
+              author="Ahmed McGarry"
+              lifts={[
+                "Shoulder Press",
+                "Lateral Raises",
+                "Facepulls",
+                "Front raises",
+                "Tricep Pulldowns",
+              ]}
+            />
+            <TemplateCard
+              title="Back Day"
+              author="Ahmed McGarry"
+              lifts={[
+                "Shoulder Press",
+                "Lateral Raises",
+                "Facepulls",
+                "Front raises",
+                "Tricep Pulldowns",
+              ]}
+            />
           </HStack>
         </VStack>
       </Box>
@@ -122,12 +157,14 @@ export default function TabTwoScreen({ navigation }: any) {
   };
 
   return (
-    <ScrollView backgroundColor={"white"} padding={3}>
-      {renderHeading()}
-      {renderQuickStart()}
-      {renderTemplatesHeader()}
-      {renderTemplateSection("My Workouts")}
-      {renderTemplateSection("Example Workouts")}
-    </ScrollView>
+    <View padding={3} backgroundColor={"white"}>
+      <ScrollView >
+        {renderHeading()}
+        {renderQuickStart()}
+        {renderTemplatesHeader()}
+        {renderTemplateSection("My Workouts (4)")}
+        {renderTemplateSection("Example Workouts (4)")}
+      </ScrollView>
+    </View>
   );
 }

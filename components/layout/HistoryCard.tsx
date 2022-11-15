@@ -1,12 +1,12 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { faClock } from "@fortawesome/free-regular-svg-icons/faClock";
-import { Badge, Box, HStack, Text, VStack } from "native-base";
+import { Box, HStack, Skeleton, Text, VStack } from "native-base";
 import React, { memo } from "react";
 import getDaysAgo from "../../utils/getDaysAgo";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
-interface TemplateProps {
-  width?: "half" | "full";
+interface HistoryCardProps {
+  isLoaded: boolean;
   workoutName: string | null;
   date: string;
   lifts: {
@@ -16,22 +16,19 @@ interface TemplateProps {
   };
 }
 
-// NOTE:
-// SHOW BAGES: 
-// TOTAL VOLUME
-// TOTAL WEGHT
-// WORKOUT NUMBER 
-
-const Template = ({ width, workoutName, date, lifts }: TemplateProps) => {
-  const isFullWidth = width === "full" ? "full" : "1/2";
-  const textSize = width === "full" ? "md" : "sm";
+const HistoryCard = ({
+  workoutName,
+  date,
+  lifts,
+  isLoaded,
+}: HistoryCardProps) => {
 
   const renderHeader = () => {
     return (
-      <HStack alignItems={'center'}>
+      <HStack alignItems={"center"}>
         <Text
           flex={1}
-          fontSize={textSize}
+          fontSize={'md'}
           fontWeight={"semibold"}
           color={"text.700"}
         >
@@ -89,20 +86,29 @@ const Template = ({ width, workoutName, date, lifts }: TemplateProps) => {
   };
 
   return (
-    <VStack
-      space={1}
-      w={isFullWidth}
-      borderWidth={1}
-      borderRadius={"xs"}
-      padding={3}
-      borderColor={"gray.200"}
-      marginY={1}
+    <Skeleton
+      my={2}
+      isLoaded={isLoaded}
+      startColor={"gray.200"}
+      endColor={"coolGray.200"}
+      h={12}
     >
-      {renderHeader()}
-      {renderLifts()}
-      {renderDaysAgo()}
-    </VStack>
+      <VStack
+        space={1}
+        w={'full'}
+        borderWidth={1}
+        borderRadius={"xs"}
+        padding={3}
+        borderColor={"gray.200"}
+        marginY={1}
+        backgroundColor={'gray.50'}
+      >
+        {renderHeader()}
+        {renderLifts()}
+        {renderDaysAgo()}
+      </VStack>
+    </Skeleton>
   );
 };
 
-export default memo(Template);
+export default memo(HistoryCard);

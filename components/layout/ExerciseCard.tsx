@@ -116,7 +116,13 @@ const ExerciseCard = ({
   };
 
   return (
-    <Skeleton isLoaded={isLoaded} my={2} h={12} startColor={'gray.100'} endColor={"gray.300"}>
+    <Skeleton
+      isLoaded={isLoaded}
+      my={2}
+      h={12}
+      startColor={"gray.200"}
+      endColor={"coolGray.200"}
+    >
       <Box
         padding={2}
         borderColor={"gray.200"}
