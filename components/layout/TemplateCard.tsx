@@ -1,5 +1,6 @@
 import { Box, Text, VStack, Heading, Pressable } from "native-base";
 import React from "react";
+import { useAppSelector } from "../../store";
 
 interface TemplateCardProps {
   title: string;
@@ -14,6 +15,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
   lifts,
   navigation,
 }) => {
+
   return (
     <Pressable
       borderWidth={1}

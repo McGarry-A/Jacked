@@ -1,22 +1,69 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { LiftInterface } from "../types/CurrentWorkoutInterface";
+import { LiftInterface, SetInterface } from "../types/CurrentWorkoutInterface";
 
 interface InitialStateInterface {
   status: "fulfilled" | "pending" | "rejected" | "idle";
-  folders: {
+  templates: {
     [key: string]: {
-        exercises: LiftInterface
-        exerciseOrder: string[]
-        templateName: string
-    }
-  }
+      exercises: {
+        [key: string]: {
+          exerciseId: number;
+          exerciseName: string;
+          sets: SetInterface;
+        };
+      };
+      exerciseOrder: string[];
+      templateName: string;
+    };
+  };
 }
 
 const initialState: InitialStateInterface = {
   status: "idle",
-  folders: {
-
-  }
+  templates: {
+    "temp-00": {
+      exercises: {
+        "ex-00": {
+          exerciseId: 2,
+          exerciseName: "Barbell Bench Press",
+          sets: {},
+        },
+        "ex-01": {
+          exerciseId: 3,
+          exerciseName: "Barbell Squat",
+          sets: {},
+        },
+        "ex-02": {
+          exerciseId: 6,
+          exerciseName: "Seated Shoulder Press",
+          sets: {},
+        },
+      },
+      exerciseOrder: ["ex-00"],
+      templateName: "Example Template",
+    },
+    "temp-01": {
+        exercises: {
+          "ex-00": {
+            exerciseId: 2,
+            exerciseName: "Barbell Bench Press",
+            sets: {},
+          },
+          "ex-01": {
+            exerciseId: 3,
+            exerciseName: "Barbell Squat",
+            sets: {},
+          },
+          "ex-02": {
+            exerciseId: 6,
+            exerciseName: "Seated Shoulder Press",
+            sets: {},
+          },
+        },
+        exerciseOrder: ["ex-00"],
+        templateName: "Second Template",
+      },
+  },
 };
 
 const templateSlice = createSlice({

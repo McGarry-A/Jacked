@@ -96,6 +96,30 @@ export default function TabTwoScreen({ navigation }: any) {
     </Box>
   );
 
+  const templates = useAppSelector((state) => state.templateSlice.templates);
+
+  const renderTemplates = () => {
+    return (
+      <Box>
+        {Object.values(templates).map((template, index) => {
+          const { templateName, exerciseOrder, exercises } = template;
+          const lifts = Object.values(exercises).map(
+            (exercise) => exercise.exerciseName
+          );
+
+          return (
+            <TemplateCard
+              navigation={navigation}
+              title={templateName}
+              lifts={lifts}
+              author={"Ahmed McGarry"}
+            />
+          );
+        })}
+      </Box>
+    );
+  };
+
   const renderTemplateSection = (heading: string) => {
     return (
       <Box>
@@ -162,12 +186,13 @@ export default function TabTwoScreen({ navigation }: any) {
 
   return (
     <View padding={3} backgroundColor={"white"}>
-      <ScrollView >
+      <ScrollView>
         {renderHeading()}
         {renderQuickStart()}
         {renderTemplatesHeader()}
         {renderTemplateSection("My Workouts (4)")}
         {renderTemplateSection("Example Workouts (4)")}
+        {/* {renderTemplates()} */}
       </ScrollView>
     </View>
   );
