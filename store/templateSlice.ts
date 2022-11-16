@@ -3,69 +3,81 @@ import { LiftInterface, SetInterface } from "../types/CurrentWorkoutInterface";
 
 interface InitialStateInterface {
   status: "fulfilled" | "pending" | "rejected" | "idle";
-  templates: {
+  folders: {
     [key: string]: {
-      exercises: {
+      name: string;
+      id: string;
+      templates: {
         [key: string]: {
-          exerciseId: number;
-          exerciseName: string;
-          sets: SetInterface;
+          exerciseOrder: string[];
+          templateName: string;
+          tempId: string;
+          exercises: {
+            [key: string]: {
+              exerciseId: number;
+              exerciseName: string;
+              sets: SetInterface;
+            };
+          };
         };
       };
-      exerciseOrder: string[];
-      templateName: string;
-      tempId: string;
     };
   };
 }
 
 const initialState: InitialStateInterface = {
   status: "idle",
-  templates: {
-    "temp-00": {
-      exercises: {
-        "ex-00": {
-          exerciseId: 2,
-          exerciseName: "Barbell Bench Press",
-          sets: {},
+  folders: {
+    "fol-00": {
+      name: "Example Workouts",
+      id: "fol-00",
+      templates: {
+        "temp-00": {
+          exercises: {
+            "ex-00": {
+              exerciseId: 2,
+              exerciseName: "Barbell Bench Press",
+              sets: {},
+            },
+            "ex-01": {
+              exerciseId: 3,
+              exerciseName: "Barbell Squat",
+              sets: {},
+            },
+            "ex-02": {
+              exerciseId: 6,
+              exerciseName: "Seated Shoulder Press",
+              sets: {},
+            },
+          },
+          exerciseOrder: ["ex-00"],
+          templateName: "Example Template",
+          tempId: "temp-00",
         },
-        "ex-01": {
-          exerciseId: 3,
-          exerciseName: "Barbell Squat",
-          sets: {},
-        },
-        "ex-02": {
-          exerciseId: 6,
-          exerciseName: "Seated Shoulder Press",
-          sets: {},
+        "temp-01": {
+          exercises: {
+            "ex-00": {
+              exerciseId: 2,
+              exerciseName: "Barbell Bench Press",
+              sets: {},
+            },
+            "ex-01": {
+              exerciseId: 3,
+              exerciseName: "Barbell Squat",
+              sets: {},
+            },
+            "ex-02": {
+              exerciseId: 6,
+              exerciseName: "Seated Shoulder Press",
+              sets: {},
+            },
+          },
+          exerciseOrder: ["ex-00"],
+          templateName: "Second Template",
+          tempId: "temp-01",
         },
       },
-      exerciseOrder: ["ex-00"],
-      templateName: "Example Template",
-      tempId: "temp-00"
     },
-    "temp-01": {
-        exercises: {
-          "ex-00": {
-            exerciseId: 2,
-            exerciseName: "Barbell Bench Press",
-            sets: {},
-          },
-          "ex-01": {
-            exerciseId: 3,
-            exerciseName: "Barbell Squat",
-            sets: {},
-          },
-          "ex-02": {
-            exerciseId: 6,
-            exerciseName: "Seated Shoulder Press",
-            sets: {},
-          },
-        },
-        exerciseOrder: ["ex-00"],
-        templateName: "Second Template",
-        tempId: "temp-01"
-      },
   },
 };
 

@@ -17,7 +17,7 @@ import { supabase } from "../../supabase/supabaseClient";
 export default function TabTwoScreen({ navigation }: any) {
   const dispatch = useAppDispatch();
   const userId = supabase.auth.user();
-  const templates = useAppSelector((state) => state.templateSlice.templates);
+  const folders = useAppSelector((state) => state.templateSlice.folders);
   const isWorkoutActive = useAppSelector(
     (state) => state.currentWorkoutSlice.isActive
   );
@@ -99,32 +99,30 @@ export default function TabTwoScreen({ navigation }: any) {
     </Box>
   );
 
-  const renderTemplateCards = () => {
-    return Object.values(templates).map((template) => {
-      const { templateName, exercises, tempId } = template;
-
+  const renderFolders = () => {
+    return Object.values(folders).map(({ id, name, templates }) => {
       return (
-        <TemplateCard
-          key={tempId}
-          navigation={navigation}
-          title={templateName}
-          exercises={exercises}
-        />
+        <Box>
+          <Heading size={"sm"} marginY={2} color={"text.800"}>
+            {name}
+          </Heading>
+          <HStack paddingTop={2} space={2}>
+            {Object.values(templates).map(
+              ({ templateName, exercises, exerciseOrder, tempId }) => {
+                return (
+                  <TemplateCard
+                    key={tempId}
+                    navigation={navigation}
+                    title={templateName}
+                    exercises={exercises}
+                  />
+                );
+              }
+            )}
+          </HStack>
+        </Box>
       );
     });
-  };
-
-  const renderTemplateSection = (heading: string) => {
-    return (
-      <Box>
-        <Heading size={"sm"} marginY={2} color={"text.800"}>
-          {heading}
-        </Heading>
-        <HStack paddingTop={2} space={2}>
-          {renderTemplateCards()}
-        </HStack>
-      </Box>
-    );
   };
 
   return (
@@ -133,8 +131,7 @@ export default function TabTwoScreen({ navigation }: any) {
         {renderHeading()}
         {renderQuickStart()}
         {renderTemplatesHeader()}
-        {renderTemplateSection("My Workouts (4)")}
-        {renderTemplateSection("Example Workouts (4)")}
+        {renderFolders()}
       </ScrollView>
     </View>
   );
