@@ -8,7 +8,7 @@ import {
   VStack,
   Image,
 } from "native-base";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useState } from "react";
 import Timer from "../../components/Timer";
 import { useAppDispatch, useAppSelector } from "../../store";
@@ -22,11 +22,17 @@ const ActiveWorkout = ({ route, navigation }: any) => {
   const [workoutTitle, setWorkoutTitle] = useState("Quick Workout");
   const workoutTitleRef = useRef<HTMLInputElement>(null);
   const state = useAppSelector((state) => state.currentWorkoutSlice);
-
-  const { title } = route.params
-  console.log(title)
-
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (route.params) {
+      const {
+        title: { title },
+      } = route.params;
+      setWorkoutTitle(title);
+      dispatch(setWorkoutName("title"))
+    }
+  }, []);
 
   const handleEndWorkout = () => {
     dispatch(setWorkoutName(workoutTitle));

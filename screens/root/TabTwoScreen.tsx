@@ -8,6 +8,7 @@ import {
   HStack,
   View,
 } from "native-base";
+import useId from "../../hooks/useId";
 import TemplateCard from "../../components/layout/TemplateCard";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { startWorkout } from "../../store/currentWorkoutSlice";
@@ -16,6 +17,7 @@ import { supabase } from "../../supabase/supabaseClient";
 export default function TabTwoScreen({ navigation }: any) {
   const dispatch = useAppDispatch();
   const userId = supabase.auth.user();
+  const templates = useAppSelector((state) => state.templateSlice.templates);
   const isWorkoutActive = useAppSelector(
     (state) => state.currentWorkoutSlice.isActive
   );
@@ -78,6 +80,7 @@ export default function TabTwoScreen({ navigation }: any) {
         Templates
       </Heading>
       <Button
+        onPress={() => navigation.navigate("AddExercises")}
         size="sm"
         variant="outline"
         backgroundColor={"info.100"}
@@ -96,28 +99,19 @@ export default function TabTwoScreen({ navigation }: any) {
     </Box>
   );
 
-  const templates = useAppSelector((state) => state.templateSlice.templates);
+  const renderTemplateCards = () => {
+    return Object.values(templates).map((template) => {
+      const { templateName, exercises, tempId } = template;
 
-  const renderTemplates = () => {
-    return (
-      <Box>
-        {Object.values(templates).map((template, index) => {
-          const { templateName, exerciseOrder, exercises } = template;
-          const lifts = Object.values(exercises).map(
-            (exercise) => exercise.exerciseName
-          );
-
-          return (
-            <TemplateCard
-              navigation={navigation}
-              title={templateName}
-              lifts={lifts}
-              author={"Ahmed McGarry"}
-            />
-          );
-        })}
-      </Box>
-    );
+      return (
+        <TemplateCard
+          key={tempId}
+          navigation={navigation}
+          title={templateName}
+          exercises={exercises}
+        />
+      );
+    });
   };
 
   const renderTemplateSection = (heading: string) => {
@@ -126,73 +120,21 @@ export default function TabTwoScreen({ navigation }: any) {
         <Heading size={"sm"} marginY={2} color={"text.800"}>
           {heading}
         </Heading>
-        <VStack paddingTop={2} space={2}>
-          <HStack space={2} w="full" flexWrap="wrap">
-            <TemplateCard
-              title="Shoulder Day"
-              author="Ahmed McGarry"
-              lifts={[
-                "Shoulder Press",
-                "Lateral Raises",
-                "Facepulls",
-                "Front raises",
-                "Tricep Pulldowns",
-              ]}
-              navigation={navigation}
-            />
-            <TemplateCard
-              title="Chest Day"
-              author="Ahmed McGarry"
-              lifts={[
-                "Shoulder Press",
-                "Lateral Raises",
-                "Facepulls",
-                "Front raises",
-                "Tricep Pulldowns",
-              ]}
-              navigation={navigation}
-            />
-          </HStack>
-          <HStack space={2} w="full" flexWrap="wrap">
-            <TemplateCard
-              title="Leg Day"
-              author="Ahmed McGarry"
-              lifts={[
-                "Shoulder Press",
-                "Lateral Raises",
-                "Facepulls",
-                "Front raises",
-                "Tricep Pulldowns",
-              ]}
-              navigation={navigation}
-            />
-            <TemplateCard
-              title="Back Day"
-              author="Ahmed McGarry"
-              lifts={[
-                "Shoulder Press",
-                "Lateral Raises",
-                "Facepulls",
-                "Front raises",
-                "Tricep Pulldowns",
-              ]}
-              navigation={navigation}
-            />
-          </HStack>
-        </VStack>
+        <HStack paddingTop={2} space={2}>
+          {renderTemplateCards()}
+        </HStack>
       </Box>
     );
   };
 
   return (
-    <View padding={3} backgroundColor={"white"}>
+    <View padding={3} backgroundColor={"white"} flex={1}>
       <ScrollView>
         {renderHeading()}
         {renderQuickStart()}
         {renderTemplatesHeader()}
         {renderTemplateSection("My Workouts (4)")}
         {renderTemplateSection("Example Workouts (4)")}
-        {/* {renderTemplates()} */}
       </ScrollView>
     </View>
   );

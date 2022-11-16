@@ -14,6 +14,7 @@ interface InitialStateInterface {
       };
       exerciseOrder: string[];
       templateName: string;
+      tempId: string;
     };
   };
 }
@@ -41,6 +42,7 @@ const initialState: InitialStateInterface = {
       },
       exerciseOrder: ["ex-00"],
       templateName: "Example Template",
+      tempId: "temp-00"
     },
     "temp-01": {
         exercises: {
@@ -62,6 +64,7 @@ const initialState: InitialStateInterface = {
         },
         exerciseOrder: ["ex-00"],
         templateName: "Second Template",
+        tempId: "temp-01"
       },
   },
 };
