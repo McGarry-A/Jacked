@@ -18,10 +18,13 @@ import {
 } from "../../store/currentWorkoutSlice";
 import Lift from "../../components/Lift";
 
-const ActiveWorkout = ({ navigation }: any) => {
+const ActiveWorkout = ({ route, navigation }: any) => {
   const [workoutTitle, setWorkoutTitle] = useState("Quick Workout");
   const workoutTitleRef = useRef<HTMLInputElement>(null);
   const state = useAppSelector((state) => state.currentWorkoutSlice);
+
+  const { title } = route.params
+  console.log(title)
 
   const dispatch = useAppDispatch();
 

@@ -114,6 +114,7 @@ export default function TabTwoScreen({ navigation }: any) {
                 "Front raises",
                 "Tricep Pulldowns",
               ]}
+              navigation={navigation}
             />
             <TemplateCard
               title="Chest Day"
@@ -125,6 +126,7 @@ export default function TabTwoScreen({ navigation }: any) {
                 "Front raises",
                 "Tricep Pulldowns",
               ]}
+              navigation={navigation}
             />
           </HStack>
           <HStack space={2} w="full" flexWrap="wrap">
@@ -138,6 +140,7 @@ export default function TabTwoScreen({ navigation }: any) {
                 "Front raises",
                 "Tricep Pulldowns",
               ]}
+              navigation={navigation}
             />
             <TemplateCard
               title="Back Day"
@@ -149,6 +152,7 @@ export default function TabTwoScreen({ navigation }: any) {
                 "Front raises",
                 "Tricep Pulldowns",
               ]}
+              navigation={navigation}
             />
           </HStack>
         </VStack>
