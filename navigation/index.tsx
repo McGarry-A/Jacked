@@ -26,14 +26,13 @@ import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import Profile from "../screens/root/Profile";
 import History from "../screens/root/History";
-import TabTwoScreen from "../screens/root/TabTwoScreen";
+
 import {
   RootStackParamList,
   RootTabParamList,
   RootTabScreenProps,
 } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
-import { Text } from "native-base";
 import Calendar from "../screens/modals/Calendar";
 import Settings from "../screens/pages/Settings";
 import ActiveWorkout from "../screens/pages/ActiveWorkout";
@@ -42,7 +41,7 @@ import AddExercises from "../screens/modals/AddExercises";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { cancelWorkout } from "../store/currentWorkoutSlice";
 import { useAppDispatch } from "../store";
-
+import Start from "../screens/root/Start";
 
 export default function Navigation({
   colorScheme,
@@ -92,7 +91,12 @@ function RootNavigator() {
               }}
               justifyContent={"center"}
             >
-              <FontAwesomeIcon icon={faBan} color={'#38bdf8'} size={20} style={{ opacity: 50 }}/>
+              <FontAwesomeIcon
+                icon={faBan}
+                color={"#38bdf8"}
+                size={20}
+                style={{ opacity: 50 }}
+              />
             </Pressable>
           ),
         })}
@@ -164,11 +168,11 @@ function BottomTabNavigator() {
         })}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoScreen}
+        name="Start"
+        component={Start}
         options={{
-          title: "Start",
           headerTitle: "",
+          title: "Start",
           tabBarIcon: ({ color }) => (
             <FontAwesomeIcon icon={faPlus} color={color} size={25} />
           ),

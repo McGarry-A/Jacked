@@ -4,17 +4,15 @@ import {
   Box,
   Button,
   ScrollView,
-  VStack,
   HStack,
   View,
 } from "native-base";
-import useId from "../../hooks/useId";
 import TemplateCard from "../../components/layout/TemplateCard";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { startWorkout } from "../../store/currentWorkoutSlice";
 import { supabase } from "../../supabase/supabaseClient";
 
-export default function TabTwoScreen({ navigation }: any) {
+export default function Start({ navigation }: any) {
   const dispatch = useAppDispatch();
   const userId = supabase.auth.user();
   const folders = useAppSelector((state) => state.templateSlice.folders);
@@ -100,9 +98,9 @@ export default function TabTwoScreen({ navigation }: any) {
   );
 
   const renderFolders = () => {
-    return Object.values(folders).map(({ id, name, templates }) => {
+    return Object.values(folders).map(({ id, name, templates }, index) => {
       return (
-        <Box>
+        <Box key={id}>
           <Heading size={"sm"} marginY={2} color={"text.800"}>
             {name}
           </Heading>
