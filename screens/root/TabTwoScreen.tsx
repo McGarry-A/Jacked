@@ -6,7 +6,10 @@ import {
   ScrollView,
   VStack,
   HStack,
+  View,
 } from "native-base";
+import useId from "../../hooks/useId";
+import TemplateCard from "../../components/layout/TemplateCard";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { startWorkout } from "../../store/currentWorkoutSlice";
 import { supabase } from "../../supabase/supabaseClient";
@@ -14,6 +17,7 @@ import { supabase } from "../../supabase/supabaseClient";
 export default function TabTwoScreen({ navigation }: any) {
   const dispatch = useAppDispatch();
   const userId = supabase.auth.user();
+  const folders = useAppSelector((state) => state.templateSlice.folders);
   const isWorkoutActive = useAppSelector(
     (state) => state.currentWorkoutSlice.isActive
   );
@@ -72,10 +76,11 @@ export default function TabTwoScreen({ navigation }: any) {
       justifyContent="space-between"
       alignItems={"center"}
     >
-      <Heading size={"md"} fontWeight="semibold">
+      <Heading size={"md"} fontWeight="semibold" color={"text.900"}>
         Templates
       </Heading>
       <Button
+        onPress={() => navigation.navigate("AddExercises")}
         size="sm"
         variant="outline"
         backgroundColor={"info.100"}
@@ -94,40 +99,40 @@ export default function TabTwoScreen({ navigation }: any) {
     </Box>
   );
 
-  const renderTemplateSection = (heading: string) => {
-    return (
-      <Box>
-        <Heading size={"sm"} marginY={2}>
-          {heading}
-        </Heading>
-        <VStack paddingTop={2}>
-          <HStack space={2} w="98%">
-            {/* <Template />
-            <Template /> */}
+  const renderFolders = () => {
+    return Object.values(folders).map(({ id, name, templates }) => {
+      return (
+        <Box>
+          <Heading size={"sm"} marginY={2} color={"text.800"}>
+            {name}
+          </Heading>
+          <HStack paddingTop={2} space={2}>
+            {Object.values(templates).map(
+              ({ templateName, exercises, exerciseOrder, tempId }) => {
+                return (
+                  <TemplateCard
+                    key={tempId}
+                    navigation={navigation}
+                    title={templateName}
+                    exercises={exercises}
+                  />
+                );
+              }
+            )}
           </HStack>
-        </VStack>
-        <VStack
-          style={{}}
-          flexDirection={"row"}
-          flexWrap={"wrap"}
-          justifyContent={""}
-        >
-          <HStack space={2} w="98%">
-            {/* <Template />
-            <Template /> */}
-          </HStack>
-        </VStack>
-      </Box>
-    );
+        </Box>
+      );
+    });
   };
 
   return (
-    <ScrollView backgroundColor={"white"} padding={3}>
-      {renderHeading()}
-      {renderQuickStart()}
-      {renderTemplatesHeader()}
-      {renderTemplateSection("My Workouts")}
-      {renderTemplateSection("Example Workouts")}
-    </ScrollView>
+    <View padding={3} backgroundColor={"white"} flex={1}>
+      <ScrollView>
+        {renderHeading()}
+        {renderQuickStart()}
+        {renderTemplatesHeader()}
+        {renderFolders()}
+      </ScrollView>
+    </View>
   );
 }

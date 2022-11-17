@@ -1,16 +1,18 @@
-import { FlatList, Heading, Box, Text } from "native-base";
+import { FlatList, Heading, Box } from "native-base";
 import { useEffect, useState } from "react";
-import Template from "../../components/layout/Template";
+import HistoryCard from "../../components/layout/HistoryCard";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { getHistory } from "../../store/workoutHistorySlice";
 
-export default function TabThreeScreen() {
+export default function History() {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.userSlice.user.userId);
   const history = useAppSelector((state) => state.workoutHistorySlice.history);
-  const noHistory = Object.keys(history).length === 0;
+
+  const status = useAppSelector((state) => state.workoutHistorySlice.status)
+  const isLoaded = status === "fulfilled"
 
   useEffect(() => {
     dispatch(getHistory({ userId: userId }));
@@ -28,33 +30,21 @@ export default function TabThreeScreen() {
         onRefresh={toggleRefresh}
         refreshing={loading}
         keyExtractor={({ id }) => String(id)}
+        flexGrow={1}
         renderItem={({ item: { workout_name, lifts, date } }) => (
-          <Template
-            width="full"
+          <HistoryCard
             workoutName={workout_name}
             lifts={lifts}
             date={date}
+            isLoaded={isLoaded}
           />
         )}
       />
     );
   };
 
-  if (noHistory) {
-    return (
-      <Box
-        backgroundColor={"white"}
-        flex={1}
-        justifyContent={"center"}
-        alignItems={"center"}
-      >
-        <Text>No Workouts Here! Get in the Gym!</Text>
-      </Box>
-    );
-  }
-
   return (
-    <Box backgroundColor={"white"} padding={3} paddingBottom={10}>
+    <Box backgroundColor={"white"} padding={3} paddingBottom={10} h={'full'}>
       {renderHeading()}
       {renderSessions()}
     </Box>

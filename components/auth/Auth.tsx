@@ -173,7 +173,7 @@ const Auth = () => {
           {isLoading ? (
             <>
               <Spinner color="white" />
-              <Text textAlign={"center"} color="white" fontWeight={700}>
+              <Text textAlign={"center"} color="white" fontWeight={700} ml={2}>
                 Loading
               </Text>
             </>

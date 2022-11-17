@@ -24,7 +24,6 @@ const currentWorkoutSlice = createSlice({
       const startTime = new Date().toLocaleTimeString();
       state.startTime = startTime;
       state.isActive = true;
-      state.workoutTitle = "Quick Workout";
     },
     setWorkoutTitle: (state, { payload }: { payload: setWorkoutTitleType }) => {
       state.workoutTitle = payload;
@@ -66,7 +65,14 @@ const currentWorkoutSlice = createSlice({
     },
     deleteSet: (state, { payload }: { payload: deleteSetProps }) => {
       const { setId, liftId } = payload;
-      delete state.exercises[liftId].sets[setId];
+      const newState = {...state}
+      delete newState.exercises[liftId].sets[setId];
+      const newSetsArray = Object.values(newState.exercises[liftId].sets).map((el, index) => {
+        return [el.setId, { ...el, setNumber: index + 1 }]
+      })
+      const newSetsObj = Object.fromEntries(newSetsArray)
+      newState.exercises[liftId].sets = newSetsObj
+
     },
     updateSet: (state, { payload }: { payload: updateSetProps }) => {
       const { liftId, setId, newSet } = payload;
