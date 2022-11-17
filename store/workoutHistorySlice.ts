@@ -13,7 +13,7 @@ const initialState: InitialStateInterface = {
 };
 
 const workoutHistorySlice = createSlice({
-  name: "workoutHistorySlice",
+  name: "workout_history",
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
