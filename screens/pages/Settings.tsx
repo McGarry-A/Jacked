@@ -66,10 +66,12 @@ export default function Settings() {
           </Text>
         </Center>
       </Pressable>
+      {/* NOTE: MOVE THIS TO THE USER PAGE */}
       <Button
         variant={"solid"}
         colorScheme={"error"}
         alignSelf={"end"}
+        w="full"
         onPress={handleSignout}
       >
         Sign Out
