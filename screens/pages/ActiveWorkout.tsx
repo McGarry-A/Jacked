@@ -7,6 +7,7 @@ import {
   View,
   VStack,
   Image,
+  FlatList,
 } from "native-base";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
@@ -19,7 +20,13 @@ import {
 import Lift from "../../components/Lift";
 
 const ActiveWorkout = ({ route, navigation }: any) => {
-  const [workoutTitle, setWorkoutTitle] = useState("Quick Workout");
+  const titleInState = useAppSelector(
+    (state) => state.currentWorkoutSlice.workoutTitle
+  );
+  const title = titleInState ? titleInState : "Quick Workout";
+
+  const [workoutTitle, setWorkoutTitle] = useState(title);
+
   const workoutTitleRef = useRef<HTMLInputElement>(null);
   const state = useAppSelector((state) => state.currentWorkoutSlice);
   const dispatch = useAppDispatch();
@@ -30,7 +37,7 @@ const ActiveWorkout = ({ route, navigation }: any) => {
         title: { title },
       } = route.params;
       setWorkoutTitle(title);
-      dispatch(setWorkoutName("title"))
+      dispatch(setWorkoutName(title));
     }
   }, []);
 
@@ -131,6 +138,18 @@ const ActiveWorkout = ({ route, navigation }: any) => {
         </Box>
       );
     }
+
+    const renderLiftsInFlatlist = () => {
+      return (
+        <ScrollView>
+          <FlatList
+            data={Object.values(exercises)}
+            renderItem={({ item }) => <Lift {...item} />}
+            keyExtractor={(item) => item.liftId}
+          />
+        </ScrollView>
+      );
+    };
 
     return (
       <ScrollView>
