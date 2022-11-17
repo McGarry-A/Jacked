@@ -20,9 +20,7 @@ const initialState: InitialStateInterface = {
 const userSlice = createSlice({
   name: "user",
   initialState: initialState,
-  reducers: {
-    reset: (state) => (state = initialState)
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(userSignup.fulfilled, (state, { payload }) => {
       state.status = "fulfilled";
@@ -88,7 +86,5 @@ export const userLogin = createAsyncThunk(
     return data;
   }
 );
-
-export const { reset } = userSlice.actions
 
 export default userSlice.reducer;

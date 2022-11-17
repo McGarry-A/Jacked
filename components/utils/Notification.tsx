@@ -53,7 +53,7 @@ const Notification = () => {
     <Collapse isOpen={show}>
       <Alert
         maxW={350}
-        status={type ? type : "info"}
+        status={type ? type : undefined}
         variant={"top-accent"}
         position="absolute"
         right={0}

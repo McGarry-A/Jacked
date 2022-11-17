@@ -8,6 +8,7 @@ import "react-native-url-polyfill/auto";
 import { Provider } from "react-redux";
 import store from "./store";
 import AuthProvider from "./components/auth/AuthProvider";
+import Notification from "./components/utils/Notification";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -21,6 +22,7 @@ export default function App() {
         <NativeBaseProvider>
           <SafeAreaProvider>
             <AuthProvider>
+              <Notification />
               <Navigation colorScheme={colorScheme} />
               <StatusBar />
             </AuthProvider>

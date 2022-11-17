@@ -11,10 +11,10 @@ import {
 } from "native-base";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { reset, userLogin, userSignup } from "../../store/userSlice";
+import { userLogin, userSignup } from "../../store/userSlice";
 import { faLock } from "@fortawesome/free-solid-svg-icons/faLock";
-import Notification from "../Notification";
 import { SafeAreaView } from "react-native-safe-area-context";
+import useNotification from "../../hooks/useNotification";
 
 const Auth = () => {
   const dispatch = useAppDispatch();
@@ -37,10 +37,8 @@ const Auth = () => {
   }, [userLogin]);
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(reset());
-      setError(null);
-    }, 3000);
+    error ? useNotification({ title: error, type: "error", show: true }) : null;
+    setError(null);
   }, [error]);
 
   const toggleLoginState = () => {
@@ -51,16 +49,10 @@ const Auth = () => {
     if (!password || !email)
       return setError("Please enter username and password");
 
-    // NOTE:
-    // CHECK VALID EMAIL FUNCTION VALIDATEMAIL IF NOT THROW ERROR
-
     dispatch(userLogin({ email: email, password: password }));
-    console.log(`DISPATCHED ${email} ${password}`);
   };
 
   const handleSignup = async () => {
-    // REVIEW:
-    // DOES THE SIGN UP WORK CORRECTLY?
     if (!password || !email || !confrimPassword)
       return setError("Please enter username and password");
     if (password !== confrimPassword)
@@ -71,8 +63,6 @@ const Auth = () => {
       );
 
     dispatch(userSignup({ email: email, password: password }));
-
-    console.log("Signed Up");
   };
 
   const renderEmailField = () => {
@@ -260,23 +250,9 @@ const Auth = () => {
     );
   };
 
-  const renderErrorNotification = () => {
-    const errorProps = {
-      status: "error",
-      content: error || "",
-      variant: "solid",
-      dismissFunc: () => dispatch(reset()),
-    };
-
-    if (error) {
-      return <Notification {...errorProps} />;
-    }
-  };
-
   return (
     <SafeAreaView>
       <View justifyContent={"center"} h={"full"}>
-        {renderErrorNotification()}
         <Box mx={4} backgroundColor={"whitesmoke"} h={"sm"} my={"auto"}>
           {renderHeading()}
           {renderLogin()}
