@@ -27,27 +27,37 @@ const userSlice = createSlice({
     builder.addCase(userSignup.fulfilled, (state, { payload }) => {
       state.status = "fulfilled";
       state.user.isLoggedIn = true;
-    }),
-      builder.addCase(userSignup.rejected, (state, _) => {
+    })
+      .addCase(userSignup.rejected, (state, _) => {
         state.status = "rejected";
-      }),
-      builder.addCase(userSignup.pending, (state, _) => {
+      })
+      .addCase(userSignup.pending, (state, _) => {
         state.status = "pending";
-      }),
-      builder.addCase(userLogin.fulfilled, (state, { payload }) => {
+      })
+      .addCase(userLogin.fulfilled, (state) => {
         const user = supabase.auth.user()
 
         state.status = "pending";
         state.user.isLoggedIn = true;
         state.user.userId = user!.id;
         state.status = "fulfilled"
-      }),
-      builder.addCase(userLogin.pending, (state) => {
+      })
+      .addCase(userLogin.pending, (state) => {
         state.status = "pending";
-      }),
-      builder.addCase(userLogin.rejected, (state, payload) => {
+      })
+      .addCase(userLogin.rejected, (state) => {
         state.status = "rejected";
-      });
+      })
+      .addCase(userSignout.rejected, (state) => {
+        state.status = "rejected"
+      })
+      .addCase(userSignout.fulfilled, (state) => {
+        state.status = "fulfilled"
+        state.user = initialState.user
+      })
+      .addCase(userSignout.pending, (state) => {
+        state.status = "pending"
+      })
   },
 });
 
@@ -88,6 +98,15 @@ export const userLogin = createAsyncThunk(
     return data;
   }
 );
+
+export const userSignout = createAsyncThunk(
+  "user/userSignout",
+  async (_, { rejectWithValue }) => {
+    const { error } = await supabase.auth.signOut()
+
+    if (error) return rejectWithValue(error)
+  }
+)
 
 export const { reset } = userSlice.actions
 

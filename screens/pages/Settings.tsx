@@ -1,16 +1,23 @@
-import { FontAwesome } from "@expo/vector-icons";
 import {
   Box,
+  Button,
   Center,
-  CheckIcon,
   Heading,
   Pressable,
   Select,
   Text,
   View,
 } from "native-base";
+import { useAppDispatch } from "../../store";
+import { userSignout } from "../../store/userSlice";
 
 export default function Settings() {
+  const dispatch = useAppDispatch();
+
+  const handleSignout = () => {
+    return dispatch(userSignout());
+  };
+
   return (
     <View backgroundColor={"white"} flex={1} padding={3}>
       <Heading marginY={1}>General</Heading>
@@ -59,6 +66,16 @@ export default function Settings() {
           </Text>
         </Center>
       </Pressable>
+      {/* NOTE: MOVE THIS TO THE USER PAGE */}
+      <Button
+        variant={"solid"}
+        colorScheme={"error"}
+        alignSelf={"end"}
+        w="full"
+        onPress={handleSignout}
+      >
+        Sign Out
+      </Button>
     </View>
   );
 }
