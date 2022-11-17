@@ -98,9 +98,9 @@ export default function Start({ navigation }: any) {
   );
 
   const renderFolders = () => {
-    return Object.values(folders).map(({ id, name, templates }) => {
+    return Object.values(folders).map(({ id, name, templates }, index) => {
       return (
-        <Box>
+        <Box key={id}>
           <Heading size={"sm"} marginY={2} color={"text.800"}>
             {name}
           </Heading>
