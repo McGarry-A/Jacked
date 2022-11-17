@@ -1,8 +1,6 @@
-import { FontAwesome } from "@expo/vector-icons";
 import {
   Box,
   Center,
-  CheckIcon,
   Heading,
   Pressable,
   Select,
