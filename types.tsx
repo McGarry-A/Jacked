@@ -25,8 +25,8 @@ export type RootStackParamList = {
   Settings: undefined;
   ActiveWorkout: undefined;
   AddExercises: undefined;
-  NewTemplate: undefined;
-  TemplateTitle: undefined;
+  NewTemplate: { folder: string, title: string };
+  TemplateTitle: { folder: string };
   ChooseFolder: undefined;
 };
 
