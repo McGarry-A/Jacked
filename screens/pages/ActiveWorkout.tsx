@@ -139,26 +139,14 @@ const ActiveWorkout = ({ route, navigation }: any) => {
       );
     }
 
-    const renderLiftsInFlatlist = () => {
-      return (
-        <ScrollView>
-          <FlatList
-            data={Object.values(exercises)}
-            renderItem={({ item }) => <Lift {...item} />}
-            keyExtractor={(item) => item.liftId}
-          />
-        </ScrollView>
-      );
-    };
-
     return (
-      <ScrollView>
-        <VStack flex={1} px={3} space={1}>
-          {Object.values(exercises).map((el) => (
-            <Lift {...el} key={el.liftId} />
-          ))}
-        </VStack>
-      </ScrollView>
+      <VStack flex={1} px={3} space={1}>
+        <FlatList
+          data={Object.values(exercises)}
+          renderItem={({ item }) => <Lift {...item} />}
+          keyExtractor={(item) => item.liftId}
+        />
+      </VStack>
     );
   };
 

@@ -59,9 +59,9 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
       borderColor={"gray.300"}
       p={2}
       borderRadius={"sm"}
-      w={"full"}
-      flex={1}
+      w={"47%"}
       onPress={handlePress}
+      my={1}
     >
       <VStack space={1}>
         <Heading fontSize="sm">{title}</Heading>

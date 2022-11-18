@@ -25,6 +25,9 @@ export type RootStackParamList = {
   Settings: undefined;
   ActiveWorkout: undefined;
   AddExercises: undefined;
+  NewTemplate: undefined;
+  TemplateTitle: undefined;
+  ChooseFolder: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

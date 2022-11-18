@@ -1,8 +1,11 @@
+import { FontAwesome } from "@expo/vector-icons";
 import { Heading, Input, Pressable, Text, View } from "native-base";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
+import { fetchAllExercises } from "../../store/exerciseList";
 import { addLift } from "../../store/currentWorkoutSlice";
 import { RootStackScreenProps } from "../../types";
+import ExerciseInterface from "../../types/ExerciseInterface";
 import { ExerciseList } from "../../components/layout/ExerciseList";
 
 export interface LiftData {
@@ -11,7 +14,7 @@ export interface LiftData {
   liftId: string;
 }
 
-const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
+const AddExercisesTemplates = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
   const [liftData, setLiftData] = useState<LiftData[]>([]);
 
   const userId = useAppSelector((state) => state.userSlice.user.userId);
@@ -80,4 +83,4 @@ const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
   );
 };
 
-export default AddExercises;
+export default AddExercisesTemplates;

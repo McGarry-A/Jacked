@@ -48,8 +48,9 @@ const ExerciseCard = ({
   // MIGHT NEED TO CHANGE IF NEGATIVELY AFFECTS EXERCISE PAGE ** ! OPERATOR
   // ADD FUNCTION SHOULD BE IN THE PARENT COMPONENT
   const handleAddToLiftData = () => {
+    console.log("card is clicked")
     if (!liftData || !setLiftData) return;
-    console.log("handle add");
+    console.log("card continues")
     if (!isActive) {
       const liftId = useId("lift");
 

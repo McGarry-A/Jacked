@@ -78,7 +78,7 @@ export default function Start({ navigation }: any) {
         Templates
       </Heading>
       <Button
-        onPress={() => navigation.navigate("AddExercises")}
+        onPress={() => navigation.navigate("ChooseFolder")}
         size="sm"
         variant="outline"
         backgroundColor={"info.100"}
@@ -98,15 +98,15 @@ export default function Start({ navigation }: any) {
   );
 
   const renderFolders = () => {
-    return Object.values(folders).map(({ id, name, templates }, index) => {
+    return Object.values(folders).map(({ id, name, templates }) => {
       return (
         <Box key={id}>
           <Heading size={"sm"} marginY={2} color={"text.800"}>
             {name}
           </Heading>
-          <HStack paddingTop={2} space={2}>
+          <HStack paddingTop={2} space={2} flexWrap="wrap">
             {Object.values(templates).map(
-              ({ templateName, exercises, exerciseOrder, tempId }) => {
+              ({ templateName, exercises, tempId }) => {
                 return (
                   <TemplateCard
                     key={tempId}

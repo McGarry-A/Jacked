@@ -21,9 +21,11 @@ const linking: LinkingOptions<RootStackParamList> = {
               UserScreen: 'user'
             },
           },
-          TabTwo: {
+          Start: {
             screens: {
-              TabTwoScreen: 'two',
+              start: 'Start',
+              new_template: 'NewTemplate',
+              active_workout: "ActiveWorkout"
             },
           },
           History: {
