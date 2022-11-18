@@ -1,7 +1,8 @@
 import { Heading, Pressable, Text, View } from "native-base";
 import { useState } from "react";
 import { ExerciseList } from "../../components/layout/ExerciseList";
-import { useAppDispatch } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { addLift, startWorkout } from "../../store/currentWorkoutSlice";
 import { addLiftsToTemplate } from "../../store/templateSlice";
 import { LiftData } from "./AddExercisesTemplates";
 
@@ -9,21 +10,27 @@ const NewTemplate = ({ navigation, route }: any) => {
   const [templateData, setTemplateData] = useState<LiftData[]>([]);
   const { folder, title } = route.params;
 
+  const state = useAppSelector((state) => state)
+
   const dispatch = useAppDispatch();
+  const userId = state.userSlice.user.userId
+
+  const startActiveWorkout = () => {
+    const params = templateData.map((el) => {
+        return {
+          ...el,
+          userId
+        };
+      });
+
+    dispatch(addLift(params))
+    dispatch(startWorkout({ userId }))
+  }
 
   const handleAddExercises = () => {
-    const params = templateData.map((el) => {
-      return {
-        ...el,
-      };
-    });
-
-    // NOTE: DISPATCH ADD TEMPLATE
-
-    console.log(params, folder, title);
-    dispatch(addLiftsToTemplate({ params, folder, title }));
+    dispatch(addLiftsToTemplate({ params: templateData, folder, title }));
+    startActiveWorkout()
     navigation.navigate("ActiveWorkout")
-    // MOVE ON TO THE NEXT PAGE
   };
 
   const renderHeading = () => (
