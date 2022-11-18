@@ -1,30 +1,29 @@
-import { useAppDispatch } from "../store"
-import { notify } from "../store/NotificationSlice";
+import { useAppDispatch } from "../store";
+import { notify } from "../store/notificationSlice";
 
 interface notificationHandlerProps {
-    type: "success" | "error" | "info" | null;
-    title: string;
-    content?: string;
-    show: boolean;
+  type: "success" | "error" | "info" | null;
+  title: string;
+  content?: string;
+  show: boolean;
 }
 
-type clear = "clear"
+type clear = "clear";
 
-type props = clear | notificationHandlerProps
+type props = clear | notificationHandlerProps;
 
-const useNotification = (notificationProps: props) => {
-    const dispatch = useAppDispatch()
-    
+const useNotification = () => {
+  const dispatch = useAppDispatch();
+  console.log("NOTIFY HOOK")
+
+  const handleNotify = (notificationProps: props) => {
     if (typeof notificationProps === "string") {
-        return dispatch(notify({
-            title: "",
-            type: null,
-            content: "",
-            show: false
-        }))
+        return dispatch(notify({ title: "", content: "", type: null, show: false }))
     }
 
     return dispatch(notify({ ...notificationProps }))
-}
+  };
 
-export default useNotification
+  return { handleNotify }
+};
+export default useNotification;

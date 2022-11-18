@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   Alert,
   CloseIcon,
@@ -10,16 +9,18 @@ import {
 } from "native-base";
 import useNotification from "../../hooks/useNotification";
 import { useAppSelector } from "../../store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Notification = () => {
   const { show, title, content, type } = useAppSelector(
     (state) => state.notificationSlice
   );
 
+  const { handleNotify } = useNotification()
+
   useEffect(() => {
     const hideAfterFive = setTimeout(() => {
-      useNotification("clear");
+      handleNotify("clear")
     }, 5000);
 
     return () => {
@@ -44,7 +45,7 @@ const Notification = () => {
         variant={"unstyled"}
         color={color}
         flexShrink={1}
-        onPress={() => useNotification("clear")}
+        onPress={() => handleNotify("clear")}
       />
     );
   };

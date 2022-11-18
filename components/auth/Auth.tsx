@@ -15,6 +15,7 @@ import { userLogin, userSignup } from "../../store/userSlice";
 import { faLock } from "@fortawesome/free-solid-svg-icons/faLock";
 import { SafeAreaView } from "react-native-safe-area-context";
 import useNotification from "../../hooks/useNotification";
+import { notify } from "../../store/notificationSlice";
 
 const Auth = () => {
   const dispatch = useAppDispatch();
@@ -27,7 +28,7 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confrimPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState<string | null>("");
+  const [error, setError] = useState<string>("Error");
   const [isLoginRejected, _] = useState(
     useAppSelector((state) => state.userSlice.status) === "rejected"
   );
@@ -36,18 +37,23 @@ const Auth = () => {
     if (isLoginRejected) return setError("Incorrect login details");
   }, [userLogin]);
 
-  useEffect(() => {
-    error ? useNotification({ title: error, type: "error", show: true }) : null;
-    setError(null);
-  }, [error]);
-
   const toggleLoginState = () => {
     setIsLogin(!isLogin);
   };
 
   const handleLogin = () => {
-    if (!password || !email)
-      return setError("Please enter username and password");
+    if (!password || !email) {
+      setError("Please enter username and password");
+      dispatch(
+        notify({
+          title: error,
+          type: "error",
+          show: true,
+        })
+      );
+
+      return
+    }
 
     dispatch(userLogin({ email: email, password: password }));
   };
