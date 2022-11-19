@@ -82,21 +82,6 @@ function RootNavigator() {
         options={{ title: "Settings" }}
       />
       <Stack.Screen
-        name="TemplateTitle"
-        component={TemplateTitle}
-        options={{ title: "Template Title", headerTitle: "" }}
-      />
-      <Stack.Screen
-        name="NewTemplate"
-        component={NewTemplate}
-        options={{ title: "New Template", headerTitle: "" }}
-      />
-      <Stack.Screen
-        name="ChooseFolder"
-        component={ChooseFolder}
-        options={{ title: "Choose Folder", headerTitle: "" }}
-      />
-      <Stack.Screen
         name="ActiveWorkout"
         component={ActiveWorkout}
         options={({ navigation }) => ({
@@ -119,6 +104,23 @@ function RootNavigator() {
           ),
         })}
       />
+      <Stack.Group>
+        <Stack.Screen
+          name="TemplateTitle"
+          component={TemplateTitle}
+          options={{ title: "Template Title", headerTitle: "" }}
+        />
+        <Stack.Screen
+          name="NewTemplate"
+          component={NewTemplate}
+          options={{ title: "New Template", headerTitle: "" }}
+        />
+        <Stack.Screen
+          name="ChooseFolder"
+          component={ChooseFolder}
+          options={{ title: "Choose Folder", headerTitle: "" }}
+        />
+      </Stack.Group>
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Calendar" component={Calendar} />
         <Stack.Screen

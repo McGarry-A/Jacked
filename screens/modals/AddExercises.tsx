@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { addLift } from "../../store/currentWorkoutSlice";
 import { RootStackScreenProps } from "../../types";
 import { ExerciseList } from "../../components/layout/ExerciseList";
+import { useNavigation } from "@react-navigation/native";
 
 export interface LiftData {
   exerciseId: number;
@@ -11,11 +12,13 @@ export interface LiftData {
   liftId: string;
 }
 
-const AddExercises = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
-  const [liftData, setLiftData] = useState<LiftData[]>([]);
+type Props = RootStackScreenProps<"AddExercises">
 
+const AddExercises: React.FC<Props> = () => {
+  const [liftData, setLiftData] = useState<LiftData[]>([]);
   const userId = useAppSelector((state) => state.userSlice.user.userId);
 
+  const navigation = useNavigation()
   const dispatch = useAppDispatch();
 
   const handleAddExercises = () => {

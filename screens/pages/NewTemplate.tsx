@@ -1,36 +1,45 @@
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Heading, Pressable, Text, View } from "native-base";
 import { useState } from "react";
 import { ExerciseList } from "../../components/layout/ExerciseList";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { addLift, startWorkout } from "../../store/currentWorkoutSlice";
 import { addLiftsToTemplate } from "../../store/templateSlice";
+import { RootStackParamList } from "../../types";
 import { LiftData } from "./AddExercisesTemplates";
 
-const NewTemplate = ({ navigation, route }: any) => {
-  const [templateData, setTemplateData] = useState<LiftData[]>([]);
-  const { folder, title } = route.params;
+type Props = NativeStackScreenProps<RootStackParamList, "NewTemplate">;
 
-  const state = useAppSelector((state) => state)
+const NewTemplate: React.FC<Props> = ({
+  route: {
+    params: { folder, title },
+  },
+}) => {
+  const navigation = useNavigation();
+  const [templateData, setTemplateData] = useState<LiftData[]>([]);
+
+  const state = useAppSelector((state) => state);
 
   const dispatch = useAppDispatch();
-  const userId = state.userSlice.user.userId
+  const userId = state.userSlice.user.userId;
 
   const startActiveWorkout = () => {
     const params = templateData.map((el) => {
-        return {
-          ...el,
-          userId
-        };
-      });
+      return {
+        ...el,
+        userId,
+      };
+    });
 
-    dispatch(addLift(params))
-    dispatch(startWorkout({ userId }))
-  }
+    dispatch(addLift(params));
+    dispatch(startWorkout({ userId }));
+  };
 
   const handleAddExercises = () => {
     dispatch(addLiftsToTemplate({ params: templateData, folder, title }));
-    startActiveWorkout()
-    navigation.navigate("ActiveWorkout")
+    startActiveWorkout();
+    navigation.navigate("ActiveWorkout");
   };
 
   const renderHeading = () => (

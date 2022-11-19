@@ -1,12 +1,20 @@
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Button, Heading, Input, Text, View, VStack } from "native-base";
 import { useState } from "react";
+import { RootStackParamList } from "../../types";
 
-const TemplateTitle = ({ navigation, route }: any) => {
+type Props = NativeStackScreenProps<RootStackParamList, "TemplateTitle">;
+
+const TemplateTitle: React.FC<Props> = ({
+  route: {
+    params: { folder },
+  },
+}) => {
   const [templateTitle, setTemplateTitle] = useState<string>("");
+  const navigation = useNavigation();
 
   const handleNext = () => {
-    const { folder } = route.params;
-
     navigation.navigate("NewTemplate", {
       title: templateTitle,
       folder,
