@@ -117,7 +117,7 @@ const Set = ({
             {setNumber}
           </Text>
         </Box>
-        <Text fontSize="xs" opacity={50} flex={2}>
+        <Text fontSize="xs" opacity={50} flex={2} fontWeight={700}>
           {previous}
         </Text>
         <Box flex={2}>

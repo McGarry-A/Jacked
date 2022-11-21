@@ -45,6 +45,7 @@ import Start from "../screens/root/Start";
 import NewTemplate from "../screens/pages/NewTemplate";
 import ChooseFolder from "../screens/pages/ChooseFolder";
 import TemplateTitle from "../screens/pages/TemplateTitle";
+import CreateTemplate from "../screens/pages/CreateTemplate";
 
 export default function Navigation({
   colorScheme,
@@ -82,6 +83,11 @@ function RootNavigator() {
         options={{ title: "Settings" }}
       />
       <Stack.Screen
+        name="CreateTemplate"
+        component={CreateTemplate}
+        options={{ title: "Settings", headerTitle: "" }}
+      />
+      {/* <Stack.Screen
         name="TemplateTitle"
         component={TemplateTitle}
         options={{ title: "Template Title", headerTitle: "" }}
@@ -95,7 +101,7 @@ function RootNavigator() {
         name="ChooseFolder"
         component={ChooseFolder}
         options={{ title: "Choose Folder", headerTitle: "" }}
-      />
+      /> */}
       <Stack.Screen
         name="ActiveWorkout"
         component={ActiveWorkout}

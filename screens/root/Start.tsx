@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import {
   Text,
   Heading,
@@ -12,13 +13,15 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { startWorkout } from "../../store/currentWorkoutSlice";
 import { supabase } from "../../supabase/supabaseClient";
 
-export default function Start({ navigation }: any) {
+export default function Start() {
   const dispatch = useAppDispatch();
   const userId = supabase.auth.user();
   const folders = useAppSelector((state) => state.templateSlice.folders);
   const isWorkoutActive = useAppSelector(
     (state) => state.currentWorkoutSlice.isActive
   );
+
+  const navigation = useNavigation();
 
   const handlePressQuickStart = () => {
     dispatch(startWorkout({ userId: userId!.id }));
@@ -78,7 +81,7 @@ export default function Start({ navigation }: any) {
         Templates
       </Heading>
       <Button
-        onPress={() => navigation.navigate("ChooseFolder")}
+        onPress={() => navigation.navigate("CreateTemplate")}
         size="sm"
         variant="outline"
         backgroundColor={"info.100"}
