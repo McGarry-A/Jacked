@@ -34,7 +34,7 @@ export default function CreateTemplate() {
       ? setStep("choose folder")
       : step === "choose folder"
       ? setStep("add exercises")
-      : setStep("choose title");
+      : handleAddExercises();
 
   const handleChooseFolder = (folderId: string) => {
     setActiveFolderId(folderId);
@@ -146,7 +146,7 @@ export default function CreateTemplate() {
         alignItems={"center"}
         py={2}
         mb={4}
-        onPress={handleAddExercises}
+        onPress={next}
       >
         <Text fontWeight={700} color={"white"}>
           {buttonText}
