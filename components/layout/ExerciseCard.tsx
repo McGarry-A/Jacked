@@ -1,15 +1,6 @@
-import {
-  Avatar,
-  Box,
-  Checkbox,
-  Pressable,
-  Skeleton,
-  Text,
-  VStack,
-} from "native-base";
+import { Avatar, Box, Checkbox, Pressable, Skeleton, Text } from "native-base";
 import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
-import generateColor from "../../utils/generateColor";
+import { useAppSelector } from "../../store";
 import getExerciseInitials from "../../utils/getExerciseInitials";
 import { LiftData } from "../../screens/modals/AddExercises";
 import useId from "../../hooks/useId";
@@ -47,10 +38,11 @@ const ExerciseCard = ({
   // REVIEW:
   // MIGHT NEED TO CHANGE IF NEGATIVELY AFFECTS EXERCISE PAGE ** ! OPERATOR
   // ADD FUNCTION SHOULD BE IN THE PARENT COMPONENT
+
   const handleAddToLiftData = () => {
-    console.log("card is clicked")
+    console.log("card is clicked");
     if (!liftData || !setLiftData) return;
-    console.log("card continues")
+    console.log("card continues");
     if (!isActive) {
       const liftId = useId("lift");
 

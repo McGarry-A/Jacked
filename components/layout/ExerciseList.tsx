@@ -6,7 +6,6 @@ import {
   Input,
   Popover,
   Pressable,
-  ScrollView,
   Text,
   View,
   VStack,
@@ -42,8 +41,9 @@ export const ExerciseList: React.FC<Props> = ({
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchAllExercises());
+      console.log(cardProps);
     }
-
+    console.log(cardProps);
     setExercises(exerciseList);
   }, [status]);
 
@@ -207,7 +207,9 @@ export const ExerciseList: React.FC<Props> = ({
       <View>
         <FlatList
           data={exercises}
-          renderItem={({ item }) => <ExerciseCard {...item} {...cardProps} status={status} />}
+          renderItem={({ item }) => (
+            <ExerciseCard {...item} {...cardProps} status={status} />
+          )}
           keyExtractor={(item) => item.id.toString()}
         />
       </View>
