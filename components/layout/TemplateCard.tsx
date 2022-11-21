@@ -25,7 +25,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
   navigation,
   exercises,
 }) => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.userSlice.user);
 
   const handleAddLiftsToWorkout = () => {
@@ -36,21 +36,42 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
         exerciseId: exercise.exerciseId,
         exerciseName: exercise.exerciseName,
         userId,
-        liftId: useId("lift")
-      }
-    })
+        liftId: useId("lift"),
+      };
+    });
 
-    dispatch(addLift(params))
+    dispatch(addLift(params));
   };
 
   const handlePress = () => {
-    const { userId } = user
-    handleAddLiftsToWorkout()
-    dispatch(startWorkout({ userId }))
+    const { userId } = user;
+    handleAddLiftsToWorkout();
+    dispatch(startWorkout({ userId }));
     navigation.navigate("ActiveWorkout", {
       title: { title },
       exercises: exercises,
     });
+  };
+
+  const renderExercises = (
+    exercise: {
+      exerciseId: number;
+      exerciseName: string;
+      sets: SetInterface;
+    },
+    index: number
+  ) => {
+    const { exerciseName, exerciseId } = exercise;
+    const exercisesLength = Object.keys(exercises).length;
+    const showComma = (index: number) =>
+      exercisesLength === 1 || index + 1 === exercisesLength ? " " : ", ";
+
+    return (
+      <React.Fragment key={exerciseId}>
+        {exerciseName}
+        {showComma(index)}
+      </React.Fragment>
+    );
   };
 
   return (
@@ -66,14 +87,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
       <VStack space={1}>
         <Heading fontSize="sm">{title}</Heading>
         <Text fontSize={"xs"}>
-          {Object.values(exercises).map((exercise) => {
-            const { exerciseName, exerciseId } = exercise;
-            return (
-              <React.Fragment key={exerciseId}>
-                {exerciseName + " "}
-              </React.Fragment>
-            );
-          })}
+          {Object.values(exercises).map(renderExercises)}
         </Text>
         <HStack alignItems={"center"}>
           <FontAwesomeIcon icon={faClock} size={10} color="gray" />

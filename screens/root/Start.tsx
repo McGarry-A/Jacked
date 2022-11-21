@@ -12,6 +12,8 @@ import TemplateCard from "../../components/layout/TemplateCard";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { startWorkout } from "../../store/currentWorkoutSlice";
 import { supabase } from "../../supabase/supabaseClient";
+import { faFile } from "@fortawesome/free-regular-svg-icons/faFile"
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 export default function Start() {
   const dispatch = useAppDispatch();
@@ -87,6 +89,7 @@ export default function Start() {
         backgroundColor={"info.100"}
         borderRadius="3xl"
         borderWidth={0}
+        leftIcon={<FontAwesomeIcon icon={faFile} color={"#0284c7"} />}
       >
         <Text
           fontSize={"xs"}
@@ -94,7 +97,7 @@ export default function Start() {
           textTransform={"uppercase"}
           fontWeight={"bold"}
         >
-          Add Template
+          Manage Folders
         </Text>
       </Button>
     </Box>

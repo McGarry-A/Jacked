@@ -9,6 +9,7 @@ import {
   VStack,
 } from "native-base";
 import { useState } from "react";
+import CreateFolderButton from "../../components/CreateFolderButton";
 import { ExerciseList } from "../../components/layout/ExerciseList";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { addLift, startWorkout } from "../../store/currentWorkoutSlice";
@@ -31,7 +32,7 @@ export default function CreateTemplate() {
 
   const next = () =>
     step === "choose title"
-      ? setStep("choose folder")
+      ? templateTitle !== "" && setStep("choose folder")
       : step === "choose folder"
       ? setStep("add exercises")
       : handleAddExercises();
@@ -89,7 +90,7 @@ export default function CreateTemplate() {
     if (step !== "choose folder") return;
 
     return (
-      <VStack>
+      <VStack space={2}>
         {Object.values(folders).map((el) => {
           return (
             <Button
@@ -101,6 +102,7 @@ export default function CreateTemplate() {
             </Button>
           );
         })}
+        <CreateFolderButton />
       </VStack>
     );
   };
@@ -127,7 +129,7 @@ export default function CreateTemplate() {
 
     const templateProps = {
       liftData,
-      setLiftData
+      setLiftData,
     };
 
     return <ExerciseList config={config} cardProps={templateProps} />;
