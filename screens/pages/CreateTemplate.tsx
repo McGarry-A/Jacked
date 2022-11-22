@@ -53,29 +53,25 @@ export default function CreateTemplate() {
 
     dispatch(addLift(params));
     dispatch(startWorkout({ userId }));
+    navigation.navigate("ActiveWorkout");
   };
 
   const handleAddExercises = () => {
     const templateId = useId("temp");
+    const createTemplateProps = {
+      folId: activeFolderId,
+      title: templateTitle,
+      tempId: templateId,
+    };
+    const addLiftsToTemplateProps = {
+      params: liftData,
+      folder: activeFolderId,
+      tempId: templateId,
+    };
 
-    dispatch(
-      createTemplate({
-        folId: activeFolderId,
-        title: "templateTitle",
-        tempId: templateId,
-      })
-    );
-
-    dispatch(
-      addLiftsToTemplate({
-        params: liftData,
-        folder: activeFolderId,
-        tempId: templateId,
-      })
-    );
-
+    dispatch(createTemplate({ ...createTemplateProps }));
+    dispatch(addLiftsToTemplate({ ...addLiftsToTemplateProps }));
     startActiveWorkout();
-    navigation.navigate("ActiveWorkout");
   };
 
   const renderHeading = () => (
