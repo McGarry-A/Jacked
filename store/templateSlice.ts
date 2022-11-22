@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { folders } from "../data";
-import useId from "../hooks/useId";
 import { LiftData } from "../screens/modals/AddExercises";
-import { TemplateInterface, TemplateSliceInterface } from "../types/TemplateSliceInterface";
+import { TemplateSliceInterface } from "../types/TemplateSliceInterface";
 
 const initialState: TemplateSliceInterface = {
   status: "idle",
