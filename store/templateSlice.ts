@@ -1,33 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import useId from "../hooks/useId";
 import { LiftData } from "../screens/modals/AddExercises";
-import { LiftInterface, SetInterface } from "../types/CurrentWorkoutInterface";
+import { TemplateSliceInterface } from "../types/TemplateSliceInterface";
 
-interface InitialStateInterface {
-  status: "fulfilled" | "pending" | "rejected" | "idle";
-  folders: {
-    [key: string]: {
-      name: string;
-      id: string;
-      templates: {
-        [key: string]: {
-          exerciseOrder: string[];
-          templateName: string;
-          tempId: string;
-          exercises: {
-            [key: string]: {
-              exerciseId: number;
-              exerciseName: string;
-              sets: SetInterface;
-            };
-          };
-        };
-      };
-    };
-  };
-}
-
-const initialState: InitialStateInterface = {
+const initialState: TemplateSliceInterface = {
   status: "idle",
   folders: {
     "fol-00": {
@@ -123,9 +99,21 @@ const templateSlice = createSlice({
         );
       });
     },
+    createFolder: (state, { payload }) => {
+      const { folderName } = payload
+      const newFolderId = useId("fol")
+
+      const newFolder = {
+        templates: {},
+        id: newFolderId,
+        name: folderName
+      }
+
+      state.folders[newFolderId] = newFolder
+    }
   },
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => { },
 });
 
-export const { addLiftsToTemplate } = templateSlice.actions;
+export const { addLiftsToTemplate, createFolder } = templateSlice.actions;
 export default templateSlice.reducer;
