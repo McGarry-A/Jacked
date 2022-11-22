@@ -9,6 +9,7 @@ const initialState: TemplateSliceInterface = {
   folders: folders
 };
 
+type TemplateNameType = string
 type FolderNameType = string
 type FolderIdType = string
 type TemplateIdType = string
@@ -16,7 +17,7 @@ type LiftIdType = string
 
 interface addLiftsToTemplateInterface {
   params: LiftData[];
-  folder: string;
+  folder: FolderIdType;
   tempId: TemplateIdType
 }
 
@@ -33,13 +34,13 @@ interface RemoveLiftInterface {
 
 interface CreateTemplateInterface {
   folId: FolderIdType;
-  title: string;
+  title: TemplateNameType;
   tempId: TemplateIdType;
 }
 
 interface CreateFolderInterface {
   newFolId: FolderIdType;
-  title: string;
+  title: FolderNameType;
 }
 
 const templateSlice = createSlice({
