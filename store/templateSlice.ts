@@ -66,6 +66,13 @@ interface addLiftsToTemplateInterface {
 }
 
 type FolderNameType = string
+type FolderIdType = string
+type TemplateIdType = string
+
+interface deleteTemplateInterface {
+  tempId: TemplateIdType,
+  folId: FolderIdType
+}
 
 const templateSlice = createSlice({
   name: "template",
@@ -109,10 +116,21 @@ const templateSlice = createSlice({
       }
 
       state.folders[newFolderId] = newFolder
-    }
+    },
+    deleteFolder: (state, { payload: folderId }: PayloadAction<FolderIdType>) => {
+      delete state.folders[folderId]
+    },
+    emptyFolder: (state, { payload }) => {
+      const { folderId } = payload
+      state.folders[folderId].templates = {}
+    },
+    deleteTemplate: (state, { payload }: PayloadAction<deleteTemplateInterface>) => {
+      const { folId, tempId } = payload
+      delete state.folders[folId].templates[tempId]
+    },
   },
   extraReducers: (builder) => { },
 });
 
-export const { addLiftsToTemplate, createFolder } = templateSlice.actions;
+export const { addLiftsToTemplate, createFolder, deleteFolder, emptyFolder, deleteTemplate } = templateSlice.actions;
 export default templateSlice.reducer;

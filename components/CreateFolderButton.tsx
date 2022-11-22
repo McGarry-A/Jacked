@@ -13,7 +13,7 @@ export default function CreateFolderButton() {
   const dispatch = useAppDispatch();
 
   const handleCreateNewFolder = () => {
-    dispatch(createFolder({ folderName: newFolderName }));
+    dispatch(createFolder(newFolderName));
     setShowNewButton(false);
   };
 
