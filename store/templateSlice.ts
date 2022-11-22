@@ -1,62 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { folders } from "../data";
 import useId from "../hooks/useId";
 import { LiftData } from "../screens/modals/AddExercises";
-import { TemplateSliceInterface } from "../types/TemplateSliceInterface";
+import { TemplateInterface, TemplateSliceInterface } from "../types/TemplateSliceInterface";
 
 const initialState: TemplateSliceInterface = {
   status: "idle",
-  folders: {
-    "fol-00": {
-      name: "Example Workouts",
-      id: "fol-00",
-      templates: {
-        "temp-00": {
-          exercises: {
-            "ex-00": {
-              exerciseId: 2,
-              exerciseName: "Barbell Bench Press",
-              sets: {},
-            },
-            "ex-01": {
-              exerciseId: 3,
-              exerciseName: "Barbell Squat",
-              sets: {},
-            },
-            "ex-02": {
-              exerciseId: 6,
-              exerciseName: "Seated Shoulder Press",
-              sets: {},
-            },
-          },
-          exerciseOrder: ["ex-00"],
-          templateName: "Example Template",
-          tempId: "temp-00",
-        },
-        "temp-01": {
-          exercises: {
-            "ex-00": {
-              exerciseId: 2,
-              exerciseName: "Barbell Bench Press",
-              sets: {},
-            },
-            "ex-01": {
-              exerciseId: 3,
-              exerciseName: "Barbell Squat",
-              sets: {},
-            },
-            "ex-02": {
-              exerciseId: 6,
-              exerciseName: "Seated Shoulder Press",
-              sets: {},
-            },
-          },
-          exerciseOrder: ["ex-00"],
-          templateName: "Second Template",
-          tempId: "temp-01",
-        },
-      },
-    },
-  },
+  folders: folders
 };
 
 type FolderNameType = string
@@ -67,7 +17,7 @@ type LiftIdType = string
 interface addLiftsToTemplateInterface {
   params: LiftData[];
   folder: string;
-  title: string;
+  tempId: TemplateIdType
 }
 
 interface deleteTemplateInterface {
@@ -81,6 +31,17 @@ interface RemoveLiftInterface {
   liftId: LiftIdType
 }
 
+interface CreateTemplateInterface {
+  folId: FolderIdType;
+  title: string;
+  tempId: TemplateIdType;
+}
+
+interface CreateFolderInterface {
+  newFolId: FolderIdType;
+  title: string;
+}
+
 const templateSlice = createSlice({
   name: "template",
   initialState: initialState,
@@ -89,29 +50,31 @@ const templateSlice = createSlice({
       state,
       { payload }: PayloadAction<addLiftsToTemplateInterface>
     ) => {
-      const { params, folder, title } = payload
-      const newTemplateId = useId("temp");
-      const newTemplate = {
-        exercises: {},
-        exerciseOrder: [],
-        templateName: title,
-        tempId: newTemplateId,
-      };
-
-      state.folders[folder].templates[newTemplateId] = newTemplate;
+      const { params, folder, tempId } = payload
 
       params.map(({ exerciseId, exerciseName, liftId }) => {
-
-        state.folders[folder].templates[newTemplateId].exercises[liftId] = {
+        state.folders[folder].templates[tempId].exercises[liftId] = {
           exerciseId,
           exerciseName,
           sets: {},
         };
 
-        state.folders[folder].templates[newTemplateId].exerciseOrder.push(
+        state.folders[folder].templates[tempId].exerciseOrder.push(
           liftId
         );
       });
+    },
+    createTemplate: (state, { payload }: PayloadAction<CreateTemplateInterface>) => {
+      const { folId, title, tempId } = payload
+
+      const newTemplate = {
+        exercises: {},
+        exerciseOrder: [],
+        templateName: title,
+        tempId: tempId,
+      }
+
+      state.folders[folId].templates[tempId] = newTemplate
     },
     removeLiftFromTemplate: (state, { payload }: PayloadAction<RemoveLiftInterface>) => {
       const { folId, tempId, liftId } = payload
@@ -119,16 +82,14 @@ const templateSlice = createSlice({
       delete state.folders[folId].templates[tempId].exercises[liftId]
       state.folders[folId].templates[tempId].exerciseOrder.filter(el => el === liftId)
     },
-    createFolder: (state, { payload: folderName }: PayloadAction<FolderNameType>) => {
-      const newFolderId = useId("fol")
-
+    createFolder: (state, { payload: { title, newFolId } }: PayloadAction<CreateFolderInterface>) => {
       const newFolder = {
         templates: {},
-        id: newFolderId,
-        name: folderName
+        id: newFolId,
+        name: title
       }
 
-      state.folders[newFolderId] = newFolder
+      state.folders[newFolId] = newFolder
     },
     deleteFolder: (state, { payload: folderId }: PayloadAction<FolderIdType>) => {
       delete state.folders[folderId]
@@ -145,5 +106,5 @@ const templateSlice = createSlice({
   extraReducers: (builder) => { },
 });
 
-export const { addLiftsToTemplate, createFolder, deleteFolder, emptyFolder, deleteTemplate } = templateSlice.actions;
+export const { addLiftsToTemplate, createTemplate, createFolder, deleteFolder, emptyFolder, deleteTemplate } = templateSlice.actions;
 export default templateSlice.reducer;

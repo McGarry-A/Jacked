@@ -40,4 +40,57 @@ const data: DataInterface = {
   },
 };
 
+export const folders = {
+  "fol-00": {
+    name: "Example Workouts",
+    id: "fol-00",
+    templates: {
+      "temp-00": {
+        exercises: {
+          "ex-00": {
+            exerciseId: 2,
+            exerciseName: "Barbell Bench Press",
+            sets: {},
+          },
+          "ex-01": {
+            exerciseId: 3,
+            exerciseName: "Barbell Squat",
+            sets: {},
+          },
+          "ex-02": {
+            exerciseId: 6,
+            exerciseName: "Seated Shoulder Press",
+            sets: {},
+          },
+        },
+        exerciseOrder: ["ex-00"],
+        templateName: "Example Template",
+        tempId: "temp-00",
+      },
+      "temp-01": {
+        exercises: {
+          "ex-00": {
+            exerciseId: 2,
+            exerciseName: "Barbell Bench Press",
+            sets: {},
+          },
+          "ex-01": {
+            exerciseId: 3,
+            exerciseName: "Barbell Squat",
+            sets: {},
+          },
+          "ex-02": {
+            exerciseId: 6,
+            exerciseName: "Seated Shoulder Press",
+            sets: {},
+          },
+        },
+        exerciseOrder: ["ex-00"],
+        templateName: "Second Template",
+        tempId: "temp-01",
+      },
+    },
+  },
+}
+
 export default data;

@@ -11,9 +11,10 @@ import {
 import { useState } from "react";
 import CreateFolderButton from "../../components/CreateFolderButton";
 import { ExerciseList } from "../../components/layout/ExerciseList";
+import useId from "../../hooks/useId";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { addLift, startWorkout } from "../../store/currentWorkoutSlice";
-import { addLiftsToTemplate } from "../../store/templateSlice";
+import { addLiftsToTemplate, createTemplate } from "../../store/templateSlice";
 import { LiftData } from "./AddExercisesTemplates";
 
 type StepType = "choose title" | "choose folder" | "add exercises";
@@ -55,13 +56,24 @@ export default function CreateTemplate() {
   };
 
   const handleAddExercises = () => {
+    const templateId = useId("temp");
+
+    dispatch(
+      createTemplate({
+        folId: activeFolderId,
+        title: "templateTitle",
+        tempId: templateId,
+      })
+    );
+
     dispatch(
       addLiftsToTemplate({
         params: liftData,
         folder: activeFolderId,
-        title: templateTitle,
+        tempId: templateId,
       })
     );
+
     startActiveWorkout();
     navigation.navigate("ActiveWorkout");
   };
