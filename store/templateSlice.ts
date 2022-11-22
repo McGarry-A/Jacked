@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import useId from "../hooks/useId";
 import { LiftData } from "../screens/modals/AddExercises";
 import { TemplateSliceInterface } from "../types/TemplateSliceInterface";
@@ -65,17 +65,18 @@ interface addLiftsToTemplateInterface {
   title: string;
 }
 
+type FolderNameType = string
+
 const templateSlice = createSlice({
   name: "template",
   initialState: initialState,
   reducers: {
     addLiftsToTemplate: (
       state,
-      { payload }: { payload: addLiftsToTemplateInterface }
+      { payload }: PayloadAction<addLiftsToTemplateInterface>
     ) => {
-      const { params, folder, title } = payload;
+      const { params, folder, title } = payload
       const newTemplateId = useId("temp");
-
       const newTemplate = {
         exercises: {},
         exerciseOrder: [],
@@ -85,8 +86,7 @@ const templateSlice = createSlice({
 
       state.folders[folder].templates[newTemplateId] = newTemplate;
 
-      params.map((el) => {
-        const { exerciseId, exerciseName, liftId } = el;
+      params.map(({ exerciseId, exerciseName, liftId }) => {
 
         state.folders[folder].templates[newTemplateId].exercises[liftId] = {
           exerciseId,
@@ -99,8 +99,7 @@ const templateSlice = createSlice({
         );
       });
     },
-    createFolder: (state, { payload }) => {
-      const { folderName } = payload
+    createFolder: (state, { payload: folderName }: PayloadAction<FolderNameType>) => {
       const newFolderId = useId("fol")
 
       const newFolder = {
