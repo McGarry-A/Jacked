@@ -59,19 +59,26 @@ const initialState: TemplateSliceInterface = {
   },
 };
 
+type FolderNameType = string
+type FolderIdType = string
+type TemplateIdType = string
+type LiftIdType = string
+
 interface addLiftsToTemplateInterface {
   params: LiftData[];
   folder: string;
   title: string;
 }
 
-type FolderNameType = string
-type FolderIdType = string
-type TemplateIdType = string
-
 interface deleteTemplateInterface {
   tempId: TemplateIdType,
   folId: FolderIdType
+}
+
+interface RemoveLiftInterface {
+  folId: FolderIdType,
+  tempId: TemplateIdType,
+  liftId: LiftIdType
 }
 
 const templateSlice = createSlice({
@@ -105,6 +112,12 @@ const templateSlice = createSlice({
           liftId
         );
       });
+    },
+    removeLiftFromTemplate: (state, { payload }: PayloadAction<RemoveLiftInterface>) => {
+      const { folId, tempId, liftId } = payload
+
+      delete state.folders[folId].templates[tempId].exercises[liftId]
+      state.folders[folId].templates[tempId].exerciseOrder.filter(el => el === liftId)
     },
     createFolder: (state, { payload: folderName }: PayloadAction<FolderNameType>) => {
       const newFolderId = useId("fol")
