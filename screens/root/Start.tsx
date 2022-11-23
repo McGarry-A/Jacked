@@ -16,8 +16,12 @@ import { faFile } from "@fortawesome/free-regular-svg-icons/faFile";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import CreateTemplateCard from "../../components/layout/CreateTemplateCard";
 import Folder from "../../components/Folder";
+import ModalContainer from "../../components/Modal";
+import { useState } from "react";
 
 export default function Start() {
+  const [modalIsVisible, setmodalIsVisible] = useState<boolean>(false);
+
   const dispatch = useAppDispatch();
   const userId = supabase.auth.user();
   const folders = useAppSelector((state) => state.templateSlice.folders);
@@ -85,7 +89,7 @@ export default function Start() {
         Folders
       </Heading>
       <Button
-        // onPress={() => navigation.navigate("CreateTemplate")}
+        onPress={() => setmodalIsVisible(true)}
         size="sm"
         variant="outline"
         backgroundColor={"info.100"}
@@ -99,7 +103,7 @@ export default function Start() {
           textTransform={"uppercase"}
           fontWeight={"bold"}
         >
-          Add Folders
+          Add Folder
         </Text>
       </Button>
     </Box>
@@ -118,6 +122,10 @@ export default function Start() {
         {renderQuickStart()}
         {renderTemplatesHeader()}
         {renderFolders()}
+        <ModalContainer
+          isVisible={modalIsVisible}
+          setIsVisible={setmodalIsVisible}
+        />
       </ScrollView>
     </View>
   );

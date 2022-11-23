@@ -32,7 +32,7 @@ export default function CreateTemplateCard(props: IProps) {
     >
       <Center h="full">
         <FontAwesomeIcon icon={faPlus} size={15} color={"#38bdf8"} />
-        <Text flexWrap={"wrap"} mt={2} color="info.400" textAlign={"center"}>
+        <Text flexWrap={"wrap"} mt={2} color="info.500" textAlign={"center"}>
           Add new template
         </Text>
       </Center>
