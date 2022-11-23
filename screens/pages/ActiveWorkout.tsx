@@ -3,7 +3,6 @@ import {
   Text,
   Pressable,
   Input,
-  ScrollView,
   View,
   VStack,
   Image,

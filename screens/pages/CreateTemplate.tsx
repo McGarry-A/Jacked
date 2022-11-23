@@ -17,15 +17,13 @@ import { addLift, startWorkout } from "../../store/currentWorkoutSlice";
 import { addLiftsToTemplate, createTemplate } from "../../store/templateSlice";
 import { LiftData } from "./AddExercisesTemplates";
 
-type StepType = "choose title" | "choose folder" | "add exercises";
+type StepType = "choose title" | "add exercises";
 
-export default function CreateTemplate() {
+export default function CreateTemplate({ route }: any) {
   const [step, setStep] = useState<StepType>("choose title");
   const [templateTitle, setTemplateTitle] = useState<string>("");
-  const [activeFolderId, setActiveFolderId] = useState<string>("");
   const [liftData, setLiftData] = useState<LiftData[]>([]);
 
-  const folders = useAppSelector((state) => state.templateSlice.folders);
   const { userId } = useAppSelector((state) => state.userSlice.user);
 
   const dispatch = useAppDispatch();
@@ -33,15 +31,10 @@ export default function CreateTemplate() {
 
   const next = () =>
     step === "choose title"
-      ? templateTitle !== "" && setStep("choose folder")
-      : step === "choose folder"
-      ? setStep("add exercises")
-      : handleAddExercises();
-
-  const handleChooseFolder = (folderId: string) => {
-    setActiveFolderId(folderId);
-    next();
-  };
+      ? templateTitle !== "" && setStep("add exercises")
+      : step === "add exercises"
+      ? handleAddExercises()
+      : setStep("choose title");
 
   const startActiveWorkout = () => {
     const params = liftData.map((el) => {
@@ -58,14 +51,16 @@ export default function CreateTemplate() {
 
   const handleAddExercises = () => {
     const templateId = useId("temp");
+    const { folId } = route.params
+
     const createTemplateProps = {
-      folId: activeFolderId,
+      folId: folId,
       title: templateTitle,
       tempId: templateId,
     };
     const addLiftsToTemplateProps = {
       params: liftData,
-      folder: activeFolderId,
+      folder: folId,
       tempId: templateId,
     };
 
@@ -91,27 +86,6 @@ export default function CreateTemplate() {
         fontSize="lg"
         onChangeText={(text) => setTemplateTitle(text)}
       />
-    );
-  };
-
-  const renderChooseFolder = () => {
-    if (step !== "choose folder") return;
-
-    return (
-      <VStack space={2}>
-        {Object.values(folders).map((el) => {
-          return (
-            <Button
-              key={el.id}
-              variant={"outline"}
-              onPress={() => handleChooseFolder(el.id)}
-            >
-              {el.name}
-            </Button>
-          );
-        })}
-        <CreateFolderButton />
-      </VStack>
     );
   };
 
@@ -168,7 +142,6 @@ export default function CreateTemplate() {
     <View flex={1} backgroundColor={"white"} p={3}>
       {renderHeading()}
       {renderTemplateTitleInput()}
-      {renderChooseFolder()}
       {renderList()}
       {renderNext()}
     </View>

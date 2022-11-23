@@ -12,8 +12,10 @@ import TemplateCard from "../../components/layout/TemplateCard";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { startWorkout } from "../../store/currentWorkoutSlice";
 import { supabase } from "../../supabase/supabaseClient";
-import { faFile } from "@fortawesome/free-regular-svg-icons/faFile"
+import { faFile } from "@fortawesome/free-regular-svg-icons/faFile";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import CreateTemplateCard from "../../components/layout/CreateTemplateCard";
+import Folder from "../../components/Folder";
 
 export default function Start() {
   const dispatch = useAppDispatch();
@@ -80,10 +82,10 @@ export default function Start() {
       alignItems={"center"}
     >
       <Heading size={"md"} fontWeight="semibold" color={"text.900"}>
-        Templates
+        Folders
       </Heading>
       <Button
-        onPress={() => navigation.navigate("CreateTemplate")}
+        // onPress={() => navigation.navigate("CreateTemplate")}
         size="sm"
         variant="outline"
         backgroundColor={"info.100"}
@@ -97,7 +99,7 @@ export default function Start() {
           textTransform={"uppercase"}
           fontWeight={"bold"}
         >
-          Manage Folders
+          Add Folders
         </Text>
       </Button>
     </Box>
@@ -105,27 +107,7 @@ export default function Start() {
 
   const renderFolders = () => {
     return Object.values(folders).map(({ id, name, templates }) => {
-      return (
-        <Box key={id}>
-          <Heading size={"sm"} marginY={2} color={"text.800"}>
-            {name}
-          </Heading>
-          <HStack paddingTop={2} space={2} flexWrap="wrap">
-            {Object.values(templates).map(
-              ({ templateName, exercises, tempId }) => {
-                return (
-                  <TemplateCard
-                    key={tempId}
-                    navigation={navigation}
-                    title={templateName}
-                    exercises={exercises}
-                  />
-                );
-              }
-            )}
-          </HStack>
-        </Box>
-      );
+      return <Folder templates={templates} id={id} name={name} />;
     });
   };
 
