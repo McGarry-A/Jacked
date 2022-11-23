@@ -70,11 +70,23 @@ const Lift = (props: Props) => {
       my={1}
       paddingX={2}
     >
-      <Heading size="xs" flexShrink={1}>Sets</Heading>
-      <Heading size="xs" flex={2} textAlign="center">Previous</Heading>
-      <Heading size="xs" flex={2} textAlign="center" mr={1}>Kg</Heading>
-      <Heading size="xs" flex={2} textAlign="center" mr={4}>Reps</Heading>
-      <Pressable flexShrink={1} onPress={() => handleCheckAllSets()} padding={1}>
+      <Heading size="xs" flexShrink={1}>
+        Sets
+      </Heading>
+      <Heading size="xs" flex={2} textAlign="center">
+        Previous
+      </Heading>
+      <Heading size="xs" flex={2} textAlign="center" mr={1}>
+        Kg
+      </Heading>
+      <Heading size="xs" flex={2} textAlign="center" mr={4}>
+        Reps
+      </Heading>
+      <Pressable
+        flexShrink={1}
+        onPress={() => handleCheckAllSets()}
+        padding={1}
+      >
         <FontAwesomeIcon icon={faCheckDouble} size={10} />
       </Pressable>
     </HStack>
@@ -120,7 +132,16 @@ const Lift = (props: Props) => {
       onSwipeableOpen={handleSwipeRight}
       rightThreshold={10}
     >
-      <VStack borderRadius={3} key={liftId} backgroundColor={"white"}>
+      <VStack
+        borderRadius={10}
+        key={liftId}
+        backgroundColor={"white"}
+        borderColor={"whitesmoke"}
+        borderWidth={1}
+        overflow={"hidden"}
+        p={2}
+        my={2}
+      >
         <Box>
           <VStack>
             {renderHeading(exerciseName)}

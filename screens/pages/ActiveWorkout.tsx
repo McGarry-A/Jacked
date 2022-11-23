@@ -63,19 +63,20 @@ const ActiveWorkout = ({ route, navigation }: any) => {
         fontSize={"xl"}
         ref={workoutTitleRef}
         editable
+        rightElement={renderEndWorkout()}
       />
     );
   };
 
   const renderTimer = () => (
-    <Box paddingX={3}>
+    <Box paddingX={3} mb={2}>
       <Timer />
     </Box>
   );
 
   const renderEndWorkout = () => {
     return (
-      <Box flexDir={"row"} justifyContent={"flex-end"} w="full" pr={2}>
+      <Box flexDir={"row"} justifyContent={"flex-end"} pr={2}>
         <Pressable
           mt={2}
           px={3}
@@ -151,8 +152,7 @@ const ActiveWorkout = ({ route, navigation }: any) => {
   };
 
   return (
-    <View backgroundColor={"white"} h={"full"}>
-      {renderEndWorkout()}
+    <View backgroundColor={"white"} h={"full"} px={1} py={3}>
       {renderHeading()}
       {renderTimer()}
       {renderLifts()}

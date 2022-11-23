@@ -113,9 +113,17 @@ const Set = ({
         paddingX={2}
       >
         <Box flex={1}>
-          <Text color="text.900" textAlign={"center"} w={5}>
-            {setNumber}
-          </Text>
+          <Pressable
+            backgroundColor={"whitesmoke"}
+            w={"1/2"}
+            alignItems="center"
+            justifyContent={"center"}
+            borderRadius={6}
+          >
+            <Text color="text.600" textAlign={"center"} w={5} fontWeight={700}>
+              {setNumber}
+            </Text>
+          </Pressable>
         </Box>
         <Text fontSize="xs" opacity={50} flex={2} fontWeight={700}>
           {previous}

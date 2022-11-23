@@ -1,4 +1,4 @@
-import { Box } from "native-base";
+import { Box, Text } from "native-base";
 import { useEffect, useState } from "react";
 
 const Timer = () => {
@@ -34,12 +34,18 @@ const Timer = () => {
 
     setFormattedTime(`${hours}:${minutes}:${seconds}`);
   };
-  return <Box
-    borderWidth={2}
-    width={"20"}
-    alignItems="left"
-    backgroundColor={'gray.50'}
-    borderColor={'gray.50'}>{formattedTime}</Box>;
+  return (
+    <Box
+      width={"20"}
+      backgroundColor={"gray.100"}
+      flexDir="row"
+      justifyContent={"center"}
+      py={1}
+      px={2}
+    >
+      <Text>{formattedTime}</Text>
+    </Box>
+  );
 };
 
 export default Timer;
