@@ -1,41 +1,43 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store";
-import { fetchAllExercises } from "../store/exerciseList"
+import { fetchAllExercises } from "../store/exerciseList";
 
-export const useExerciseList = () => {
+export default function useExerciseList() {
   const [list, setList] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  const dispatch = useAppDispatch();
+  const { exerciseList, status } = useAppSelector(
+    (state) => state.exerciseListSlice
+  );
+
   useEffect(() => {
-    const dispatch = useAppDispatch()
-    const { exerciseList, status } = useAppSelector((state) => state.exerciseListSlice)
+    if (status === "idle") {
+      dispatch(fetchAllExercises());
+      setIsLoading(false);
+      return;
+    }
 
-    useEffect(() => {
-      if (status === "idle") {
-        dispatch(fetchAllExercises())
-        setIsLoading(false)
-        return
-      }
+    if (status === "rejected") {
+      setIsLoading(false);
+      setError(true);
+      return;
+    }
 
-      if (status === "rejected") {
-        setIsLoading(false)
-        setError(true)
-        return
-      }
+    if (status === "pending") {
+      setIsLoading(true);
+      return;
+    }
 
-      if (status === "pending") {
-        setIsLoading(true)
-        return
-      }
-
-      if (status === "fulfilled") {
-        setIsLoading(false)
-        setList(exerciseList)
-        return
-      }
-    })
+    if (status === "fulfilled") {
+      setIsLoading(false);
+      setList(exerciseList);
+      return;
+    }
   }, [status]);
 
+  console.log(list, isLoading, error)
+
   return { list, isLoading, error };
-};
+}

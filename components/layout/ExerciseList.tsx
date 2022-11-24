@@ -11,7 +11,7 @@ import {
   VStack,
 } from "native-base";
 import { useState } from "react";
-import { useExerciseList } from "../../hooks/useExerciseList";
+import useExerciseList from "../../hooks/useExerciseList";
 import ExerciseInterface from "../../types/ExerciseInterface";
 import ExerciseCard from "./ExerciseCard";
 
@@ -32,20 +32,6 @@ export const ExerciseList: React.FC<Props> = ({
   const [bodyPartFilter, setBodyPartFilter] = useState<string>("");
 
   const { list: exerciseList, isLoading, error } = useExerciseList();
-
-  // const dispatch = useAppDispatch();
-  // const { exerciseList, status } = useAppSelector(
-  //   (state) => state.exerciseListSlice
-  //   );
-
-  // useEffect(() => {
-  //   if (status === "idle") {
-  //     dispatch(fetchAllExercises());
-  //     console.log(cardProps);
-  //   }
-  //   console.log(cardProps);
-  //   setExercises(exerciseList);
-  // }, [status]);
 
   const handleFilter = (text: string) => {
     const filteredExercises = exerciseList.filter((el) =>
@@ -201,9 +187,9 @@ export const ExerciseList: React.FC<Props> = ({
     return (
       <View>
         <FlatList
-          data={exercises}
+          data={exercises.length ? exercises : exerciseList }
           renderItem={({ item }) => (
-            <ExerciseCard {...item} {...cardProps} isLoading={isLoading} />
+            <ExerciseCard {...item} {...cardProps} isLoading={!isLoading} />
           )}
           keyExtractor={(item) => item.id.toString()}
         />
