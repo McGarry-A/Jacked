@@ -3,11 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
 import { Box, HStack, Input, Pressable, Text } from "native-base";
 import { useEffect, useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../store";
-import { deleteSet, updateSet } from "../store/currentWorkoutSlice";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { deleteSet, updateSet } from "../../store/currentWorkoutSlice";
 import { Swipeable } from "react-native-gesture-handler";
-import { supabase } from "../supabase/supabaseClient";
-import getPreviousSet from "../supabase/utils/getPreviousSet";
+import getPreviousSet from "../../supabase/utils/getPreviousSet";
 
 interface Props {
   weight: string;

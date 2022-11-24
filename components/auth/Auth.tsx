@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { reset, userLogin, userSignup } from "../../store/userSlice";
 import { faLock } from "@fortawesome/free-solid-svg-icons/faLock";
-import Notification from "../Notification";
+import Notification from "../utils/Notification";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Auth = () => {

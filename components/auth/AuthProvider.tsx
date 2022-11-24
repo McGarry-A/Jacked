@@ -1,4 +1,3 @@
-import { Spinner, View } from "native-base";
 import React from "react";
 import { useAppSelector } from "../../store";
 import Auth from "./Auth";

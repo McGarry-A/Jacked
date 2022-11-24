@@ -1,14 +1,13 @@
 import { Box, Heading, HStack, Pressable, Text, VStack } from "native-base";
-import { SetInterface } from "../types/CurrentWorkoutInterface";
+import { SetInterface } from "../../types/CurrentWorkoutInterface";
 import { faCheckDouble } from "@fortawesome/free-solid-svg-icons/faCheckDouble";
 import Set from "./Set";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { addSet, deleteLift } from "../store/currentWorkoutSlice";
-import useId from "../hooks/useId";
-import { useAppDispatch } from "../store";
+import { addSet, deleteLift } from "../../store/currentWorkoutSlice";
+import useId from "../../hooks/useId";
+import { useAppDispatch } from "../../store";
 import { Swipeable } from "react-native-gesture-handler";
 import { useRef, useState } from "react";
-import { supabase } from "../supabase/supabaseClient";
 
 interface Props {
   exerciseId: number;

@@ -9,7 +9,6 @@ import {
   VStack,
 } from "native-base";
 import { useState } from "react";
-import CreateFolderButton from "../../components/CreateFolderButton";
 import { ExerciseList } from "../../components/layout/ExerciseList";
 import useId from "../../hooks/useId";
 import { useAppDispatch, useAppSelector } from "../../store";
@@ -51,7 +50,7 @@ export default function CreateTemplate({ route }: any) {
 
   const handleAddExercises = () => {
     const templateId = useId("temp");
-    const { folId } = route.params
+    const { folId } = route.params;
 
     const createTemplateProps = {
       folId: folId,

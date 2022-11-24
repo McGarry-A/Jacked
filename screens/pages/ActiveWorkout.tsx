@@ -10,13 +10,13 @@ import {
 } from "native-base";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
-import Timer from "../../components/Timer";
+import Timer from "../../components/utils/Timer";
 import { useAppDispatch, useAppSelector } from "../../store";
 import {
   setWorkoutTitle as setWorkoutName,
   saveWorkout,
 } from "../../store/currentWorkoutSlice";
-import Lift from "../../components/Lift";
+import Lift from "../../components/layout/Lift";
 
 const ActiveWorkout = ({ route, navigation }: any) => {
   const titleInState = useAppSelector(

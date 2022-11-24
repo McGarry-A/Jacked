@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
 import { Box, Collapse, Heading, HStack, Pressable } from "native-base";
 import { useState } from "react";
-import { TemplateInterface } from "../types/TemplateSliceInterface";
-import CreateTemplateCard from "./layout/CreateTemplateCard";
-import TemplateCard from "./layout/TemplateCard";
+import { TemplateInterface } from "../../types/TemplateSliceInterface";
+import CreateTemplateCard from "./CreateTemplateCard";
+import TemplateCard from "./TemplateCard";
 
 interface IProps {
   templates: TemplateInterface;
@@ -29,7 +29,9 @@ export default function Folder(props: IProps) {
           <Box>
             <FontAwesomeIcon
               icon={faChevronDown}
-              style={isCollapsed ? { transform: [{ rotate: "-90deg" }] } : undefined}
+              style={
+                isCollapsed ? { transform: [{ rotate: "-90deg" }] } : undefined
+              }
               size={10}
             />
           </Box>
