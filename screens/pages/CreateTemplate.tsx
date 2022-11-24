@@ -1,13 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import {
-  Button,
-  Heading,
-  Input,
-  Pressable,
-  Text,
-  View,
-  VStack,
-} from "native-base";
+import { Button, Heading, Input, Pressable, Text, View } from "native-base";
 import { useState } from "react";
 import { ExerciseList } from "../../components/layout/ExerciseList";
 import useId from "../../hooks/useId";

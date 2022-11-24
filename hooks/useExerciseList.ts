@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { supabase } from "../supabase/supabaseClient";
+import { useAppDispatch, useAppSelector } from "../store";
+import { fetchAllExercises } from "../store/exerciseList"
 
 export const useExerciseList = () => {
   const [list, setList] = useState<any[]>([]);
@@ -7,29 +8,34 @@ export const useExerciseList = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    const fetchWorkouts = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("exercises")
-          .select();
-        if (error) {
-          return console.error(error);
-        }
-        if (data) {
-          console.log(JSON.stringify(data));
-          setList(data);
-          setIsLoading(false);
-          setError(false);
-        }
-      } catch (error) {
-        setList([]);
-        setIsLoading(false);
-        setError(true);
-      }
-    };
+    const dispatch = useAppDispatch()
+    const { exerciseList, status } = useAppSelector((state) => state.exerciseListSlice)
 
-    fetchWorkouts();
-  }, []);
+    useEffect(() => {
+      if (status === "idle") {
+        dispatch(fetchAllExercises())
+        setIsLoading(false)
+        return
+      }
+
+      if (status === "rejected") {
+        setIsLoading(false)
+        setError(true)
+        return
+      }
+
+      if (status === "pending") {
+        setIsLoading(true)
+        return
+      }
+
+      if (status === "fulfilled") {
+        setIsLoading(false)
+        setList(exerciseList)
+        return
+      }
+    })
+  }, [status]);
 
   return { list, isLoading, error };
 };

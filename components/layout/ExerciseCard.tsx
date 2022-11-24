@@ -12,7 +12,7 @@ interface Props {
   description: string;
   image: string;
   id: number;
-  status: "pending" | "idle" | "fulfilled" | "rejected";
+  isLoading: boolean;
   setLiftData?: React.Dispatch<React.SetStateAction<LiftData[]>>;
   liftData?: LiftData[];
 }
@@ -23,7 +23,7 @@ const ExerciseCard = ({
   targets,
   setLiftData,
   liftData,
-  status,
+  isLoading,
 }: Props) => {
   const exercises = useAppSelector(
     (state) => state.currentWorkoutSlice.exercises
@@ -33,7 +33,6 @@ const ExerciseCard = ({
   const [isActive, setIsActive] = useState(isInWorkout);
 
   const backgroundColor = isActive ? "info.50" : "white";
-  const isLoaded = status === "fulfilled";
 
   // REVIEW:
   // MIGHT NEED TO CHANGE IF NEGATIVELY AFFECTS EXERCISE PAGE ** ! OPERATOR
@@ -109,13 +108,7 @@ const ExerciseCard = ({
   };
 
   return (
-    <Skeleton
-      isLoaded={isLoaded}
-      my={2}
-      h={12}
-      startColor={"gray.200"}
-      endColor={"coolGray.200"}
-    >
+    <Skeleton my={2} h={12} startColor={"gray.200"} endColor={"coolGray.200"}>
       <Box
         padding={2}
         borderColor={"gray.200"}

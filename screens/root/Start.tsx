@@ -1,22 +1,12 @@
 import { useNavigation } from "@react-navigation/native";
-import {
-  Text,
-  Heading,
-  Box,
-  Button,
-  ScrollView,
-  HStack,
-  View,
-} from "native-base";
-import TemplateCard from "../../components/layout/TemplateCard";
+import { Text, Heading, Box, Button, ScrollView, View } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { startWorkout } from "../../store/currentWorkoutSlice";
 import { supabase } from "../../supabase/supabaseClient";
 import { faFile } from "@fortawesome/free-regular-svg-icons/faFile";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import CreateTemplateCard from "../../components/layout/CreateTemplateCard";
-import Folder from "../../components/Folder";
-import ModalContainer from "../../components/Modal";
+import Folder from "../../components/layout/Folder";
+import ModalContainer from "../../components/utils/Modal";
 import { useState } from "react";
 
 export default function Start() {
@@ -79,7 +69,7 @@ export default function Start() {
     </Box>
   );
 
-  const renderTemplatesHeader = () => (
+  const renderTemplatesSectionHeader = () => (
     <Box
       flexDirection="row"
       justifyContent="space-between"
@@ -120,7 +110,7 @@ export default function Start() {
       <ScrollView>
         {renderHeading()}
         {renderQuickStart()}
-        {renderTemplatesHeader()}
+        {renderTemplatesSectionHeader()}
         {renderFolders()}
         <ModalContainer
           isVisible={modalIsVisible}

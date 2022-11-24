@@ -10,9 +10,8 @@ import {
   View,
   VStack,
 } from "native-base";
-import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { fetchAllExercises } from "../../store/exerciseList";
+import { useState } from "react";
+import { useExerciseList } from "../../hooks/useExerciseList";
 import ExerciseInterface from "../../types/ExerciseInterface";
 import ExerciseCard from "./ExerciseCard";
 
@@ -31,21 +30,22 @@ export const ExerciseList: React.FC<Props> = ({
   const [exercises, setExercises] = useState<ExerciseInterface[]>([]);
   const [popoverIsOpen, setPopoverIsOpen] = useState<boolean>(false);
   const [bodyPartFilter, setBodyPartFilter] = useState<string>("");
-  const [categoryFilter, setCategoryFilter] = useState<string>("");
 
-  const dispatch = useAppDispatch();
-  const { exerciseList, status } = useAppSelector(
-    (state) => state.exerciseListSlice
-  );
+  const { list: exerciseList, isLoading, error } = useExerciseList();
 
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchAllExercises());
-      console.log(cardProps);
-    }
-    console.log(cardProps);
-    setExercises(exerciseList);
-  }, [status]);
+  // const dispatch = useAppDispatch();
+  // const { exerciseList, status } = useAppSelector(
+  //   (state) => state.exerciseListSlice
+  //   );
+
+  // useEffect(() => {
+  //   if (status === "idle") {
+  //     dispatch(fetchAllExercises());
+  //     console.log(cardProps);
+  //   }
+  //   console.log(cardProps);
+  //   setExercises(exerciseList);
+  // }, [status]);
 
   const handleFilter = (text: string) => {
     const filteredExercises = exerciseList.filter((el) =>
@@ -62,17 +62,12 @@ export const ExerciseList: React.FC<Props> = ({
 
   const handleClear = () => {
     setBodyPartFilter("");
-    setCategoryFilter("");
     setExercises(exerciseList);
     setPopoverIsOpen(false);
   };
 
   const handleBodyPartFilter = (filter: string) => {
     setBodyPartFilter(filter);
-  };
-
-  const handleCategoryFilter = (filter: string) => {
-    setCategoryFilter(filter);
   };
 
   const renderSearchBar = () => {
@@ -208,7 +203,7 @@ export const ExerciseList: React.FC<Props> = ({
         <FlatList
           data={exercises}
           renderItem={({ item }) => (
-            <ExerciseCard {...item} {...cardProps} status={status} />
+            <ExerciseCard {...item} {...cardProps} isLoading={isLoading} />
           )}
           keyExtractor={(item) => item.id.toString()}
         />
@@ -216,7 +211,7 @@ export const ExerciseList: React.FC<Props> = ({
     );
   };
 
-  if (status === "rejected") {
+  if (error) {
     return (
       <Text textAlign={"center"} color={"rose.800"}>
         There was an error loading this content! Please try again later.
