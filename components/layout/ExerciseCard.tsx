@@ -39,9 +39,8 @@ const ExerciseCard = ({
   // ADD FUNCTION SHOULD BE IN THE PARENT COMPONENT
 
   const handleAddToLiftData = () => {
-    console.log("card is clicked");
     if (!liftData || !setLiftData) return;
-    console.log("card continues");
+
     if (!isActive) {
       const liftId = useId("lift");
 
@@ -56,7 +55,6 @@ const ExerciseCard = ({
       return;
     }
 
-    //NOTE: REMOVE FROM LIST
     const newState = [...(liftData as LiftData[])];
     const newData = newState.filter((el) => el.exerciseId !== id);
     setLiftData(newData);
@@ -108,7 +106,13 @@ const ExerciseCard = ({
   };
 
   return (
-    <Skeleton my={2} h={12} startColor={"gray.200"} endColor={"coolGray.200"}>
+    <Skeleton
+      my={2}
+      h={12}
+      startColor={"gray.200"}
+      endColor={"coolGray.200"}
+      isLoaded={isLoading}
+    >
       <Box
         padding={2}
         borderColor={"gray.200"}
