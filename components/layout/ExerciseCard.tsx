@@ -5,7 +5,7 @@ import getExerciseInitials from "../../utils/getExerciseInitials";
 import { LiftData } from "../../screens/modals/AddExercises";
 import useId from "../../hooks/useId";
 
-interface Props {
+interface IProps {
   exercise_name: string;
   category: string;
   targets: string;
@@ -17,14 +17,9 @@ interface Props {
   liftData?: LiftData[];
 }
 
-const ExerciseCard = ({
-  exercise_name,
-  id,
-  targets,
-  setLiftData,
-  liftData,
-  isLoading,
-}: Props) => {
+const ExerciseCard = (props: IProps) => {
+  const { isLoading, setLiftData, id } = props;
+
   const exercises = useAppSelector(
     (state) => state.currentWorkoutSlice.exercises
   );
@@ -34,11 +29,9 @@ const ExerciseCard = ({
 
   const backgroundColor = isActive ? "info.50" : "white";
 
-  // REVIEW:
-  // MIGHT NEED TO CHANGE IF NEGATIVELY AFFECTS EXERCISE PAGE ** ! OPERATOR
-  // ADD FUNCTION SHOULD BE IN THE PARENT COMPONENT
-
   const handleAddToLiftData = () => {
+    const { liftData, setLiftData, id, exercise_name } = props;
+
     if (!liftData || !setLiftData) return;
 
     if (!isActive) {
@@ -62,6 +55,8 @@ const ExerciseCard = ({
   };
 
   const renderAvatar = () => {
+    const { exercise_name } = props;
+
     return (
       <Avatar marginRight={2} backgroundColor={"transparent"}>
         <Text
@@ -77,6 +72,8 @@ const ExerciseCard = ({
   };
 
   const renderCheckbox = () => {
+    const { setLiftData } = props;
+
     if (setLiftData) {
       return (
         <Box>
@@ -97,6 +94,8 @@ const ExerciseCard = ({
   };
 
   const renderBody = () => {
+    const { exercise_name, targets } = props;
+
     return (
       <Box flex={1}>
         <Text fontWeight={"semibold"}>{exercise_name}</Text>
