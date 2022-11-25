@@ -9,14 +9,14 @@ import { useAppDispatch } from "../../store";
 import { Swipeable } from "react-native-gesture-handler";
 import { useRef, useState } from "react";
 
-interface Props {
+interface IProps {
   exerciseId: number;
   exerciseName: string;
   sets: SetInterface;
   liftNumber: number;
   liftId: string;
 }
-const Lift = (props: Props) => {
+const Lift = (props: IProps) => {
   const [allDone, setAllDone] = useState<boolean>(false);
   const { exerciseName, sets, liftId, exerciseId } = props;
   const dispatch = useAppDispatch();
