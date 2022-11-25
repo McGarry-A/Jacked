@@ -1,25 +1,9 @@
 import { FlatList, Heading, Box } from "native-base";
-import { useEffect, useState } from "react";
 import HistoryCard from "../../components/layout/HistoryCard";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { getHistory } from "../../store/workoutHistorySlice";
+import useHistory from "../../hooks/useHistory";
 
 export default function History() {
-  const [loading, setLoading] = useState(false);
-
-  const dispatch = useAppDispatch();
-  const userId = useAppSelector((state) => state.userSlice.user.userId);
-  const history = useAppSelector((state) => state.workoutHistorySlice.history);
-
-  const status = useAppSelector((state) => state.workoutHistorySlice.status)
-  const isLoaded = status === "fulfilled"
-
-  useEffect(() => {
-    dispatch(getHistory({ userId: userId }));
-    setLoading(false);
-  }, [loading]);
-
-  const toggleRefresh = () => setLoading(!loading);
+  const { history, isLoading, refreshHistory } = useHistory();
   const renderHeading = () => <Heading size={"xl"}>History</Heading>;
 
   const renderSessions = () => {
@@ -27,8 +11,8 @@ export default function History() {
       <FlatList
         data={history}
         initialNumToRender={6}
-        onRefresh={toggleRefresh}
-        refreshing={loading}
+        onRefresh={refreshHistory}
+        refreshing={isLoading}
         keyExtractor={({ id }) => String(id)}
         flexGrow={1}
         renderItem={({ item: { workout_name, lifts, date } }) => (
@@ -36,7 +20,7 @@ export default function History() {
             workoutName={workout_name}
             lifts={lifts}
             date={date}
-            isLoaded={isLoaded}
+            isLoaded={!isLoading}
           />
         )}
       />
@@ -44,7 +28,7 @@ export default function History() {
   };
 
   return (
-    <Box backgroundColor={"white"} padding={3} paddingBottom={10} h={'full'}>
+    <Box backgroundColor={"white"} padding={3} paddingBottom={10} h={"full"}>
       {renderHeading()}
       {renderSessions()}
     </Box>

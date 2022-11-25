@@ -13,15 +13,19 @@ export default function usePreviousSet(props: IProps) {
 
     useEffect(() => {
         const getPrevData = async () => {
-            const previous = await getPreviousSet({ exerciseId, setNumber });
-            if (!previous) return setPrevious(`Na`);
+            try {
+                const previous = await getPreviousSet({ exerciseId, setNumber });
+                if (!previous) return setPrevious(`Na`);
 
-            const { weight: prevWeight, reps: prevReps } = previous;
-            return setPrevious(`${prevWeight} Kgs x ${prevReps}`);
+                const { weight: prevWeight, reps: prevReps } = previous;
+                return setPrevious(`${prevWeight} Kgs x ${prevReps}`);
+            } catch (error) {
+                console.error(error)
+            }
         }
 
         getPrevData();
-    })
+    }, [])
 
     return previous;
 }

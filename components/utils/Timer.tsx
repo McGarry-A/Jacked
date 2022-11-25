@@ -17,8 +17,6 @@ const Timer = () => {
     secondsToFormattedTime();
   }, [secondsElapsed]);
 
-  useEffect(() => {});
-
   const secondsToFormattedTime = () => {
     const hours = Math.floor(secondsElapsed / (60 * 60))
       .toString()

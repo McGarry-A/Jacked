@@ -15,7 +15,11 @@ const initialState: InitialStateInterface = {
 const workoutHistorySlice = createSlice({
   name: "workoutHistorySlice",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    refresh: (state) => {
+      state.status = 'idle'
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getHistory.fulfilled, (state, { payload }) => {
@@ -25,9 +29,12 @@ const workoutHistorySlice = createSlice({
         }
         state.status = "fulfilled";
       })
-      .addCase(getHistory.rejected, (state, _) => {
+      .addCase(getHistory.rejected, (state) => {
         state.status = "rejected";
-      });
+      })
+      .addCase(getHistory.pending, (state) => {
+        state.status = "pending"
+      })
   },
 });
 
@@ -49,5 +56,7 @@ export const getHistory = createAsyncThunk(
     return data as workoutHistoryType;
   }
 );
+
+export const { refresh } = workoutHistorySlice.actions
 
 export default workoutHistorySlice.reducer;
