@@ -12,17 +12,15 @@ import { useState } from "react";
 export default function Start() {
   const [modalIsVisible, setmodalIsVisible] = useState<boolean>(false);
 
-  const dispatch = useAppDispatch();
-  const userId = supabase.auth.user();
-  const folders = useAppSelector((state) => state.templateSlice.folders);
-  const isWorkoutActive = useAppSelector(
-    (state) => state.currentWorkoutSlice.isActive
-  );
+  const { userId } = useAppSelector((state) => state.userSlice.user);
+  const { folders } = useAppSelector((state) => state.templateSlice);
+  const { isActive } = useAppSelector((state) => state.currentWorkoutSlice);
 
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
 
   const handlePressQuickStart = () => {
-    dispatch(startWorkout({ userId: userId!.id }));
+    dispatch(startWorkout({ userId }));
     navigation.navigate("ActiveWorkout");
   };
 
@@ -33,7 +31,7 @@ export default function Start() {
   const renderHeading = () => <Heading size={"xl"}>Start A Workout</Heading>;
 
   const renderStartOrContinue = () => {
-    if (!isWorkoutActive) {
+    if (!isActive) {
       return (
         <Button
           onPress={handlePressQuickStart}

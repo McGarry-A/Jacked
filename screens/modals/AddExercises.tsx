@@ -12,13 +12,13 @@ export interface LiftData {
   liftId: string;
 }
 
-type Props = RootStackScreenProps<"AddExercises">
+type Props = RootStackScreenProps<"AddExercises">;
 
 const AddExercises: React.FC<Props> = () => {
   const [liftData, setLiftData] = useState<LiftData[]>([]);
-  const userId = useAppSelector((state) => state.userSlice.user.userId);
+  const { userId } = useAppSelector((state) => state.userSlice.user);
 
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
   const handleAddExercises = () => {
@@ -40,17 +40,18 @@ const AddExercises: React.FC<Props> = () => {
   );
 
   const renderList = () => {
-    const liftProps = {
-      setLiftData,
-      liftData,
+    const props = {
+      liftProps: {
+        setLiftData,
+        liftData,
+      },
+      config: {
+        showInput: true,
+        showFilterButtons: false,
+      },
     };
 
-    const config = {
-      showInput: true,
-      showFilterButtons: false,
-    };
-
-    return <ExerciseList cardProps={liftProps} config={config} />;
+    return <ExerciseList {...props} />;
   };
 
   const renderAddExercises = () => {

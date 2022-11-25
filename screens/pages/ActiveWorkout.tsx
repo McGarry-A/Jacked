@@ -19,29 +19,27 @@ import {
 import Lift from "../../components/layout/Lift";
 
 const ActiveWorkout = ({ route, navigation }: any) => {
-  const titleInState = useAppSelector(
-    (state) => state.currentWorkoutSlice.workoutTitle
-  );
-  const title = titleInState ? titleInState : "Quick Workout";
+  const { workoutTitle } = useAppSelector((state) => state.currentWorkoutSlice);
 
-  const [workoutTitle, setWorkoutTitle] = useState(title);
+  const [displayedWorkoutName, setDisplayedWorkoutName] = useState(
+    workoutTitle ? workoutTitle : "Quick Workout"
+  );
 
   const workoutTitleRef = useRef<HTMLInputElement>(null);
   const state = useAppSelector((state) => state.currentWorkoutSlice);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (route.params) {
-      const {
-        title: { title },
-      } = route.params;
-      setWorkoutTitle(title);
-      dispatch(setWorkoutName(title));
-    }
+    const {
+      title: { title },
+    } = route?.params;
+
+    setDisplayedWorkoutName(title);
+    dispatch(setWorkoutName(title));
   }, []);
 
   const handleEndWorkout = () => {
-    dispatch(setWorkoutName(workoutTitle));
+    dispatch(setWorkoutName(displayedWorkoutName));
     dispatch(saveWorkout());
     navigation.navigate("Profile");
   };
@@ -52,9 +50,9 @@ const ActiveWorkout = ({ route, navigation }: any) => {
         flexDirection={"row"}
         alignItems="center"
         justifyContent={"space-between"}
-        value={workoutTitle}
+        value={displayedWorkoutName}
         variant={"unstyled"}
-        onChangeText={(text) => setWorkoutTitle(text)}
+        onChangeText={(text) => setDisplayedWorkoutName(text)}
         borderWidth={0}
         fontWeight={700}
         color={"text.600"}

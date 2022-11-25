@@ -4,6 +4,7 @@ import useHistory from "../../hooks/useHistory";
 
 export default function History() {
   const { history, isLoading, refreshHistory } = useHistory();
+
   const renderHeading = () => <Heading size={"xl"}>History</Heading>;
 
   const renderSessions = () => {

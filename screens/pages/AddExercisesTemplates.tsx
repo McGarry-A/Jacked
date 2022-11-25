@@ -1,11 +1,8 @@
-import { FontAwesome } from "@expo/vector-icons";
-import { Heading, Input, Pressable, Text, View } from "native-base";
-import { useEffect, useState } from "react";
+import { Heading, Pressable, Text, View } from "native-base";
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { fetchAllExercises } from "../../store/exerciseList";
 import { addLift } from "../../store/currentWorkoutSlice";
 import { RootStackScreenProps } from "../../types";
-import ExerciseInterface from "../../types/ExerciseInterface";
 import { ExerciseList } from "../../components/layout/ExerciseList";
 
 export interface LiftData {
@@ -14,10 +11,12 @@ export interface LiftData {
   liftId: string;
 }
 
-const AddExercisesTemplates = ({ navigation }: RootStackScreenProps<"AddExercises">) => {
+const AddExercisesTemplates = ({
+  navigation,
+}: RootStackScreenProps<"AddExercises">) => {
   const [liftData, setLiftData] = useState<LiftData[]>([]);
 
-  const userId = useAppSelector((state) => state.userSlice.user.userId);
+  const { userId } = useAppSelector((state) => state.userSlice.user);
 
   const dispatch = useAppDispatch();
 
@@ -40,17 +39,18 @@ const AddExercisesTemplates = ({ navigation }: RootStackScreenProps<"AddExercise
   );
 
   const renderList = () => {
-    const liftProps = {
-      setLiftData,
-      liftData,
+    const props = {
+      liftProps: {
+        setLiftData,
+        liftData,
+      },
+      config: {
+        showInput: true,
+        showFilterButtons: false,
+      },
     };
 
-    const config = {
-      showInput: true,
-      showFilterButtons: false,
-    };
-
-    return <ExerciseList cardProps={liftProps} config={config} />;
+    return <ExerciseList {...props} />;
   };
 
   const renderAddExercises = () => {
