@@ -25,7 +25,11 @@ const ExerciseCard = (props: IProps) => {
     (state) => state.currentWorkoutSlice.exercises
   );
 
-  const isInWorkout = Object.keys(exercises).includes(String(id));
+  const exerciseIdsInWorkout = Object.values(exercises).map(
+    (exercise) => exercise.exerciseId
+  );
+
+  const isInWorkout = exerciseIdsInWorkout.includes(id);
 
   const { state: isActive, setToggleState: setIsActive } =
     useToggleState(isInWorkout);
@@ -33,11 +37,11 @@ const ExerciseCard = (props: IProps) => {
   const backgroundColor = isActive ? "info.50" : "white";
 
   const handleAddToLiftData = () => {
-    console.log("HANDLE ADD")
+    console.log("HANDLE ADD");
     const { liftData, setLiftData, id, exercise_name } = props;
 
-    console.log(liftData)
-    console.log(setLiftData)
+    console.log(liftData);
+    console.log(setLiftData);
     if (!liftData || !setLiftData) return;
 
     if (!isActive) {
