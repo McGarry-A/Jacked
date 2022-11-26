@@ -91,7 +91,7 @@ const HistoryCard = ({
       isLoaded={isLoaded}
       startColor={"gray.200"}
       endColor={"coolGray.200"}
-      h={12}
+      h={24}
     >
       <VStack
         space={1}

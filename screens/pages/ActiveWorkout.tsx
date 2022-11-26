@@ -30,12 +30,12 @@ const ActiveWorkout = ({ route, navigation }: any) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const {
-      title: { title },
-    } = route?.params;
+    if (route?.params) {
+      const { title } = route.params;
 
-    setDisplayedWorkoutName(title);
-    dispatch(setWorkoutName(title));
+      setDisplayedWorkoutName(title);
+      dispatch(setWorkoutName(title));
+    }
   }, []);
 
   const handleEndWorkout = () => {

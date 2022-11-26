@@ -41,7 +41,7 @@ const AddExercises: React.FC<Props> = () => {
 
   const renderList = () => {
     const props = {
-      liftProps: {
+      cardProps: {
         setLiftData,
         liftData,
       },
