@@ -99,7 +99,7 @@ export default function Start() {
 
   const renderFolders = () => {
     return Object.values(folders).map(({ id, name, templates }) => {
-      return <Folder templates={templates} id={id} name={name} />;
+      return <Folder key={id} templates={templates} id={id} name={name} />;
     });
   };
 

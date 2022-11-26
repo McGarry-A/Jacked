@@ -4,6 +4,7 @@ import { useAppSelector } from "../../store";
 import getExerciseInitials from "../../utils/getExerciseInitials";
 import { LiftData } from "../../screens/modals/AddExercises";
 import useId from "../../hooks/useId";
+import useToggleState from "../../hooks/useToggleState";
 
 interface IProps {
   exercise_name: string;
@@ -25,13 +26,18 @@ const ExerciseCard = (props: IProps) => {
   );
 
   const isInWorkout = Object.keys(exercises).includes(String(id));
-  const [isActive, setIsActive] = useState(isInWorkout);
+
+  const { state: isActive, setToggleState: setIsActive } =
+    useToggleState(isInWorkout);
 
   const backgroundColor = isActive ? "info.50" : "white";
 
   const handleAddToLiftData = () => {
+    console.log("HANDLE ADD")
     const { liftData, setLiftData, id, exercise_name } = props;
 
+    console.log(liftData)
+    console.log(setLiftData)
     if (!liftData || !setLiftData) return;
 
     if (!isActive) {
