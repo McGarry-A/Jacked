@@ -1,7 +1,7 @@
 import { Box } from "native-base";
 import { Dimensions } from "react-native";
 import { BarChart } from "react-native-chart-kit";
-import getPreviousMondays from "../../supabase/utils/getPreviousMonday";
+import getPreviousMondays from "../../types/getPreviousMonday";
 import WidgetHeader from "./WidgetHeader";
 
 const BarChartWidget = () => {

@@ -1,7 +1,14 @@
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons/faChevronDown";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
-import { Box, Collapse, Heading, HStack, Pressable } from "native-base";
+import {
+  Box,
+  Collapse,
+  FlatList,
+  Heading,
+  HStack,
+  Pressable,
+} from "native-base";
 import { useState } from "react";
 import { TemplateInterface } from "../../types/TemplateSliceInterface";
 import CreateTemplateCard from "./CreateTemplateCard";
@@ -18,6 +25,24 @@ export default function Folder(props: IProps) {
 
   const { templates, id, name } = props;
   const navigation = useNavigation();
+
+  const renderTemplates = () => {
+    return (
+      <FlatList
+        data={Object.values(templates)}
+        numColumns={2}
+        renderItem={({ item }) => (
+          <TemplateCard
+            key={item.tempId}
+            navigation={navigation}
+            title={item.templateName}
+            exercises={item.exercises}
+          />
+        )}
+        keyExtractor={(item) => item.tempId}
+      />
+    );
+  };
 
   return (
     <Box key={id}>
@@ -39,18 +64,7 @@ export default function Folder(props: IProps) {
       </Pressable>
       <Collapse isOpen={!isCollapsed}>
         <HStack paddingTop={2} space={2} flexWrap="wrap">
-          {Object.values(templates).map(
-            ({ templateName, exercises, tempId }) => {
-              return (
-                <TemplateCard
-                  key={tempId}
-                  navigation={navigation}
-                  title={templateName}
-                  exercises={exercises}
-                />
-              );
-            }
-          )}
+          {renderTemplates()}
           <CreateTemplateCard folId={id} />
         </HStack>
       </Collapse>
