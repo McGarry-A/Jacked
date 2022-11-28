@@ -14,7 +14,7 @@ interface IProps {
 }
 
 export default function Folder(props: IProps) {
-  const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
   const { templates, id, name } = props;
   const navigation = useNavigation();

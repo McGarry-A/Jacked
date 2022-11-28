@@ -44,7 +44,7 @@ const Lift = (props: IProps) => {
       <Box
         backgroundColor={"red.500"}
         w={"full"}
-        justifyContent={"flex-end"}
+        justifyContent={"center"}
         flexDir={"row"}
         alignItems="center"
         pr={6}
@@ -130,6 +130,7 @@ const Lift = (props: IProps) => {
       renderRightActions={renderOnSwipeRight}
       onSwipeableOpen={handleSwipeRight}
       rightThreshold={10}
+      containerStyle={{marginVertical: 4, borderRadius: 10}}
     >
       <VStack
         borderRadius={10}
@@ -139,7 +140,6 @@ const Lift = (props: IProps) => {
         borderWidth={1}
         overflow={"hidden"}
         p={2}
-        my={2}
       >
         <Box>
           <VStack>

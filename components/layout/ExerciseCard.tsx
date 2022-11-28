@@ -1,9 +1,11 @@
 import { Avatar, Box, Checkbox, Pressable, Skeleton, Text } from "native-base";
 import { useState } from "react";
-import { useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import getExerciseInitials from "../../utils/getExerciseInitials";
 import { LiftData } from "../../screens/modals/AddExercises";
 import useId from "../../hooks/useId";
+import useToggleState from "../../hooks/useToggleState";
+import { deleteLift } from "../../store/currentWorkoutSlice";
 
 interface IProps {
   exercise_name: string;
@@ -18,25 +20,35 @@ interface IProps {
 }
 
 const ExerciseCard = (props: IProps) => {
+  const dispatch = useAppDispatch();
   const { isLoading, setLiftData, id } = props;
 
   const exercises = useAppSelector(
     (state) => state.currentWorkoutSlice.exercises
   );
 
-  const isInWorkout = Object.keys(exercises).includes(String(id));
-  const [isActive, setIsActive] = useState(isInWorkout);
+  const exerciseIdsInWorkout = Object.values(exercises).map(
+    (exercise) => exercise.exerciseId
+  );
+
+  const isInWorkout = exerciseIdsInWorkout.includes(id);
+
+  const { state: isActive, setToggleState: setIsActive } =
+    useToggleState(isInWorkout);
 
   const backgroundColor = isActive ? "info.50" : "white";
 
-  const handleAddToLiftData = () => {
-    const { liftData, setLiftData, id, exercise_name } = props;
-
+  const handlePressCard = () => {
+    const { liftData } = props;
     if (!liftData || !setLiftData) return;
+    handleAddToLiftData();
+  };
+
+  const handleAddToLiftData = () => {
+    const { liftData, id, exercise_name } = props;
 
     if (!isActive) {
       const liftId = useId("lift");
-
       const lift = {
         exerciseId: id,
         exerciseName: exercise_name,
@@ -45,12 +57,18 @@ const ExerciseCard = (props: IProps) => {
 
       setLiftData!((liftData) => [...liftData, lift]);
       setIsActive(true);
+
       return;
     }
 
     const newState = [...(liftData as LiftData[])];
     const newData = newState.filter((el) => el.exerciseId !== id);
-    setLiftData(newData);
+    const liftIdOfRemoved = Object.values(exercises).filter(
+      (el) => el.exerciseId === id
+    )[0];
+
+    dispatch(deleteLift({ liftId: liftIdOfRemoved.liftId }));
+    setLiftData!(newData);
     setIsActive(false);
   };
 
@@ -120,7 +138,7 @@ const ExerciseCard = (props: IProps) => {
         <Pressable
           flexDirection={"row"}
           alignItems="center"
-          onPress={setLiftData ? handleAddToLiftData : null}
+          onPress={handlePressCard}
         >
           {renderAvatar()}
           {renderBody()}

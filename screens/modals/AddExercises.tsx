@@ -1,4 +1,4 @@
-import { Heading, Input, Pressable, Text, View } from "native-base";
+import { Heading, Pressable, Text, View } from "native-base";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { addLift } from "../../store/currentWorkoutSlice";
@@ -22,13 +22,16 @@ const AddExercises: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
 
   const handleAddExercises = () => {
+    // NOTE: IF CHECK
+    // IF A ID HAS BEEN REMOVED FROM THE LIST
+    // WE DISPATCH AN ACTION WHICH REMOVES IT FROM THE CURRENT WORKOUT
     const params = liftData.map((el) => {
       return {
         ...el,
         userId,
       };
     });
-
+    console.log(params)
     dispatch(addLift(params));
     navigation.goBack();
   };
@@ -41,7 +44,7 @@ const AddExercises: React.FC<Props> = () => {
 
   const renderList = () => {
     const props = {
-      liftProps: {
+      cardProps: {
         setLiftData,
         liftData,
       },

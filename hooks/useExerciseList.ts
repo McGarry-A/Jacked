@@ -37,7 +37,5 @@ export default function useExerciseList() {
     }
   }, [status]);
 
-  console.log(list, isLoading, error)
-
   return { list, isLoading, error };
 }

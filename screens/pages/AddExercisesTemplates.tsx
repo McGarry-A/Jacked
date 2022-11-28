@@ -40,7 +40,7 @@ const AddExercisesTemplates = ({
 
   const renderList = () => {
     const props = {
-      liftProps: {
+      cardProps: {
         setLiftData,
         liftData,
       },
