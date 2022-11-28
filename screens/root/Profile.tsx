@@ -5,8 +5,20 @@ import { Box, Heading, Text, Button, ScrollView } from "native-base";
 import BarChartWidget from "../../components/widgets/BarChartWidget";
 import LineGraphWidget from "../../components/widgets/LineGraphWidget";
 import UserProfileBar from "../../components/layout/UserProfileBar";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { getBestSet, getPreviousWorkoutDates } from "../../store/WidgetsSlice";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
+  const dispatch = useAppDispatch();
+
+  const { userId } = useAppSelector((state) => state.userSlice.user);
+
+  const dates = dispatch(getPreviousWorkoutDates({ userId }));
+  const sets = dispatch(getBestSet({ exerciseId: 2, userId }));
+
+  console.log(dates);
+  console.log(sets);
+
   const renderProfile = () => {
     return <UserProfileBar navigation={navigation} />;
   };

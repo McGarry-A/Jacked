@@ -41,15 +41,45 @@ const widgetSlice = createSlice({
             .addCase(getBestSet.rejected, (state) => {
                 state.status = "rejected"
             })
+            .addCase(getPreviousWorkoutDates.pending, (state) => {
+                state.status = "pending"
+            })
+            .addCase(getPreviousWorkoutDates.fulfilled, (state, { payload }) => {
+                state.status = "fulfilled"
+            })
+            .addCase(getPreviousWorkoutDates.rejected, (state) => {
+                state.status = "rejected"
+            })
+
     },
 });
 
-// start by fetching estimates 1RM for specific exercise based on best set per workout
 
+// start by fetching estimates 1RM for specific exercise based on best set per workout
 interface getBestSetProps {
     exerciseId: number;
     userId: string;
 }
+
+interface getPreviousWorkoutDates {
+    userId: string;
+}
+
+export const getPreviousWorkoutDates = createAsyncThunk(
+    "widget_slice/getPreviouseWorkoutDates",
+    async (payload: getPreviousWorkoutDates, { rejectWithValue }) => {
+        const { userId } = payload
+
+        const { data, error } = await supabase
+            .from("workouts")
+            .select("date")
+            .match({ user_id: userId })
+
+        if (error) rejectWithValue([])
+
+        console.log(data)
+    }
+)
 
 export const getBestSet = createAsyncThunk(
     "widget_slice/getBestSet",
@@ -64,7 +94,7 @@ export const getBestSet = createAsyncThunk(
 
         if (error) return rejectWithValue([]);
 
-        return data;
+        console.log(data)
     }
 );
 
