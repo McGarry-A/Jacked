@@ -5,6 +5,7 @@ import exerciseListSlice from "./exerciseList";
 import userSlice from "./userSlice";
 import workoutHistorySlice from "./workoutHistorySlice";
 import templateSlice from "./templateSlice";
+import widgetSlice from "./WidgetsSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,7 +13,8 @@ const store = configureStore({
     currentWorkoutSlice,
     userSlice,
     workoutHistorySlice,
-    templateSlice
+    templateSlice,
+    widgetSlice
   },
 });
 

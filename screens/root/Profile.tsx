@@ -13,11 +13,8 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 
   const { userId } = useAppSelector((state) => state.userSlice.user);
 
-  const dates = dispatch(getPreviousWorkoutDates({ userId }));
-  const sets = dispatch(getBestSet({ exerciseId: 2, userId }));
-
-  console.log(dates);
-  console.log(sets);
+  dispatch(getPreviousWorkoutDates({ userId }));
+  dispatch(getBestSet({ exerciseId: 2, userId }));
 
   const renderProfile = () => {
     return <UserProfileBar navigation={navigation} />;

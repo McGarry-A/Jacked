@@ -69,6 +69,7 @@ export const ExerciseList: React.FC<Props> = ({
           onChangeText={(text) => handleFilter(text)}
           fontSize={"md"}
           placeholder="Search"
+          my={1}
           leftElement={
             <FontAwesome
               name="search"

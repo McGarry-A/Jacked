@@ -66,7 +66,7 @@ const Lift = (props: IProps) => {
     <HStack
       alignItems="center"
       justifyContent={"space-between"}
-      my={1}
+      my={2}
       paddingX={2}
     >
       <Heading size="xs" flexShrink={1}>

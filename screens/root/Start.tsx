@@ -105,7 +105,6 @@ export default function Start() {
 
   return (
     <View padding={3} backgroundColor={"white"} flex={1}>
-      <ScrollView>
         {renderHeading()}
         {renderQuickStart()}
         {renderTemplatesSectionHeader()}
@@ -114,7 +113,6 @@ export default function Start() {
           isVisible={modalIsVisible}
           setIsVisible={setmodalIsVisible}
         />
-      </ScrollView>
     </View>
   );
 }

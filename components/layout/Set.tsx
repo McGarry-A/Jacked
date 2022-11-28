@@ -71,7 +71,7 @@ const Set = (props: Props) => {
       <Box
         backgroundColor={"red.500"}
         w={"full"}
-        justifyContent={"flex-end"}
+        justifyContent={"center"}
         flexDir={"row"}
         alignItems="center"
         pr={6}
@@ -86,11 +86,11 @@ const Set = (props: Props) => {
   const renderSetNumber = () => (
     <Box flex={1}>
       <Pressable
-        backgroundColor={"whitesmoke"}
         w={"1/2"}
         alignItems="center"
         justifyContent={"center"}
         borderRadius={6}
+        zIndex={"-1"}
       >
         <Text color="text.600" textAlign={"center"} w={5} fontWeight={700}>
           {setNumber}
@@ -106,7 +106,7 @@ const Set = (props: Props) => {
   );
 
   const renderWeightInput = () => (
-    <Box flex={2}>
+    <Box flex={2} py={1}>
       <Input
         placeholder={weight}
         backgroundColor={"whitesmoke"}
@@ -121,7 +121,7 @@ const Set = (props: Props) => {
     </Box>
   );
 
-  const renderRepsInput = () => {
+  const renderRepsInput = () => (
     <Box flex={2} py={1}>
       <Input
         placeholder={reps}
@@ -134,8 +134,8 @@ const Set = (props: Props) => {
         textAlign={"center"}
         color={"text.900"}
       />
-    </Box>;
-  };
+    </Box>
+  );
 
   const renderCheck = () => (
     <Pressable alignItems={"flex-end"} flexShrink={1} onPress={handleUpdateSet}>

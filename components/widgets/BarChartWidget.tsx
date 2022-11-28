@@ -7,10 +7,10 @@ import WidgetHeader from "./WidgetHeader";
 const BarChartWidget = () => {
   const screenWidth = Dimensions.get("window").width - 20;
   const data = {
-    labels: getPreviousMondays(),
+    labels: getPreviousMondays(6),
     datasets: [
       {
-        data: [5, 2, 3, 2, 5, 3, 4],
+        data: [5, 2, 3, 2, 5, 3, 2],
       },
     ],
   };

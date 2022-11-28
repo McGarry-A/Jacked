@@ -30,7 +30,7 @@ export default function Folder(props: IProps) {
     return (
       <FlatList
         data={Object.values(templates)}
-        numColumns={2}
+        numColumns={1}
         renderItem={({ item }) => (
           <TemplateCard
             key={item.tempId}
