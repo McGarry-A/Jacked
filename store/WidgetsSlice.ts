@@ -29,6 +29,8 @@ const widgetSlice = createSlice({
   name: "widget_slice",
   initialState: initialState,
   reducers: {},
+  // NOTE: THESE SHOULD PROBABLY BE IN CUSTOM HOOKS AND NOT IN REDUCER
+  // REDUCER SHOULD JUST HAVE THE LOGIC TO CRUD GRAPHS
   extraReducers: (builder) => {
     builder
       .addCase(getBestSet.fulfilled, (state, { payload }) => {
