@@ -1,12 +1,11 @@
 import { Box } from "native-base";
-import { Dimensions } from "react-native";
 import { BarChart } from "react-native-chart-kit";
-import { useAppSelector } from "../../store";
-import getPreviousMondays from "../../utils/getPreviousMonday";
-import WidgetHeader from "./WidgetHeader";
+import { useAppSelector } from "../../../store";
+import getPreviousMondays from "../../../utils/getPreviousMonday";
+import WidgetHeader from "../WidgetHeader";
+import { CONFIG, SCREEN_WIDTH } from "./config";
 
 const BarChartWidget = () => {
-  const screenWidth = Dimensions.get("window").width - 20;
   const { userId } = useAppSelector((state) => state.userSlice.user);
 
   const labels = getPreviousMondays(6);
@@ -18,21 +17,6 @@ const BarChartWidget = () => {
         data: [5, 2, 3, 2, 5, 3, 2],
       },
     ],
-  };
-
-  const barChartConfig = {
-    backgroundGradientFrom: "#FFFF",
-    backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: "#FFFF",
-    backgroundGradientToOpacity: 0,
-    color: () => "#808080",
-    barPercentage: 0.5,
-    barRadius: 5,
-    decimalPlaces: 0,
-    fillShadowGradientFrom: "#451F55",
-    fillShadowGradientFromOpacity: 1,
-    fillShadowGradientToOpacity: 1,
-    fillShadowGradientTo: "#724E91",
   };
 
   return (
@@ -47,10 +31,10 @@ const BarChartWidget = () => {
       <WidgetHeader title="Session" subtitle="Frequency" />
       <BarChart
         data={data}
-        width={screenWidth}
+        width={SCREEN_WIDTH}
         height={160}
         yAxisLabel=""
-        chartConfig={barChartConfig}
+        chartConfig={CONFIG}
         yAxisSuffix=""
         withInnerLines
         showBarTops={false}

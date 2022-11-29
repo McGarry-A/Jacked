@@ -1,7 +1,7 @@
 import { RootTabScreenProps } from "../../types";
 import { Box, Heading, Text, Button, ScrollView } from "native-base";
-import BarChartWidget from "../../components/widgets/BarChartWidget";
-import LineGraphWidget from "../../components/widgets/LineGraphWidget";
+import BarChartWidget from "../../components/widgets/BarChart/BarChartWidget";
+import LineGraphWidget from "../../components/widgets/LineGraph/LineGraphWidget";
 import UserProfileBar from "../../components/layout/UserProfileBar";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { getPreviousWorkoutDates } from "../../store/WidgetsSlice";
