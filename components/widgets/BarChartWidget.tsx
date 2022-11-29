@@ -1,13 +1,18 @@
 import { Box } from "native-base";
 import { Dimensions } from "react-native";
 import { BarChart } from "react-native-chart-kit";
+import { useAppSelector } from "../../store";
 import getPreviousMondays from "../../utils/getPreviousMonday";
 import WidgetHeader from "./WidgetHeader";
 
 const BarChartWidget = () => {
   const screenWidth = Dimensions.get("window").width - 20;
+  const { userId } = useAppSelector((state) => state.userSlice.user);
+
+  const labels = getPreviousMondays(6);
+
   const data = {
-    labels: getPreviousMondays(6),
+    labels,
     datasets: [
       {
         data: [5, 2, 3, 2, 5, 3, 2],

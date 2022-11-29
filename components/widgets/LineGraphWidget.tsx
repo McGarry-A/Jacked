@@ -1,23 +1,24 @@
 import { Box } from "native-base";
 import { Dimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { getBestSet } from "../../store/WidgetsSlice";
+import usePrevLifts from "../../hooks/usePrevLifts";
+import { useAppSelector } from "../../store";
 import WidgetHeader from "./WidgetHeader";
 
 const lineGraphWidget = () => {
-  const dispatch = useAppDispatch();
   const { userId } = useAppSelector((state) => state.userSlice.user);
 
-  dispatch(getBestSet({ exerciseId: 2, userId }));
+  const { data, isLoading, error } = usePrevLifts({
+    userId,
+    limit: 8,
+    exerciseId: 2,
+  });
 
-  const getLineData = () => {};
-
-  const getLineLabels = () => {};
+  const formattedData = data.map((el) => {});
 
   const screenWidth = Dimensions.get("window").width;
 
-  const data = {
+  const chartData = {
     labels: ["1/8", "8/8", "15/8", "22/8", "29/8", "5/9", "12/9"],
     datasets: [
       {
@@ -50,7 +51,7 @@ const lineGraphWidget = () => {
     >
       <WidgetHeader title="Weight" subtitle="Progression" />
       <LineChart
-        data={data}
+        data={chartData}
         width={screenWidth}
         height={160}
         yAxisLabel=""
