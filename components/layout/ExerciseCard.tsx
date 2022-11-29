@@ -1,5 +1,4 @@
 import { Avatar, Box, Checkbox, Pressable, Skeleton, Text } from "native-base";
-import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import getExerciseInitials from "../../utils/getExerciseInitials";
 import { LiftData } from "../../screens/modals/AddExercises";

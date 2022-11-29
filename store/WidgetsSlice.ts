@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { supabase } from "../supabase/supabaseClient";
+import useId from "../hooks/useId"
+import calculateOneRepMax from "../utils/calculateOneRepMax";
 
 interface IInitialState {
   status: "fulfilled" | "pending" | "rejected" | "idle";
@@ -12,7 +14,6 @@ interface IInitialState {
         labels: string[];
         datasets: {
           data: number[];
-          color: (opacity: number) => any;
         }[];
       };
     };
@@ -31,10 +32,11 @@ const widgetSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getBestSet.fulfilled, (state, { payload }) => {
-        // NOTE: manipulate data into the shape that we need
-        // add to state
         state.status = "fulfilled";
-        console.log(payload);
+        const widgetId = useId("wid")
+        const type = "line"
+        const labels = payload?.map((el) => el.workouts.date)
+        const data = payload?.map((el) => calculateOneRepMax(el.sets))
       })
       .addCase(getBestSet.pending, (state) => {
         state.status = "pending";
@@ -92,10 +94,10 @@ export const getBestSet = createAsyncThunk(
 
     const { data, error } = await supabase
       .from("lifts")
-      .select(`exercise_id, lift_id, user_id, set (weight, reps), workouts (id)`)
+      .select(`exercise_id, lift_id, user_id, set (weight, reps), workouts (id, date)`)
       .match({ user_id: userId, exercise_id: exerciseId })
       .order(`lift_id`, { ascending: false })
-      .limit(20)
+      .limit(6)
 
     if (error) {
       console.error(error);
@@ -107,3 +109,29 @@ export const getBestSet = createAsyncThunk(
 );
 
 export default widgetSlice.reducer;
+
+
+// NOTE: 
+// SHAPE OF OBJECT
+// {
+// exercise_id: 2
+// lift_id: 142
+// set: Array(3)
+// 0:
+// reps: "10"
+// weight: "90"
+// __proto__: Object
+// 1:
+// reps: "10"
+// weight: "100"
+// __proto__: Object
+// 2:
+// reps: "10"
+// weight: "110"
+// __proto__: Object
+// length: 3
+// __proto__: Array(0)
+// user_id: "5936f6bc-7db7-46d9-9af5-bc78ec84095e"
+// workouts:
+// id: 114
+// }
