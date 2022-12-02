@@ -14,12 +14,22 @@ const lineGraphWidget = () => {
     exerciseId: 2,
   });
 
+  const exerciseName = data[0]?.exercise_name;
+
+  // const oneRepMaxArray = data.map((workout) => {
+  //   const { set: sets } = workout
+
+  //   const bestSet = getBestSet(sets)
+  //   const max = calculateOneRepMax(bestSet)
+  //   return max
+  // })
+
   const chartData = {
-    labels: ["1/8", "8/8", "15/8", "22/8", "29/8", "5/9", "12/9"],
+    labels: ["1/8", "8/8", "15/8", "22/8", "29/8", "5/9"],
     datasets: [
       {
-        data: [72, 74, 73, 73, 74, 77, 75.5],
-        color: (opacity = 1) => `rgba(69, 31, 85, ${opacity})`,
+        data: [72, 74, 73, 73, 74, 77],
+        color: (opacity = 1) => `rgba(65, 105, 225, ${opacity})`, 
       },
     ],
   };
@@ -33,7 +43,7 @@ const lineGraphWidget = () => {
       padding={2}
       overflow={"hidden"}
     >
-      <WidgetHeader title="Weight" subtitle="Progression" />
+      <WidgetHeader title={exerciseName} subtitle="Progression" />
       <LineChart
         data={chartData}
         width={SCREEN_WIDTH}
@@ -42,7 +52,6 @@ const lineGraphWidget = () => {
         chartConfig={CONFIG}
         yAxisSuffix="kg"
         withInnerLines={false}
-        withDots={false}
         style={{
           marginVertical: 8,
           marginHorizontal: -10,

@@ -29,8 +29,6 @@ const BarChartWidget = () => {
   const dateOccurances = Object.values(counts)
   const dateDays = Object.keys(counts)
 
-  console.log(counts)
-
   const data = {
     labels: dateDays,
     datasets: [

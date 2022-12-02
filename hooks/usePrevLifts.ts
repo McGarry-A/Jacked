@@ -17,7 +17,7 @@ const usePrevLifts = ({ userId, limit, exerciseId }: props) => {
             try {
                 const { data, error } = await supabase
                     .from("lifts")
-                    .select(`exercise_id, lift_id, user_id, set (weight, reps), workouts (id, date)`)
+                    .select(`exercise_id, exercise_name, lift_id, user_id, set (weight, reps), workouts (id, date)`)
                     .match({ user_id: userId, exercise_id: exerciseId })
                     .order(`lift_id`, { ascending: false })
                     .limit(limit)
