@@ -43,7 +43,7 @@ const lineGraphWidget = () => {
       padding={2}
       overflow={"hidden"}
     >
-      <WidgetHeader title={exerciseName} subtitle="Progression" />
+      <WidgetHeader title={exerciseName ? exerciseName : "" } subtitle="Progression" />
       <LineChart
         data={chartData}
         width={SCREEN_WIDTH}

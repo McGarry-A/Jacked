@@ -11,7 +11,7 @@ const CONFIG = {
         r: "6",
         strokeWidth: "3",
         stroke: "#fff",
-        fill: "blue"
+        fill: "#4169E1"
     },
     fillShadowGradientFromOpacity: 0,
     fillShadowGradientToOpacity: 0,

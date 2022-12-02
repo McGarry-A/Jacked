@@ -30,10 +30,10 @@ const BarChartWidget = () => {
   const dateDays = Object.keys(counts)
 
   const data = {
-    labels: dateDays,
+    labels: ["1",'2','3','4','5'],
     datasets: [
       {
-        data: dateOccurances,
+        data: [1,2,3,4,5],
       },
     ],
   };
@@ -58,7 +58,7 @@ const BarChartWidget = () => {
         showBarTops={false}
         withInnerLines={false}
         fromZero
-        segments={dateOccurances.length}
+        segments={5}
         style={{
           marginVertical: 8,
           borderRadius: 16,
