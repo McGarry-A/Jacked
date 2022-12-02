@@ -1,20 +1,41 @@
 import { Box } from "native-base";
 import { BarChart } from "react-native-chart-kit";
+import usePreviousWorkoutDates from "../../../hooks/usePreviousWorkoutDates";
 import { useAppSelector } from "../../../store";
-import getPreviousMondays from "../../../utils/getPreviousMonday";
 import WidgetHeader from "../WidgetHeader";
 import { CONFIG, SCREEN_WIDTH } from "./config";
+import moment from "moment";
 
 const BarChartWidget = () => {
   const { userId } = useAppSelector((state) => state.userSlice.user);
 
-  const labels = getPreviousMondays(6);
+  // const labels = getPreviousMondays();
+
+  const { workoutDates, isLoading, error } = usePreviousWorkoutDates(userId);
+
+  const moments = workoutDates.map((el) => {
+    return moment(el.date).startOf("week").format("DD/MM")
+  });
+
+  const counts: {
+    [key: string]: number;
+  } = {};
+
+  for (let index in moments.reverse()) {
+    const date = moments[index];
+    counts[date] = counts[date] ? (counts[date] += 1) : 1;
+  }
+  
+  const dateOccurances = Object.values(counts)
+  const dateDays = Object.keys(counts)
+
+  console.log(counts)
 
   const data = {
-    labels,
+    labels: dateDays,
     datasets: [
       {
-        data: [5, 2, 3, 2, 5, 3, 2],
+        data: dateOccurances,
       },
     ],
   };
@@ -31,19 +52,19 @@ const BarChartWidget = () => {
       <WidgetHeader title="Session" subtitle="Frequency" />
       <BarChart
         data={data}
-        width={SCREEN_WIDTH}
+        width={SCREEN_WIDTH - 10}
         height={160}
         yAxisLabel=""
         chartConfig={CONFIG}
         yAxisSuffix=""
-        withInnerLines
         showBarTops={false}
+        withInnerLines={false}
         fromZero
-        segments={4}
+        segments={dateOccurances.length}
         style={{
           marginVertical: 8,
           borderRadius: 16,
-          paddingRight: 0,
+          paddingRight: 25,
         }}
       />
     </Box>

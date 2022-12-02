@@ -42,7 +42,7 @@ const lineGraphWidget = () => {
         chartConfig={CONFIG}
         yAxisSuffix="kg"
         withInnerLines={false}
-        segments={4}
+        withDots={false}
         style={{
           marginVertical: 8,
           marginHorizontal: -10,

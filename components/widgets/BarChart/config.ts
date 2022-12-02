@@ -6,13 +6,13 @@ const CONFIG = {
     backgroundGradientTo: "#FFFF",
     backgroundGradientToOpacity: 0,
     color: () => "#808080",
-    barPercentage: 0.5,
+    barPercentage: .6,
     barRadius: 5,
     decimalPlaces: 0,
-    fillShadowGradientFrom: "#451F55",
+    fillShadowGradientFrom: "#4169e1",
     fillShadowGradientFromOpacity: 1,
     fillShadowGradientToOpacity: 1,
-    fillShadowGradientTo: "#724E91",
+    fillShadowGradientTo: "#153084",
 };
 
 const SCREEN_WIDTH = Dimensions.get("window").width;

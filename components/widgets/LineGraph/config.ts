@@ -7,9 +7,10 @@ const CONFIG = {
     backgroundGradientToOpacity: 0,
     color: () => "#808080",
     decimalPlaces: 1,
-    fillShadowGradientOpacityFrom: 0,
-    fillShadowGradientOpacityTo: 0,
-    fillShadowGradientOpacity: 0,
+    fillShadowGradientFrom: "#4169e1",
+    fillShadowGradientFromOpacity: 1,
+    fillShadowGradientToOpacity: 1,
+    fillShadowGradientTo: "#153084",
 };
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
