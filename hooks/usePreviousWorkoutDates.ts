@@ -13,7 +13,7 @@ const usePreviousWorkoutDates = (userId: string) => {
           .from("workouts")
           .select("date")
           .match({ user_id: userId })
-          .limit(10)
+          .limit(30)
           .order("date", { ascending: false })
 
         if (error) {

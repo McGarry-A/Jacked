@@ -30,7 +30,8 @@ export default function Folder(props: IProps) {
     return (
       <FlatList
         data={Object.values(templates)}
-        numColumns={1}
+        numColumns={2}
+        w={"100%"}
         renderItem={({ item }) => (
           <TemplateCard
             key={item.tempId}
@@ -63,10 +64,8 @@ export default function Folder(props: IProps) {
         </HStack>
       </Pressable>
       <Collapse isOpen={!isCollapsed}>
-        <HStack paddingTop={2} space={2} flexWrap="wrap">
-          {renderTemplates()}
-          <CreateTemplateCard folId={id} />
-        </HStack>
+        {renderTemplates()}
+        <CreateTemplateCard folId={id} />
       </Collapse>
     </Box>
   );

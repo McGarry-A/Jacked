@@ -3,7 +3,15 @@ interface calculateOneRepMaxProps {
     reps: string;
 }
 
-const calculateOneRepMax = (arr: Array<calculateOneRepMaxProps>): number => { return 1 }
+const calculateOneRepMax = (arr: Array<calculateOneRepMaxProps>): number[] => { 
+    return arr.map((set) => {
+        if (!set) return 0
+        const weight = parseInt(set.weight)
+        const reps = parseInt(set.reps)
+        const oneRepMax = weight * (36 / (37 - reps))
+        return Math.round(oneRepMax)
+    })
+ }
 
 export default calculateOneRepMax
 

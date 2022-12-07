@@ -24,9 +24,9 @@ export default function CreateTemplateCard(props: IProps) {
       borderColor={"info.100"}
       p={2}
       borderRadius={"sm"}
-      w={"47%"}
       onPress={handlePress}
-      my={1}
+      m={1}
+      w={"48%"}
       h={"32"}
       borderStyle={"dotted"}
     >

@@ -186,15 +186,14 @@ export const ExerciseList: React.FC<Props> = ({
 
   const renderList = () => {
     return (
-      <View>
         <FlatList
           data={exercises.length ? exercises : exerciseList }
+          paddingBottom={40}
           renderItem={({ item }) => (
             <ExerciseCard {...item} {...cardProps} isLoading={!isLoading} />
           )}
           keyExtractor={(item) => item.id.toString()}
         />
-      </View>
     );
   };
 
@@ -207,10 +206,10 @@ export const ExerciseList: React.FC<Props> = ({
   }
 
   return (
-    <View my={2} flexGrow={1}>
+    <Box my={2} flex={1}>
       {renderSearchBar()}
       {renderExerciseFilter()}
       {renderList()}
-    </View>
+    </Box>
   );
 };

@@ -51,7 +51,6 @@ const widgetSlice = createSlice({
       })
       .addCase(getPreviousWorkoutDates.fulfilled, (state, { payload }) => {
         state.status = "fulfilled";
-        console.log(payload);
       })
       .addCase(getPreviousWorkoutDates.rejected, (state) => {
         state.status = "rejected";

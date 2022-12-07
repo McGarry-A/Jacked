@@ -79,7 +79,7 @@ const AddExercises: React.FC<Props> = () => {
   };
 
   return (
-    <View padding={3} backgroundColor={"white"} h="full">
+    <View padding={3} backgroundColor={"white"} h="full" flex={1} flexGrow={1}>
       {renderHeading()}
       {renderList()}
       {renderAddExercises()}

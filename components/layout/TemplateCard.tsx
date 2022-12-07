@@ -106,7 +106,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
       <HStack alignItems={"center"}>
         <FontAwesomeIcon icon={faClock} size={10} color="gray" />
         <Text fontSize={"xs"} color="text.400" ml={2}>
-          {getDaysAgo("2022/10/1")}
+          {"2022/10/1"}
         </Text>
       </HStack>
     );
@@ -118,9 +118,9 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
       borderColor={"gray.300"}
       p={2}
       borderRadius={"sm"}
-      w="full"
+      w={"48%"}
       onPress={handlePress}
-      my={1}
+      m={1}
       h={"32"}
     >
       <VStack space={1} h="full" overflow={"hidden"}>
