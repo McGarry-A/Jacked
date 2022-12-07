@@ -4,12 +4,13 @@ import { useAppSelector } from "../store"
 import getPreviousMondays from "../utils/getPreviousMonday"
 import usePreviousWorkoutDates from "./usePreviousWorkoutDates"
 
-const useSessionFrequency = (workoutDates: [{ date: string }]) => {
+const useSessionFrequency = () => {
     const [labels, setLabels] = useState<string[]>([])
     const [values, setValues] = useState<number[]>([])
 
+    const { userId } = useAppSelector((state) => state.userSlice.user);
+    const { workoutDates, isLoading } = usePreviousWorkoutDates(userId);
     
-
     useEffect(() => {
         const labels = getPreviousMondays(4);
         const moments = workoutDates.map((el) => {
@@ -32,7 +33,7 @@ const useSessionFrequency = (workoutDates: [{ date: string }]) => {
 
         setLabels(Object.keys(newMoments))
         setValues(Object.values(newMoments))
-    }, [])
+    }, [isLoading])
 
     return { labels, values }
 

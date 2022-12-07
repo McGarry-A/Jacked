@@ -14,16 +14,8 @@ const lineGraphWidget = () => {
     exerciseId: 2,
   });
 
-  const exerciseName = data[0]?.exercise_name;
-
-  // const oneRepMaxArray = data.map((workout) => {
-  //   const { set: sets } = workout
-
-  //   const bestSet = getBestSet(sets)
-  //   const max = calculateOneRepMax(bestSet)
-  //   return max
-  // })
-
+  console.log(data)
+  
   const chartData = {
     labels: ["1/8", "8/8", "15/8", "22/8", "29/8", "5/9"],
     datasets: [
@@ -43,7 +35,7 @@ const lineGraphWidget = () => {
       padding={2}
       overflow={"hidden"}
     >
-      <WidgetHeader title={exerciseName ? exerciseName : "" } subtitle="Progression" />
+      <WidgetHeader title={"Bench Press"} subtitle="Progression" />
       <LineChart
         data={chartData}
         width={SCREEN_WIDTH}

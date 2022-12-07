@@ -3,13 +3,9 @@ import { BarChart } from "react-native-chart-kit";
 import WidgetHeader from "../WidgetHeader";
 import { CONFIG, SCREEN_WIDTH } from "./config";
 import useSessionFrequency from "../../../hooks/useSessionFrequency";
-import usePreviousWorkoutDates from "../../../hooks/usePreviousWorkoutDates";
-import { useAppSelector } from "../../../store";
 
 const BarChartWidget = () => {
-  const { userId } = useAppSelector((state) => state.userSlice.user);
-  const { workoutDates } = usePreviousWorkoutDates(userId);
-  const { labels, values } = useSessionFrequency(workoutDates as [{ date: string }])
+  const { labels, values } = useSessionFrequency()
 
   const data = {
     labels: labels,
