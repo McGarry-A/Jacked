@@ -2,6 +2,8 @@ import { Button, Modal, Skeleton, VStack } from "native-base";
 import React, { useState } from "react";
 import useExerciseList from "../../hooks/useExerciseList";
 import useId from "../../hooks/useId";
+import { useAppDispatch } from "../../store";
+import { createWidget } from "../../store/WidgetsSlice";
 
 interface IProps {
   isVisible: boolean;
@@ -16,15 +18,29 @@ export default function AddWidgetModal(props: IProps) {
   const { isVisible, setIsVisible } = props;
   const { list: exerciseList, isLoading, error } = useExerciseList();
 
+  const dispatch = useAppDispatch();
+
   const handleChooseExerciseToTrack = () => setStep("CHOOSE_EXERCISE_TO_TRACK");
-  const handleCreateLineWidget = (id: number) => {
-    const newWidgetId = useId("wid");
-    // dispatch createLineWidget({ id })
+
+  const handleCreateLineWidget = (id: number, exerciseName: string) => {
+    const widget = {
+      newWidgetId: useId("wid"),
+      title: `${exerciseName} Progression`,
+      type: "line",
+      subtitle: "1RM Estimate",
+    };
+    dispatch(createWidget({ ...widget }));
     setIsVisible(false);
   };
+
   const handleCreateBarWidget = () => {
-    const newWidgetId = useId("wid");
-    // dispatch createBarWidget()
+    const widget = {
+      newWidgetId: useId("wid"),
+      title: `Session Frequency`,
+      type: "bar",
+      subtitle: "",
+    };
+    dispatch(createWidget({ ...widget }));
     setIsVisible(false);
   };
 
@@ -52,7 +68,7 @@ export default function AddWidgetModal(props: IProps) {
             {exerciseList.map(({ exercise_name, id }) => {
               return (
                 <ModalItem
-                  pressHandler={() => handleCreateLineWidget(id)}
+                  pressHandler={() => handleCreateLineWidget(id, exercise_name)}
                   key={id}
                 >
                   {exercise_name}
@@ -63,7 +79,8 @@ export default function AddWidgetModal(props: IProps) {
         </Modal.Body>
       );
 
-    if (step === "CHOOSE_EXERCISE_TO_TRACK" && isLoading) return <Skeleton />;
+    if (step === "CHOOSE_EXERCISE_TO_TRACK" && isLoading)
+      return <Skeleton h="full" />;
   };
 
   const renderFooter = () => {
