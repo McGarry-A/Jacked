@@ -83,6 +83,7 @@ export default function AddWidgetModal(props: IProps) {
       return <Skeleton h="full" />;
   };
 
+  // NOTE: REMOVE IF WE DO NOT NEED THIS
   const renderFooter = () => {
     return (
       <Modal.Footer>
@@ -106,7 +107,6 @@ export default function AddWidgetModal(props: IProps) {
         <Modal.CloseButton />
         {renderHeader()}
         {renderBody()}
-        {renderFooter()}
       </Modal.Content>
     </Modal>
   );

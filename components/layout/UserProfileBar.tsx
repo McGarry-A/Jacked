@@ -1,12 +1,14 @@
 import { FontAwesome } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import { Avatar, Box, Pressable, Text } from "native-base";
 
 interface Props {
-  navigation?: any;
   isClickable?: boolean;
 }
 
-const UserProfileBar = ({ navigation, isClickable = true }: Props) => {
+const UserProfileBar = ({ isClickable = true }: Props) => {
+  const navigation = useNavigation();
+
   const renderChevron = () => {
     if (isClickable) {
       return (

@@ -22,7 +22,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const { widgets } = useAppSelector((state) => state.widgetSlice);
 
   const renderProfile = () => {
-    return <UserProfileBar navigation={navigation} />;
+    return <UserProfileBar />;
   };
 
   const renderDashboard = () => {
