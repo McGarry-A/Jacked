@@ -28,6 +28,7 @@ export default function AddWidgetModal(props: IProps) {
       title: `${exerciseName} Progression`,
       type: "line",
       subtitle: "1RM Estimate",
+      exerciseId: id,
     };
     dispatch(createWidget({ ...widget }));
     setIsVisible(false);
@@ -116,6 +117,6 @@ interface IModalItem {
   pressHandler: () => void;
 }
 
-const ModalItem: React.FC<IModalItem> = ({ children }) => {
-  return <Button variant={"unstyled"}>{children}</Button>;
+const ModalItem: React.FC<IModalItem> = ({ children, pressHandler }) => {
+  return <Button onPress={pressHandler} variant={"unstyled"}>{children}</Button>;
 };

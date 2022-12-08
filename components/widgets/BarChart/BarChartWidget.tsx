@@ -26,6 +26,7 @@ const BarChartWidget: React.FC<IBarProps> = (props) => {
       borderRadius={10}
       padding={2}
       overflow={"hidden"}
+      flex={1}
     >
       <WidgetHeader title={title} subtitle={subtitle} />
       <BarChart

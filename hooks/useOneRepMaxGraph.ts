@@ -57,7 +57,7 @@ const useOneRepMaxGraph = ({ exerciseId }: { exerciseId: number }) => {
     setValues(dataPoints);
     setLabels(labelMoments);
     setIsLoaded(true);
-  }, [data]);
+  }, [data, isLoading]);
 
   return { labels, values, isLoaded };
 };

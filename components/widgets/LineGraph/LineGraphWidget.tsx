@@ -32,6 +32,7 @@ const lineGraphWidget: React.FC<ILineProps> = (props) => {
       borderRadius={10}
       padding={2}
       overflow={"hidden"}
+      flex={1}
     >
       {isLoaded && (
         <>

@@ -30,8 +30,8 @@ const initialState: IInitialState = {
     },
     "wid-02": {
       type: "line",
-      title: "Sessions",
-      subtitle: "Session Frequency",
+      title: "Barbell Bench Press Max",
+      subtitle: "1RM Estimate",
       exerciseId: 2
     }
   },

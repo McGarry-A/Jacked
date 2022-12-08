@@ -15,6 +15,7 @@ import { useAppSelector } from "../../store";
 import AddWidgetModal from "../../components/utils/AddWidgetModal";
 import { useState } from "react";
 import { IOneRepMaxLine } from "../../store/WidgetsSlice";
+import { SafeAreaView } from "react-native";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
@@ -40,6 +41,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
           backgroundColor={"info.100"}
           borderRadius="3xl"
           borderWidth={0}
+          onPress={() => setModalIsVisible(true)}
         >
           <Text
             fontSize={"xs"}
@@ -63,6 +65,8 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const renderWidget = (widgetId: string) => {
     const { type, title, subtitle } = widgets[widgetId];
 
+    console.log("widget", JSON.stringify(widgets[widgetId]));
+
     if (type === "line") {
       const { exerciseId } = widgets[widgetId] as IOneRepMaxLine;
 
@@ -83,10 +87,10 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const renderWidgets = () => {
     // NOTE: PROBABLY BEST PRACTICE DONT KNOW IF IT WILL WORK THOUGH
     return (
-      <FlatList
-        data={Object.keys(widgets)}
-        renderItem={({ item }) => renderWidget(item)}
-      />
+        <FlatList
+          data={Object.keys(widgets)}
+          renderItem={({ item }) => renderWidget(item)}
+        />
     );
 
     // return <ScrollView>{Object.keys(widgets).map(renderWidget)}</ScrollView>;
@@ -100,7 +104,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   );
 
   return (
-    <View padding="3" backgroundColor={"white"} flexGrow={1}>
+    <View padding="3" backgroundColor={"white"} flexGrow={1} flex={1}>
       {renderScreenHeading()}
       {renderProfile()}
       {renderDashboard()}
