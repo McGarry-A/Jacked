@@ -36,22 +36,22 @@ const useOneRepMaxGraph = ({ exerciseId }: { exerciseId: number }) => {
           return prev.weight * prev.reps > current.weight * prev.reps
             ? prev
             : { bestSet: current, date };
-        }, {});
+        }, {})
       });
     };
 
     // getting array of the dates // labels
     const labelsRaw = getArrayOfBestSetAndDate(set).map(
       (item: any) => item.date
-    );
+    ).reverse();
     const labelMoments = labelsRaw.map((label: any) =>
       moment(label).format("DD/MM")
     );
 
     // getting array of the datapoints
-    const rawDataPoints = getArrayOfBestSetAndDate(set).map(
+    const rawDataPoints = getArrayOfBestSetAndDate(set).reverse().map(
       (item: any) => item.bestSet
-    );
+    )
     const dataPoints = calculateOneRepMax(rawDataPoints);
 
     setValues(dataPoints);

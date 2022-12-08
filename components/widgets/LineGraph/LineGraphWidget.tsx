@@ -15,7 +15,7 @@ const lineGraphWidget: React.FC<ILineProps> = (props) => {
   const { labels, values, isLoaded } = useOneRepMaxGraph({ exerciseId });
 
   const chartData = {
-    labels,
+    labels: labels,
     datasets: [
       {
         data: values,
