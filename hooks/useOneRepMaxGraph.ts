@@ -1,12 +1,11 @@
 import moment from "moment";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../store";
 import calculateOneRepMax from "../utils/calculateOneRepMax";
 import usePrevLifts from "./usePrevLifts";
 
-const useOneRepMaxGraph = () => {
+const useOneRepMaxGraph = ({ exerciseId }: { exerciseId: number }) => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  const [exerciseName, setExerciseName] = useState<string>("");
   const [labels, setLabels] = useState<string[]>([]);
   const [values, setValues] = useState<number[]>([]);
 
@@ -15,14 +14,12 @@ const useOneRepMaxGraph = () => {
   const { data, isLoading, error } = usePrevLifts({
     userId,
     limit: 6,
-    exerciseId: 2,
+    exerciseId,
   });
 
   useEffect(() => {
     if (isLoading || error) return;
 
-    const { exercise_name } = data[0];
-    setExerciseName(exercise_name);
     const set = data?.map((workout) => {
       return {
         sets: workout.set,
@@ -62,7 +59,7 @@ const useOneRepMaxGraph = () => {
     setIsLoaded(true);
   }, [data]);
 
-  return { labels, values, exerciseName, isLoaded };
+  return { labels, values, isLoaded };
 };
 
 export default useOneRepMaxGraph;

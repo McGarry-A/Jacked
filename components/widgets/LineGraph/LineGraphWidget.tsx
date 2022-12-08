@@ -4,8 +4,15 @@ import useOneRepMaxGraph from "../../../hooks/useOneRepMaxGraph";
 import WidgetHeader from "../WidgetHeader";
 import { CONFIG, SCREEN_WIDTH } from "./config";
 
-const lineGraphWidget = () => {
-  const { labels, values, exerciseName, isLoaded } = useOneRepMaxGraph();
+interface ILineProps {
+  title: string;
+  subtitle: string;
+  exerciseId: number;
+}
+
+const lineGraphWidget: React.FC<ILineProps> = (props) => {
+  const { title, subtitle, exerciseId } = props;
+  const { labels, values, isLoaded } = useOneRepMaxGraph({ exerciseId });
 
   const chartData = {
     labels,
@@ -28,7 +35,7 @@ const lineGraphWidget = () => {
     >
       {isLoaded && (
         <>
-          <WidgetHeader title={exerciseName} subtitle="1RM Estimate" />
+          <WidgetHeader title={title} subtitle={subtitle} />
           <LineChart
             data={chartData}
             width={SCREEN_WIDTH}

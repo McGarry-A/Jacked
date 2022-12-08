@@ -3,16 +3,15 @@ import { Box, Heading, Text, Button, ScrollView } from "native-base";
 import BarChartWidget from "../../components/widgets/BarChart/BarChartWidget";
 import LineGraphWidget from "../../components/widgets/LineGraph/LineGraphWidget";
 import UserProfileBar from "../../components/layout/UserProfileBar";
-import { useAppDispatch, useAppSelector } from "../../store";
+import { useAppSelector } from "../../store";
 import AddWidgetModal from "../../components/utils/AddWidgetModal";
 import { useState } from "react";
+import { IOneRepMaxLine } from "../../store/WidgetsSlice";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
 
-  const { userId } = useAppSelector((state) => state.userSlice.user);
-
-  const dispatch = useAppDispatch();
+  const { widgets } = useAppSelector((state) => state.widgetSlice);
 
   const renderProfile = () => {
     return <UserProfileBar navigation={navigation} />;
@@ -56,8 +55,23 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const renderWidgets = () => {
     return (
       <Box>
-        <BarChartWidget />
-        <LineGraphWidget />
+        {Object.keys(widgets).map((el) => {
+          const { type, title, subtitle } = widgets[el];
+
+          if (type === "line") {
+            const { exerciseId } = widgets[el] as IOneRepMaxLine;
+
+            return (
+              <LineGraphWidget
+                title={title}
+                subtitle={subtitle}
+                exerciseId={exerciseId}
+              />
+            );
+          }
+          if (type === "bar")
+            return <BarChartWidget title={title} subtitle={subtitle} />;
+        })}
       </Box>
     );
   };

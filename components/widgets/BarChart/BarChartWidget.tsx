@@ -4,8 +4,14 @@ import WidgetHeader from "../WidgetHeader";
 import { CONFIG, SCREEN_WIDTH } from "./config";
 import useSessionFrequency from "../../../hooks/useSessionFrequency";
 
-const BarChartWidget = () => {
-  const { labels, values } = useSessionFrequency()
+interface IBarProps {
+  title: string;
+  subtitle: string;
+}
+
+const BarChartWidget: React.FC<IBarProps> = (props) => {
+  const { title, subtitle } = props;
+  const { labels, values } = useSessionFrequency();
 
   const data = {
     labels: labels,
@@ -21,7 +27,7 @@ const BarChartWidget = () => {
       padding={2}
       overflow={"hidden"}
     >
-      <WidgetHeader title="Session" subtitle="Frequency" />
+      <WidgetHeader title={title} subtitle={subtitle} />
       <BarChart
         data={data}
         width={SCREEN_WIDTH - 10}
