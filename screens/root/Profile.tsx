@@ -1,5 +1,13 @@
 import { RootTabScreenProps } from "../../types";
-import { Box, Heading, Text, Button, ScrollView } from "native-base";
+import {
+  Box,
+  Heading,
+  Text,
+  Button,
+  ScrollView,
+  View,
+  FlatList,
+} from "native-base";
 import BarChartWidget from "../../components/widgets/BarChart/BarChartWidget";
 import LineGraphWidget from "../../components/widgets/LineGraph/LineGraphWidget";
 import UserProfileBar from "../../components/layout/UserProfileBar";
@@ -52,28 +60,36 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
     </Box>
   );
 
+  const renderWidget = (widgetId: string) => {
+    const { type, title, subtitle } = widgets[widgetId];
+
+    if (type === "line") {
+      const { exerciseId } = widgets[widgetId] as IOneRepMaxLine;
+
+      return (
+        <LineGraphWidget
+          title={title}
+          subtitle={subtitle}
+          exerciseId={exerciseId}
+        />
+      );
+    }
+    if (type === "bar")
+      return <BarChartWidget title={title} subtitle={subtitle} />;
+
+    return <></>;
+  };
+
   const renderWidgets = () => {
+    // NOTE: PROBABLY BEST PRACTICE DONT KNOW IF IT WILL WORK THOUGH
     return (
-      <Box>
-        {Object.keys(widgets).map((el) => {
-          const { type, title, subtitle } = widgets[el];
-
-          if (type === "line") {
-            const { exerciseId } = widgets[el] as IOneRepMaxLine;
-
-            return (
-              <LineGraphWidget
-                title={title}
-                subtitle={subtitle}
-                exerciseId={exerciseId}
-              />
-            );
-          }
-          if (type === "bar")
-            return <BarChartWidget title={title} subtitle={subtitle} />;
-        })}
-      </Box>
+      <FlatList
+        data={Object.keys(widgets)}
+        renderItem={({ item }) => renderWidget(item)}
+      />
     );
+
+    // return <ScrollView>{Object.keys(widgets).map(renderWidget)}</ScrollView>;
   };
 
   const renderAddWidgetModal = () => (
@@ -84,12 +100,12 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   );
 
   return (
-    <ScrollView padding="3" backgroundColor={"white"} flexGrow={1}>
+    <View padding="3" backgroundColor={"white"} flexGrow={1}>
       {renderScreenHeading()}
       {renderProfile()}
       {renderDashboard()}
       {renderWidgets()}
       {renderAddWidgetModal()}
-    </ScrollView>
+    </View>
   );
 }
