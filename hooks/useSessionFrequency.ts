@@ -11,8 +11,6 @@ const useSessionFrequency = () => {
   const { userId } = useAppSelector((state) => state.userSlice.user);
   const { workoutDates, isLoading } = usePreviousWorkoutDates(userId);
 
-  console.log("workoutDates", workoutDates)
-
   useEffect(() => {
     const labels = getPreviousMondays(4);
     const moments = workoutDates.map((el) => {
@@ -35,7 +33,7 @@ const useSessionFrequency = () => {
     setValues(Object.values(newMoments));
   }, [isLoading]);
 
-  return { labels, values };
+  return { labels, values, isLoading };
 };
 
 export default useSessionFrequency;

@@ -1,7 +1,6 @@
-import { Box } from "native-base";
 import { LineChart } from "react-native-chart-kit";
 import useOneRepMaxGraph from "../../../hooks/useOneRepMaxGraph";
-import WidgetHeader from "../WidgetHeader";
+import WidgetContainer from "../WidgetContainer";
 import { CONFIG, SCREEN_WIDTH } from "./config";
 
 interface ILineProps {
@@ -24,36 +23,27 @@ const lineGraphWidget: React.FC<ILineProps> = (props) => {
     ],
   };
 
+  // NOTE:
+  // WIDGET CONTAINER TO TAKE A ISLOADING PROP?
   return (
-    <Box
-      marginY={1}
-      borderWidth={2}
-      borderColor={"whitesmoke"}
-      borderRadius={10}
-      padding={2}
-      overflow={"hidden"}
-      flex={1}
-    >
+    <WidgetContainer title={title} subtitle={subtitle}>
       {isLoaded && (
-        <>
-          <WidgetHeader title={title} subtitle={subtitle} />
-          <LineChart
-            data={chartData}
-            width={SCREEN_WIDTH}
-            height={160}
-            yAxisLabel=""
-            chartConfig={CONFIG}
-            yAxisSuffix="kg"
-            withInnerLines={false}
-            style={{
-              marginVertical: 8,
-              marginHorizontal: -10,
-              borderRadius: 16,
-            }}
-          />
-        </>
+        <LineChart
+          data={chartData}
+          width={SCREEN_WIDTH}
+          height={160}
+          yAxisLabel=""
+          chartConfig={CONFIG}
+          yAxisSuffix="kg"
+          withInnerLines={false}
+          style={{
+            marginVertical: 8,
+            marginHorizontal: -10,
+            borderRadius: 16,
+          }}
+        />
       )}
-    </Box>
+    </WidgetContainer>
   );
 };
 
