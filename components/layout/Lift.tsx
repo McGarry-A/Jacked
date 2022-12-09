@@ -26,6 +26,7 @@ const Lift = (props: IProps) => {
   const handleCheckAllSets = () => {
     if (allDone === false) setAllDone(true);
     if (allDone === true) setAllDone(false);
+    console.log("sets", sets)
   };
 
   const handleSwipeRight = () => {

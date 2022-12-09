@@ -1,13 +1,5 @@
 import { RootTabScreenProps } from "../../types";
-import {
-  Box,
-  Heading,
-  Text,
-  Button,
-  ScrollView,
-  View,
-  FlatList,
-} from "native-base";
+import { Box, Heading, Text, Button, View, FlatList } from "native-base";
 import BarChartWidget from "../../components/widgets/BarChart/BarChartWidget";
 import LineGraphWidget from "../../components/widgets/LineGraph/LineGraphWidget";
 import UserProfileBar from "../../components/layout/UserProfileBar";
@@ -15,7 +7,7 @@ import { useAppSelector } from "../../store";
 import AddWidgetModal from "../../components/utils/AddWidgetModal";
 import { useState } from "react";
 import { IOneRepMaxLine } from "../../store/WidgetsSlice";
-import { SafeAreaView } from "react-native";
+import WidgetContainer from "../../components/widgets/WidgetContainer";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
@@ -65,21 +57,31 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const renderWidget = (widgetId: string) => {
     const { type, title, subtitle } = widgets[widgetId];
 
-    console.log("widget", JSON.stringify(widgets[widgetId]));
-
     if (type === "line") {
       const { exerciseId } = widgets[widgetId] as IOneRepMaxLine;
 
       return (
-        <LineGraphWidget
+        <WidgetContainer
+          type={type}
           title={title}
           subtitle={subtitle}
-          exerciseId={exerciseId}
-        />
+          widgetId={widgetId}
+        >
+          <LineGraphWidget exerciseId={exerciseId} />
+        </WidgetContainer>
       );
     }
     if (type === "bar")
-      return <BarChartWidget title={title} subtitle={subtitle} />;
+      return (
+        <WidgetContainer
+          type={type}
+          title={title}
+          subtitle={subtitle}
+          widgetId={widgetId}
+        >
+          <BarChartWidget />
+        </WidgetContainer>
+      );
 
     return <></>;
   };
@@ -87,10 +89,10 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const renderWidgets = () => {
     // NOTE: PROBABLY BEST PRACTICE DONT KNOW IF IT WILL WORK THOUGH
     return (
-        <FlatList
-          data={Object.keys(widgets)}
-          renderItem={({ item }) => renderWidget(item)}
-        />
+      <FlatList
+        data={Object.keys(widgets)}
+        renderItem={({ item }) => renderWidget(item)}
+      />
     );
 
     // return <ScrollView>{Object.keys(widgets).map(renderWidget)}</ScrollView>;

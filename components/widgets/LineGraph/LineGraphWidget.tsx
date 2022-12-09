@@ -1,16 +1,13 @@
 import { LineChart } from "react-native-chart-kit";
 import useOneRepMaxGraph from "../../../hooks/useOneRepMaxGraph";
-import WidgetContainer from "../WidgetContainer";
 import { CONFIG, SCREEN_WIDTH } from "./config";
 
 interface ILineProps {
-  title: string;
-  subtitle: string;
   exerciseId: number;
 }
 
 const lineGraphWidget: React.FC<ILineProps> = (props) => {
-  const { title, subtitle, exerciseId } = props;
+  const { exerciseId } = props;
   const { labels, values, isLoaded } = useOneRepMaxGraph({ exerciseId });
 
   const chartData = {
@@ -22,29 +19,23 @@ const lineGraphWidget: React.FC<ILineProps> = (props) => {
       },
     ],
   };
-
-  // NOTE:
-  // WIDGET CONTAINER TO TAKE A ISLOADING PROP?
-  return (
-    <WidgetContainer title={title} subtitle={subtitle}>
-      {isLoaded && (
-        <LineChart
-          data={chartData}
-          width={SCREEN_WIDTH}
-          height={160}
-          yAxisLabel=""
-          chartConfig={CONFIG}
-          yAxisSuffix="kg"
-          withInnerLines={false}
-          style={{
-            marginVertical: 8,
-            marginHorizontal: -10,
-            borderRadius: 16,
-          }}
-        />
-      )}
-    </WidgetContainer>
-  );
+  
+  return isLoaded ? (
+    <LineChart
+      data={chartData}
+      width={SCREEN_WIDTH}
+      height={160}
+      yAxisLabel=""
+      chartConfig={CONFIG}
+      yAxisSuffix="kg"
+      withInnerLines={false}
+      style={{
+        marginVertical: 8,
+        marginHorizontal: -10,
+        borderRadius: 16,
+      }}
+    />
+  ) : null;
 };
 
 export default lineGraphWidget;
