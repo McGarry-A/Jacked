@@ -30,7 +30,7 @@ const Set = (props: Props) => {
   const previous = usePreviousSet({ exerciseId, setNumber });
   const dispatch = useAppDispatch();
 
-  const backgroundColor = isDone ? "emerald.100" : "white";
+  const backgroundColor = isDone ? "success.100" : "white";
 
   useEffect(() => {
     if (checked === true) setIsDone(true);
@@ -116,7 +116,7 @@ const Set = (props: Props) => {
         w={16}
         fontWeight={700}
         textAlign={"center"}
-        color={"text.900"}
+        color={"coolGray.700"}
       />
     </Box>
   );

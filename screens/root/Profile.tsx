@@ -8,6 +8,8 @@ import AddWidgetModal from "../../components/utils/AddWidgetModal";
 import { useState } from "react";
 import { IOneRepMaxLine } from "../../store/WidgetsSlice";
 import WidgetContainer from "../../components/widgets/WidgetContainer";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faWrench } from "@fortawesome/free-solid-svg-icons/faWrench";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
@@ -28,15 +30,19 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
       >
         <Heading size={"sm"}>Dashboard</Heading>
         <Button
-          size="sm"
+          size={"xs"}
           variant="outline"
           backgroundColor={"info.100"}
           borderRadius="3xl"
-          borderWidth={0}
+          borderWidth={1}
+          borderColor={"info.300"}
           onPress={() => setModalIsVisible(true)}
+          leftIcon={
+            <FontAwesomeIcon icon={faWrench} color={"#0284c7"} size={12} />
+          }
         >
           <Text
-            fontSize={"xs"}
+            fontSize={"2xs"}
             color={"info.600"}
             textTransform={"uppercase"}
             fontWeight={"bold"}
@@ -50,7 +56,9 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 
   const renderScreenHeading = () => (
     <Box>
-      <Heading size="xl" color={"coolGray.700"}>My Profile</Heading>
+      <Heading size="xl" color={"coolGray.700"}>
+        My Profile
+      </Heading>
     </Box>
   );
 

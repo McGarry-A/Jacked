@@ -169,6 +169,7 @@ const Auth = () => {
           justifyContent={"center"}
           alignItems="center"
           onPress={onPessFunc}
+          borderRadius={3}
         >
           {isLoading ? (
             <>

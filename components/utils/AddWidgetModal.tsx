@@ -34,6 +34,7 @@ export default function AddWidgetModal(props: IProps) {
     };
     dispatch(createWidget({ ...widget }));
     setIsVisible(false);
+    setStep("CHOOSE_WIDGET_TYPE");
   };
 
   const handleCreateBarWidget = () => {

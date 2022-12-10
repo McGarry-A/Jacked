@@ -26,7 +26,7 @@ const Lift = (props: IProps) => {
   const handleCheckAllSets = () => {
     if (allDone === false) setAllDone(true);
     if (allDone === true) setAllDone(false);
-    console.log("sets", sets)
+    console.log("sets", sets);
   };
 
   const handleSwipeRight = () => {
@@ -131,7 +131,7 @@ const Lift = (props: IProps) => {
       renderRightActions={renderOnSwipeRight}
       onSwipeableOpen={handleSwipeRight}
       rightThreshold={10}
-      containerStyle={{marginVertical: 4, borderRadius: 10}}
+      containerStyle={{ marginVertical: 4, borderRadius: 10 }}
     >
       <VStack
         borderRadius={10}
@@ -140,15 +140,10 @@ const Lift = (props: IProps) => {
         borderColor={"whitesmoke"}
         borderWidth={1}
         overflow={"hidden"}
-        p={2}
       >
-        <Box>
-          <VStack>
-            {renderHeading(exerciseName)}
-            {renderTableHead()}
-            {renderSets(sets, liftId)}
-          </VStack>
-        </Box>
+        {renderHeading(exerciseName)}
+        {renderTableHead()}
+        {renderSets(sets, liftId)}
         {renderAddSet(liftId)}
       </VStack>
     </Swipeable>
