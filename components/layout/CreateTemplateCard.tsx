@@ -1,7 +1,7 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
-import { Center, Pressable, Text } from "native-base";
+import { HStack, Pressable, Text } from "native-base";
 
 interface IProps {
   folId: string;
@@ -14,28 +14,37 @@ export default function CreateTemplateCard(props: IProps) {
 
   const handlePress = () => {
     navigation.navigate("CreateTemplate", {
-        folId: folId
+      folId: folId,
     });
   };
 
   return (
     <Pressable
-      borderWidth={2}
-      borderColor={"info.100"}
-      p={2}
-      borderRadius={"sm"}
+      borderWidth={1}
+      backgroundColor={"info.100"}
+      borderRadius="sm"
+      borderColor={"info.300"}
       onPress={handlePress}
       m={1}
       w={"48%"}
       h={"32"}
-      borderStyle={"dotted"}
     >
-      <Center h="full">
-        <FontAwesomeIcon icon={faPlus} size={15} color={"#38bdf8"} />
-        <Text flexWrap={"wrap"} mt={2} color="info.500" textAlign={"center"}>
-          Add new template
+      <HStack
+        h="full"
+        alignItems={"center"}
+        justifyContent={"center"}
+        space={1}
+      >
+        <FontAwesomeIcon icon={faPlus} size={12} color={"#0284c7"} />
+        <Text
+          fontSize={"xs"}
+          color={"info.600"}
+          textTransform={"uppercase"}
+          fontWeight={"bold"}
+        >
+          Add template
         </Text>
-      </Center>
+      </HStack>
     </Pressable>
   );
 }

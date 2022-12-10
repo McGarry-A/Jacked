@@ -5,7 +5,7 @@ import useHistory from "../../hooks/useHistory";
 export default function History() {
   const { history, isLoading, refreshHistory } = useHistory();
 
-  const renderHeading = () => <Heading size={"xl"}>History</Heading>;
+  const renderHeading = () => <Heading size={"xl"} color="coolGray.700">History</Heading>;
 
   const renderSessions = () => {
     return (
@@ -29,7 +29,7 @@ export default function History() {
   };
 
   return (
-    <Box backgroundColor={"white"} padding={3} paddingBottom={10} h={"full"}>
+    <Box backgroundColor={"coolGray.50"} padding={3} paddingBottom={10} h={"full"}>
       {renderHeading()}
       {renderSessions()}
     </Box>

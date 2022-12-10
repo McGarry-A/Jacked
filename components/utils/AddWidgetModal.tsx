@@ -1,9 +1,11 @@
-import { Button, Modal, Skeleton, VStack } from "native-base";
+import { Button, Modal, Skeleton, Text, VStack } from "native-base";
 import React, { useState } from "react";
 import useExerciseList from "../../hooks/useExerciseList";
 import useId from "../../hooks/useId";
 import { useAppDispatch } from "../../store";
 import { createWidget } from "../../store/WidgetsSlice";
+import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 interface IProps {
   isVisible: boolean;
@@ -45,13 +47,15 @@ export default function AddWidgetModal(props: IProps) {
     setIsVisible(false);
   };
 
-  const renderHeader = () => <Modal.Header>Create Widget</Modal.Header>;
+  const renderHeader = () => (
+    <Modal.Header borderBottomWidth={0}>Create Widget</Modal.Header>
+  );
 
   const renderBody = () => {
     if (step === "CHOOSE_WIDGET_TYPE")
       return (
         <Modal.Body>
-          <VStack>
+          <VStack space={1}>
             <ModalItem pressHandler={handleCreateBarWidget}>
               Session Frequency
             </ModalItem>
@@ -103,7 +107,7 @@ export default function AddWidgetModal(props: IProps) {
   };
 
   return (
-    <Modal isOpen={isVisible} onClose={setIsVisible} size={"sm"}>
+    <Modal isOpen={isVisible} onClose={setIsVisible} size={"sm"} shadow={8}>
       <Modal.Content maxH="212">
         <Modal.CloseButton />
         {renderHeader()}
@@ -118,5 +122,17 @@ interface IModalItem {
 }
 
 const ModalItem: React.FC<IModalItem> = ({ children, pressHandler }) => {
-  return <Button onPress={pressHandler} variant={"unstyled"}>{children}</Button>;
+  return (
+    <Button
+      onPress={pressHandler}
+      variant={"filled"}
+      justifyContent={"space-between"}
+      backgroundColor={"coolGray.100"}
+      rightIcon={<FontAwesomeIcon icon={faPlus} size={12} color={"#6b7280"} /> }
+    >
+      <Text color={"coolGray.600"} fontWeight={"semibold"}>
+        {children}
+      </Text>
+    </Button>
+  );
 };

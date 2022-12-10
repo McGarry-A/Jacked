@@ -29,8 +29,8 @@ const HistoryCard = ({
         <Text
           flex={1}
           fontSize={'md'}
-          fontWeight={"semibold"}
-          color={"text.700"}
+          fontWeight={"bold"}
+          color={"coolGray.700"}
         >
           {workoutName === null ? "Quick Workout" : workoutName}
         </Text>
@@ -72,8 +72,8 @@ const HistoryCard = ({
       );
 
     return (
-      <Box marginY={2}>
-        <Text fontSize={"sm"} color={"text.600"}>
+      <Box marginTop={2} marginBottom={1}>
+        <Text fontSize={"sm"} color={"coolGray.500"}>
           {Object.values(lifts).map((el, index) => (
             <React.Fragment key={index}>
               {el.exercise_name}
@@ -96,12 +96,12 @@ const HistoryCard = ({
       <VStack
         space={1}
         w={'full'}
-        borderWidth={1}
-        borderRadius={"xs"}
+        borderRadius={5}
         padding={3}
-        borderColor={"gray.200"}
         marginY={1}
-        backgroundColor={'gray.50'}
+        borderWidth={2}
+        borderColor={"coolGray.100"}
+        backgroundColor={'coolGray.50'}
       >
         {renderHeader()}
         {renderLifts()}

@@ -40,13 +40,14 @@ const WidgetContainer = (props: IWidgetContainer) => {
 
   return (
     <Box
-      marginY={1}
-      borderWidth={2}
-      borderColor={"whitesmoke"}
+      borderWidth={1}
+      borderColor={"coolGray.200"}
+      backgroundColor={"coolGray.50"}
       borderRadius={10}
-      padding={2}
+      padding={3}
       overflow={"hidden"}
       flex={1}
+      my={1}
     >
       <WidgetHeader
         title={title}

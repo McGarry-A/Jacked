@@ -7,7 +7,6 @@ import {
   Popover,
   Pressable,
   Text,
-  View,
   VStack,
 } from "native-base";
 import { useState } from "react";
@@ -64,12 +63,12 @@ export const ExerciseList: React.FC<Props> = ({
           justifyContent="center"
           alignItems={"center"}
           paddingX={2}
-          borderRadius={2}
+          borderRadius={5}
           borderColor={"gray.200"}
+          backgroundColor={"white"}
           onChangeText={(text) => handleFilter(text)}
           fontSize={"md"}
           placeholder="Search"
-          my={1}
           leftElement={
             <FontAwesome
               name="search"
@@ -103,8 +102,7 @@ export const ExerciseList: React.FC<Props> = ({
       alignItems="center"
       justifyContent={"center"}
       h={9}
-      my={1}
-      borderRadius={2}
+      borderRadius={5}
       padding={0}
     >
       <Popover
@@ -119,7 +117,7 @@ export const ExerciseList: React.FC<Props> = ({
               alignItems="center"
               onPress={() => setPopoverIsOpen(true)}
             >
-              <Text fontWeight={700} color={"white"}>
+              <Text fontWeight={700} color={"coolGray.100"}>
                 {title}
               </Text>
             </Pressable>
@@ -186,14 +184,17 @@ export const ExerciseList: React.FC<Props> = ({
 
   const renderList = () => {
     return (
-        <FlatList
-          data={exercises.length ? exercises : exerciseList }
-          paddingBottom={40}
-          renderItem={({ item }) => (
-            <ExerciseCard {...item} {...cardProps} isLoading={!isLoading} />
-          )}
-          keyExtractor={(item) => item.id.toString()}
-        />
+      <FlatList
+        data={exercises.length ? exercises : exerciseList}
+        paddingBottom={40}
+        borderRadius={5}
+        overflow={"hidden"}
+        flexGrow={1}
+        renderItem={({ item }) => (
+          <ExerciseCard {...item} {...cardProps} isLoading={!isLoading} />
+        )}
+        keyExtractor={(item) => item.id.toString()}
+      />
     );
   };
 
@@ -206,10 +207,14 @@ export const ExerciseList: React.FC<Props> = ({
   }
 
   return (
-    <Box my={2} flex={1}>
-      {renderSearchBar()}
-      {renderExerciseFilter()}
-      {renderList()}
+    <Box mt={1} flex={1}>
+      <VStack space={3} flex={1}>
+          <VStack space={1}>
+            {renderSearchBar()}
+            {renderExerciseFilter()}
+          </VStack>
+        {renderList()}
+      </VStack>
     </Box>
   );
 };

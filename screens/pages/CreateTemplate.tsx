@@ -61,7 +61,7 @@ export default function CreateTemplate({ route }: any) {
   };
 
   const renderHeading = () => (
-    <Heading size="lg" color={"text.800"} my={1} textTransform="capitalize">
+    <Heading size="lg" color={"coolGray.700"} my={1} textTransform="capitalize">
       {step}
     </Heading>
   );
@@ -84,7 +84,7 @@ export default function CreateTemplate({ route }: any) {
     if (step === "add exercises") return renderAddExercises();
 
     return (
-      <Button backgroundColor={"info.400"} mt={"auto"} onPress={next}>
+      <Button backgroundColor={"info.400"} mt={"auto"} onPress={next} borderRadius={5}>
         <Text fontWeight={700} color="white">
           Next
         </Text>
@@ -121,6 +121,7 @@ export default function CreateTemplate({ route }: any) {
         py={2}
         mb={4}
         onPress={next}
+        borderRadius={5}
       >
         <Text fontWeight={700} color={"white"}>
           {buttonText}
@@ -130,7 +131,7 @@ export default function CreateTemplate({ route }: any) {
   };
 
   return (
-    <View flex={1} backgroundColor={"white"} p={3}>
+    <View flex={1} p={3} backgroundColor={"coolGray.50"}>
       {renderHeading()}
       {renderTemplateTitleInput()}
       {renderList()}

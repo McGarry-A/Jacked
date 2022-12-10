@@ -1,4 +1,4 @@
-import { Avatar, Box, Checkbox, Pressable, Skeleton, Text } from "native-base";
+import { Avatar, Box, Checkbox, Pressable, Skeleton, Text, VStack } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../store";
 import getExerciseInitials from "../../utils/getExerciseInitials";
 import { LiftData } from "../../screens/modals/AddExercises";
@@ -78,9 +78,9 @@ const ExerciseCard = (props: IProps) => {
       <Avatar marginRight={2} backgroundColor={"transparent"}>
         <Text
           fontSize={"lg"}
-          fontWeight={"extrabold"}
-          letterSpacing={"lg"}
-          color={"text.800"}
+          letterSpacing={"xl"}
+          fontWeight={"bold"}
+          color={"coolGray.800"}
         >
           {getExerciseInitials(exercise_name)}
         </Text>
@@ -114,10 +114,10 @@ const ExerciseCard = (props: IProps) => {
     const { exercise_name, targets } = props;
 
     return (
-      <Box flex={1}>
-        <Text fontWeight={"semibold"}>{exercise_name}</Text>
-        <Text color="text.900">{targets}</Text>
-      </Box>
+      <VStack flex={1}>
+        <Text color={"coolGray.800"} fontWeight={"semibold"}>{exercise_name}</Text>
+        <Text color={"coolGray.400"} fontSize={"sm"}>{targets}</Text>
+      </VStack>
     );
   };
 
@@ -130,8 +130,7 @@ const ExerciseCard = (props: IProps) => {
       isLoaded={isLoading}
     >
       <Box
-        padding={2}
-        borderColor={"gray.200"}
+        padding={3}
         backgroundColor={backgroundColor}
       >
         <Pressable

@@ -7,6 +7,8 @@ import {
   VStack,
   Image,
   FlatList,
+  Button,
+  HStack,
 } from "native-base";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
@@ -51,13 +53,12 @@ const ActiveWorkout = ({ route, navigation }: any) => {
         alignItems="center"
         justifyContent={"space-between"}
         value={displayedWorkoutName}
-        variant={"unstyled"}
         onChangeText={(text) => setDisplayedWorkoutName(text)}
         borderWidth={0}
         fontWeight={700}
-        color={"text.600"}
+        color={"coolGray.700"}
         _focus={{ backgroundColor: "white" }}
-        fontSize={"xl"}
+        fontSize={"2xl"}
         ref={workoutTitleRef}
         editable
         rightElement={renderEndWorkout()}
@@ -73,26 +74,32 @@ const ActiveWorkout = ({ route, navigation }: any) => {
 
   const renderEndWorkout = () => {
     return (
-      <Box flexDir={"row"} justifyContent={"flex-end"} pr={2}>
-        <Pressable
+      <HStack
+        flexDir={"row"}
+        alignItems="center"
+        justifyContent={"flex-end"}
+        pr={2}
+      >
+        <Button
           mt={2}
           px={3}
           py={2}
           shadow={1}
-          borderRadius={3}
-          backgroundColor="success.400"
+          borderRadius={5}
+          backgroundColor="green.400"
           onPress={handleEndWorkout}
         >
           <Text
-            color="white"
+            color="green.50"
             fontWeight={700}
             textAlign={"center"}
-            fontSize="sm"
+            fontSize="xs"
+            letterSpacing={"xl"}
           >
             FINISH
           </Text>
-        </Pressable>
-      </Box>
+        </Button>
+      </HStack>
     );
   };
 
@@ -149,7 +156,7 @@ const ActiveWorkout = ({ route, navigation }: any) => {
   };
 
   return (
-    <View backgroundColor={"white"} h={"full"} px={1} py={3}>
+    <View backgroundColor={"coolGray.50"} h={"full"} px={1} py={3}>
       {renderHeading()}
       {renderTimer()}
       {renderLifts()}

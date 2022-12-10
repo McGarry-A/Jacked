@@ -20,7 +20,7 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { ColorSchemeName } from "react-native";
-import { Pressable } from "native-base";
+import { Button, Pressable, Text } from "native-base";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
@@ -90,20 +90,18 @@ function RootNavigator() {
         options={({ navigation }) => ({
           title: "Active Workout",
           headerRight: () => (
-            <Pressable
+            <Button
+              variant="ghost"
+              colorScheme={"red"}
               onPress={() => {
                 dispatch(cancelWorkout());
                 navigation.navigate("Root");
               }}
-              justifyContent={"center"}
             >
-              <FontAwesomeIcon
-                icon={faBan}
-                color={"#38bdf8"}
-                size={20}
-                style={{ opacity: 50 }}
-              />
-            </Pressable>
+              <Text textTransform={"uppercase"} color="red.400" fontSize={"xs"}>
+                Cancel
+              </Text>
+            </Button>
           ),
         })}
       />

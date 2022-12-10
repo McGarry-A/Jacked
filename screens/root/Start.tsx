@@ -1,9 +1,19 @@
 import { useNavigation } from "@react-navigation/native";
-import { Text, Heading, Box, Button, ScrollView, View } from "native-base";
+import {
+  Text,
+  Heading,
+  Box,
+  Button,
+  ScrollView,
+  View,
+  HStack,
+  VStack,
+} from "native-base";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { startWorkout } from "../../store/currentWorkoutSlice";
 import { supabase } from "../../supabase/supabaseClient";
 import { faFile } from "@fortawesome/free-regular-svg-icons/faFile";
+import { faFolder } from "@fortawesome/free-regular-svg-icons/faFolder";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import Folder from "../../components/layout/Folder";
 import ModalContainer from "../../components/utils/Modal";
@@ -28,18 +38,31 @@ export default function Start() {
     navigation.navigate("ActiveWorkout");
   };
 
-  const renderHeading = () => <Heading size={"xl"}>Start A Workout</Heading>;
+  const renderHeading = () => (
+    <Heading size={"xl"} color={"coolGray.700"}>
+      Start A Workout
+    </Heading>
+  );
+
+  const renderQuickStart = () => (
+    <Box my={2}>
+      <Heading fontSize={"lg"} color={"coolGray.600"}>
+        Quick Start
+      </Heading>
+      {renderStartOrContinue()}
+    </Box>
+  );
 
   const renderStartOrContinue = () => {
     if (!isActive) {
       return (
         <Button
           onPress={handlePressQuickStart}
-          marginY={3}
+          marginY={1}
           size="sm"
           backgroundColor={"info.400"}
         >
-          <Text fontWeight={"bold"} color="white">
+          <Text fontWeight={"bold"} color="coolGray.100">
             Start an Empty Workout
           </Text>
         </Button>
@@ -49,44 +72,38 @@ export default function Start() {
     return (
       <Button
         onPress={handleContinueWorkout}
-        marginY={3}
+        marginY={1}
         size="sm"
         backgroundColor={"green.400"}
       >
-        <Text fontWeight={"bold"} color="white">
+        <Text fontWeight={"bold"} color="green.50">
           Continue Workout
         </Text>
       </Button>
     );
   };
 
-  const renderQuickStart = () => (
-    <Box marginY={5}>
-      <Heading fontSize={"sm"}>Quick Start</Heading>
-      {renderStartOrContinue()}
-    </Box>
-  );
-
   const renderTemplatesSectionHeader = () => (
-    <Box
+    <HStack
       flexDirection="row"
       justifyContent="space-between"
       alignItems={"center"}
     >
-      <Heading size={"md"} fontWeight="semibold" color={"text.900"}>
+      <Heading size={"lg"} color={"coolGray.600"}>
         Folders
       </Heading>
       <Button
         onPress={() => setmodalIsVisible(true)}
-        size="sm"
+        size={"xs"}
         variant="outline"
         backgroundColor={"info.100"}
         borderRadius="3xl"
-        borderWidth={0}
-        leftIcon={<FontAwesomeIcon icon={faFile} color={"#0284c7"} />}
+        borderWidth={1}
+        borderColor={"info.300"}
+        leftIcon={<FontAwesomeIcon icon={faFolder} color={"#0284c7"} size={12} />}
       >
         <Text
-          fontSize={"xs"}
+          fontSize={"2xs"}
           color={"info.600"}
           textTransform={"uppercase"}
           fontWeight={"bold"}
@@ -94,25 +111,31 @@ export default function Start() {
           Add Folder
         </Text>
       </Button>
-    </Box>
+    </HStack>
   );
 
   const renderFolders = () => {
-    return Object.values(folders).map(({ id, name, templates }) => {
-      return <Folder key={id} templates={templates} id={id} name={name} />;
-    });
+    return (
+      <>
+        {renderTemplatesSectionHeader()}
+        {Object.values(folders).map(({ id, name, templates }) => {
+          return <Folder key={id} templates={templates} id={id} name={name} />;
+        })}
+      </>
+    );
   };
 
   return (
-    <View padding={3} backgroundColor={"white"} flex={1}>
+    <View padding={3} backgroundColor={"coolGray.50"} flex={1}>
+      <VStack space={2}>
         {renderHeading()}
         {renderQuickStart()}
-        {renderTemplatesSectionHeader()}
         {renderFolders()}
-        <ModalContainer
-          isVisible={modalIsVisible}
-          setIsVisible={setmodalIsVisible}
-        />
+      </VStack>
+      <ModalContainer
+        isVisible={modalIsVisible}
+        setIsVisible={setmodalIsVisible}
+      />
     </View>
   );
 }

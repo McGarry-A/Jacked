@@ -3,7 +3,7 @@ import { ExerciseList as ExerciseListComponent } from "../../components/layout/E
 
 const Exercises = () => {
   const renderHeading = () => (
-    <Heading size={"xl"} mb={1} color={"text.800"}>
+    <Heading size={"xl"} color={"coolGray.700"}>
       Exercises
     </Heading>
   );
@@ -17,7 +17,7 @@ const Exercises = () => {
   };
 
   return (
-    <View flex={1} backgroundColor="white" padding={3}>
+    <View flex={1} backgroundColor="coolGray.50" padding={3}>
       {renderHeading()}
       {renderExerciseList()}
     </View>

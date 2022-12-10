@@ -35,13 +35,14 @@ const Timer = () => {
   return (
     <Box
       width={"20"}
-      backgroundColor={"gray.100"}
+      backgroundColor={"coolGray.100"}
+      borderRadius={5}
       flexDir="row"
       justifyContent={"center"}
       py={1}
       px={2}
     >
-      <Text>{formattedTime}</Text>
+      <Text color={"coolGray.400"}>{formattedTime}</Text>
     </Box>
   );
 };

@@ -30,13 +30,15 @@ const UserProfileBar = ({ isClickable = true }: Props) => {
           backgroundColor="info.300"
           marginRight={"3"}
         >
-          AM
+          <Text color={"info.50"} fontSize={"lg"} fontWeight={"bold"}>
+            AM
+          </Text>
         </Avatar>
         <Box flex={1}>
-          <Text fontSize="md" fontWeight="semibold">
+          <Text fontSize="md" fontWeight="semibold" color={"coolGray.700"}>
             Ahmed McGarry
           </Text>
-          <Text fontSize="sm" opacity={60}>
+          <Text fontSize="sm" color={"coolGray.400"}>
             19 Workouts
           </Text>
         </Box>

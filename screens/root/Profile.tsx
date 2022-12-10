@@ -50,7 +50,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 
   const renderScreenHeading = () => (
     <Box>
-      <Heading size="xl">My Profile</Heading>
+      <Heading size="xl" color={"coolGray.700"}>My Profile</Heading>
     </Box>
   );
 
@@ -106,7 +106,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   );
 
   return (
-    <View padding="3" backgroundColor={"white"} flexGrow={1} flex={1}>
+    <View padding="3" backgroundColor={"coolGray.50"} flexGrow={1} flex={1}>
       {renderScreenHeading()}
       {renderProfile()}
       {renderDashboard()}

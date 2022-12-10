@@ -8,7 +8,7 @@ const CONFIG = {
     color: () => "#808080",
     decimalPlaces: 1,
     propsForDots: {
-        r: "6",
+        r: "5",
         strokeWidth: "3",
         stroke: "#fff",
         fill: "#4169E1"

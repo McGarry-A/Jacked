@@ -78,16 +78,15 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
   const renderHeader = () => {
     return (
       <HStack alignItems={"center"} justifyContent="space-between">
-        <Heading fontSize="sm">{title}</Heading>
+        <Heading fontSize="sm" color={"coolGray.700"}>{title}</Heading>
         <Box
           justifyContent={"center"}
           alignItems={"center"}
           backgroundColor={"info.100"}
           paddingX={1}
-          paddingY={1}
           borderRadius={4}
         >
-          <FontAwesome name="ellipsis-h" size={10} color={"skyblue"} />
+          <FontAwesome name="ellipsis-h" size={12} color={"skyblue"} />
         </Box>
       </HStack>
     );
@@ -95,7 +94,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
 
   const renderBody = () => {
     return (
-      <Text fontSize={"xs"} flex={1} numberOfLines={3}>
+      <Text fontSize={"xs"} color={"coolGray.500"} flex={1} numberOfLines={3}>
         {Object.values(exercises).map(renderExercises)}
       </Text>
     );
@@ -103,9 +102,9 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
 
   const renderDate = () => {
     return (
-      <HStack alignItems={"center"}>
-        <FontAwesomeIcon icon={faClock} size={10} color="gray" />
-        <Text fontSize={"xs"} color="text.400" ml={2}>
+      <HStack alignItems={"center"} space={2}>
+        <FontAwesomeIcon icon={faClock} size={10} color="#d1d5db" />
+        <Text fontSize={"xs"} color="coolGray.500">
           {"2022/10/1"}
         </Text>
       </HStack>
@@ -115,12 +114,15 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
   return (
     <Pressable
       borderWidth={1}
-      borderColor={"gray.300"}
-      p={2}
+      borderColor={"coolGray.200"}
+      backgroundColor={"coolGray.50"}
+      py={3}
+      px={2}
       borderRadius={"sm"}
-      w={"48%"}
+      w={"49%"}
       onPress={handlePress}
-      m={1}
+      my={1}
+      mr={1}
       h={"32"}
     >
       <VStack space={1} h="full" overflow={"hidden"}>
