@@ -5,6 +5,10 @@ export interface workoutHistoryInterface {
   lifts: {
     [key: number]: {
       exercise_name: string;
+      set: {
+        weight: number;
+        reps: number;
+      }[]
     };
   };
 }

@@ -1,19 +1,22 @@
 import { faCalendar } from "@fortawesome/free-regular-svg-icons/faCalendar";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
-import { FlatList, Heading, Box, HStack } from "native-base";
+import { FlatList, Heading, HStack, View } from "native-base";
 import CtaButton from "../../components/layout/CTAButton";
 import HistoryCard from "../../components/layout/HistoryCard";
 import useHistory from "../../hooks/useHistory";
 
 export default function History() {
   const { history, isLoading, refreshHistory } = useHistory();
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+  console.log(history)
 
   const renderHeader = () => {
     return (
       <HStack justifyContent={"space-between"} alignItems={"center"} my={2}>
-        {renderHeading()}
+        <Heading size={"xl"} color="coolGray.700">
+          History
+        </Heading>
         <CtaButton
           onPress={() => navigation.navigate("Calendar")}
           size={"xs"}
@@ -26,11 +29,6 @@ export default function History() {
       </HStack>
     );
   };
-  const renderHeading = () => (
-    <Heading size={"xl"} color="coolGray.700">
-      History
-    </Heading>
-  );
 
   const renderSessions = () => {
     return (
@@ -54,7 +52,7 @@ export default function History() {
   };
 
   return (
-    <Box
+    <View
       backgroundColor={"coolGray.50"}
       padding={3}
       paddingBottom={10}
@@ -62,6 +60,6 @@ export default function History() {
     >
       {renderHeader()}
       {renderSessions()}
-    </Box>
+    </View>
   );
 }

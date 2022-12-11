@@ -48,9 +48,10 @@ export const getHistory = createAsyncThunk(
     console.log("Get History");
     const { data, error } = await supabase
       .from("workouts")
-      .select(`id, workout_name, date, lifts (exercise_name)`)
+      .select(`id, workout_name, date, lifts (exercise_name, set (weight, reps))`)
       .order("id", { ascending: false })
-      .eq("user_id", payload.userId);
+      .eq("user_id", payload.userId)
+      .limit(10)
 
     if (error) return console.error(error);
     return data as workoutHistoryType;

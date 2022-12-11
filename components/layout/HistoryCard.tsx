@@ -5,30 +5,30 @@ import React, { memo } from "react";
 import getDaysAgo from "../../utils/getDaysAgo";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
-interface HistoryCardProps {
+interface IHistoryCard {
   isLoaded: boolean;
   workoutName: string | null;
   date: string;
   lifts: {
     [key: number]: {
       exercise_name: string;
+      set: {
+        weight: number;
+        reps: number;
+      }[];
     };
   };
 }
 
-const HistoryCard = ({
-  workoutName,
-  date,
-  lifts,
-  isLoaded,
-}: HistoryCardProps) => {
+const HistoryCard = ({ workoutName, date, lifts, isLoaded }: IHistoryCard) => {
 
+  const isLifts = Object.keys(lifts).length > 0;
   const renderHeader = () => {
     return (
       <HStack alignItems={"center"}>
         <Text
           flex={1}
-          fontSize={'md'}
+          fontSize={"md"}
           fontWeight={"bold"}
           color={"coolGray.700"}
         >
@@ -59,31 +59,72 @@ const HistoryCard = ({
     );
   };
 
-  const renderLifts = () => {
-    const liftsLength = Object.keys(lifts).length;
-    const showComma = (index: number) =>
-      liftsLength === 1 || index + 1 === liftsLength ? " " : ", ";
-
-    if (liftsLength === 0)
-      return (
-        <Text fontSize={"sm"} color={"text.600"}>
-          No Lifts
+  const renderLiftsHead = () => {
+    if (!isLifts) return null;
+    return (
+      <HStack marginTop={1}>
+        <Text fontWeight={"semibold"} color={"coolGray.600"} flex={1}>
+          Exercise Name
         </Text>
-      );
+        <Text fontWeight={"semibold"} color={"coolGray.600"} flex={1}>
+          Best Set
+        </Text>
+      </HStack>
+    );
+  };
+
+  const renderBestSet = (sets: Array<{ weight: number; reps: number }>) => {
+    if (!isLifts) return null;
+
+    const bestSet = sets.reduce((acc, curr) => {
+      if (acc.weight * acc.reps < curr.weight * curr.reps) return curr;
+      return acc;
+    }, {weight: 0, reps: 0});
 
     return (
-      <Box marginTop={2} marginBottom={1}>
-        <Text fontSize={"sm"} color={"coolGray.500"}>
-          {Object.values(lifts).map((el, index) => (
-            <React.Fragment key={index}>
-              {el.exercise_name}
-              {showComma(index)}
-            </React.Fragment>
-          ))}
+      <Text
+        fontSize={"sm"}
+        color={"coolGray.500"}
+        flex={1}>
+          {bestSet.weight}KG x {bestSet.reps}
         </Text>
+    )
+  };
+
+  const renderLifts = () => {
+
+    return (
+      <Box marginBottom={1}>
+        {Object.values(lifts).map((el, index) => {
+          const numberOfSets = el.set.length;
+          return (
+            <HStack>
+              <Text
+                display={"block"}
+                key={index}
+                fontSize={"sm"}
+                color={"coolGray.500"}
+                flex={1}
+              >
+                {el.exercise_name} x {numberOfSets}
+              </Text>
+              {renderBestSet(el.set)}
+            </HStack>
+          );
+        })}
       </Box>
     );
   };
+
+  const renderNoLifts = () => {
+    if (isLifts) return null;
+
+    return (
+      <Text fontSize={"sm"} color={"coolGray.500"}>
+        No Lifts
+      </Text>
+    );
+  }
 
   return (
     <Skeleton
@@ -95,16 +136,18 @@ const HistoryCard = ({
     >
       <VStack
         space={1}
-        w={'full'}
+        w={"full"}
         borderRadius={5}
         padding={3}
         marginY={1}
         borderWidth={2}
         borderColor={"coolGray.100"}
-        backgroundColor={'coolGray.50'}
+        backgroundColor={"coolGray.50"}
       >
         {renderHeader()}
+        {renderLiftsHead()}
         {renderLifts()}
+        {renderNoLifts()}
         {renderDaysAgo()}
       </VStack>
     </Skeleton>
