@@ -1,23 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
-import {
-  Text,
-  Heading,
-  Box,
-  Button,
-  ScrollView,
-  View,
-  HStack,
-  VStack,
-} from "native-base";
+import { Text, Heading, Box, Button, View, HStack, VStack } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { startWorkout } from "../../store/currentWorkoutSlice";
-import { supabase } from "../../supabase/supabaseClient";
-import { faFile } from "@fortawesome/free-regular-svg-icons/faFile";
 import { faFolder } from "@fortawesome/free-regular-svg-icons/faFolder";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import Folder from "../../components/layout/Folder";
 import ModalContainer from "../../components/utils/Modal";
 import { useState } from "react";
+import CtaButton from "../../components/layout/CTAButton";
 
 export default function Start() {
   const [modalIsVisible, setmodalIsVisible] = useState<boolean>(false);
@@ -92,25 +82,14 @@ export default function Start() {
       <Heading size={"lg"} color={"coolGray.600"}>
         Folders
       </Heading>
-      <Button
+      <CtaButton
         onPress={() => setmodalIsVisible(true)}
-        size={"xs"}
-        variant="outline"
-        backgroundColor={"info.100"}
-        borderRadius="3xl"
-        borderWidth={1}
-        borderColor={"info.300"}
-        leftIcon={<FontAwesomeIcon icon={faFolder} color={"#0284c7"} size={12} />}
+        leftIcon={
+          <FontAwesomeIcon icon={faFolder} color={"#0284c7"} size={12} />
+        }
       >
-        <Text
-          fontSize={"2xs"}
-          color={"info.600"}
-          textTransform={"uppercase"}
-          fontWeight={"bold"}
-        >
-          Add Folder
-        </Text>
-      </Button>
+        Add Folder
+      </CtaButton>
     </HStack>
   );
 

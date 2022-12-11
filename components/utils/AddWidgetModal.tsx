@@ -106,7 +106,7 @@ export default function AddWidgetModal(props: IProps) {
       </Modal.Footer>
     );
   };
-
+  
   return (
     <Modal isOpen={isVisible} onClose={setIsVisible} size={"sm"} shadow={8}>
       <Modal.Content maxH="212">

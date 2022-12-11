@@ -10,6 +10,7 @@ import { IOneRepMaxLine } from "../../store/WidgetsSlice";
 import WidgetContainer from "../../components/widgets/WidgetContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faWrench } from "@fortawesome/free-solid-svg-icons/faWrench";
+import CtaButton from "../../components/layout/CTAButton";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
@@ -29,27 +30,14 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
         marginY={5}
       >
         <Heading size={"sm"}>Dashboard</Heading>
-        <Button
-          size={"xs"}
-          variant="outline"
-          backgroundColor={"info.100"}
-          borderRadius="3xl"
-          borderWidth={1}
-          borderColor={"info.300"}
+        <CtaButton
           onPress={() => setModalIsVisible(true)}
           leftIcon={
             <FontAwesomeIcon icon={faWrench} color={"#0284c7"} size={12} />
           }
         >
-          <Text
-            fontSize={"2xs"}
-            color={"info.600"}
-            textTransform={"uppercase"}
-            fontWeight={"bold"}
-          >
-            Add Widget
-          </Text>
-        </Button>
+          Add Widget
+        </CtaButton>
       </Box>
     );
   };

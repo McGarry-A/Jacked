@@ -4,17 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
 import {
   Box,
-  Button,
   Collapse,
   FlatList,
   Heading,
   HStack,
   Pressable,
-  Text,
 } from "native-base";
 import { useState } from "react";
 import { TemplateInterface } from "../../types/TemplateSliceInterface";
-import CreateTemplateCard from "./CreateTemplateCard";
+import CtaButton from "./CTAButton";
 import TemplateCard from "./TemplateCard";
 
 interface IProps {
@@ -69,31 +67,21 @@ export default function Folder(props: IProps) {
               />
             </Box>
           </HStack>
-          <HStack my={1}>
-            <Button
-              size={"xs"}
-              variant="ghost"
-              borderRadius={"3xl"}
-              borderColor={"info.300"}
-              leftIcon={
-                <FontAwesomeIcon icon={faFile} color={"#0284c7"} size={10} />
-              }
-              onPress={() => {
-                navigation.navigate("CreateTemplate", {
-                  folId: id,
-                });
-              }}
-            >
-              <Text
-                fontSize={"2xs"}
-                color={"info.600"}
-                textTransform={"uppercase"}
-                fontWeight={"bold"}
-              >
-                Add Template
-              </Text>
-            </Button>
-          </HStack>
+          <CtaButton
+            backgroundColor={"transparent"}
+            borderWidth={0}
+            variant={"ghost"}
+            leftIcon={
+              <FontAwesomeIcon icon={faFile} color={"#0284c7"} size={10} />
+            }
+            onPress={() => {
+              navigation.navigate("CreateTemplate", {
+                folId: id,
+              });
+            }}
+          >
+            Add Template
+          </CtaButton>
         </HStack>
       </Pressable>
       <Collapse isOpen={!isCollapsed}>{renderTemplates()}</Collapse>
