@@ -26,7 +26,7 @@ export default function AddWidgetModal(props: IProps) {
 
   const handleCreateLineWidget = (id: number, exerciseName: string) => {
     const widget = {
-      newWidgetId: useId("wid"),
+      widgetId: useId("wid"),
       title: `${exerciseName} Progression`,
       type: "line",
       subtitle: "1RM Estimate",
@@ -39,7 +39,7 @@ export default function AddWidgetModal(props: IProps) {
 
   const handleCreateBarWidget = () => {
     const widget = {
-      newWidgetId: useId("wid"),
+      widgetId: useId("wid"),
       title: `Session Frequency`,
       type: "bar",
       subtitle: "",
@@ -89,24 +89,6 @@ export default function AddWidgetModal(props: IProps) {
       return <Skeleton h="full" />;
   };
 
-  // NOTE: REMOVE IF WE DO NOT NEED THIS
-  const renderFooter = () => {
-    return (
-      <Modal.Footer>
-        <Button.Group space={2}>
-          <Button
-            colorScheme={"error"}
-            onPress={() => {
-              setIsVisible(false);
-            }}
-          >
-            Close
-          </Button>
-        </Button.Group>
-      </Modal.Footer>
-    );
-  };
-  
   return (
     <Modal isOpen={isVisible} onClose={setIsVisible} size={"sm"} shadow={8}>
       <Modal.Content maxH="212">

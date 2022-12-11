@@ -58,7 +58,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
       </Heading>
       <CtaButton
         onPress={() => {
-          navigation.navigate("Settings");
+        navigation.navigate("Settings");
         }}
         leftIcon={<FontAwesomeIcon icon={faGear} size={12} color={"#0284c7"} />}
       >

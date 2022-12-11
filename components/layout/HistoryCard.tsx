@@ -21,7 +21,6 @@ interface IHistoryCard {
 }
 
 const HistoryCard = ({ workoutName, date, lifts, isLoaded }: IHistoryCard) => {
-
   const isLifts = Object.keys(lifts).length > 0;
   const renderHeader = () => {
     return (
@@ -76,32 +75,30 @@ const HistoryCard = ({ workoutName, date, lifts, isLoaded }: IHistoryCard) => {
   const renderBestSet = (sets: Array<{ weight: number; reps: number }>) => {
     if (!isLifts) return null;
 
-    const bestSet = sets.reduce((acc, curr) => {
-      if (acc.weight * acc.reps < curr.weight * curr.reps) return curr;
-      return acc;
-    }, {weight: 0, reps: 0});
+    const bestSet = sets.reduce(
+      (acc, curr) => {
+        if (acc.weight * acc.reps < curr.weight * curr.reps) return curr;
+        return acc;
+      },
+      { weight: 0, reps: 0 }
+    );
 
     return (
-      <Text
-        fontSize={"sm"}
-        color={"coolGray.500"}
-        flex={1}>
-          {bestSet.weight}KG x {bestSet.reps}
-        </Text>
-    )
+      <Text fontSize={"sm"} color={"coolGray.500"} flex={1}>
+        {bestSet.weight}KG x {bestSet.reps}
+      </Text>
+    );
   };
 
   const renderLifts = () => {
-
     return (
       <Box marginBottom={1}>
         {Object.values(lifts).map((el, index) => {
           const numberOfSets = el.set.length;
           return (
-            <HStack>
+            <HStack key={index}>
               <Text
                 display={"block"}
-                key={index}
                 fontSize={"sm"}
                 color={"coolGray.500"}
                 flex={1}
@@ -124,7 +121,7 @@ const HistoryCard = ({ workoutName, date, lifts, isLoaded }: IHistoryCard) => {
         No Lifts
       </Text>
     );
-  }
+  };
 
   return (
     <Skeleton
