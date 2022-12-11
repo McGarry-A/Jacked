@@ -9,7 +9,7 @@ interface IProps {
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function ModalContainer(props: IProps) {
+export default function AddFolderModal(props: IProps) {
   const { isVisible, setIsVisible } = props;
 
   const [folderTitle, setFolderTitle] = useState<string>("");
@@ -26,25 +26,20 @@ export default function ModalContainer(props: IProps) {
     <Modal isOpen={isVisible} onClose={setIsVisible} size={"sm"}>
       <Modal.Content maxH="212">
         <Modal.CloseButton />
-        <Modal.Header>Create Folder</Modal.Header>
+        <Modal.Header borderBottomWidth={0}>Create Folder</Modal.Header>
         <Modal.Body>
           <VStack>
             <Text>Folder Title</Text>
             <Input type="text" onChangeText={(text) => setFolderTitle(text)} />
           </VStack>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer borderTopWidth={0}>
           <Button.Group space={2}>
-            <Button
-              variant="ghost"
-              colorScheme="blueGray"
-              onPress={() => {
-                setIsVisible(false);
-              }}
-            >
-              Cancel
+            <Button backgroundColor={"info.500"} onPress={handleSaveFolder}>
+              <Text fontWeight={"semibold"} color={"coolGray.100"}>
+                Save
+              </Text>
             </Button>
-            <Button onPress={handleSaveFolder}>Save</Button>
           </Button.Group>
         </Modal.Footer>
       </Modal.Content>

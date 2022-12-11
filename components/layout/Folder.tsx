@@ -27,7 +27,7 @@ export default function Folder(props: IProps) {
   const { templates, id, name } = props;
   const navigation = useNavigation();
 
-  const renderTemplates = () => {
+const renderTemplates = () => {
     return (
       <FlatList
         data={Object.values(templates)}
