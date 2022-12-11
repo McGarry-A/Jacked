@@ -42,7 +42,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { cancelWorkout } from "../store/currentWorkoutSlice";
 import { useAppDispatch } from "../store";
 import Start from "../screens/root/Start";
-import CreateTemplate from "../screens/pages/CreateTemplate";
 
 export default function Navigation({
   colorScheme,
@@ -78,11 +77,6 @@ function RootNavigator() {
         name="Settings"
         component={Settings}
         options={{ title: "Settings" }}
-      />
-      <Stack.Screen
-        name="CreateTemplate"
-        component={CreateTemplate}
-        options={{ title: "Create Template" }}
       />
       <Stack.Screen
         name="ActiveWorkout"

@@ -12,6 +12,7 @@ import {
 } from "native-base";
 import { useState } from "react";
 import { TemplateInterface } from "../../types/TemplateSliceInterface";
+import AddTemplateModal from "../utils/AddTemplateModal";
 import CtaButton from "./CTAButton";
 import TemplateCard from "./TemplateCard";
 
@@ -23,31 +24,13 @@ interface IProps {
 
 export default function Folder(props: IProps) {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
   const { templates, id, name } = props;
   const navigation = useNavigation();
 
-const renderTemplates = () => {
+  const renderhead = () => {
     return (
-      <FlatList
-        data={Object.values(templates)}
-        numColumns={2}
-        w={"100%"}
-        renderItem={({ item }) => (
-          <TemplateCard
-            key={item.tempId}
-            navigation={navigation}
-            title={item.templateName}
-            exercises={item.exercises}
-          />
-        )}
-        keyExtractor={(item) => item.tempId}
-      />
-    );
-  };
-
-  return (
-    <Box key={id}>
       <Pressable onPress={() => setIsCollapsed((state) => !state)}>
         <HStack justifyContent={"space-between"}>
           <HStack alignItems={"center"} space={2}>
@@ -74,17 +57,41 @@ const renderTemplates = () => {
             leftIcon={
               <FontAwesomeIcon icon={faFile} color={"#0284c7"} size={10} />
             }
-            onPress={() => {
-              navigation.navigate("CreateTemplate", {
-                folId: id,
-              });
-            }}
+            onPress={() => setModalIsOpen(true)}
           >
             Add Template
           </CtaButton>
         </HStack>
       </Pressable>
-      <Collapse isOpen={!isCollapsed}>{renderTemplates()}</Collapse>
+    );
+  };
+
+  const renderTemplates = () => {
+    return (
+      <Collapse isOpen={!isCollapsed}>
+        <FlatList
+          data={Object.values(templates)}
+          numColumns={2}
+          w={"100%"}
+          renderItem={({ item }) => (
+            <TemplateCard
+              key={item.tempId}
+              navigation={navigation}
+              title={item.templateName}
+              exercises={item.exercises}
+            />
+          )}
+          keyExtractor={(item) => item.tempId}
+        />
+      </Collapse>
+    );
+  };
+
+  return (
+    <Box key={id}>
+      {renderhead()}
+      {renderTemplates()}
+      <AddTemplateModal isVisible={modalIsOpen} setIsVisible={setModalIsOpen} folId={id} />
     </Box>
   );
 }

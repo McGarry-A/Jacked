@@ -29,8 +29,12 @@ export default function AddFolderModal(props: IProps) {
         <Modal.Header borderBottomWidth={0}>Create Folder</Modal.Header>
         <Modal.Body>
           <VStack>
-            <Text>Folder Title</Text>
-            <Input type="text" onChangeText={(text) => setFolderTitle(text)} />
+            <Input
+              placeholder="Folder Title"
+              fontSize={"md"}
+              type="text"
+              onChangeText={(text) => setFolderTitle(text)}
+            />
           </VStack>
         </Modal.Body>
         <Modal.Footer borderTopWidth={0}>
