@@ -29,7 +29,7 @@ export default function Start() {
   };
 
   const renderHeading = () => (
-    <Heading size={"xl"} color={"coolGray.700"}>
+    <Heading size={"xl"} color={"coolGray.700"} my={2}>
       Start A Workout
     </Heading>
   );

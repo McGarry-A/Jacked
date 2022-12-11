@@ -1,5 +1,13 @@
 import { RootTabScreenProps } from "../../types";
-import { Box, Heading, Text, Button, View, FlatList } from "native-base";
+import {
+  Box,
+  Heading,
+  Text,
+  Button,
+  View,
+  FlatList,
+  HStack,
+} from "native-base";
 import BarChartWidget from "../../components/widgets/BarChart/BarChartWidget";
 import LineGraphWidget from "../../components/widgets/LineGraph/LineGraphWidget";
 import UserProfileBar from "../../components/layout/UserProfileBar";
@@ -11,6 +19,7 @@ import WidgetContainer from "../../components/widgets/WidgetContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faWrench } from "@fortawesome/free-solid-svg-icons/faWrench";
 import CtaButton from "../../components/layout/CTAButton";
+import { faGear } from "@fortawesome/free-solid-svg-icons/faGear";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
@@ -43,11 +52,19 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   };
 
   const renderScreenHeading = () => (
-    <Box>
+    <HStack justifyContent={"space-between"} alignItems={"center"} my={2}>
       <Heading size="xl" color={"coolGray.700"}>
         My Profile
       </Heading>
-    </Box>
+      <CtaButton
+        onPress={() => {
+          navigation.navigate("Settings");
+        }}
+        leftIcon={<FontAwesomeIcon icon={faGear} size={12} color={"#0284c7"} />}
+      >
+        Settings
+      </CtaButton>
+    </HStack>
   );
 
   const renderWidget = (widgetId: string) => {

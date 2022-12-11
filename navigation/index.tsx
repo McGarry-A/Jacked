@@ -8,8 +8,6 @@ import { faDumbbell } from "@fortawesome/free-solid-svg-icons/faDumbbell";
 import { faUser } from "@fortawesome/free-solid-svg-icons/faUser";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons/faChevronDown";
 import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons/faClockRotateLeft";
-import { faBan } from "@fortawesome/free-solid-svg-icons/faBan";
-import { faCalendar } from "@fortawesome/free-regular-svg-icons/faCalendar";
 import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
@@ -165,21 +163,6 @@ function BottomTabNavigator() {
           tabBarIcon: ({ color }) => (
             <FontAwesomeIcon icon={faUser} color={color} size={25} />
           ),
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate("Settings")}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}
-            >
-              <FontAwesome
-                name="cog"
-                size={25}
-                color={"skyblue"}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
         })}
       />
       <BottomTab.Screen
@@ -207,22 +190,11 @@ function BottomTabNavigator() {
       <BottomTab.Screen
         name="History"
         component={History}
-        options={({ navigation }: RootTabScreenProps<"History">) => ({
+        options={() => ({
           headerTitle: "",
           title: "History",
           tabBarIcon: ({ color }) => (
             <FontAwesomeIcon icon={faClockRotateLeft} color={color} size={25} />
-          ),
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate("Calendar")}
-              padding={4}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}
-            >
-              <FontAwesomeIcon icon={faCalendar} size={20} color={"skyblue"} />
-            </Pressable>
           ),
         })}
       />

@@ -3,7 +3,7 @@ import { ExerciseList as ExerciseListComponent } from "../../components/layout/E
 
 const Exercises = () => {
   const renderHeading = () => (
-    <Heading size={"xl"} color={"coolGray.700"}>
+    <Heading size={"xl"} color={"coolGray.700"} my={2}>
       Exercises
     </Heading>
   );
