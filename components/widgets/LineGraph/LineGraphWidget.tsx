@@ -15,7 +15,7 @@ const lineGraphWidget: React.FC<ILineProps> = (props) => {
     datasets: [
       {
         data: values,
-        color: (opacity = 1) => `rgba(65, 105, 225, ${opacity})`,
+        color: () => `rgba(90, 34, 139, 0.3)`,
       },
     ],
   };
@@ -28,7 +28,8 @@ const lineGraphWidget: React.FC<ILineProps> = (props) => {
       yAxisLabel=""
       chartConfig={CONFIG}
       yAxisSuffix="kg"
-      withInnerLines={false}
+      withInnerLines={true}
+      bezier
       style={{
         marginVertical: 8,
         marginHorizontal: -10,

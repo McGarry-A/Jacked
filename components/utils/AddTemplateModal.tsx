@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { Button, Divider, Input, Modal, Text, VStack } from "native-base";
 import { useEffect, useState } from "react";
 import useId from "../../hooks/useId";
@@ -5,6 +6,7 @@ import { LiftData } from "../../screens/pages/AddExercisesTemplates";
 import { useAppDispatch } from "../../store";
 import { addLiftsToTemplate, createTemplate } from "../../store/templateSlice";
 import { ExerciseList } from "../layout/ExerciseList";
+import { faFile } from "@fortawesome/free-regular-svg-icons/faFile";
 
 interface IProps {
   isVisible: boolean;
@@ -23,7 +25,7 @@ const AddTemplateModal = (props: IProps) => {
 
   useEffect(() => {
     setError("");
-  }, [templateName])
+  }, [templateName]);
 
   const handleCreateTemplate = () => {
     if (templateName === "") {
@@ -52,12 +54,26 @@ const AddTemplateModal = (props: IProps) => {
 
   const renderTemplateName = () => {
     return (
-      <Input
-        onChangeText={(text) => setTemplateName(text)}
-        placeholder="Template Name"
-        fontSize={"md"}
-        type="text"
-      />
+        <Input
+          flexDir={"row"}
+          justifyContent="center"
+          alignItems={"center"}
+          paddingX={2}
+          borderRadius={5}
+          borderColor={"coolGray.200"}
+          backgroundColor={"white"}
+          onChangeText={(text) => setTemplateName(text)}
+          fontSize={"md"}
+          type="text"
+          placeholder="Template Name"
+          leftElement={
+            <FontAwesomeIcon
+              icon={faFile}
+              size={15}
+              style={{ marginLeft: 10, color: "gray" }}
+            />
+          }
+        />
     );
   };
 
@@ -86,9 +102,8 @@ const AddTemplateModal = (props: IProps) => {
               *{error}
             </Text>
           )}
-          <VStack>
+          <VStack space={1}>
             {renderTemplateName()}
-            <Divider borderWidth={1} my={3} borderColor={"coolGray.200"} />
             {renderList()}
           </VStack>
         </Modal.Body>

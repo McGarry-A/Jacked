@@ -2,8 +2,6 @@ import { RootTabScreenProps } from "../../types";
 import {
   Box,
   Heading,
-  Text,
-  Button,
   View,
   FlatList,
   HStack,
@@ -18,7 +16,7 @@ import { IOneRepMaxLine } from "../../store/WidgetsSlice";
 import WidgetContainer from "../../components/widgets/WidgetContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faWrench } from "@fortawesome/free-solid-svg-icons/faWrench";
-import CtaButton from "../../components/layout/CTAButton";
+import CtaButton from "../../components/layout/CtaButton";
 import { faGear } from "@fortawesome/free-solid-svg-icons/faGear";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {

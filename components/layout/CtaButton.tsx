@@ -4,17 +4,24 @@ import React from "react";
 
 interface ICtaButton extends InterfaceButtonProps {
     children: React.ReactNode
+    isHollow?: boolean
   }
 
 const CtaButton = (props: ICtaButton) => {
-  const { children, ...rest } = props;
+  const { children, isHollow = false, ...rest } = props;
+
+  const backgroundColor = isHollow ? "transparent" : "info.100";
+  const borderColor = isHollow ? "transparent" : "info.300";
+  const varient = isHollow ? "ghost" : "outline";
 
   return (
     <Button
       size={"xs"}
       borderRadius="3xl"
       borderWidth={1}
-      borderColor={"info.300"}
+      borderColor={borderColor}
+      backgroundColor={backgroundColor}
+      variant={varient}
       {...rest}
     >
       <Text

@@ -2,7 +2,7 @@ import { faCalendar } from "@fortawesome/free-regular-svg-icons/faCalendar";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
 import { FlatList, Heading, HStack, View } from "native-base";
-import CtaButton from "../../components/layout/CTAButton";
+import CtaButton from "../../components/layout/CtaButton";
 import HistoryCard from "../../components/layout/HistoryCard";
 import useHistory from "../../hooks/useHistory";
 
@@ -19,7 +19,6 @@ export default function History() {
         </Heading>
         <CtaButton
           onPress={() => navigation.navigate("Calendar")}
-          size={"xs"}
           leftIcon={
             <FontAwesomeIcon icon={faCalendar} size={12} color={"#0284c7"} />
           }

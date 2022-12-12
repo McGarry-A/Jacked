@@ -13,7 +13,7 @@ import {
 import { useState } from "react";
 import { TemplateInterface } from "../../types/TemplateSliceInterface";
 import AddTemplateModal from "../utils/AddTemplateModal";
-import CtaButton from "./CTAButton";
+import CtaButton from "./CtaButton";
 import TemplateCard from "./TemplateCard";
 
 interface IProps {
@@ -51,9 +51,7 @@ export default function Folder(props: IProps) {
             </Box>
           </HStack>
           <CtaButton
-            backgroundColor={"transparent"}
-            borderWidth={0}
-            variant={"ghost"}
+            isHollow
             leftIcon={
               <FontAwesomeIcon icon={faFile} color={"#0284c7"} size={10} />
             }

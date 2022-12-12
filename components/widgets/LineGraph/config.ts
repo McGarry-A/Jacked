@@ -8,13 +8,19 @@ const CONFIG = {
     color: () => "#808080",
     decimalPlaces: 1,
     propsForDots: {
-        r: "5",
-        strokeWidth: "3",
-        stroke: "#fff",
-        fill: "#4169E1"
+        r: "3",
+        strokeWidth: "2",
+        stroke: "#7851a9",
+        fill: "transparent",
     },
+    propsForBackgroundLines: {
+        strokeWidth: "0.3",
+        strokeLinecap: "round",
+        strokeDasharray: "13, 20",
+      },
     fillShadowGradientFromOpacity: 0,
     fillShadowGradientToOpacity: 0,
+    bezier: true,
 };
 
 const SCREEN_WIDTH = Dimensions.get("window").width;

@@ -64,7 +64,7 @@ export const ExerciseList: React.FC<Props> = ({
           alignItems={"center"}
           paddingX={2}
           borderRadius={5}
-          borderColor={"gray.200"}
+          borderColor={"coolGray.200"}
           backgroundColor={"white"}
           onChangeText={(text) => handleFilter(text)}
           fontSize={"md"}

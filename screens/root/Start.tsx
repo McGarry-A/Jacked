@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import Folder from "../../components/layout/Folder";
 import AddFolderModal from "../../components/utils/AddFolderModal";
 import { useState } from "react";
-import CtaButton from "../../components/layout/CTAButton";
+import CtaButton from "../../components/layout/CtaButton";
 
 export default function Start() {
   const [modalIsVisible, setmodalIsVisible] = useState<boolean>(false);

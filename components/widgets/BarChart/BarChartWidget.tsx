@@ -24,7 +24,7 @@ const BarChartWidget: React.FC = () => {
         chartConfig={CONFIG}
         yAxisSuffix=""
         showBarTops={false}
-        withInnerLines={false}
+        withInnerLines={true}
         fromZero
         segments={4}
         style={{

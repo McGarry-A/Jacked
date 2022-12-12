@@ -1,6 +1,5 @@
-import { Button, HStack, Modal, Select, Text, VStack } from "native-base";
+import { Button, Modal, Select, Text, VStack } from "native-base";
 import { SetStateAction } from "react";
-import ModalItem from "../../components/Modal/ModalItem";
 
 interface IBarChartWidgetModal {
   modalIsVisible: boolean;
@@ -10,13 +9,9 @@ interface IBarChartWidgetModal {
 const BarChartWidgetModal = (props: IBarChartWidgetModal) => {
   const { modalIsVisible, setModalIsVisible } = props;
 
-  const handleDeleteModal = () => {
-    setModalIsVisible(false);
-  };
-
   const renderSetTarget = () => {
     return (
-      <Select placeholder="Target Days Per Week" h={9}>
+      <Select placeholder="Target Days Per Week" fontSize="sm">
         <Select.Item label="1" value={"1"} />
         <Select.Item label="2" value={"2"} />
         <Select.Item label="3" value={"3"} />
