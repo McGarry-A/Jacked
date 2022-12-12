@@ -12,7 +12,7 @@ const useSessionFrequency = () => {
   const { workoutDates, isLoading } = usePreviousWorkoutDates(userId);
 
   useEffect(() => {
-    const labels = getPreviousMondays(4);
+    const labels = getPreviousMondays(6);
     const moments = workoutDates.map((el) => {
       return moment(el.date).startOf("week").format("DD/MM");
     });

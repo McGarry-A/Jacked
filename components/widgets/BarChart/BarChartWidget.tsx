@@ -1,13 +1,11 @@
 import { BarChart } from "react-native-chart-kit";
 import { CONFIG, SCREEN_WIDTH } from "./config";
 import useSessionFrequency from "../../../hooks/useSessionFrequency";
-import WidgetContainer from "../WidgetContainer";
 
 const BarChartWidget: React.FC = () => {
   const { labels, values, isLoading } = useSessionFrequency();
 
   const segmentsCount = Math.max(...values);
-  const segments = segmentsCount < 5 ? 5 : segmentsCount;
 
   const data = {
     labels: labels,
@@ -18,7 +16,7 @@ const BarChartWidget: React.FC = () => {
     !isLoading ? (
       <BarChart
         data={data}
-        width={SCREEN_WIDTH - 10}
+        width={SCREEN_WIDTH - 49}
         height={160}
         yAxisLabel=""
         chartConfig={CONFIG}

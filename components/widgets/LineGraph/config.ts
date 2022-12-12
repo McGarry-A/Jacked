@@ -16,7 +16,7 @@ const CONFIG = {
     propsForBackgroundLines: {
         strokeWidth: "0.3",
         strokeLinecap: "round",
-        strokeDasharray: "13, 20",
+        strokeDasharray: "0, 0",
       },
     fillShadowGradientFromOpacity: 0,
     fillShadowGradientToOpacity: 0,

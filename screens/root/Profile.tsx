@@ -1,11 +1,5 @@
 import { RootTabScreenProps } from "../../types";
-import {
-  Box,
-  Heading,
-  View,
-  FlatList,
-  HStack,
-} from "native-base";
+import { Box, Heading, View, FlatList, HStack, Text, Switch } from "native-base";
 import BarChartWidget from "../../components/widgets/BarChart/BarChartWidget";
 import LineGraphWidget from "../../components/widgets/LineGraph/LineGraphWidget";
 import UserProfileBar from "../../components/layout/UserProfileBar";
@@ -18,6 +12,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faWrench } from "@fortawesome/free-solid-svg-icons/faWrench";
 import CtaButton from "../../components/layout/CtaButton";
 import { faGear } from "@fortawesome/free-solid-svg-icons/faGear";
+import { faRuler } from "@fortawesome/free-solid-svg-icons/faRuler";
+import { faMoon } from "@fortawesome/free-solid-svg-icons/faMoon";
+import ColorThemeSwitch from "../../components/layout/ColorThemeSwitch";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
@@ -56,7 +53,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
       </Heading>
       <CtaButton
         onPress={() => {
-        navigation.navigate("Settings");
+          navigation.navigate("Settings");
         }}
         leftIcon={<FontAwesomeIcon icon={faGear} size={12} color={"#0284c7"} />}
       >
@@ -98,15 +95,12 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   };
 
   const renderWidgets = () => {
-    // NOTE: PROBABLY BEST PRACTICE DONT KNOW IF IT WILL WORK THOUGH
     return (
       <FlatList
         data={Object.keys(widgets)}
         renderItem={({ item }) => renderWidget(item)}
       />
     );
-
-    // return <ScrollView>{Object.keys(widgets).map(renderWidget)}</ScrollView>;
   };
 
   const renderAddWidgetModal = () => (
@@ -116,8 +110,18 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
     />
   );
 
+  const renderMeasurement = () => {
+    return (
+      <HStack my={2} justifyContent={"space-between"} alignItems={"center"}>
+        <FontAwesomeIcon icon={faRuler} size={20} color={"#7dd3fc"} />
+        <ColorThemeSwitch />
+      </HStack>
+    );
+  };
+
   return (
     <View padding="3" backgroundColor={"coolGray.50"} flexGrow={1} flex={1}>
+      {renderMeasurement()}
       {renderScreenHeading()}
       {renderProfile()}
       {renderDashboard()}

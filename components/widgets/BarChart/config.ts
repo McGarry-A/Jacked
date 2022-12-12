@@ -17,7 +17,8 @@ const CONFIG = {
     translateX: 20,
     strokeWidth: "0.3",
     strokeLinecap: "round",
-    strokeDasharray: "13, 20",
+    strokeDasharray: "0, 0",
+    zIndex: 99,
   },
   propsForHorizontalLabels: {
     translateY: 3,

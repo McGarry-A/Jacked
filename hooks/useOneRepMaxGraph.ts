@@ -13,7 +13,7 @@ const useOneRepMaxGraph = ({ exerciseId }: { exerciseId: number }) => {
 
   const { data, isLoading, error } = usePrevLifts({
     userId,
-    limit: 6,
+    limit: 7,
     exerciseId,
   });
 
