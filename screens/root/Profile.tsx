@@ -1,5 +1,13 @@
 import { RootTabScreenProps } from "../../types";
-import { Box, Heading, View, FlatList, HStack, Text, Switch } from "native-base";
+import {
+  Box,
+  Heading,
+  View,
+  FlatList,
+  HStack,
+  Text,
+  Switch,
+} from "native-base";
 import BarChartWidget from "../../components/widgets/BarChart/BarChartWidget";
 import LineGraphWidget from "../../components/widgets/LineGraph/LineGraphWidget";
 import UserProfileBar from "../../components/layout/UserProfileBar";
@@ -112,10 +120,19 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 
   const renderMeasurement = () => {
     return (
-      <HStack my={2} justifyContent={"space-between"} alignItems={"center"}>
-        <FontAwesomeIcon icon={faRuler} size={20} color={"#7dd3fc"} />
-        <ColorThemeSwitch />
-      </HStack>
+      // <HStack my={2} justifyContent={"space-between"} alignItems={"center"}>
+      //   <FontAwesomeIcon icon={faRuler} size={20} color={"#7dd3fc"} />
+      // </HStack>
+        <CtaButton
+          isHollow
+          pl={0}
+          justifyContent={"flex-start"}
+          leftIcon={
+            <FontAwesomeIcon icon={faRuler} size={20} color={"#7dd3fc"} />
+          }
+        >
+          Add Weight
+        </CtaButton>
     );
   };
 

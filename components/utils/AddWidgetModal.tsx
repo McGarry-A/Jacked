@@ -4,8 +4,12 @@ import useExerciseList from "../../hooks/useExerciseList";
 import useId from "../../hooks/useId";
 import { useAppDispatch } from "../../store";
 import { createWidget } from "../../store/WidgetsSlice";
-import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import {
+  IButtonComponentType,
+  InterfaceButtonProps,
+} from "native-base/lib/typescript/components/primitives/Button/types";
 
 interface IProps {
   isVisible: boolean;
@@ -60,7 +64,7 @@ export default function AddWidgetModal(props: IProps) {
             <ModalItem pressHandler={handleCreateBarWidget}>
               Session Frequency
             </ModalItem>
-            <ModalItem pressHandler={handleChooseExerciseToTrack}>
+            <ModalItem hasChevron pressHandler={handleChooseExerciseToTrack}>
               1 Rep Max Estimator
             </ModalItem>
           </VStack>
@@ -99,19 +103,30 @@ export default function AddWidgetModal(props: IProps) {
     </Modal>
   );
 }
-interface IModalItem {
+interface IModalItem extends InterfaceButtonProps {
   children: React.ReactNode;
   pressHandler: () => void;
+  hasChevron?: boolean;
 }
 
-const ModalItem: React.FC<IModalItem> = ({ children, pressHandler }) => {
+const ModalItem: React.FC<IModalItem> = ({
+  children,
+  pressHandler,
+  hasChevron = false,
+  ...rest
+}) => {
   return (
     <Button
       onPress={pressHandler}
       variant={"filled"}
-      justifyContent={"space-between"}
+      justifyContent={"start"}
       backgroundColor={"coolGray.100"}
-      rightIcon={<FontAwesomeIcon icon={faPlus} size={12} color={"#6b7280"} /> }
+      rightIcon={
+        hasChevron ? (
+          <FontAwesomeIcon icon={faChevronRight} size={12} color={"#6b7280"} />
+        ) : undefined
+      }
+      {...rest}
     >
       <Text color={"coolGray.600"} fontWeight={"semibold"}>
         {children}

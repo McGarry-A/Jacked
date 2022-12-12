@@ -2,7 +2,7 @@ import { HStack, Switch, Text } from "native-base";
 
 export default function ColorThemeSwitch() {
   return (
-    <HStack alignItems={"center"}>
+    <HStack alignItems={"center"} mr={4}>
       <Text
         fontWeight={"semibold"}
         fontSize={"2xs"}

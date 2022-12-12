@@ -40,6 +40,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { cancelWorkout } from "../store/currentWorkoutSlice";
 import { useAppDispatch } from "../store";
 import Start from "../screens/root/Start";
+import ColorThemeSwitch from "../components/layout/ColorThemeSwitch";
 
 export default function Navigation({
   colorScheme,
@@ -163,6 +164,9 @@ function BottomTabNavigator() {
           tabBarIcon: ({ color }) => (
             <FontAwesomeIcon icon={faUser} color={color} size={25} />
           ),
+          headerRight: () => (
+            <ColorThemeSwitch />
+          )
         })}
       />
       <BottomTab.Screen
