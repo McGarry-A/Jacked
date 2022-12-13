@@ -8,6 +8,7 @@ import { SetInterface } from "../../types/CurrentWorkoutInterface";
 import useId from "../../hooks/useId";
 import { addLift, startWorkout } from "../../store/currentWorkoutSlice";
 import { FontAwesome } from "@expo/vector-icons";
+import useColorScheme from "../../hooks/useColorScheme";
 
 interface TemplateCardProps {
   title: string;
@@ -28,6 +29,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.userSlice.user);
+  const { pTextColorMode } = useColorScheme();
 
   const handleAddLiftsToWorkout = () => {
     const { userId } = user;
@@ -78,7 +80,9 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
   const renderHeader = () => {
     return (
       <HStack alignItems={"center"} justifyContent="space-between">
-        <Heading fontSize="sm" color={"coolGray.700"}>{title}</Heading>
+        <Heading fontSize="sm" color={pTextColorMode}>
+          {title}
+        </Heading>
         <Box
           justifyContent={"center"}
           alignItems={"center"}
@@ -115,7 +119,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
     <Pressable
       borderWidth={1}
       borderColor={"coolGray.200"}
-      backgroundColor={"coolGray.50"}
+      backgroundColor={"transparent"}
       py={3}
       px={2}
       borderRadius={"sm"}

@@ -11,6 +11,7 @@ import {
   Pressable,
 } from "native-base";
 import { useState } from "react";
+import useColorScheme from "../../hooks/useColorScheme";
 import { TemplateInterface } from "../../types/TemplateSliceInterface";
 import AddTemplateModal from "../utils/AddTemplateModal";
 import CtaButton from "./CtaButton";
@@ -29,12 +30,20 @@ export default function Folder(props: IProps) {
   const { templates, id, name } = props;
   const navigation = useNavigation();
 
+  const {
+    h1ColorMode,
+    h2ColorMode,
+    pTextColorMode,
+    ctaIconColorMode,
+    screenColorMode,
+  } = useColorScheme();
+
   const renderhead = () => {
     return (
       <Pressable onPress={() => setIsCollapsed((state) => !state)}>
         <HStack justifyContent={"space-between"}>
           <HStack alignItems={"center"} space={2}>
-            <Heading size={"sm"} color={"coolGray.700"}>
+            <Heading size={"sm"} color={pTextColorMode}>
               {name}
             </Heading>
             <Box>
@@ -89,7 +98,11 @@ export default function Folder(props: IProps) {
     <Box key={id}>
       {renderhead()}
       {renderTemplates()}
-      <AddTemplateModal isVisible={modalIsOpen} setIsVisible={setModalIsOpen} folId={id} />
+      <AddTemplateModal
+        isVisible={modalIsOpen}
+        setIsVisible={setModalIsOpen}
+        folId={id}
+      />
     </Box>
   );
 }

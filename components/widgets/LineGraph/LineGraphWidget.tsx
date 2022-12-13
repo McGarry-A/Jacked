@@ -15,7 +15,7 @@ const lineGraphWidget: React.FC<ILineProps> = (props) => {
     datasets: [
       {
         data: values,
-        color: () => `rgba(90, 34, 139, 0.3)`,
+        color: (_: any) => `rgba(90, 34, 139, 0.3)`,
       },
     ],
   };

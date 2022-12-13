@@ -5,8 +5,12 @@ export default function useColorScheme() {
   const screenColorMode = useColorModeValue("coolGray.50", "coolGray.800");
   const screenColorModeHex = useColorModeValue("#f9fafb", "#1f2937");
 
+  // BOTTOM NAV
+  const bottomNavColorMode = useColorModeValue("#0369a1", "#f9fafb");
+
   // TEXT
   const h1ColorMode = useColorModeValue("coolGray.700", "coolGray.50");
+  const h2ColorMode = useColorModeValue("coolGray.600", "coolGray.100");
   const pTextColorMode = useColorModeValue("coolGray.600", "coolGray.50");
 
   // CTA WITH ICONS
@@ -22,6 +26,9 @@ export default function useColorScheme() {
   //AVATAR BG COLOR MODE
   const avatarBgColorMode = useColorModeValue("info.500", "info.700");
 
+  // BUTTON COLOR
+  const buttonColorMode = useColorModeValue("info.400", "info.700");
+
   return {
     screenColorMode,
     h1ColorMode,
@@ -33,6 +40,9 @@ export default function useColorScheme() {
     screenColorModeHex,
     elipsesColorMode,
     elipsesBgColorMode,
-    avatarBgColorMode
+    avatarBgColorMode,
+    bottomNavColorMode,
+    h2ColorMode,
+    buttonColorMode
   };
 }

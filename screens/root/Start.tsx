@@ -8,6 +8,7 @@ import Folder from "../../components/layout/Folder";
 import AddFolderModal from "../../components/utils/AddFolderModal";
 import { useState } from "react";
 import CtaButton from "../../components/layout/CtaButton";
+import useColorScheme from "../../hooks/useColorScheme";
 
 export default function Start() {
   const [modalIsVisible, setmodalIsVisible] = useState<boolean>(false);
@@ -15,6 +16,14 @@ export default function Start() {
   const { userId } = useAppSelector((state) => state.userSlice.user);
   const { folders } = useAppSelector((state) => state.templateSlice);
   const { isActive } = useAppSelector((state) => state.currentWorkoutSlice);
+
+  const {
+    h1ColorMode,
+    h2ColorMode,
+    buttonColorMode,
+    ctaIconColorMode,
+    screenColorMode,
+  } = useColorScheme();
 
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
@@ -29,14 +38,14 @@ export default function Start() {
   };
 
   const renderHeading = () => (
-    <Heading size={"xl"} color={"coolGray.700"} my={2}>
+    <Heading size={"xl"} color={h1ColorMode} my={2}>
       Start A Workout
     </Heading>
   );
 
   const renderQuickStart = () => (
     <Box my={2}>
-      <Heading fontSize={"lg"} color={"coolGray.600"}>
+      <Heading fontSize={"lg"} color={h2ColorMode}>
         Quick Start
       </Heading>
       {renderStartOrContinue()}
@@ -50,7 +59,7 @@ export default function Start() {
           onPress={handlePressQuickStart}
           marginY={1}
           size="sm"
-          backgroundColor={"info.400"}
+          backgroundColor={buttonColorMode}
         >
           <Text fontWeight={"bold"} color="coolGray.100">
             Start an Empty Workout
@@ -79,13 +88,13 @@ export default function Start() {
       justifyContent="space-between"
       alignItems={"center"}
     >
-      <Heading size={"lg"} color={"coolGray.600"}>
+      <Heading size={"lg"} color={h2ColorMode}>
         Folders
       </Heading>
       <CtaButton
         onPress={() => setmodalIsVisible(true)}
         leftIcon={
-          <FontAwesomeIcon icon={faFolder} color={"#0284c7"} size={12} />
+          <FontAwesomeIcon icon={faFolder} color={ctaIconColorMode} size={12} />
         }
       >
         Add Folder
@@ -105,7 +114,7 @@ export default function Start() {
   };
 
   return (
-    <View padding={3} backgroundColor={"coolGray.50"} flex={1}>
+    <View padding={3} backgroundColor={screenColorMode} flex={1}>
       <VStack space={2}>
         {renderHeading()}
         {renderQuickStart()}

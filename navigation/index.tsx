@@ -131,14 +131,14 @@ function RootNavigator() {
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
-  const { screenColorModeHex } = useColorScheme();
+  const { screenColorModeHex, bottomNavColorMode } = useColorScheme();
 
   return (
     <BottomTab.Navigator
       initialRouteName="Profile"
       screenOptions={{
         tabBarStyle: [{ backgroundColor: screenColorModeHex, paddingTop: 5 }],
-        tabBarActiveTintColor: "#f9fafb",
+        tabBarActiveTintColor: bottomNavColorMode,
       }}
     >
       <BottomTab.Screen
