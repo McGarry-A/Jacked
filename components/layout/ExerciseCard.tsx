@@ -55,8 +55,8 @@ const ExerciseCard = (props: IProps) => {
   const handleAddToLiftData = () => {
     const { liftData, id, exercise_name } = props;
 
-    if (!isActive && !liftData?.some((el) => el.exerciseId === id)) {
-      console.log("adding to lift data")
+    if (!isActive) {
+      console.log("adding to lift data");
       const liftId = useId("lift");
       const lift = {
         exerciseId: id,
@@ -70,18 +70,15 @@ const ExerciseCard = (props: IProps) => {
       return;
     }
 
-    if (Object.values(exercises).length > 0) {
-      console.log("removing from lift data")
-      const newState = [...(liftData as LiftData[])];
-      const newData = newState.filter((el) => el.exerciseId !== id);
-      const liftIdOfRemoved = Object.values(exercises)?.filter(
-        (el) => el.exerciseId === id
-      )[0].liftId;
+    const newState = [...(liftData as LiftData[])];
+    const newData = newState.filter((el) => el.exerciseId !== id);
+    const liftIdOfRemoved = Object.values(exercises).filter(
+      (el) => el.exerciseId === id
+    )[0]?.liftId;
 
-      dispatch(deleteLift({ liftId: liftIdOfRemoved }));
-      setLiftData!(newData);
-    }
-    
+    dispatch(deleteLift({ liftId: liftIdOfRemoved }));
+    setLiftData!(newData);
+
     setIsActive(false);
   };
 
