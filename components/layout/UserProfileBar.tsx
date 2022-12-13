@@ -9,7 +9,7 @@ interface Props {
 
 const UserProfileBar = ({ isClickable = true }: Props) => {
   const navigation = useNavigation();
-  const { h1ColorMode } = useColorScheme()
+  const { h1ColorMode } = useColorScheme();
 
   const renderChevron = () => {
     if (isClickable) {
@@ -23,13 +23,15 @@ const UserProfileBar = ({ isClickable = true }: Props) => {
     return null;
   };
 
+  const { avatarBgColorMode } = useColorScheme();
+
   const renderBody = () => {
     return (
       <Box flexDirection="row" alignItems="center">
         <Avatar
           size={"lg"}
           marginY={3}
-          backgroundColor="info.300"
+          backgroundColor={avatarBgColorMode}
           marginRight={"3"}
         >
           <Text color={"info.50"} fontSize={"lg"} fontWeight={"bold"}>
@@ -55,9 +57,6 @@ const UserProfileBar = ({ isClickable = true }: Props) => {
         flexDirection="row"
         alignItems="center"
         onPress={() => navigation.navigate("User")}
-        style={({ pressed }) => ({
-          opacity: pressed ? 0.5 : 1,
-        })}
       >
         {renderBody()}
       </Pressable>

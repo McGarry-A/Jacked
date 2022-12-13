@@ -3,6 +3,7 @@ import { useColorModeValue } from "native-base";
 export default function useColorScheme() {
   // SCREEN
   const screenColorMode = useColorModeValue("coolGray.50", "coolGray.800");
+  const screenColorModeHex = useColorModeValue("#f9fafb", "#1f2937");
 
   // TEXT
   const h1ColorMode = useColorModeValue("coolGray.700", "coolGray.50");
@@ -14,6 +15,13 @@ export default function useColorScheme() {
   const ctaTextColorMode = useColorModeValue("info.600", "info.100");
   const ctaIconColorMode = useColorModeValue("#0284c7","#bce3f5")
 
+  // ELIPSES COLOR
+  const elipsesColorMode = useColorModeValue("#0369a1", "#e0f2fe");
+  const elipsesBgColorMode = useColorModeValue("#e0f2fe", "#0369a1");
+
+  //AVATAR BG COLOR MODE
+  const avatarBgColorMode = useColorModeValue("info.500", "info.700");
+
   return {
     screenColorMode,
     h1ColorMode,
@@ -21,6 +29,10 @@ export default function useColorScheme() {
     ctaBorderColorMode,
     ctaTextColorMode,
     ctaIconColorMode,
-    pTextColorMode
+    pTextColorMode,
+    screenColorModeHex,
+    elipsesColorMode,
+    elipsesBgColorMode,
+    avatarBgColorMode
   };
 }

@@ -1,13 +1,5 @@
 import { RootTabScreenProps } from "../../types";
-import {
-  Box,
-  Heading,
-  View,
-  FlatList,
-  HStack,
-  useColorModeValue,
-  StatusBar,
-} from "native-base";
+import { Box, Heading, View, FlatList, HStack } from "native-base";
 import BarChartWidget from "../../components/widgets/BarChart/BarChartWidget";
 import LineGraphWidget from "../../components/widgets/LineGraph/LineGraphWidget";
 import UserProfileBar from "../../components/layout/UserProfileBar";
@@ -45,7 +37,11 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
         <CtaButton
           onPress={() => setModalIsVisible(true)}
           leftIcon={
-            <FontAwesomeIcon icon={faWrench} color={ctaIconColorMode} size={12} />
+            <FontAwesomeIcon
+              icon={faWrench}
+              color={ctaIconColorMode}
+              size={12}
+            />
           }
         >
           Add Widget
@@ -63,7 +59,9 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
         onPress={() => {
           navigation.navigate("Settings");
         }}
-        leftIcon={<FontAwesomeIcon icon={faGear} size={12} color={ctaIconColorMode} />}
+        leftIcon={
+          <FontAwesomeIcon icon={faGear} size={12} color={ctaIconColorMode} />
+        }
       >
         Settings
       </CtaButton>

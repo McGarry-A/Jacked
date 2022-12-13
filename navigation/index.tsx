@@ -36,11 +36,7 @@ import { useAppDispatch } from "../store";
 import Start from "../screens/root/Start";
 import ColorThemeSwitch from "../components/layout/ColorThemeSwitch";
 
-export default function Navigation({
-  colorScheme,
-}: {
-  colorScheme: ColorSchemeName;
-}) {
+export default function Navigation() {
   return (
     <NavigationContainer linking={LinkingConfiguration}>
       <RootNavigator />
@@ -56,19 +52,25 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   const dispatch = useAppDispatch();
-  const { screenColorMode } = useColorScheme();
+  const { screenColorModeHex } = useColorScheme();
   return (
     <Stack.Navigator
       screenOptions={{
+        statusBarColor: screenColorModeHex,
         headerStyle: {
-          backgroundColor: "red",
-        },
+          backgroundColor: screenColorModeHex,
+        }
       }}
     >
       <Stack.Screen
         name="Root"
         component={BottomTabNavigator}
-        options={{ headerShown: false }}
+        options={() => ({
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: screenColorModeHex,
+          },
+        })}
       />
       <Stack.Screen
         name="Settings"
@@ -80,6 +82,9 @@ function RootNavigator() {
         component={ActiveWorkout}
         options={({ navigation }) => ({
           title: "Active Workout",
+          headerStyle: {
+            backgroundColor: screenColorModeHex,
+          },
           headerRight: () => (
             <Button
               variant="ghost"
@@ -126,11 +131,14 @@ function RootNavigator() {
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
+  const { screenColorModeHex } = useColorScheme();
+
   return (
     <BottomTab.Navigator
       initialRouteName="Profile"
       screenOptions={{
-        tabBarStyle: [{ backgroundColor: "#1f2937", paddingTop: 5 }],
+        tabBarStyle: [{ backgroundColor: screenColorModeHex, paddingTop: 5 }],
+        tabBarActiveTintColor: "#f9fafb",
       }}
     >
       <BottomTab.Screen
