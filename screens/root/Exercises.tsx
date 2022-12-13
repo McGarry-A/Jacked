@@ -1,9 +1,11 @@
 import { View, Heading } from "native-base";
 import { ExerciseList as ExerciseListComponent } from "../../components/layout/ExerciseList";
+import useColorScheme from "../../hooks/useColorScheme";
 
 const Exercises = () => {
+  const { h1ColorMode, screenColorMode } = useColorScheme()
   const renderHeading = () => (
-    <Heading size={"xl"} color={"coolGray.700"} my={2}>
+    <Heading size={"xl"} color={h1ColorMode} my={2}>
       Exercises
     </Heading>
   );
@@ -17,7 +19,7 @@ const Exercises = () => {
   };
 
   return (
-    <View flex={1} backgroundColor="coolGray.50" padding={3}>
+    <View flex={1} backgroundColor={screenColorMode} padding={3}>
       {renderHeading()}
       {renderExerciseList()}
     </View>

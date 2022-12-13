@@ -10,6 +10,7 @@ import {
   VStack,
 } from "native-base";
 import { useState } from "react";
+import useColorScheme from "../../hooks/useColorScheme";
 import useExerciseList from "../../hooks/useExerciseList";
 import ExerciseInterface from "../../types/ExerciseInterface";
 import ExerciseCard from "./ExerciseCard";
@@ -31,6 +32,8 @@ export const ExerciseList: React.FC<Props> = ({
   const [bodyPartFilter, setBodyPartFilter] = useState<string>("");
 
   const { list: exerciseList, isLoading, error } = useExerciseList();
+
+  const { buttonColorMode } = useColorScheme();
 
   const handleFilter = (text: string) => {
     const filteredExercises = exerciseList.filter((el) =>
@@ -66,6 +69,10 @@ export const ExerciseList: React.FC<Props> = ({
           borderRadius={5}
           borderColor={"coolGray.200"}
           backgroundColor={"white"}
+          _dark={{
+            backgroundColor: "coolGray.600",
+            borderColor: "coolGray.600",
+          }}
           onChangeText={(text) => handleFilter(text)}
           fontSize={"md"}
           placeholder="Search"
@@ -98,7 +105,7 @@ export const ExerciseList: React.FC<Props> = ({
     handleClear: () => void;
   }) => (
     <Box
-      backgroundColor={"info.400"}
+      backgroundColor={buttonColorMode}
       alignItems="center"
       justifyContent={"center"}
       h={9}
@@ -112,7 +119,6 @@ export const ExerciseList: React.FC<Props> = ({
           return (
             <Pressable
               {...triggerProps}
-              colorScheme="info"
               justifyContent={"center"}
               alignItems="center"
               onPress={() => setPopoverIsOpen(true)}
@@ -209,10 +215,10 @@ export const ExerciseList: React.FC<Props> = ({
   return (
     <Box mt={1} flex={1}>
       <VStack space={3} flex={1}>
-          <VStack space={1}>
-            {renderSearchBar()}
-            {renderExerciseFilter()}
-          </VStack>
+        <VStack space={1}>
+          {renderSearchBar()}
+          {renderExerciseFilter()}
+        </VStack>
         {renderList()}
       </VStack>
     </Box>

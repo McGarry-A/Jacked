@@ -5,6 +5,7 @@ import { LiftData } from "../../screens/modals/AddExercises";
 import useId from "../../hooks/useId";
 import useToggleState from "../../hooks/useToggleState";
 import { deleteLift } from "../../store/currentWorkoutSlice";
+import useColorScheme from "../../hooks/useColorScheme";
 
 interface IProps {
   exercise_name: string;
@@ -73,6 +74,7 @@ const ExerciseCard = (props: IProps) => {
 
   const renderAvatar = () => {
     const { exercise_name } = props;
+    const { h1ColorMode } = useColorScheme();
 
     return (
       <Avatar marginRight={2} backgroundColor={"transparent"}>
@@ -80,7 +82,8 @@ const ExerciseCard = (props: IProps) => {
           fontSize={"lg"}
           letterSpacing={"xl"}
           fontWeight={"bold"}
-          color={"coolGray.800"}
+          color={h1ColorMode}
+
         >
           {getExerciseInitials(exercise_name)}
         </Text>
@@ -112,10 +115,11 @@ const ExerciseCard = (props: IProps) => {
 
   const renderBody = () => {
     const { exercise_name, targets } = props;
+    const { pTextColorMode, h2ColorMode } = useColorScheme();
 
     return (
       <VStack flex={1}>
-        <Text color={"coolGray.800"} fontWeight={"semibold"}>{exercise_name}</Text>
+        <Text color={h2ColorMode} fontWeight={"semibold"}>{exercise_name}</Text>
         <Text color={"coolGray.400"} fontSize={"sm"}>{targets}</Text>
       </VStack>
     );
@@ -128,10 +132,15 @@ const ExerciseCard = (props: IProps) => {
       startColor={"gray.200"}
       endColor={"coolGray.200"}
       isLoaded={isLoading}
+      
     >
       <Box
         padding={3}
         backgroundColor={backgroundColor}
+        _dark={{
+          backgroundColor: "coolGray.700",
+          borderColor: "coolGray.700",
+        }}
       >
         <Pressable
           flexDirection={"row"}
