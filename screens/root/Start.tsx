@@ -38,13 +38,13 @@ export default function Start() {
   };
 
   const renderHeading = () => (
-    <Heading size={"xl"} color={h1ColorMode} my={2}>
+    <Heading size={"xl"} color={h1ColorMode} my={1}>
       Start A Workout
     </Heading>
   );
 
   const renderQuickStart = () => (
-    <Box my={2}>
+    <Box my={1}>
       <Heading fontSize={"lg"} color={h2ColorMode}>
         Quick Start
       </Heading>

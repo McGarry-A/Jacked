@@ -1,4 +1,12 @@
-import { Avatar, Box, Checkbox, Pressable, Skeleton, Text, VStack } from "native-base";
+import {
+  Avatar,
+  Box,
+  Checkbox,
+  Pressable,
+  Skeleton,
+  Text,
+  VStack,
+} from "native-base";
 import { useAppDispatch, useAppSelector } from "../../store";
 import getExerciseInitials from "../../utils/getExerciseInitials";
 import { LiftData } from "../../screens/modals/AddExercises";
@@ -47,7 +55,8 @@ const ExerciseCard = (props: IProps) => {
   const handleAddToLiftData = () => {
     const { liftData, id, exercise_name } = props;
 
-    if (!isActive) {
+    if (!isActive && !liftData?.some((el) => el.exerciseId === id)) {
+      console.log("adding to lift data")
       const liftId = useId("lift");
       const lift = {
         exerciseId: id,
@@ -61,14 +70,18 @@ const ExerciseCard = (props: IProps) => {
       return;
     }
 
-    const newState = [...(liftData as LiftData[])];
-    const newData = newState.filter((el) => el.exerciseId !== id);
-    const liftIdOfRemoved = Object.values(exercises).filter(
-      (el) => el.exerciseId === id
-    )[0];
+    if (Object.values(exercises).length > 0) {
+      console.log("removing from lift data")
+      const newState = [...(liftData as LiftData[])];
+      const newData = newState.filter((el) => el.exerciseId !== id);
+      const liftIdOfRemoved = Object.values(exercises)?.filter(
+        (el) => el.exerciseId === id
+      )[0].liftId;
 
-    dispatch(deleteLift({ liftId: liftIdOfRemoved.liftId }));
-    setLiftData!(newData);
+      dispatch(deleteLift({ liftId: liftIdOfRemoved }));
+      setLiftData!(newData);
+    }
+    
     setIsActive(false);
   };
 
@@ -83,7 +96,6 @@ const ExerciseCard = (props: IProps) => {
           letterSpacing={"xl"}
           fontWeight={"bold"}
           color={h1ColorMode}
-
         >
           {getExerciseInitials(exercise_name)}
         </Text>
@@ -115,12 +127,16 @@ const ExerciseCard = (props: IProps) => {
 
   const renderBody = () => {
     const { exercise_name, targets } = props;
-    const { pTextColorMode, h2ColorMode } = useColorScheme();
+    const { h2ColorMode } = useColorScheme();
 
     return (
       <VStack flex={1}>
-        <Text color={h2ColorMode} fontWeight={"semibold"}>{exercise_name}</Text>
-        <Text color={"coolGray.400"} fontSize={"sm"}>{targets}</Text>
+        <Text color={h2ColorMode} fontWeight={"semibold"}>
+          {exercise_name}
+        </Text>
+        <Text color={"coolGray.400"} fontSize={"sm"}>
+          {targets}
+        </Text>
       </VStack>
     );
   };
@@ -132,7 +148,6 @@ const ExerciseCard = (props: IProps) => {
       startColor={"gray.200"}
       endColor={"coolGray.200"}
       isLoaded={isLoading}
-      
     >
       <Box
         padding={3}
