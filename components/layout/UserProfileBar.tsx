@@ -1,6 +1,7 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { Avatar, Box, Pressable, Text } from "native-base";
+import { Avatar, Box, Pressable, Text, useColorModeValue } from "native-base";
+import useColorScheme from "../../hooks/useColorScheme";
 
 interface Props {
   isClickable?: boolean;
@@ -8,6 +9,7 @@ interface Props {
 
 const UserProfileBar = ({ isClickable = true }: Props) => {
   const navigation = useNavigation();
+  const { h1ColorMode } = useColorScheme()
 
   const renderChevron = () => {
     if (isClickable) {
@@ -35,7 +37,7 @@ const UserProfileBar = ({ isClickable = true }: Props) => {
           </Text>
         </Avatar>
         <Box flex={1}>
-          <Text fontSize="md" fontWeight="semibold" color={"coolGray.700"}>
+          <Text fontSize="md" fontWeight="semibold" color={h1ColorMode}>
             Ahmed McGarry
           </Text>
           <Text fontSize="sm" color={"coolGray.400"}>

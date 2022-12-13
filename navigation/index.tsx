@@ -10,17 +10,11 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons/faChevronDown";
 import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons/faClockRotateLeft";
 import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {
-  NavigationContainer,
-  DefaultTheme,
-  DarkTheme,
-} from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { ColorSchemeName } from "react-native";
 import { Button, Pressable, Text } from "native-base";
-
-import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import Profile from "../screens/root/Profile";
 import History from "../screens/root/History";
@@ -48,10 +42,7 @@ export default function Navigation({
   colorScheme: ColorSchemeName;
 }) {
   return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-    >
+    <NavigationContainer linking={LinkingConfiguration}>
       <RootNavigator />
     </NavigationContainer>
   );
@@ -65,8 +56,15 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   const dispatch = useAppDispatch();
+  const { screenColorMode } = useColorScheme();
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "red",
+        },
+      }}
+    >
       <Stack.Screen
         name="Root"
         component={BottomTabNavigator}
@@ -98,23 +96,6 @@ function RootNavigator() {
           ),
         })}
       />
-      <Stack.Group>
-        {/* <Stack.Screen
-          name="TemplateTitle"
-          component={TemplateTitle}
-          options={{ title: "Template Title", headerTitle: "" }}
-        />
-        <Stack.Screen
-          name="NewTemplate"
-          component={NewTemplate}
-          options={{ title: "New Template", headerTitle: "" }}
-        />
-        <Stack.Screen
-          name="ChooseFolder"
-          component={ChooseFolder}
-          options={{ title: "Choose Folder", headerTitle: "" }}
-        /> */}
-      </Stack.Group>
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Calendar" component={Calendar} />
         <Stack.Screen
@@ -145,13 +126,10 @@ function RootNavigator() {
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
-
   return (
     <BottomTab.Navigator
       initialRouteName="Profile"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
         tabBarStyle: [{ backgroundColor: "#1f2937", paddingTop: 5 }],
       }}
     >
@@ -164,9 +142,7 @@ function BottomTabNavigator() {
           tabBarIcon: ({ color }) => (
             <FontAwesomeIcon icon={faUser} color={color} size={25} />
           ),
-          headerRight: () => (
-            <ColorThemeSwitch />
-          )
+          headerRight: () => <ColorThemeSwitch />,
         })}
       />
       <BottomTab.Screen

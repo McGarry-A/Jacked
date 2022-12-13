@@ -42,7 +42,7 @@ const WidgetContainer = (props: IWidgetContainer) => {
     <Box
       borderWidth={1}
       borderColor={"coolGray.200"}
-      backgroundColor={"coolGray.50"}
+      backgroundColor={"transparent"}
       borderRadius={10}
       padding={3}
       overflow={"hidden"}

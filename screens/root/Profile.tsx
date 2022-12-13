@@ -5,8 +5,8 @@ import {
   View,
   FlatList,
   HStack,
-  Text,
-  Switch,
+  useColorModeValue,
+  StatusBar,
 } from "native-base";
 import BarChartWidget from "../../components/widgets/BarChart/BarChartWidget";
 import LineGraphWidget from "../../components/widgets/LineGraph/LineGraphWidget";
@@ -21,13 +21,13 @@ import { faWrench } from "@fortawesome/free-solid-svg-icons/faWrench";
 import CtaButton from "../../components/layout/CtaButton";
 import { faGear } from "@fortawesome/free-solid-svg-icons/faGear";
 import { faRuler } from "@fortawesome/free-solid-svg-icons/faRuler";
-import { faMoon } from "@fortawesome/free-solid-svg-icons/faMoon";
-import ColorThemeSwitch from "../../components/layout/ColorThemeSwitch";
+import useColorScheme from "../../hooks/useColorScheme";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
 
   const { widgets } = useAppSelector((state) => state.widgetSlice);
+  const { h1ColorMode, screenColorMode, ctaIconColorMode } = useColorScheme();
 
   const renderProfile = () => {
     return <UserProfileBar />;
@@ -45,7 +45,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
         <CtaButton
           onPress={() => setModalIsVisible(true)}
           leftIcon={
-            <FontAwesomeIcon icon={faWrench} color={"#0284c7"} size={12} />
+            <FontAwesomeIcon icon={faWrench} color={ctaIconColorMode} size={12} />
           }
         >
           Add Widget
@@ -56,14 +56,14 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 
   const renderScreenHeading = () => (
     <HStack justifyContent={"space-between"} alignItems={"center"} my={2}>
-      <Heading size="xl" color={"coolGray.700"}>
+      <Heading size="xl" color={h1ColorMode}>
         My Profile
       </Heading>
       <CtaButton
         onPress={() => {
           navigation.navigate("Settings");
         }}
-        leftIcon={<FontAwesomeIcon icon={faGear} size={12} color={"#0284c7"} />}
+        leftIcon={<FontAwesomeIcon icon={faGear} size={12} color={ctaIconColorMode} />}
       >
         Settings
       </CtaButton>
@@ -123,21 +123,21 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
       // <HStack my={2} justifyContent={"space-between"} alignItems={"center"}>
       //   <FontAwesomeIcon icon={faRuler} size={20} color={"#7dd3fc"} />
       // </HStack>
-        <CtaButton
-          isHollow
-          pl={0}
-          justifyContent={"flex-start"}
-          leftIcon={
-            <FontAwesomeIcon icon={faRuler} size={20} color={"#7dd3fc"} />
-          }
-        >
-          Add Weight
-        </CtaButton>
+      <CtaButton
+        isHollow
+        pl={0}
+        justifyContent={"flex-start"}
+        leftIcon={
+          <FontAwesomeIcon icon={faRuler} size={20} color={ctaIconColorMode} />
+        }
+      >
+        Add Weight
+      </CtaButton>
     );
   };
 
   return (
-    <View padding="3" backgroundColor={"coolGray.50"} flexGrow={1} flex={1}>
+    <View padding="3" backgroundColor={screenColorMode} flexGrow={1} flex={1}>
       {renderMeasurement()}
       {renderScreenHeading()}
       {renderProfile()}

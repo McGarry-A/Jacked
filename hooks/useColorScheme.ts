@@ -1,8 +1,26 @@
-import { ColorSchemeName, useColorScheme as _useColorScheme } from 'react-native';
+import { useColorModeValue } from "native-base";
 
-// The useColorScheme value is always either light or dark, but the built-in
-// type suggests that it can be null. This will not happen in practice, so this
-// makes it a bit easier to work with.
-export default function useColorScheme(): NonNullable<ColorSchemeName> {
-  return _useColorScheme() as NonNullable<ColorSchemeName>;
+export default function useColorScheme() {
+  // SCREEN
+  const screenColorMode = useColorModeValue("coolGray.50", "coolGray.800");
+
+  // TEXT
+  const h1ColorMode = useColorModeValue("coolGray.700", "coolGray.50");
+  const pTextColorMode = useColorModeValue("coolGray.600", "coolGray.50");
+
+  // CTA WITH ICONS
+  const ctaBgColorMode = useColorModeValue("info.100", "info.700");
+  const ctaBorderColorMode = useColorModeValue("info.500", "info.100");
+  const ctaTextColorMode = useColorModeValue("info.600", "info.100");
+  const ctaIconColorMode = useColorModeValue("#0284c7","#bce3f5")
+
+  return {
+    screenColorMode,
+    h1ColorMode,
+    ctaBgColorMode,
+    ctaBorderColorMode,
+    ctaTextColorMode,
+    ctaIconColorMode,
+    pTextColorMode
+  };
 }
