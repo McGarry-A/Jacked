@@ -4,6 +4,8 @@ import { Box, HStack, Skeleton, Text, VStack } from "native-base";
 import React, { memo } from "react";
 import getDaysAgo from "../../utils/getDaysAgo";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import Elipsis from "./Elipsis";
+import useColorScheme from "../../hooks/useColorScheme";
 
 interface IHistoryCard {
   isLoaded: boolean;
@@ -22,6 +24,8 @@ interface IHistoryCard {
 
 const HistoryCard = ({ workoutName, date, lifts, isLoaded }: IHistoryCard) => {
   const isLifts = Object.keys(lifts).length > 0;
+
+  const { pTextColorMode, h2ColorMode } = useColorScheme();
   const renderHeader = () => {
     return (
       <HStack alignItems={"center"}>
@@ -29,20 +33,11 @@ const HistoryCard = ({ workoutName, date, lifts, isLoaded }: IHistoryCard) => {
           flex={1}
           fontSize={"md"}
           fontWeight={"bold"}
-          color={"coolGray.700"}
+          color={h2ColorMode}
         >
           {workoutName === null ? "Quick Workout" : workoutName}
         </Text>
-        <Box
-          justifyContent={"center"}
-          alignItems={"center"}
-          backgroundColor={"info.100"}
-          paddingX={1}
-          height={"5"}
-          borderRadius={4}
-        >
-          <FontAwesome name="ellipsis-h" size={15} color={"skyblue"} />
-        </Box>
+        <Elipsis size={14} />
       </HStack>
     );
   };
@@ -62,10 +57,10 @@ const HistoryCard = ({ workoutName, date, lifts, isLoaded }: IHistoryCard) => {
     if (!isLifts) return null;
     return (
       <HStack marginTop={1}>
-        <Text fontWeight={"semibold"} color={"coolGray.600"} flex={1}>
+        <Text fontWeight={"semibold"} color={pTextColorMode} flex={1}>
           Exercise Name
         </Text>
-        <Text fontWeight={"semibold"} color={"coolGray.600"} flex={1}>
+        <Text fontWeight={"semibold"} color={pTextColorMode} flex={1}>
           Best Set
         </Text>
       </HStack>
@@ -139,7 +134,7 @@ const HistoryCard = ({ workoutName, date, lifts, isLoaded }: IHistoryCard) => {
         marginY={1}
         borderWidth={2}
         borderColor={"coolGray.100"}
-        backgroundColor={"coolGray.50"}
+        backgroundColor={"transparent"}
       >
         {renderHeader()}
         {renderLiftsHead()}

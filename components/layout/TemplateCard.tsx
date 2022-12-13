@@ -9,6 +9,7 @@ import useId from "../../hooks/useId";
 import { addLift, startWorkout } from "../../store/currentWorkoutSlice";
 import { FontAwesome } from "@expo/vector-icons";
 import useColorScheme from "../../hooks/useColorScheme";
+import Elipsis from "./Elipsis";
 
 interface TemplateCardProps {
   title: string;
@@ -79,26 +80,18 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
 
   const renderHeader = () => {
     return (
-      <HStack alignItems={"center"} justifyContent="space-between">
-        <Heading fontSize="sm" color={pTextColorMode}>
+      <HStack alignItems={"center"} mb={1}>
+        <Heading fontSize="sm" color={pTextColorMode} flex={1}>
           {title}
         </Heading>
-        <Box
-          justifyContent={"center"}
-          alignItems={"center"}
-          backgroundColor={"info.100"}
-          paddingX={1}
-          borderRadius={4}
-        >
-          <FontAwesome name="ellipsis-h" size={12} color={"skyblue"} />
-        </Box>
+        <Elipsis size={10} />
       </HStack>
     );
   };
 
   const renderBody = () => {
     return (
-      <Text fontSize={"xs"} color={"coolGray.500"} flex={1} numberOfLines={3}>
+      <Text fontSize={"xs"} color={pTextColorMode} flex={1} numberOfLines={3}>
         {Object.values(exercises).map(renderExercises)}
       </Text>
     );

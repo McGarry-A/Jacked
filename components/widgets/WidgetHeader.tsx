@@ -2,6 +2,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Box, Heading, Modal, Pressable, Text } from "native-base";
 import { SetStateAction } from "react";
 import useColorScheme from "../../hooks/useColorScheme";
+import Elipsis from "../layout/Elipsis";
 
 interface IWidgetHeader {
   title: string;
@@ -13,7 +14,6 @@ interface IWidgetHeader {
 
 const WidgetHeader = (props: IWidgetHeader) => {
   const { renderModalComponent } = props;
-  const { elipsesColorMode, elipsesBgColorMode } = useColorScheme();
 
   const renderHeader = () => {
     const { title, subtitle, setModalIsVisible } = props;
@@ -23,22 +23,7 @@ const WidgetHeader = (props: IWidgetHeader) => {
           <Heading size={"sm"} flex={1}>
             {title}
           </Heading>
-          <Pressable
-            justifyContent={"center"}
-            alignItems={"center"}
-            backgroundColor={elipsesBgColorMode}
-            paddingX={2}
-            height={"5"}
-            borderRadius={4}
-            onPress={() => setModalIsVisible(true)}
-          >
-            <FontAwesome
-              name="ellipsis-h"
-              size={15}
-              color={elipsesColorMode}
-              style={{ margin: "auto" }}
-            />
-          </Pressable>
+          <Elipsis onPress={() => setModalIsVisible(true)} size={14} />
         </Box>
         <Text fontSize={"sm"} fontWeight={"semibold"} marginY={1} opacity={70}>
           {subtitle}

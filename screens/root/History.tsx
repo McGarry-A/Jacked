@@ -4,17 +4,18 @@ import { useNavigation } from "@react-navigation/native";
 import { FlatList, Heading, HStack, View } from "native-base";
 import CtaButton from "../../components/layout/CtaButton";
 import HistoryCard from "../../components/layout/HistoryCard";
+import useColorScheme from "../../hooks/useColorScheme";
 import useHistory from "../../hooks/useHistory";
 
 export default function History() {
   const { history, isLoading, refreshHistory } = useHistory();
+  const { screenColorMode, h1ColorMode } = useColorScheme()
   const navigation = useNavigation();
-  console.log(history)
 
   const renderHeader = () => {
     return (
       <HStack justifyContent={"space-between"} alignItems={"center"} my={2}>
-        <Heading size={"xl"} color="coolGray.700">
+        <Heading size={"xl"} color={h1ColorMode}>
           History
         </Heading>
         <CtaButton
@@ -52,7 +53,7 @@ export default function History() {
 
   return (
     <View
-      backgroundColor={"coolGray.50"}
+      backgroundColor={screenColorMode}
       padding={3}
       paddingBottom={10}
       h={"full"}

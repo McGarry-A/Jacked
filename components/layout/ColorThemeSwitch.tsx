@@ -34,7 +34,8 @@ export default function ColorThemeSwitch() {
       </Text>
       <Switch
         size={"sm"}
-        offTrackColor={"info.300"}
+        offTrackColor={"coolGray.50"}
+        onTrackColor={"info.600"}
         onChange={() => toggleColorMode()}
       />
     </HStack>
