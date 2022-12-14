@@ -9,7 +9,7 @@ interface IWidgetContainer {
   subtitle: string;
   children: React.ReactNode;
   widgetId: string;
-  type: "bar" | "line";
+  type: "ONE_REP_MAX_EST" | "SESSION_FREQUENCY";
 }
 
 const WidgetContainer = (props: IWidgetContainer) => {
@@ -19,7 +19,7 @@ const WidgetContainer = (props: IWidgetContainer) => {
   const renderModalComponent = () => {
     const { type } = props;
 
-    if (type === "bar") {
+    if (type === "SESSION_FREQUENCY") {
       return (
         <BarChartWidgetModal
           modalIsVisible={modalIsVisible}
@@ -27,7 +27,7 @@ const WidgetContainer = (props: IWidgetContainer) => {
         />
       );
     }
-    if (type === "line") {
+    if (type === "ONE_REP_MAX_EST") {
       return (
         <LineGraphWidgetModal
           modalIsVisible={modalIsVisible}

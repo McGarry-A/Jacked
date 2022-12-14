@@ -71,7 +71,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const renderWidget = (widgetId: string) => {
     const { type, title, subtitle } = widgets[widgetId];
 
-    if (type === "line") {
+    if (type === "ONE_REP_MAX_EST") {
       const { exerciseId } = widgets[widgetId] as IOneRepMaxLine;
 
       return (
@@ -85,7 +85,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
         </WidgetContainer>
       );
     }
-    if (type === "bar")
+    if (type === "SESSION_FREQUENCY")
       return (
         <WidgetContainer
           type={type}
