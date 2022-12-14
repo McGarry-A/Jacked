@@ -14,11 +14,11 @@ const CONFIG = {
   fillShadowGradientToOpacity: 1,
   fillShadowGradientTo: "#7851a9",
   propsForBackgroundLines: {
-    translateX: 20,
     strokeWidth: "0.3",
     strokeLinecap: "round",
     strokeDasharray: "0, 0",
     zIndex: 99,
+    x1: 20
   },
   propsForHorizontalLabels: {
     translateY: 3,

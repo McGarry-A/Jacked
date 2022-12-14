@@ -1,10 +1,10 @@
 import { Dimensions } from "react-native";
 
 const CONFIG = {
-    backgroundGradientFrom: "#FFFF",
-    backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: "#FFFF",
-    backgroundGradientToOpacity: 0,
+    backgroundGradientFrom: "#FFFFFF",
+    backgroundGradientFromOpacity: 1,
+    backgroundGradientTo: "#FFFFFF",
+    backgroundGradientToOpacity: 1,
     color: () => "#808080",
     decimalPlaces: 1,
     propsForDots: {
@@ -21,8 +21,8 @@ const CONFIG = {
     propsForLabels: {
         fontFamily: "sans-serif",
     },
-    fillShadowGradientFromOpacity: 0,
-    fillShadowGradientToOpacity: 0,
+    fillShadowGradient: "transparent",
+    fillShadowGradientOpacity: 1,
     bezier: true,
 };
 
