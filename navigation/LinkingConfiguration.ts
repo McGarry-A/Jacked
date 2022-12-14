@@ -14,34 +14,25 @@ const linking: LinkingOptions<RootStackParamList> = {
   config: {
     screens: {
       Root: {
+        path: "App",
         screens: {
+          Exercises: 'Exercises',
+          History: 'History',
           Profile: {
+            path: "Profile",
             screens: {
-              TabOneScreen: 'one',
-              UserScreen: 'user'
-            },
+              path: "Settings"
+            }
           },
           Start: {
+            path: "Start",
             screens: {
-              start: 'Start',
-              new_template: 'NewTemplate',
-              active_workout: "ActiveWorkout"
-            },
-          },
-          History: {
-            screens: {
-              TabTwoScreen: 'three',
-            },
-          },
-        },
+              path: "ActiveWorkout",
+            }
+          }
+        }
       },
-      Modal: 'modal',
-      Calendar: 'calendar',
-      ActiveWorkout: 'active-workout',
-      AddExercises: 'add-exercises',
-      User: 'user',
-      NotFound: '*',
-    },
+    }
   },
 };
 

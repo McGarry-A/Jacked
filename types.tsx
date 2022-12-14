@@ -17,17 +17,16 @@ declare global {
 }
 
 export type RootStackParamList = {
-  Root: NavigatorScreenParams<RootTabParamList> | undefined;
+  Root: NavigatorScreenParams<RootTabParamList>;
   Modal: undefined;
   NotFound: undefined;
   Calendar: undefined;
   User: undefined;
   Settings: undefined;
-  ActiveWorkout: undefined
+  ActiveWorkout: undefined;
   AddExercises: undefined;
-  CreateTemplate: {
-    folId: string
-  };
+  CreateTemplate: undefined;
+  BottomTabNavigator: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

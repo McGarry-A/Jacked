@@ -19,7 +19,7 @@ const ModalWrapper = (props: IModalWrapper) => {
   } = props;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={size}>
+    <Modal isOpen={isOpen} onClose={() => onClose(false)} size={size}>
       <Modal.Content maxH="4/5" w={width}>
         <Modal.CloseButton />
         <Modal.Header borderBottomWidth={0}>{header}</Modal.Header>
