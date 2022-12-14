@@ -125,6 +125,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
         isHollow
         pl={0}
         justifyContent={"flex-start"}
+        onPress={() => setWeightModalIsVisible(true)}
         leftIcon={
           <FontAwesomeIcon icon={faRuler} size={20} color={ctaIconColorMode} />
         }

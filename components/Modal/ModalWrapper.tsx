@@ -14,7 +14,7 @@ const ModalWrapper = (props: IModalWrapper) => {
     children,
     header,
     saveHandler,
-    width = "1/2",
+    width = "4/5",
     size = "md",
   } = props;
 

@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import useColorScheme from "../../hooks/useColorScheme";
 import { LogBox } from "react-native";
 import { IHStackProps } from "native-base/lib/typescript/components/primitives/Stack/HStack";
+import { useState } from "react";
 
 interface IColorSwitch extends IHStackProps {
   switchProps?: ISwitchProps;
@@ -21,6 +22,8 @@ export default function ColorThemeSwitch(props: IColorSwitch) {
   const { switchProps, ...rest } = props;
   const { toggleColorMode, colorMode } = useColorMode();
   const { pTextColorMode } = useColorScheme();
+
+  const isActive = colorMode === "light" ? true : false;
 
   return (
     <HStack alignItems={"center"} mr={4} {...rest}>
@@ -42,10 +45,11 @@ export default function ColorThemeSwitch(props: IColorSwitch) {
       </Text>
       <Switch
         size={"sm"}
-        offTrackColor={"coolGray.50"}
+        offTrackColor={"coolGray.200"}
+        offThumbColor={"info.500"}
         onTrackColor={"info.600"}
         onToggle={toggleColorMode}
-        {...switchProps}
+        isChecked={isActive}
       />
     </HStack>
   );
