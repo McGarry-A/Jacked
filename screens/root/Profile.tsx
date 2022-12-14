@@ -4,7 +4,7 @@ import BarChartWidget from "../../components/widgets/BarChart/BarChartWidget";
 import LineGraphWidget from "../../components/widgets/LineGraph/LineGraphWidget";
 import UserProfileBar from "../../components/layout/UserProfileBar";
 import { useAppSelector } from "../../store";
-import AddWidgetModal from "../../components/Modal/AddWidgetModal";
+import AddWidgetModal from "../../components/modal/AddWidgetModal";
 import { useState } from "react";
 import { IOneRepMaxLine } from "../../store/WidgetsSlice";
 import WidgetContainer from "../../components/widgets/WidgetContainer";

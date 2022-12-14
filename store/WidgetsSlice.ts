@@ -1,12 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { supabase } from "../supabase/supabaseClient";
 
-export interface IOneRepMaxLine extends IWidgetInterface {
+export interface IOneRepMaxLine {
+  type: "ONE_REP_MAX_EST";
+  title: string;
+  subtitle: string;
   exerciseId: number;
 }
 
 interface IWidgetInterface {
-  type: "SESSION_FREQUENCY" | "ONE_REP_MAX_EST";
+  type: "SESSION_FREQUENCY";
   title: string;
   subtitle: string;
 }
@@ -51,27 +54,26 @@ const widgetSlice = createSlice({
         type
       }
 
-      if (type === "line") {
+      if (type === "ONE_REP_MAX_EST") {
         const { exerciseId } = payload as IOneRepMaxLine
         const widget = state.widgets[widgetId] as IOneRepMaxLine
         widget.exerciseId = exerciseId
       }
     }
   },
-  // NOTE: THESE SHOULD PROBABLY BE IN CUSTOM HOOKS AND NOT IN REDUCER
-  // REDUCER SHOULD JUST HAVE THE LOGIC TO CRUD GRAPHS
   extraReducers: (builder) => {
     builder.addCase(createWidgetThunk.fulfilled, (state, { payload: { widget, id } }) => {
       if (!widget || !id) return
 
       const { type, title, subtitle } = widget as TWidget
 
-      state.widgets[id] = {
+      let newWidget = {
         title,
         subtitle,
         type,
-
       }
+
+      state.widgets[id] = newWidget as TWidget
 
       if (type === "ONE_REP_MAX_EST") {
         const { exerciseId } = widget as IOneRepMaxLine
@@ -93,7 +95,7 @@ export const createWidgetThunk = createAsyncThunk(
     const { widgetId: id, widget } = payload
     const { subtitle, title, type } = widget
 
-    let newWidget: TWidget = {
+    let newWidget = {
       type,
       title,
       subtitle,
@@ -105,6 +107,7 @@ export const createWidgetThunk = createAsyncThunk(
     }
 
     const { error } = await supabase.from("widgets").insert(newWidget)
+
     if (error) {
       console.error(error)
       return { payload: {}, id: null }
