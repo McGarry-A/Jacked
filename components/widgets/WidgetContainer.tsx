@@ -1,7 +1,7 @@
 import { Box } from "native-base";
 import { useState } from "react";
-import BarChartWidgetModal from "../../screens/modals/BarChartWidgetModal";
-import LineGraphWidgetModal from "../../screens/modals/LineGraphWidgetModal";
+import BarChartWidgetModal from "../Modal/BarChartWidgetModal";
+import LineGraphWidgetModal from "../Modal/LineGraphWidgetModal";
 import WidgetHeader from "./WidgetHeader";
 
 interface IWidgetContainer {

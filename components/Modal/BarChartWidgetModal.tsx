@@ -1,5 +1,6 @@
-import { Button, Modal, Select, Text, VStack } from "native-base";
+import { Select } from "native-base";
 import { SetStateAction } from "react";
+import ModalWrapper from "./ModalWrapper";
 
 interface IBarChartWidgetModal {
   modalIsVisible: boolean;
@@ -8,6 +9,8 @@ interface IBarChartWidgetModal {
 
 const BarChartWidgetModal = (props: IBarChartWidgetModal) => {
   const { modalIsVisible, setModalIsVisible } = props;
+
+  const handleSave = () => null;
 
   const renderSetTarget = () => {
     return (
@@ -24,24 +27,14 @@ const BarChartWidgetModal = (props: IBarChartWidgetModal) => {
   };
 
   return (
-    <Modal isOpen={modalIsVisible} onClose={() => setModalIsVisible(false)} shadow={5}>
-      <Modal.Content maxWidth={"90%"}>
-        <Modal.CloseButton />
-        <Modal.Header borderBottomWidth={0} color={"coolGray.700"}>
-          Settings
-        </Modal.Header>
-        <Modal.Body>
-          <VStack space={2}>{renderSetTarget()}</VStack>
-        </Modal.Body>
-        <Modal.Footer borderTopWidth={0}>
-          <Button.Group space={2}>
-            <Button variant={"filled"} backgroundColor="info.400">
-              <Text color={"info.50"} fontWeight="semibold">Save</Text>
-            </Button>
-          </Button.Group>
-        </Modal.Footer>
-      </Modal.Content>
-    </Modal>
+    <ModalWrapper
+      header={"Settings"}
+      isOpen={modalIsVisible}
+      onClose={() => setModalIsVisible(false)}
+      saveHandler={handleSave}
+    >
+      {renderSetTarget()}
+    </ModalWrapper>
   );
 };
 
