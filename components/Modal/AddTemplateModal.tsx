@@ -104,7 +104,7 @@ const AddTemplateModal = (props: IProps) => {
       header="Add Template"
       isOpen={isVisible}
       onClose={setIsVisible}
-      size={"md"}
+      width={"full"}
       saveHandler={handleCreateTemplate}
     >
       <VStack space={1}>

@@ -275,16 +275,14 @@ const Auth = () => {
   };
 
   return (
-    <SafeAreaView>
-      <View justifyContent={"center"} h={"full"}>
-        {renderErrorNotification()}
-        <Box mx={4} backgroundColor={"whitesmoke"} h={"sm"} my={"auto"}>
-          {renderHeading()}
-          {renderLogin()}
-          {renderSignin()}
-        </Box>
-      </View>
-    </SafeAreaView>
+    <View justifyContent={"center"} h={"full"}>
+      {renderErrorNotification()}
+      <Box mx={4} backgroundColor={"whitesmoke"} h={"sm"} my={"auto"}>
+        {renderHeading()}
+        {renderLogin()}
+        {renderSignin()}
+      </Box>
+    </View>
   );
 };
 

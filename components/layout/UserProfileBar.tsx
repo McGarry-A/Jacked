@@ -1,6 +1,6 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { Avatar, Box, Pressable, Text, useColorModeValue } from "native-base";
+import { Avatar, Box, Pressable, Text } from "native-base";
 import useColorScheme from "../../hooks/useColorScheme";
 
 interface Props {
@@ -27,7 +27,7 @@ const UserProfileBar = ({ isClickable = true }: Props) => {
 
   const renderBody = () => {
     return (
-      <Box flexDirection="row" alignItems="center">
+      <Box flexDirection="row" alignItems="center" w="full">
         <Avatar
           size={"lg"}
           marginY={3}

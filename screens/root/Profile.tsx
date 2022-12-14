@@ -14,9 +14,12 @@ import CtaButton from "../../components/layout/CtaButton";
 import { faGear } from "@fortawesome/free-solid-svg-icons/faGear";
 import { faRuler } from "@fortawesome/free-solid-svg-icons/faRuler";
 import useColorScheme from "../../hooks/useColorScheme";
+import AddMeasurementModal from "../../components/modal/AddMeasurementModal";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
+  const [weightModalIsVisible, setWeightModalIsVisible] =
+    useState<boolean>(false);
 
   const { widgets } = useAppSelector((state) => state.widgetSlice);
   const { h1ColorMode, screenColorMode, ctaIconColorMode } = useColorScheme();
@@ -139,6 +142,10 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
       {renderDashboard()}
       {renderWidgets()}
       {renderAddWidgetModal()}
+      <AddMeasurementModal
+        isVisible={weightModalIsVisible}
+        setIsVisible={setWeightModalIsVisible}
+      />
     </View>
   );
 }

@@ -44,7 +44,7 @@ export default function ColorThemeSwitch(props: IColorSwitch) {
         size={"sm"}
         offTrackColor={"coolGray.50"}
         onTrackColor={"info.600"}
-        onChange={() => toggleColorMode()}
+        onToggle={toggleColorMode}
         {...switchProps}
       />
     </HStack>

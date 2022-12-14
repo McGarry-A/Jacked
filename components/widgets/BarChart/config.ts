@@ -23,6 +23,9 @@ const CONFIG = {
   propsForHorizontalLabels: {
     translateY: 3,
   },
+  propsForLabels: {
+    fontFamily: "sans-serif",
+  },
   verticalLabelRotation: 45,
 };
 
