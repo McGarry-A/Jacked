@@ -1,24 +1,37 @@
-import { Box, Text } from "native-base";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { InterfaceButtonProps } from "native-base/lib/typescript/components/primitives/Button/types";
+import { Button, Text } from "native-base";
 
-interface IModalItem {
+interface IModalItem extends InterfaceButtonProps {
   children: React.ReactNode;
-  props?: any;
+  pressHandler: () => void;
+  hasChevron?: boolean;
 }
 
-const ModalItem = ({ children, ...props }: IModalItem) => {
+const ModalItem: React.FC<IModalItem> = ({
+  children,
+  pressHandler,
+  hasChevron = false,
+  ...rest
+}) => {
   return (
-    <Box
-      marginY={1}
-      borderWidth={2}
-      borderColor={"whitesmoke"}
-      borderRadius={10}
-      padding={2}
-      overflow={"hidden"}
-      flex={1}
-      {...props}
+    <Button
+      onPress={pressHandler}
+      variant={"filled"}
+      justifyContent={"start"}
+      backgroundColor={"coolGray.100"}
+      rightIcon={
+        hasChevron ? (
+          <FontAwesomeIcon icon={faChevronRight} size={12} color={"#6b7280"} />
+        ) : undefined
+      }
+      {...rest}
     >
-      <Text>{children}</Text>
-    </Box>
+      <Text color={"coolGray.600"} fontWeight={"semibold"}>
+        {children}
+      </Text>
+    </Button>
   );
 };
 

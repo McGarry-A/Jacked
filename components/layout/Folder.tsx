@@ -13,7 +13,7 @@ import {
 import { useState } from "react";
 import useColorScheme from "../../hooks/useColorScheme";
 import { TemplateInterface } from "../../types/TemplateSliceInterface";
-import AddTemplateModal from "../utils/AddTemplateModal";
+import AddTemplateModal from "../Modal/AddTemplateModal";
 import CtaButton from "./CtaButton";
 import TemplateCard from "./TemplateCard";
 

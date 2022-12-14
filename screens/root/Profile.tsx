@@ -4,7 +4,7 @@ import BarChartWidget from "../../components/widgets/BarChart/BarChartWidget";
 import LineGraphWidget from "../../components/widgets/LineGraph/LineGraphWidget";
 import UserProfileBar from "../../components/layout/UserProfileBar";
 import { useAppSelector } from "../../store";
-import AddWidgetModal from "../../components/utils/AddWidgetModal";
+import AddWidgetModal from "../../components/Modal/AddWidgetModal";
 import { useState } from "react";
 import { IOneRepMaxLine } from "../../store/WidgetsSlice";
 import WidgetContainer from "../../components/widgets/WidgetContainer";
@@ -118,9 +118,6 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 
   const renderMeasurement = () => {
     return (
-      // <HStack my={2} justifyContent={"space-between"} alignItems={"center"}>
-      //   <FontAwesomeIcon icon={faRuler} size={20} color={"#7dd3fc"} />
-      // </HStack>
       <CtaButton
         isHollow
         pl={0}

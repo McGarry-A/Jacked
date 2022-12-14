@@ -3,7 +3,6 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from "@expo/vector-icons";
 import { faDumbbell } from "@fortawesome/free-solid-svg-icons/faDumbbell";
 import { faUser } from "@fortawesome/free-solid-svg-icons/faUser";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons/faChevronDown";
@@ -13,7 +12,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import { ColorSchemeName } from "react-native";
 import { Button, Pressable, Text } from "native-base";
 import useColorScheme from "../hooks/useColorScheme";
 import Profile from "../screens/root/Profile";
@@ -59,7 +57,7 @@ function RootNavigator() {
         statusBarColor: screenColorModeHex,
         headerStyle: {
           backgroundColor: screenColorModeHex,
-        }
+        },
       }}
     >
       <Stack.Screen
@@ -139,6 +137,9 @@ function BottomTabNavigator() {
       screenOptions={{
         tabBarStyle: [{ backgroundColor: screenColorModeHex, paddingTop: 5 }],
         tabBarActiveTintColor: bottomNavColorMode,
+        headerStyle: {
+          backgroundColor: screenColorModeHex,
+        },
       }}
     >
       <BottomTab.Screen

@@ -7,6 +7,7 @@ import { useAppDispatch } from "../../store";
 import { addLiftsToTemplate, createTemplate } from "../../store/templateSlice";
 import { ExerciseList } from "../layout/ExerciseList";
 import { faFile } from "@fortawesome/free-regular-svg-icons/faFile";
+import ModalWrapper from "./ModalWrapper";
 
 interface IProps {
   isVisible: boolean;
@@ -54,29 +55,36 @@ const AddTemplateModal = (props: IProps) => {
 
   const renderTemplateName = () => {
     return (
-        <Input
-          flexDir={"row"}
-          justifyContent="center"
-          alignItems={"center"}
-          paddingX={2}
-          borderRadius={5}
-          borderColor={"coolGray.200"}
-          backgroundColor={"white"}
-          onChangeText={(text) => setTemplateName(text)}
-          fontSize={"md"}
-          type="text"
-          placeholder="Template Name"
-          leftElement={
-            <FontAwesomeIcon
-              icon={faFile}
-              size={15}
-              style={{ marginLeft: 10, color: "gray" }}
-            />
-          }
-        />
+      <Input
+        flexDir={"row"}
+        justifyContent="center"
+        alignItems={"center"}
+        paddingX={2}
+        borderRadius={5}
+        borderColor={"coolGray.200"}
+        backgroundColor={"white"}
+        onChangeText={(text) => setTemplateName(text)}
+        fontSize={"md"}
+        type="text"
+        placeholder="Template Name"
+        leftElement={
+          <FontAwesomeIcon
+            icon={faFile}
+            size={15}
+            style={{ marginLeft: 10, color: "gray" }}
+          />
+        }
+      />
     );
   };
 
+  const renderError = () => {
+    return error !== "" ? (
+      <Text italic={true} color={"red.500"}>
+        *{error}
+      </Text>
+    ) : null;
+  };
   const renderList = () => {
     const config = {
       showInput: true,
@@ -92,32 +100,19 @@ const AddTemplateModal = (props: IProps) => {
   };
 
   return (
-    <Modal isOpen={isVisible} onClose={setIsVisible} size={"md"}>
-      <Modal.Content maxH="4/5" w={"full"}>
-        <Modal.CloseButton />
-        <Modal.Header borderBottomWidth={0}>Add Template</Modal.Header>
-        <Modal.Body>
-          {error !== "" && (
-            <Text italic={true} color={"red.500"}>
-              *{error}
-            </Text>
-          )}
-          <VStack space={1}>
-            {renderTemplateName()}
-            {renderList()}
-          </VStack>
-        </Modal.Body>
-        <Modal.Footer borderTopWidth={0}>
-          <Button.Group space={2}>
-            <Button backgroundColor={"info.500"} onPress={handleCreateTemplate}>
-              <Text fontWeight={"semibold"} color={"coolGray.100"}>
-                Save
-              </Text>
-            </Button>
-          </Button.Group>
-        </Modal.Footer>
-      </Modal.Content>
-    </Modal>
+    <ModalWrapper
+      header="Add Template"
+      isOpen={isVisible}
+      onClose={setIsVisible}
+      size={"md"}
+      saveHandler={handleCreateTemplate}
+    >
+      <VStack space={1}>
+        {renderError()}
+        {renderTemplateName()}
+        {renderList()}
+      </VStack>
+    </ModalWrapper>
   );
 };
 

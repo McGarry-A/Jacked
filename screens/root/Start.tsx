@@ -5,7 +5,7 @@ import { startWorkout } from "../../store/currentWorkoutSlice";
 import { faFolder } from "@fortawesome/free-regular-svg-icons/faFolder";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import Folder from "../../components/layout/Folder";
-import AddFolderModal from "../../components/utils/AddFolderModal";
+import AddFolderModal from "../../components/Modal/AddFolderModal";
 import { useState } from "react";
 import CtaButton from "../../components/layout/CtaButton";
 import useColorScheme from "../../hooks/useColorScheme";

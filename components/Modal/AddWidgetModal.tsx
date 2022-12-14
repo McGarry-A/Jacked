@@ -1,15 +1,11 @@
-import { Button, Modal, Skeleton, Text, VStack } from "native-base";
+import { Modal, Skeleton, VStack } from "native-base";
 import React, { useState } from "react";
 import useExerciseList from "../../hooks/useExerciseList";
 import useId from "../../hooks/useId";
 import { useAppDispatch } from "../../store";
 import { createWidget } from "../../store/WidgetsSlice";
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  IButtonComponentType,
-  InterfaceButtonProps,
-} from "native-base/lib/typescript/components/primitives/Button/types";
+import ModalItem from "./ModalItem";
+import ModalWrapper from "./ModalWrapper";
 
 interface IProps {
   isVisible: boolean;
@@ -52,10 +48,6 @@ export default function AddWidgetModal(props: IProps) {
     setIsVisible(false);
   };
 
-  const renderHeader = () => (
-    <Modal.Header borderBottomWidth={0}>Create Widget</Modal.Header>
-  );
-
   const renderBody = () => {
     if (step === "CHOOSE_WIDGET_TYPE")
       return (
@@ -94,43 +86,14 @@ export default function AddWidgetModal(props: IProps) {
   };
 
   return (
-    <Modal isOpen={isVisible} onClose={setIsVisible} size={"sm"} shadow={8}>
-      <Modal.Content maxH="212">
-        <Modal.CloseButton />
-        {renderHeader()}
-        {renderBody()}
-      </Modal.Content>
-    </Modal>
-  );
-}
-interface IModalItem extends InterfaceButtonProps {
-  children: React.ReactNode;
-  pressHandler: () => void;
-  hasChevron?: boolean;
-}
-
-const ModalItem: React.FC<IModalItem> = ({
-  children,
-  pressHandler,
-  hasChevron = false,
-  ...rest
-}) => {
-  return (
-    <Button
-      onPress={pressHandler}
-      variant={"filled"}
-      justifyContent={"start"}
-      backgroundColor={"coolGray.100"}
-      rightIcon={
-        hasChevron ? (
-          <FontAwesomeIcon icon={faChevronRight} size={12} color={"#6b7280"} />
-        ) : undefined
-      }
-      {...rest}
+    <ModalWrapper
+      header="Create Widget"
+      isOpen={isVisible}
+      onClose={setIsVisible}
+      size={"sm"}
+      shadow={8}
     >
-      <Text color={"coolGray.600"} fontWeight={"semibold"}>
-        {children}
-      </Text>
-    </Button>
+      {renderBody()}
+    </ModalWrapper>
   );
-};
+}
