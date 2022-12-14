@@ -91,7 +91,20 @@ export const createWidgetThunk = createAsyncThunk(
   "widget/createWidget",
   async (payload: ICreateWidget, _) => {
     const { widgetId: id, widget } = payload
-    const { error } = await supabase.from("widgets").insert({ ...payload })
+    const { subtitle, title, type } = widget
+
+    let newWidget: TWidget = {
+      type,
+      title,
+      subtitle,
+    }
+
+    if ("exerciseId" in widget && type === "ONE_REP_MAX_EST") {
+      const { exerciseId } = widget as IOneRepMaxLine
+      newWidget = { ...newWidget, exerciseId } as IOneRepMaxLine
+    }
+
+    const { error } = await supabase.from("widgets").insert(newWidget)
     if (error) {
       console.error(error)
       return { payload: {}, id: null }
