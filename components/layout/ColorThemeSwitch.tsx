@@ -12,7 +12,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import useColorScheme from "../../hooks/useColorScheme";
 import { LogBox } from "react-native";
 import { IHStackProps } from "native-base/lib/typescript/components/primitives/Stack/HStack";
-import { useState } from "react";
 
 interface IColorSwitch extends IHStackProps {
   switchProps?: ISwitchProps;
