@@ -3,7 +3,7 @@ import { Box, Heading, View, FlatList, HStack } from "native-base";
 import BarChartWidget from "../../components/widgets/BarChart/BarChartWidget";
 import LineGraphWidget from "../../components/widgets/LineGraph/LineGraphWidget";
 import UserProfileBar from "../../components/layout/UserProfileBar";
-import { useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import AddWidgetModal from "../../components/modal/AddWidgetModal";
 import { useEffect, useState } from "react";
 import { getWidgets, IOneRepMaxLine } from "../../store/WidgetsSlice";
@@ -15,7 +15,6 @@ import { faGear } from "@fortawesome/free-solid-svg-icons/faGear";
 import { faRuler } from "@fortawesome/free-solid-svg-icons/faRuler";
 import useColorScheme from "../../hooks/useColorScheme";
 import AddMeasurementModal from "../../components/modal/AddMeasurementModal";
-import useWidgets from "../../hooks/useWidgets";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
@@ -25,7 +24,12 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const { widgets } = useAppSelector((state) => state.widgetSlice);
   const { h1ColorMode, screenColorMode, ctaIconColorMode } = useColorScheme();
 
-  useWidgets();
+  const dispatch = useAppDispatch();
+  const { userId } = useAppSelector((state) => state.userSlice.user);
+
+  useEffect(() => {
+    dispatch(getWidgets({ userId }));
+  }, []);
 
   const renderProfile = () => {
     return <UserProfileBar />;
@@ -138,6 +142,13 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
     );
   };
 
+  const renderAddMeasurementModal = () => (
+    <AddMeasurementModal
+      isVisible={weightModalIsVisible}
+      setIsVisible={setWeightModalIsVisible}
+    />
+  );
+
   return (
     <View padding="3" backgroundColor={screenColorMode} flexGrow={1} flex={1}>
       {renderMeasurement()}
@@ -146,10 +157,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
       {renderDashboard()}
       {renderWidgets()}
       {renderAddWidgetModal()}
-      <AddMeasurementModal
-        isVisible={weightModalIsVisible}
-        setIsVisible={setWeightModalIsVisible}
-      />
+      {renderAddMeasurementModal()}
     </View>
   );
 }

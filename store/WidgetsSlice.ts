@@ -110,8 +110,6 @@ export const getWidgets = createAsyncThunk(
       return rejectWithValue([])
     }
 
-    console.log("data ", data)
-
     return data
   }
 )
