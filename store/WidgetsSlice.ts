@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, isRejectedWithValue } from "@reduxjs/toolkit";
 import { supabase } from "../supabase/supabaseClient";
 
 export interface IOneRepMaxLine {
@@ -6,12 +6,14 @@ export interface IOneRepMaxLine {
   title: string;
   subtitle: string;
   exerciseId: number;
+  user_id: string;
 }
 
 export interface IWidgetInterface {
   type: "SESSION_FREQUENCY";
   title: string;
   subtitle: string;
+  user_id: string;
 }
 
 export type TWidget = IWidgetInterface | IOneRepMaxLine
@@ -29,13 +31,15 @@ const initialState: IInitialState = {
     "wid-99999": {
       type: "SESSION_FREQUENCY",
       title: "Sessions",
-      subtitle: "Session Frequency"
+      subtitle: "Session Frequency",
+      user_id: ""
     },
     "wid-99991": {
       type: "ONE_REP_MAX_EST",
       title: "Barbell Bench Press Max",
       subtitle: "1RM Estimate",
-      exerciseId: 2
+      exerciseId: 2,
+      user_id: ""
     }
   },
 };
@@ -86,13 +90,36 @@ const widgetSlice = createSlice({
       .addCase(createWidget.rejected, (state, payload) => {
         state.status = "rejected"
       })
-      .addCase(getWidgets.fulfilled, (state, payload) => {
-        console.log("fulfilled ", payload)
+      .addCase(getWidgets.fulfilled, (state, { payload }) => {
+        payload.map(el => {
+          if ("exerciseId" in el) {
+            const { exerciseId, title, subtitle, type, user_id } = el as IOneRepMaxLine
+            return state.widgets[el.id] = {
+              exerciseId,
+              subtitle,
+              title,
+              type,
+              user_id
+            }
+          }
+
+          const { title, subtitle, type, user_id } = el as IWidgetInterface
+          return state.widgets[el.id] = {
+            subtitle,
+            title,
+            type,
+            user_id
+          }
+        })
+
         state.status = "fulfilled"
       })
-      .addCase(getWidgets.rejected, (state, payload) => {
-        console.log("rejected ", payload)
+      .addCase(getWidgets.rejected, (state, _) => {
+        state.status = "rejected"
+      })
+      .addCase(deleteWidget.fulfilled, (state, { payload }) => {
         state.status = "fulfilled"
+        delete state.widgets[payload]
       })
   },
 });
@@ -107,7 +134,7 @@ export const getWidgets = createAsyncThunk(
     console.log("GETWIDGETS!")
     const { userId } = payload
 
-    const { data, error } = await supabase.from("widgets").select("id, type, title, subtitle, exerciseId").eq("userId", userId)
+    const { data, error } = await supabase.from("widgets").select("id, type, title, subtitle, exerciseId").eq("user_id", userId)
 
     if (error) {
       console.error(error)
@@ -123,12 +150,13 @@ export const getWidgets = createAsyncThunk(
 export const createWidget = createAsyncThunk(
   "widget/createWidget",
   async (payload: TWidget, { rejectWithValue }) => {
-    const { subtitle, title, type } = payload
+    const { subtitle, title, type, user_id } = payload
 
     let newWidget = {
       type,
       title,
       subtitle,
+      user_id
     }
 
     if ("exerciseId" in payload && type === "ONE_REP_MAX_EST") {
@@ -149,5 +177,23 @@ export const createWidget = createAsyncThunk(
   }
 )
 
+interface IDeleteWidget {
+  widgetId: number;
+}
+
+export const deleteWidget = createAsyncThunk(
+  "widget/deleteWidget",
+  async (payload: IDeleteWidget, { rejectWithValue }) => {
+    const { widgetId } = payload
+
+    const { error } = await supabase.from("widgets").delete().eq("id", widgetId)
+
+    if (error) {
+      return rejectWithValue([])
+    }
+
+    return widgetId
+  }
+)
 // export const { createWidget } = widgetSlice.actions
 export default widgetSlice.reducer;

@@ -1,8 +1,7 @@
 import { Modal, Skeleton, VStack } from "native-base";
 import React, { useState } from "react";
 import useExerciseList from "../../hooks/useExerciseList";
-import useId from "../../hooks/useId";
-import { useAppDispatch } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import {
   createWidget,
   IOneRepMaxLine,
@@ -23,6 +22,7 @@ export default function AddWidgetModal(props: IProps) {
 
   const { isVisible, setIsVisible } = props;
   const { list: exerciseList, isLoading, error } = useExerciseList();
+  const { userId } = useAppSelector((state) => state.userSlice.user);
 
   const dispatch = useAppDispatch();
 
@@ -34,6 +34,7 @@ export default function AddWidgetModal(props: IProps) {
       type: "ONE_REP_MAX_EST",
       subtitle: "1RM Estimate",
       exerciseId: id,
+      user_id: userId,
     };
     dispatch(createWidget({ ...widget }));
     setIsVisible(false);
@@ -45,6 +46,7 @@ export default function AddWidgetModal(props: IProps) {
       title: `Session Frequency`,
       type: "SESSION_FREQUENCY",
       subtitle: "",
+      user_id: userId,
     };
     dispatch(createWidget({ ...widget }));
     setIsVisible(false);
