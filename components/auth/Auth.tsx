@@ -274,14 +274,29 @@ const Auth = () => {
     }
   };
 
-  return (
-    <View justifyContent={"center"} h={"full"}>
-      {renderErrorNotification()}
-      <Box mx={4} backgroundColor={"whitesmoke"} h={"sm"} my={"auto"}>
+  const renderAuth = () => {
+    return (
+      <Box
+        mx={4}
+        backgroundColor={"whitesmoke"}
+        h={"sm"}
+        my={"auto"}
+        _web={{
+          width: "full",
+          maxW: "md",
+        }}
+      >
         {renderHeading()}
         {renderLogin()}
         {renderSignin()}
       </Box>
+    );
+  };
+
+  return (
+    <View h={"full"} w={"full"} justifyContent={"center"} alignItems={"center"}>
+      {renderErrorNotification()}
+      {renderAuth()}
     </View>
   );
 };

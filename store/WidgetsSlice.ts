@@ -8,13 +8,13 @@ export interface IOneRepMaxLine {
   exerciseId: number;
 }
 
-interface IWidgetInterface {
+export interface IWidgetInterface {
   type: "SESSION_FREQUENCY";
   title: string;
   subtitle: string;
 }
 
-type TWidget = IWidgetInterface | IOneRepMaxLine
+export type TWidget = IWidgetInterface | IOneRepMaxLine
 
 interface IInitialState {
   status: "fulfilled" | "pending" | "rejected" | "idle";
@@ -26,12 +26,12 @@ interface IInitialState {
 const initialState: IInitialState = {
   status: "idle",
   widgets: {
-    "wid-01": {
+    "wid-99999": {
       type: "SESSION_FREQUENCY",
       title: "Sessions",
       subtitle: "Session Frequency"
     },
-    "wid-02": {
+    "wid-99991": {
       type: "ONE_REP_MAX_EST",
       title: "Barbell Bench Press Max",
       subtitle: "1RM Estimate",
@@ -44,28 +44,30 @@ const widgetSlice = createSlice({
   name: "widget_slice",
   initialState: initialState,
   reducers: {
-    createWidget: (state, { payload }) => {
-      const { type } = payload
-      const { title, subtitle, widgetId } = payload
+    // createWidget: (state, { payload }) => {
+    //   const { type } = payload
+    //   const { title, subtitle, widgetId } = payload
 
-      state.widgets[widgetId] = {
-        title,
-        subtitle,
-        type
-      }
+    //   state.widgets[widgetId] = {
+    //     title,
+    //     subtitle,
+    //     type
+    //   }
 
-      if (type === "ONE_REP_MAX_EST") {
-        const { exerciseId } = payload as IOneRepMaxLine
-        const widget = state.widgets[widgetId] as IOneRepMaxLine
-        widget.exerciseId = exerciseId
-      }
-    }
+    //   if (type === "ONE_REP_MAX_EST") {
+    //     const { exerciseId } = payload as IOneRepMaxLine
+    //     const widget = state.widgets[widgetId] as IOneRepMaxLine
+    //     widget.exerciseId = exerciseId
+    //   }
+    // }
   },
   extraReducers: (builder) => {
-    builder.addCase(createWidgetThunk.fulfilled, (state, { payload: { widget, id } }) => {
-      if (!widget || !id) return
+    builder.addCase(createWidget.fulfilled, (state, { payload }) => {
+      if (!payload) return
 
-      const { type, title, subtitle } = widget as TWidget
+      const { widgetId } = payload
+
+      const { type, title, subtitle } = payload as TWidget
 
       let newWidget = {
         title,
@@ -73,27 +75,24 @@ const widgetSlice = createSlice({
         type,
       }
 
-      state.widgets[id] = newWidget as TWidget
+      state.widgets[widgetId] = newWidget as TWidget
 
       if (type === "ONE_REP_MAX_EST") {
-        const { exerciseId } = widget as IOneRepMaxLine
-        const newWidget = state.widgets[id] as IOneRepMaxLine
+        const { exerciseId } = payload as IOneRepMaxLine
+        const newWidget = state.widgets[widgetId] as IOneRepMaxLine
         newWidget.exerciseId = exerciseId
       }
     })
+      .addCase(createWidget.rejected, (state, payload) => {
+        state.status = "rejected"
+      })
   },
 });
 
-interface ICreateWidget {
-  widgetId: string;
-  widget: TWidget
-}
-
-export const createWidgetThunk = createAsyncThunk(
+export const createWidget = createAsyncThunk(
   "widget/createWidget",
-  async (payload: ICreateWidget, _) => {
-    const { widgetId: id, widget } = payload
-    const { subtitle, title, type } = widget
+  async (payload: TWidget, { rejectWithValue }) => {
+    const { subtitle, title, type } = payload
 
     let newWidget = {
       type,
@@ -101,21 +100,25 @@ export const createWidgetThunk = createAsyncThunk(
       subtitle,
     }
 
-    if ("exerciseId" in widget && type === "ONE_REP_MAX_EST") {
-      const { exerciseId } = widget as IOneRepMaxLine
+    if ("exerciseId" in payload && type === "ONE_REP_MAX_EST") {
+      const { exerciseId } = payload as IOneRepMaxLine
       newWidget = { ...newWidget, exerciseId } as IOneRepMaxLine
     }
 
-    const { error } = await supabase.from("widgets").insert(newWidget)
+    const { data, error } = await supabase.from("widgets").insert(newWidget)
 
     if (error) {
       console.error(error)
-      return { payload: {}, id: null }
+      return rejectWithValue({})
     }
 
-    return { widget, id }
+    console.log("data ", data)
+
+    return {
+      ...payload, widgetId: data[0].id
+    }
   }
 )
 
-export const { createWidget } = widgetSlice.actions
+// export const { createWidget } = widgetSlice.actions
 export default widgetSlice.reducer;

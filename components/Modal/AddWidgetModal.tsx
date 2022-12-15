@@ -3,7 +3,11 @@ import React, { useState } from "react";
 import useExerciseList from "../../hooks/useExerciseList";
 import useId from "../../hooks/useId";
 import { useAppDispatch } from "../../store";
-import { createWidget } from "../../store/WidgetsSlice";
+import {
+  createWidget,
+  IOneRepMaxLine,
+  IWidgetInterface,
+} from "../../store/WidgetsSlice";
 import ModalItem from "./ModalItem";
 import ModalWrapper from "./ModalWrapper";
 
@@ -25,10 +29,9 @@ export default function AddWidgetModal(props: IProps) {
   const handleChooseExerciseToTrack = () => setStep("CHOOSE_EXERCISE_TO_TRACK");
 
   const handleCreateLineWidget = (id: number, exerciseName: string) => {
-    const widget = {
-      widgetId: useId("wid"),
+    const widget: IOneRepMaxLine = {
       title: `${exerciseName} Progression`,
-      type: "line",
+      type: "ONE_REP_MAX_EST",
       subtitle: "1RM Estimate",
       exerciseId: id,
     };
@@ -38,10 +41,9 @@ export default function AddWidgetModal(props: IProps) {
   };
 
   const handleCreateBarWidget = () => {
-    const widget = {
-      widgetId: useId("wid"),
+    const widget: IWidgetInterface = {
       title: `Session Frequency`,
-      type: "bar",
+      type: "SESSION_FREQUENCY",
       subtitle: "",
     };
     dispatch(createWidget({ ...widget }));

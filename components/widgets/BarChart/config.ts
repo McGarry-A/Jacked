@@ -18,15 +18,11 @@ const CONFIG = {
     strokeLinecap: "round",
     strokeDasharray: "0, 0",
     zIndex: 99,
-    x1: 20
-  },
-  propsForHorizontalLabels: {
-    translateY: 3,
+    x1: 20,
   },
   propsForLabels: {
     fontFamily: "sans-serif",
   },
-  verticalLabelRotation: 45,
 };
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
