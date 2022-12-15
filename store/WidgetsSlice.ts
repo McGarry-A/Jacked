@@ -33,24 +33,7 @@ const initialState: IInitialState = {
 const widgetSlice = createSlice({
   name: "widget_slice",
   initialState: initialState,
-  reducers: {
-    // createWidget: (state, { payload }) => {
-    //   const { type } = payload
-    //   const { title, subtitle, widgetId } = payload
-
-    //   state.widgets[widgetId] = {
-    //     title,
-    //     subtitle,
-    //     type
-    //   }
-
-    //   if (type === "ONE_REP_MAX_EST") {
-    //     const { exerciseId } = payload as IOneRepMaxLine
-    //     const widget = state.widgets[widgetId] as IOneRepMaxLine
-    //     widget.exerciseId = exerciseId
-    //   }
-    // }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(createWidget.fulfilled, (state, { payload }) => {
       if (!payload) return
