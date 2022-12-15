@@ -17,7 +17,6 @@ const CONFIG = {
     strokeWidth: "0.3",
     strokeLinecap: "round",
     strokeDasharray: "0, 0",
-    zIndex: 99,
     x1: 20,
   },
   propsForLabels: {

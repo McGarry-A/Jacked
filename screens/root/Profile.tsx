@@ -5,8 +5,8 @@ import LineGraphWidget from "../../components/widgets/LineGraph/LineGraphWidget"
 import UserProfileBar from "../../components/layout/UserProfileBar";
 import { useAppSelector } from "../../store";
 import AddWidgetModal from "../../components/modal/AddWidgetModal";
-import { useState } from "react";
-import { IOneRepMaxLine } from "../../store/WidgetsSlice";
+import { useEffect, useState } from "react";
+import { getWidgets, IOneRepMaxLine } from "../../store/WidgetsSlice";
 import WidgetContainer from "../../components/widgets/WidgetContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faWrench } from "@fortawesome/free-solid-svg-icons/faWrench";
@@ -15,6 +15,7 @@ import { faGear } from "@fortawesome/free-solid-svg-icons/faGear";
 import { faRuler } from "@fortawesome/free-solid-svg-icons/faRuler";
 import useColorScheme from "../../hooks/useColorScheme";
 import AddMeasurementModal from "../../components/modal/AddMeasurementModal";
+import useWidgets from "../../hooks/useWidgets";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
@@ -23,6 +24,8 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 
   const { widgets } = useAppSelector((state) => state.widgetSlice);
   const { h1ColorMode, screenColorMode, ctaIconColorMode } = useColorScheme();
+
+  useWidgets();
 
   const renderProfile = () => {
     return <UserProfileBar />;

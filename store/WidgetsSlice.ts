@@ -86,8 +86,39 @@ const widgetSlice = createSlice({
       .addCase(createWidget.rejected, (state, payload) => {
         state.status = "rejected"
       })
+      .addCase(getWidgets.fulfilled, (state, payload) => {
+        console.log("fulfilled ", payload)
+        state.status = "fulfilled"
+      })
+      .addCase(getWidgets.rejected, (state, payload) => {
+        console.log("rejected ", payload)
+        state.status = "fulfilled"
+      })
   },
 });
+
+interface IGetWidgets {
+  userId: string;
+}
+
+export const getWidgets = createAsyncThunk(
+  "widget/getWidgets",
+  async (payload: IGetWidgets, { rejectWithValue }) => {
+    console.log("GETWIDGETS!")
+    const { userId } = payload
+
+    const { data, error } = await supabase.from("widgets").select("id, type, title, subtitle, exerciseId").eq("userId", userId)
+
+    if (error) {
+      console.error(error)
+      return rejectWithValue([])
+    }
+
+    console.log("data ", data)
+
+    return data
+  }
+)
 
 export const createWidget = createAsyncThunk(
   "widget/createWidget",
@@ -111,8 +142,6 @@ export const createWidget = createAsyncThunk(
       console.error(error)
       return rejectWithValue({})
     }
-
-    console.log("data ", data)
 
     return {
       ...payload, widgetId: data[0].id
