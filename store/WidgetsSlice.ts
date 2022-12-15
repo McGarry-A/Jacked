@@ -27,21 +27,7 @@ interface IInitialState {
 
 const initialState: IInitialState = {
   status: "idle",
-  widgets: {
-    "wid-99999": {
-      type: "SESSION_FREQUENCY",
-      title: "Sessions",
-      subtitle: "Session Frequency",
-      user_id: ""
-    },
-    "wid-99991": {
-      type: "ONE_REP_MAX_EST",
-      title: "Barbell Bench Press Max",
-      subtitle: "1RM Estimate",
-      exerciseId: 2,
-      user_id: ""
-    }
-  },
+  widgets: {},
 };
 
 const widgetSlice = createSlice({
