@@ -19,10 +19,10 @@ const CONFIG = {
         strokeDasharray: "0, 0",
     },
     propsForLabels: {
-        fontFamily: "sans-serif",
+        // fontFamily: "sans-serif",
     },
-    fillShadowGradient: "transparent",
-    fillShadowGradientOpacity: 1,
+    fillShadowGradient: "#FFFFFF",
+    fillShadowGradientOpacity: 0,
     bezier: true,
 };
 

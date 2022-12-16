@@ -144,22 +144,19 @@ export const createWidget = createAsyncThunk(
   }
 )
 
-interface IDeleteWidget {
-  widgetId: number;
-}
+type TDeleteWidget = number
 
 export const deleteWidget = createAsyncThunk(
   "widget/deleteWidget",
-  async (payload: IDeleteWidget, { rejectWithValue }) => {
-    const { widgetId } = payload
+  async (payload: TDeleteWidget, { rejectWithValue }) => {
 
-    const { error } = await supabase.from("widgets").delete().eq("id", widgetId)
+    const { error } = await supabase.from("widgets").delete().eq("id", payload)
 
     if (error) {
       return rejectWithValue([])
     }
 
-    return widgetId
+    return payload
   }
 )
 // export const { createWidget } = widgetSlice.actions

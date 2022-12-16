@@ -20,7 +20,7 @@ const CONFIG = {
     x1: 20,
   },
   propsForLabels: {
-    fontFamily: "sans-serif",
+    // fontFamily: "sans-serif",
   },
 };
 

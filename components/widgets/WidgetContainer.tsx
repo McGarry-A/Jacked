@@ -13,7 +13,7 @@ interface IWidgetContainer {
 }
 
 const WidgetContainer = (props: IWidgetContainer) => {
-  const { title, subtitle, children } = props;
+  const { title, subtitle, children, widgetId } = props;
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
 
   const renderModalComponent = () => {
@@ -24,6 +24,7 @@ const WidgetContainer = (props: IWidgetContainer) => {
         <BarChartWidgetModal
           modalIsVisible={modalIsVisible}
           setModalIsVisible={setModalIsVisible}
+          widgetId={widgetId}
         />
       );
     }
@@ -32,6 +33,7 @@ const WidgetContainer = (props: IWidgetContainer) => {
         <LineGraphWidgetModal
           modalIsVisible={modalIsVisible}
           setModalIsVisible={setModalIsVisible}
+          widgetId={widgetId}
         />
       );
     }

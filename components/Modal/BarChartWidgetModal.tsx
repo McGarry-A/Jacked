@@ -1,16 +1,28 @@
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { Select } from "native-base";
 import { SetStateAction } from "react";
+import ModalItem from "./ModalItem";
 import ModalWrapper from "./ModalWrapper";
+import { faXmark } from "@fortawesome/free-solid-svg-icons/faXmark";
+import { useDispatch } from "react-redux";
+import { deleteWidget } from "../../store/WidgetsSlice";
+import { useAppDispatch } from "../../store";
 
 interface IBarChartWidgetModal {
   modalIsVisible: boolean;
   setModalIsVisible: React.Dispatch<SetStateAction<boolean>>;
+  widgetId: string;
 }
 
 const BarChartWidgetModal = (props: IBarChartWidgetModal) => {
-  const { modalIsVisible, setModalIsVisible } = props;
+  const { modalIsVisible, setModalIsVisible, widgetId } = props;
+  const dispatch = useAppDispatch()
 
   const handleSave = () => null;
+  const handleDelete = (widgetId: string) => {
+    dispatch(deleteWidget(Number(widgetId)));
+    setModalIsVisible(false);
+  };
 
   const renderSetTarget = () => {
     return (
@@ -26,6 +38,17 @@ const BarChartWidgetModal = (props: IBarChartWidgetModal) => {
     );
   };
 
+  const renderDelete = () => {
+    return (
+      <ModalItem
+        pressHandler={() => handleDelete(widgetId)}
+        leftIcon={<FontAwesomeIcon icon={faXmark} size={13} color="red" />}
+      >
+        Delete
+      </ModalItem>
+    );
+  };
+
   return (
     <ModalWrapper
       header={"Settings"}
@@ -33,7 +56,8 @@ const BarChartWidgetModal = (props: IBarChartWidgetModal) => {
       onClose={() => setModalIsVisible(false)}
       saveHandler={handleSave}
     >
-      {renderSetTarget()}
+      {/* {renderSetTarget()} */}
+      {renderDelete()}
     </ModalWrapper>
   );
 };

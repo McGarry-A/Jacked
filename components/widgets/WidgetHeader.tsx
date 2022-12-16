@@ -20,7 +20,6 @@ const WidgetHeader = (props: IWidgetHeader) => {
     const { title, subtitle, setModalIsVisible } = props;
     return (
       <Box>
-        <DeleteButton title="widget" variant="ghost" />
         <Box flexDirection={"row"} alignItems={"center"}>
           <Heading size={"sm"} flex={1}>
             {title}
