@@ -29,7 +29,6 @@ interface RemoveLiftInterface {
 interface CreateTemplateInterface {
   folId: FolderIdType;
   title: TemplateNameType;
-  tempId: TemplateIdType;
   params: LiftData[];
 }
 
@@ -42,33 +41,6 @@ const templateSlice = createSlice({
   name: "template",
   initialState: initialState,
   reducers: {
-    createTemplate: (
-      state,
-      { payload }: PayloadAction<CreateTemplateInterface>
-    ) => {
-      const { folId, title, tempId } = payload;
-
-      const newTemplate = {
-        exercises: {},
-        exerciseOrder: [],
-        templateName: title,
-        tempId: tempId,
-      };
-
-      state.folders[folId].templates[tempId] = newTemplate;
-
-      const { params } = payload;
-
-      params.map(({ exerciseId, exerciseName, liftId }) => {
-        state.folders[folId].templates[tempId].exercises[liftId] = {
-          exerciseId,
-          exerciseName,
-          sets: {},
-        };
-
-        state.folders[folId].templates[tempId].exerciseOrder.push(liftId);
-      });
-    },
     removeLiftFromTemplate: (
       state,
       { payload }: PayloadAction<RemoveLiftInterface>
