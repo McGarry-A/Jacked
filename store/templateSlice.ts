@@ -111,6 +111,9 @@ const templateSlice = createSlice({
 
         state.folders[id] = newFolder;
       })
+      .addCase(createFolder.rejected, (state, _) => {
+        state.status = "rejected";
+      })
       .addCase(createTemplate.fulfilled, (state, { payload }) => {
         const { folder_id, template_name, tempId } = payload;
 
@@ -125,15 +128,22 @@ const templateSlice = createSlice({
 
         const { exercises } = payload;
 
-        JSON.parse(exercises).map(({ exerciseId, exerciseName, liftId }: any) => {
-          state.folders[folder_id].templates[tempId].exercises[liftId] = {
-            exerciseId,
-            exerciseName,
-            sets: {},
-          };
+        JSON.parse(exercises).map(
+          ({ exerciseId, exerciseName, liftId }: any) => {
+            state.folders[folder_id].templates[tempId].exercises[liftId] = {
+              exerciseId,
+              exerciseName,
+              sets: {},
+            };
 
-          state.folders[folder_id].templates[tempId].exerciseOrder.push(liftId);
-        });
+            state.folders[folder_id].templates[tempId].exerciseOrder.push(
+              liftId
+            );
+          }
+        );
+      })
+      .addCase(createTemplate.rejected, (state, _) => {
+        state.status = "rejected";
       });
   },
 });
@@ -161,9 +171,6 @@ export const createFolder = createAsyncThunk(
 export const createTemplate = createAsyncThunk(
   "template/createTemplate",
   async (payload: CreateTemplateInterface, { rejectWithValue }) => {
-    // TODO: Create template
-    // create template only when the temp has been fully created in state
-
     const newTemplate: any = {
       exercises: JSON.stringify(payload.params),
       folder_id: payload.folId,
@@ -187,10 +194,6 @@ export const createTemplate = createAsyncThunk(
   }
 );
 
-export const {
-  // createTemplate,
-  deleteFolder,
-  emptyFolder,
-  deleteTemplate,
-} = templateSlice.actions;
+export const { deleteFolder, emptyFolder, deleteTemplate } =
+  templateSlice.actions;
 export default templateSlice.reducer;
