@@ -14,6 +14,7 @@ import { useState } from "react";
 import useColorScheme from "../../hooks/useColorScheme";
 import { TemplateInterface } from "../../types/TemplateSliceInterface";
 import AddTemplateModal from "../modal/AddTemplateModal";
+import TemplateModal from "../modal/TemplateModal";
 import CtaButton from "./CtaButton";
 import TemplateCard from "./TemplateCard";
 
@@ -26,9 +27,20 @@ interface IProps {
 export default function Folder(props: IProps) {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [tempalteModalIsVisible, setTemplateModalIsVisible] =
+    useState<boolean>(false);
 
   const { templates, id, name } = props;
   const navigation = useNavigation();
+
+  const renderTemplateModal = () => {
+    return (
+      <TemplateModal
+        isVisible={tempalteModalIsVisible}
+        setIsVisible={setTemplateModalIsVisible}
+      />
+    );
+  };
 
   const {
     h1ColorMode,
@@ -82,6 +94,7 @@ export default function Folder(props: IProps) {
           w={"100%"}
           renderItem={({ item }) => (
             <TemplateCard
+              setModalIsOpen={setTemplateModalIsVisible}
               key={item.tempId}
               navigation={navigation}
               title={item.templateName}
@@ -103,6 +116,7 @@ export default function Folder(props: IProps) {
         setIsVisible={setModalIsOpen}
         folId={id}
       />
+      {renderTemplateModal()}
     </Box>
   );
 }

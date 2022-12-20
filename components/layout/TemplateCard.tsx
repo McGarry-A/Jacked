@@ -1,17 +1,16 @@
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { Text, VStack, Heading, Pressable, HStack, Box } from "native-base";
-import React from "react";
+import React, { SetStateAction } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { faClock } from "@fortawesome/free-solid-svg-icons/faClock";
-import getDaysAgo from "../../utils/getDaysAgo";
 import { SetInterface } from "../../types/CurrentWorkoutInterface";
 import useId from "../../hooks/useId";
 import { addLift, startWorkout } from "../../store/currentWorkoutSlice";
-import { FontAwesome } from "@expo/vector-icons";
 import useColorScheme from "../../hooks/useColorScheme";
 import Elipsis from "./Elipsis";
 
 interface TemplateCardProps {
+  setModalIsOpen: React.Dispatch<SetStateAction<boolean>>;
   title: string;
   navigation: any;
   exercises: {
@@ -27,6 +26,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
   title,
   navigation,
   exercises,
+  setModalIsOpen
 }) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.userSlice.user);
@@ -84,7 +84,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
         <Heading fontSize="sm" color={pTextColorMode} flex={1}>
           {title}
         </Heading>
-        <Elipsis size={10} />
+        <Elipsis size={10} onPress={() => setModalIsOpen(true)} />
       </HStack>
     );
   };

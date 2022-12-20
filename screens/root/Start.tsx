@@ -9,9 +9,12 @@ import AddFolderModal from "../../components/modal/AddFolderModal";
 import { useState } from "react";
 import CtaButton from "../../components/layout/CtaButton";
 import useColorScheme from "../../hooks/useColorScheme";
+import TemplateModal from "../../components/modal/TemplateModal";
 
 export default function Start() {
-  const [modalIsVisible, setmodalIsVisible] = useState<boolean>(false);
+  const [folderModalIsVisible, setFolderModalIsVisible] = useState<boolean>(false);
+  const [tempalteModalIsVisible, setTemplateModalIsVisible] =
+    useState<boolean>(false);
 
   const { userId } = useAppSelector((state) => state.userSlice.user);
   const { folders } = useAppSelector((state) => state.templateSlice);
@@ -92,7 +95,7 @@ export default function Start() {
         Folders
       </Heading>
       <CtaButton
-        onPress={() => setmodalIsVisible(true)}
+        onPress={() => setFolderModalIsVisible(true)}
         leftIcon={
           <FontAwesomeIcon icon={faFolder} color={ctaIconColorMode} size={12} />
         }
@@ -113,6 +116,15 @@ export default function Start() {
     );
   };
 
+  const renderAddFolderModal = () => {
+    return (
+      <AddFolderModal
+        isVisible={folderModalIsVisible}
+        setIsVisible={setFolderModalIsVisible}
+      />
+    );
+  }
+
   return (
     <View padding={3} backgroundColor={screenColorMode} flex={1}>
       <VStack space={2}>
@@ -120,10 +132,8 @@ export default function Start() {
         {renderQuickStart()}
         {renderFolders()}
       </VStack>
-      <AddFolderModal
-        isVisible={modalIsVisible}
-        setIsVisible={setmodalIsVisible}
-      />
+      {renderAddFolderModal()}
+      
     </View>
   );
 }
