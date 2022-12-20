@@ -1,34 +1,35 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { folders } from "../data";
 import { LiftData } from "../screens/modals/AddExercises";
+import { supabase } from "../supabase/supabaseClient";
 import { TemplateSliceInterface } from "../types/TemplateSliceInterface";
 
 const initialState: TemplateSliceInterface = {
   status: "idle",
-  folders: folders
+  folders: folders,
 };
 
-type TemplateNameType = string
-type FolderNameType = string
-type FolderIdType = string
-type TemplateIdType = string
-type LiftIdType = string
+type TemplateNameType = string;
+type FolderNameType = string;
+type FolderIdType = string;
+type TemplateIdType = string;
+type LiftIdType = string;
 
 interface addLiftsToTemplateInterface {
   params: LiftData[];
   folder: FolderIdType;
-  tempId: TemplateIdType
+  tempId: TemplateIdType;
 }
 
 interface deleteTemplateInterface {
-  tempId: TemplateIdType,
-  folId: FolderIdType
+  tempId: TemplateIdType;
+  folId: FolderIdType;
 }
 
 interface RemoveLiftInterface {
-  folId: FolderIdType,
-  tempId: TemplateIdType,
-  liftId: LiftIdType
+  folId: FolderIdType;
+  tempId: TemplateIdType;
+  liftId: LiftIdType;
 }
 
 interface CreateTemplateInterface {
@@ -50,7 +51,7 @@ const templateSlice = createSlice({
       state,
       { payload }: PayloadAction<addLiftsToTemplateInterface>
     ) => {
-      const { params, folder, tempId } = payload
+      const { params, folder, tempId } = payload;
 
       params.map(({ exerciseId, exerciseName, liftId }) => {
         state.folders[folder].templates[tempId].exercises[liftId] = {
@@ -59,52 +60,118 @@ const templateSlice = createSlice({
           sets: {},
         };
 
-        state.folders[folder].templates[tempId].exerciseOrder.push(
-          liftId
-        );
+        state.folders[folder].templates[tempId].exerciseOrder.push(liftId);
       });
     },
-    createTemplate: (state, { payload }: PayloadAction<CreateTemplateInterface>) => {
-      const { folId, title, tempId } = payload
+    createTemplate: (
+      state,
+      { payload }: PayloadAction<CreateTemplateInterface>
+    ) => {
+      const { folId, title, tempId } = payload;
 
       const newTemplate = {
         exercises: {},
         exerciseOrder: [],
         templateName: title,
         tempId: tempId,
-      }
+      };
 
-      state.folders[folId].templates[tempId] = newTemplate
+      state.folders[folId].templates[tempId] = newTemplate;
     },
-    removeLiftFromTemplate: (state, { payload }: PayloadAction<RemoveLiftInterface>) => {
-      const { folId, tempId, liftId } = payload
+    removeLiftFromTemplate: (
+      state,
+      { payload }: PayloadAction<RemoveLiftInterface>
+    ) => {
+      const { folId, tempId, liftId } = payload;
 
-      delete state.folders[folId].templates[tempId].exercises[liftId]
-      state.folders[folId].templates[tempId].exerciseOrder.filter(el => el === liftId)
+      delete state.folders[folId].templates[tempId].exercises[liftId];
+      state.folders[folId].templates[tempId].exerciseOrder.filter(
+        (el) => el === liftId
+      );
     },
-    createFolder: (state, { payload: { title, newFolId } }: PayloadAction<CreateFolderInterface>) => {
-      const newFolder = {
-        templates: {},
-        id: newFolId,
-        name: title
-      }
+    // createFolder: (
+    //   state,
+    //   { payload: { title, newFolId } }: PayloadAction<CreateFolderInterface>
+    // ) => {
+    //   const newFolder = {
+    //     templates: {},
+    //     id: newFolId,
+    //     name: title,
+    //   };
 
-      state.folders[newFolId] = newFolder
-    },
-    deleteFolder: (state, { payload: folderId }: PayloadAction<FolderIdType>) => {
-      delete state.folders[folderId]
+    //   state.folders[newFolId] = newFolder;
+    // },
+    deleteFolder: (
+      state,
+      { payload: folderId }: PayloadAction<FolderIdType>
+    ) => {
+      delete state.folders[folderId];
     },
     emptyFolder: (state, { payload }) => {
-      const { folderId } = payload
-      state.folders[folderId].templates = {}
+      const { folderId } = payload;
+      state.folders[folderId].templates = {};
     },
-    deleteTemplate: (state, { payload }: PayloadAction<deleteTemplateInterface>) => {
-      const { folId, tempId } = payload
-      delete state.folders[folId].templates[tempId]
+    deleteTemplate: (
+      state,
+      { payload }: PayloadAction<deleteTemplateInterface>
+    ) => {
+      const { folId, tempId } = payload;
+      delete state.folders[folId].templates[tempId];
     },
   },
-  extraReducers: (builder) => { },
+  extraReducers: (builder) => {
+    builder
+      .addCase(createFolder.fulfilled, (state, { payload }) => {
+        const { id, title } = payload;
+
+        const newFolder = {
+          templates: {},
+          id: id,
+          name: title,
+        };
+
+        state.folders[id] = newFolder;
+      })
+      .addCase(createTemplateThunk.rejected, (state, _) => {
+        state.status = "rejected";
+      });
+  },
 });
 
-export const { addLiftsToTemplate, createTemplate, createFolder, deleteFolder, emptyFolder, deleteTemplate } = templateSlice.actions;
+export const createFolder = createAsyncThunk(
+  "template/createFolder",
+  async (payload: CreateFolderInterface, { rejectWithValue }) => {
+    const { title } = payload;
+    const newFolder: any = {
+      title,
+    };
+    const { data, error } = await supabase.from("folders").insert(newFolder);
+
+    if (error) {
+      console.log("ERROR", error);
+      return rejectWithValue([]);
+    }
+
+    newFolder.id = data[0].id;
+
+    return newFolder;
+  }
+);
+
+const createTemplateThunk = createAsyncThunk(
+  "template/createTemplate",
+  async (payload: CreateTemplateInterface, { dispatch }) => {
+    // TODO: Create template
+    // create template only when the temp has been fully created in state
+  }
+);
+
+export const {
+  addLiftsToTemplate,
+  createTemplate,
+  // createFolder,
+  deleteFolder,
+  emptyFolder,
+  deleteTemplate,
+} = templateSlice.actions;
 export default templateSlice.reducer;

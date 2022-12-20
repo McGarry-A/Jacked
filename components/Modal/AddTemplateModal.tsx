@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { Button, Divider, Input, Modal, Text, VStack } from "native-base";
+import { Input, Text, VStack } from "native-base";
 import { useEffect, useState } from "react";
 import useId from "../../hooks/useId";
 import { LiftData } from "../../screens/pages/AddExercisesTemplates";

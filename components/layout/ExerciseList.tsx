@@ -9,14 +9,18 @@ import {
   Text,
   VStack,
 } from "native-base";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useColorScheme from "../../hooks/useColorScheme";
 import useExerciseList from "../../hooks/useExerciseList";
+import { LiftData } from "../../screens/modals/AddExercises";
 import ExerciseInterface from "../../types/ExerciseInterface";
 import ExerciseCard from "./ExerciseCard";
 
 interface Props {
-  cardProps?: Object;
+  cardProps?: {
+    setLiftData: React.Dispatch<React.SetStateAction<LiftData[]>>;
+    liftData: LiftData[];
+  };
   config: {
     showInput: boolean;
     showFilterButtons: boolean;
@@ -34,6 +38,15 @@ export const ExerciseList: React.FC<Props> = ({
   const { list: exerciseList, isLoading, error } = useExerciseList();
 
   const { buttonColorMode } = useColorScheme();
+
+  useEffect(() => {
+    return () => {
+      if (cardProps) {
+        const { setLiftData } = cardProps;
+        setLiftData([]);
+      }
+    };
+  }, []);
 
   const handleFilter = (text: string) => {
     const filteredExercises = exerciseList.filter((el) =>
