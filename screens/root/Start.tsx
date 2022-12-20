@@ -10,11 +10,10 @@ import { useState } from "react";
 import CtaButton from "../../components/layout/CtaButton";
 import useColorScheme from "../../hooks/useColorScheme";
 import TemplateModal from "../../components/modal/TemplateModal";
+import { getFolders, getTemplates } from "../../store/templateSlice";
 
 export default function Start() {
   const [folderModalIsVisible, setFolderModalIsVisible] = useState<boolean>(false);
-  const [tempalteModalIsVisible, setTemplateModalIsVisible] =
-    useState<boolean>(false);
 
   const { userId } = useAppSelector((state) => state.userSlice.user);
   const { folders } = useAppSelector((state) => state.templateSlice);
@@ -30,6 +29,10 @@ export default function Start() {
 
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
+
+  // NOTE: This is a temporary solution to get the folders and templates
+  dispatch(getTemplates())
+  dispatch(getFolders())
 
   const handlePressQuickStart = () => {
     dispatch(startWorkout({ userId }));

@@ -166,6 +166,36 @@ export const createTemplate = createAsyncThunk(
   }
 );
 
+export const getFolders = createAsyncThunk(
+  "template/getFolders",
+  async (_, { rejectWithValue }) => {
+    const { data, error } = await supabase.from("folders").select()
+
+    if (error) {
+      console.error(error);
+      return rejectWithValue([]);
+    }
+
+    console.log("folder data", data)
+    return data;
+  }
+);
+
+export const getTemplates = createAsyncThunk(
+  "template/getTemplates",
+  async (_, { rejectWithValue }) => {
+    const { data, error } = await supabase.from("templates").select()
+
+    if (error) {
+      console.error(error);
+      return rejectWithValue([]);
+    }
+
+    console.log("template data", data)
+    return data;
+  }
+);
+
 export const { deleteFolder, emptyFolder, deleteTemplate } =
   templateSlice.actions;
 export default templateSlice.reducer;
