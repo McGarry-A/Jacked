@@ -15,12 +15,6 @@ type FolderIdType = string;
 type TemplateIdType = string;
 type LiftIdType = string;
 
-interface addLiftsToTemplateInterface {
-  params: LiftData[];
-  folder: FolderIdType;
-  tempId: TemplateIdType;
-}
-
 interface deleteTemplateInterface {
   tempId: TemplateIdType;
   folId: FolderIdType;
@@ -36,6 +30,7 @@ interface CreateTemplateInterface {
   folId: FolderIdType;
   title: TemplateNameType;
   tempId: TemplateIdType;
+  params: LiftData[];
 }
 
 interface CreateFolderInterface {
@@ -47,22 +42,6 @@ const templateSlice = createSlice({
   name: "template",
   initialState: initialState,
   reducers: {
-    addLiftsToTemplate: (
-      state,
-      { payload }: PayloadAction<addLiftsToTemplateInterface>
-    ) => {
-      const { params, folder, tempId } = payload;
-
-      params.map(({ exerciseId, exerciseName, liftId }) => {
-        state.folders[folder].templates[tempId].exercises[liftId] = {
-          exerciseId,
-          exerciseName,
-          sets: {},
-        };
-
-        state.folders[folder].templates[tempId].exerciseOrder.push(liftId);
-      });
-    },
     createTemplate: (
       state,
       { payload }: PayloadAction<CreateTemplateInterface>
@@ -77,6 +56,18 @@ const templateSlice = createSlice({
       };
 
       state.folders[folId].templates[tempId] = newTemplate;
+
+      const { params } = payload;
+
+      params.map(({ exerciseId, exerciseName, liftId }) => {
+        state.folders[folId].templates[tempId].exercises[liftId] = {
+          exerciseId,
+          exerciseName,
+          sets: {},
+        };
+
+        state.folders[folId].templates[tempId].exerciseOrder.push(liftId);
+      });
     },
     removeLiftFromTemplate: (
       state,
@@ -89,18 +80,6 @@ const templateSlice = createSlice({
         (el) => el === liftId
       );
     },
-    // createFolder: (
-    //   state,
-    //   { payload: { title, newFolId } }: PayloadAction<CreateFolderInterface>
-    // ) => {
-    //   const newFolder = {
-    //     templates: {},
-    //     id: newFolId,
-    //     name: title,
-    //   };
-
-    //   state.folders[newFolId] = newFolder;
-    // },
     deleteFolder: (
       state,
       { payload: folderId }: PayloadAction<FolderIdType>
@@ -132,8 +111,29 @@ const templateSlice = createSlice({
 
         state.folders[id] = newFolder;
       })
-      .addCase(createTemplateThunk.rejected, (state, _) => {
-        state.status = "rejected";
+      .addCase(createTemplate.fulfilled, (state, { payload }) => {
+        const { folder_id, template_name, tempId } = payload;
+
+        const newTemplate = {
+          exercises: {},
+          exerciseOrder: [],
+          templateName: template_name,
+          tempId: tempId,
+        };
+
+        state.folders[folder_id].templates[tempId] = newTemplate;
+
+        const { exercises } = payload;
+
+        JSON.parse(exercises).map(({ exerciseId, exerciseName, liftId }: any) => {
+          state.folders[folder_id].templates[tempId].exercises[liftId] = {
+            exerciseId,
+            exerciseName,
+            sets: {},
+          };
+
+          state.folders[folder_id].templates[tempId].exerciseOrder.push(liftId);
+        });
       });
   },
 });
@@ -158,18 +158,37 @@ export const createFolder = createAsyncThunk(
   }
 );
 
-const createTemplateThunk = createAsyncThunk(
+export const createTemplate = createAsyncThunk(
   "template/createTemplate",
-  async (payload: CreateTemplateInterface, { dispatch }) => {
+  async (payload: CreateTemplateInterface, { rejectWithValue }) => {
     // TODO: Create template
     // create template only when the temp has been fully created in state
+
+    const newTemplate: any = {
+      exercises: JSON.stringify(payload.params),
+      folder_id: payload.folId,
+      template_name: payload.title,
+    };
+
+    const { data, error } = await supabase
+      .from("templates")
+      .insert(newTemplate);
+
+    if (error) {
+      console.error(error);
+      return rejectWithValue([]);
+    }
+
+    console.log("data", data);
+
+    newTemplate.tempId = data[0].id;
+
+    return newTemplate;
   }
 );
 
 export const {
-  addLiftsToTemplate,
-  createTemplate,
-  // createFolder,
+  // createTemplate,
   deleteFolder,
   emptyFolder,
   deleteTemplate,

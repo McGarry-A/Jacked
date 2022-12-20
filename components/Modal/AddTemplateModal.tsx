@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import useId from "../../hooks/useId";
 import { LiftData } from "../../screens/pages/AddExercisesTemplates";
 import { useAppDispatch } from "../../store";
-import { addLiftsToTemplate, createTemplate } from "../../store/templateSlice";
+import { createTemplate } from "../../store/templateSlice";
 import { ExerciseList } from "../layout/ExerciseList";
 import { faFile } from "@fortawesome/free-regular-svg-icons/faFile";
 import ModalWrapper from "./ModalWrapper";
@@ -41,15 +41,10 @@ const AddTemplateModal = (props: IProps) => {
       folId: folId,
       title: templateName,
       tempId: templateId,
-    };
-    const addLiftsToTemplateProps = {
       params: liftData,
-      folder: folId,
-      tempId: templateId,
     };
 
     dispatch(createTemplate({ ...createTemplateProps }));
-    dispatch(addLiftsToTemplate({ ...addLiftsToTemplateProps }));
     setIsVisible(false);
   };
 
