@@ -96,7 +96,6 @@ export default function Folder(props: IProps) {
             <TemplateCard
               setModalIsOpen={setTemplateModalIsVisible}
               key={item.tempId}
-              navigation={navigation}
               title={item.templateName}
               exercises={item.exercises}
             />
