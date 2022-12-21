@@ -30,7 +30,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.userSlice.user);
   const { pTextColorMode } = useColorScheme();
-  const navigation = useNavigation();
+  const { navigate } = useNavigation();
 
   const handleAddLiftsToWorkout = () => {
     const { userId } = user;
@@ -51,7 +51,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
     const { userId } = user;
     handleAddLiftsToWorkout();
     dispatch(startWorkout({ userId }));
-    navigation.navigate("ActiveWorkout", { title, exercises });
+    navigate("ActiveWorkout", { title, exercises });
   };
 
   const renderExercises = (
