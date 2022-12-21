@@ -8,11 +8,11 @@ import useId from "../../hooks/useId";
 import { addLift, startWorkout } from "../../store/currentWorkoutSlice";
 import useColorScheme from "../../hooks/useColorScheme";
 import Elipsis from "./Elipsis";
+import { useNavigation } from "@react-navigation/native";
 
 interface TemplateCardProps {
   setModalIsOpen: React.Dispatch<SetStateAction<boolean>>;
   title: string;
-  navigation: any;
   exercises: {
     [key: string]: {
       exerciseId: number;
@@ -24,13 +24,13 @@ interface TemplateCardProps {
 
 const TemplateCard: React.FC<TemplateCardProps> = ({
   title,
-  navigation,
   exercises,
-  setModalIsOpen
+  setModalIsOpen,
 }) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.userSlice.user);
   const { pTextColorMode } = useColorScheme();
+  const navigation = useNavigation();
 
   const handleAddLiftsToWorkout = () => {
     const { userId } = user;
@@ -51,10 +51,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
     const { userId } = user;
     handleAddLiftsToWorkout();
     dispatch(startWorkout({ userId }));
-    navigation.navigate("ActiveWorkout", {
-      title: { title },
-      exercises: exercises,
-    });
+    navigation.navigate("ActiveWorkout", { title, exercises });
   };
 
   const renderExercises = (
