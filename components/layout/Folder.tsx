@@ -92,6 +92,7 @@ export default function Folder(props: IProps) {
           data={Object.values(templates)}
           numColumns={2}
           w={"100%"}
+          keyExtractor={(item) => item.tempId}
           renderItem={({ item }) => (
             <TemplateCard
               setModalIsOpen={setTemplateModalIsVisible}
@@ -100,7 +101,6 @@ export default function Folder(props: IProps) {
               exercises={item.exercises}
             />
           )}
-          keyExtractor={(item) => item.tempId}
         />
       </Collapse>
     );

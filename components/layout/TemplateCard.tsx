@@ -53,6 +53,11 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
     const { userId } = user;
     handleAddLiftsToWorkout();
     dispatch(startWorkout({ userId }));
+
+    // NOTE: this is an antipattern
+    // We should not have an object passed in the route params
+    // We can now see Object Object in params
+    // There should be something like activate_template which uses template ID and then starts the workout using that data
     navigate("ActiveWorkout", { title, exercises });
   };
 

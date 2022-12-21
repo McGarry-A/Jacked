@@ -23,7 +23,10 @@ export type RootStackParamList = {
   Calendar: undefined;
   User: undefined;
   Settings: undefined;
-  ActiveWorkout: undefined;
+  ActiveWorkout: {
+    title: string;
+    exercises: any;
+  };
   AddExercises: undefined;
   CreateTemplate: undefined;
   BottomTabNavigator: undefined;
