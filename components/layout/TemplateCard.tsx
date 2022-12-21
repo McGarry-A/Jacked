@@ -35,14 +35,16 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
   const handleAddLiftsToWorkout = () => {
     const { userId } = user;
 
-    const params = Object.values(exercises).map((exercise) => {
-      return {
-        exerciseId: exercise.exerciseId,
-        exerciseName: exercise.exerciseName,
-        userId,
-        liftId: useId("lift"),
-      };
-    });
+    const params = Object.values(exercises).map(
+      ({ exerciseId, exerciseName }) => {
+        return {
+          exerciseId,
+          exerciseName,
+          userId,
+          liftId: useId("lift"),
+        };
+      }
+    );
 
     dispatch(addLift(params));
   };
