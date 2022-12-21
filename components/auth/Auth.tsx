@@ -8,6 +8,8 @@ import {
   Pressable,
   FormControl,
   Spinner,
+  HStack,
+  Checkbox,
 } from "native-base";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
@@ -28,6 +30,7 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [confrimPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>("");
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [isLoginRejected, _] = useState(
     useAppSelector((state) => state.userSlice.status) === "rejected"
   );
@@ -230,6 +233,7 @@ const Auth = () => {
         <Box h="full" alignItems={"center"} justifyContent="center" mx={5}>
           {renderEmailField()}
           {renderPasswordField()}
+          {renderRememberMe()}
           {renderButton("sign-in", "Log-in")}
           {renderSwitchState()}
         </Box>
@@ -244,6 +248,7 @@ const Auth = () => {
           {renderEmailField()}
           {renderPasswordField()}
           {renderConfrimPasswordField()}
+          {renderRememberMe()}
           {renderButton("sign-in", "Sign-In")}
           {renderSwitchState()}
         </Box>
@@ -258,6 +263,27 @@ const Auth = () => {
           JACKED
         </Text>
       </Box>
+    );
+  };
+
+  const renderRememberMe = () => {
+    return (
+      <FormControl w={"full"} marginY={"2"}>
+        <Checkbox
+          value={String(rememberMe)}
+          size={"sm"}
+          borderWidth={0}
+          isChecked={rememberMe}
+          _checked={{ backgroundColor: "info.400" }}
+          onChange={() => {
+            setRememberMe((state) => !state);
+          }}
+        >
+          <FormControl.Label fontSize={"sm"} ml={0}>
+            Remember Me
+          </FormControl.Label>
+        </Checkbox>
+      </FormControl>
     );
   };
 
