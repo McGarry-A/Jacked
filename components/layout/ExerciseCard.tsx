@@ -101,12 +101,13 @@ const ExerciseCard = (props: IProps) => {
   };
 
   const renderCheckbox = () => {
-    const { setLiftData } = props;
+    const { setLiftData, exercise_name } = props;
 
     if (setLiftData) {
       return (
         <Box>
           <Checkbox
+            accessibilityLabel={`${exercise_name}`}
             value="isActive"
             colorScheme={"info"}
             isChecked={isActive}

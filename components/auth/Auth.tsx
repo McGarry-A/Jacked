@@ -8,15 +8,12 @@ import {
   Pressable,
   FormControl,
   Spinner,
-  HStack,
   Checkbox,
 } from "native-base";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { reset, userLogin, userSignup } from "../../store/userSlice";
 import { faLock } from "@fortawesome/free-solid-svg-icons/faLock";
-import Notification from "../utils/Notification";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const Auth = () => {
   const dispatch = useAppDispatch();
@@ -54,11 +51,10 @@ const Auth = () => {
     if (!password || !email)
       return setError("Please enter username and password");
 
-    // NOTE:
+    // REVIEW:
     // CHECK VALID EMAIL FUNCTION VALIDATEMAIL IF NOT THROW ERROR
 
     dispatch(userLogin({ email: email, password: password }));
-    console.log(`DISPATCHED ${email} ${password}`);
   };
 
   const handleSignup = async () => {
@@ -74,8 +70,6 @@ const Auth = () => {
       );
 
     dispatch(userSignup({ email: email, password: password }));
-
-    console.log("Signed Up");
   };
 
   const renderEmailField = () => {
@@ -202,27 +196,27 @@ const Auth = () => {
     if (isLogin) {
       return (
         <Box my={2}>
-          <Text textAlign={"center"} fontSize="sm">
+          <FormControl.Label textAlign={"center"} fontSize="sm">
             Dont have an account?{" "}
             <Pressable onPress={toggleLoginState}>
               <Text fontSize="sm" color="info.400" fontWeight={700}>
                 Sign up
               </Text>
             </Pressable>
-          </Text>
+          </FormControl.Label>
         </Box>
       );
     }
     return (
       <Box my={2}>
-        <Text textAlign={"center"} fontSize="sm">
+        <FormControl.Label textAlign={"center"} fontSize="sm">
           Already have an account?{" "}
           <Pressable onPress={toggleLoginState}>
             <Text fontSize="sm" color="info.400" fontWeight={700}>
               Log in
             </Text>
           </Pressable>
-        </Text>
+        </FormControl.Label>
       </Box>
     );
   };
@@ -268,7 +262,7 @@ const Auth = () => {
 
   const renderRememberMe = () => {
     return (
-      <FormControl w={"full"} marginY={"2"}>
+      <FormControl w={"full"} marginY={"4"}>
         <Checkbox
           value={String(rememberMe)}
           size={"sm"}
@@ -279,25 +273,12 @@ const Auth = () => {
             setRememberMe((state) => !state);
           }}
         >
-          <FormControl.Label fontSize={"sm"} ml={0}>
+          <Text fontSize={"xs"} fontWeight={600} ml={0} opacity={50}>
             Remember Me
-          </FormControl.Label>
+          </Text>
         </Checkbox>
       </FormControl>
     );
-  };
-
-  const renderErrorNotification = () => {
-    const errorProps = {
-      status: "error",
-      content: error || "",
-      variant: "solid",
-      dismissFunc: () => dispatch(reset()),
-    };
-
-    if (error) {
-      return <Notification {...errorProps} />;
-    }
   };
 
   const renderAuth = () => {
@@ -321,7 +302,6 @@ const Auth = () => {
 
   return (
     <View h={"full"} w={"full"} justifyContent={"center"} alignItems={"center"}>
-      {renderErrorNotification()}
       {renderAuth()}
     </View>
   );

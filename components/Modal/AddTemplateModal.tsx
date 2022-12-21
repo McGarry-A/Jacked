@@ -3,7 +3,7 @@ import { Input, Text, VStack } from "native-base";
 import { useEffect, useState } from "react";
 import useId from "../../hooks/useId";
 import { LiftData } from "../../screens/pages/AddExercisesTemplates";
-import { useAppDispatch } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import { createTemplate } from "../../store/templateSlice";
 import { ExerciseList } from "../layout/ExerciseList";
 import { faFile } from "@fortawesome/free-regular-svg-icons/faFile";
@@ -21,6 +21,8 @@ const AddTemplateModal = (props: IProps) => {
   const [liftData, setLiftData] = useState<LiftData[]>([]);
   const [templateName, setTemplateName] = useState<string>("");
   const [error, setError] = useState<string>("");
+
+  const { userId } = useAppSelector((state) => state.userSlice.user);
 
   const dispatch = useAppDispatch();
 
@@ -42,6 +44,7 @@ const AddTemplateModal = (props: IProps) => {
       title: templateName,
       tempId: templateId,
       params: liftData,
+      userId,
     };
 
     dispatch(createTemplate({ ...createTemplateProps }));

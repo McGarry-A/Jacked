@@ -41,9 +41,9 @@ const data: DataInterface = {
 };
 
 export const folders = {
-  "fol-00": {
+  "99999": {
     name: "Example Workouts",
-    id: "fol-00",
+    id: "99999",
     templates: {
       "temp-00": {
         exercises: {

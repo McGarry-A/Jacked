@@ -9,11 +9,11 @@ import AddFolderModal from "../../components/modal/AddFolderModal";
 import { useState } from "react";
 import CtaButton from "../../components/layout/CtaButton";
 import useColorScheme from "../../hooks/useColorScheme";
-import TemplateModal from "../../components/modal/TemplateModal";
-import { getFolders, getTemplates } from "../../store/templateSlice";
+import useTemplatesAndFolders from "../../hooks/useTemplatesAndFolders";
 
 export default function Start() {
-  const [folderModalIsVisible, setFolderModalIsVisible] = useState<boolean>(false);
+  const [folderModalIsVisible, setFolderModalIsVisible] =
+    useState<boolean>(false);
 
   const { userId } = useAppSelector((state) => state.userSlice.user);
   const { folders } = useAppSelector((state) => state.templateSlice);
@@ -31,8 +31,7 @@ export default function Start() {
   const dispatch = useAppDispatch();
 
   // NOTE: This is a temporary solution to get the folders and templates
-  dispatch(getTemplates())
-  dispatch(getFolders())
+  useTemplatesAndFolders();
 
   const handlePressQuickStart = () => {
     dispatch(startWorkout({ userId }));
@@ -126,7 +125,7 @@ export default function Start() {
         setIsVisible={setFolderModalIsVisible}
       />
     );
-  }
+  };
 
   return (
     <View padding={3} backgroundColor={screenColorMode} flex={1}>
@@ -136,7 +135,6 @@ export default function Start() {
         {renderFolders()}
       </VStack>
       {renderAddFolderModal()}
-      
     </View>
   );
 }

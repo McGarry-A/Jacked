@@ -1,7 +1,7 @@
 import { Input, VStack } from "native-base";
 import { useState } from "react";
 import useId from "../../hooks/useId";
-import { useAppDispatch } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import { createFolder } from "../../store/templateSlice";
 import ModalWrapper from "./ModalWrapper";
 
@@ -12,14 +12,14 @@ interface IProps {
 
 export default function AddFolderModal(props: IProps) {
   const { isVisible, setIsVisible } = props;
+  const { userId } = useAppSelector((state) => state.userSlice.user);
 
   const [folderTitle, setFolderTitle] = useState<string>("");
 
   const dispatch = useAppDispatch();
 
   const handleSaveFolder = () => {
-    const newFolId = useId("fol");
-    dispatch(createFolder({ newFolId, title: folderTitle }));
+    dispatch(createFolder({ title: folderTitle, userId }));
     setIsVisible(false);
   };
 

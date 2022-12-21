@@ -6,7 +6,7 @@ import { TemplateSliceInterface } from "../types/TemplateSliceInterface";
 
 const initialState: TemplateSliceInterface = {
   status: "idle",
-  folders: folders,
+  folders: {},
 };
 
 type TemplateNameType = string;
@@ -30,11 +30,12 @@ interface CreateTemplateInterface {
   folId: FolderIdType;
   title: TemplateNameType;
   params: LiftData[];
+  userId: string;
 }
 
 interface CreateFolderInterface {
-  newFolId: FolderIdType;
   title: FolderNameType;
+  userId: string;
 }
 
 const templateSlice = createSlice({
@@ -116,16 +117,41 @@ const templateSlice = createSlice({
       })
       .addCase(createTemplate.rejected, (state, _) => {
         state.status = "rejected";
-      });
+      })
+      .addCase(getUserTemplateData.fulfilled, (state, { payload }) => {
+        const { templateData, folderData } = payload
+
+        folderData.map(folder => {
+          state.folders[folder.id] = {
+            name: folder.title,
+            id: folder.id,
+            templates: {}
+          }
+        })
+
+        templateData.map(template => {
+          state.folders[template.folder_id].templates[template.id] = {
+            exerciseOrder: [],
+            templateName: template.template_name,
+            tempId: template.id,
+            exercises: JSON.parse(template.exercises)
+          }
+        })
+
+        state.status = "fulfilled"
+      }).addCase(getUserTemplateData.rejected, (state, _) => {
+        state.status = "rejected"
+      })
   },
 });
 
 export const createFolder = createAsyncThunk(
   "template/createFolder",
   async (payload: CreateFolderInterface, { rejectWithValue }) => {
-    const { title } = payload;
+    const { title, userId: user_id } = payload;
     const newFolder: any = {
       title,
+      user_id
     };
     const { data, error } = await supabase.from("folders").insert(newFolder);
 
@@ -147,11 +173,12 @@ export const createTemplate = createAsyncThunk(
       exercises: JSON.stringify(payload.params),
       folder_id: payload.folId,
       template_name: payload.title,
+      user_id: payload.userId
     };
 
     const { data, error } = await supabase
       .from("templates")
-      .insert(newTemplate);
+      .insert(newTemplate)
 
     if (error) {
       console.error(error);
@@ -166,35 +193,52 @@ export const createTemplate = createAsyncThunk(
   }
 );
 
-export const getFolders = createAsyncThunk(
-  "template/getFolders",
-  async (_, { rejectWithValue }) => {
-    const { data, error } = await supabase.from("folders").select()
+// export const getFolders = createAsyncThunk(
+//   "template/getFolders",
+//   async (payload: string, { rejectWithValue }) => {
+//     const { data, error } = await supabase.from("folders").select().eq('user_id', payload)
 
-    if (error) {
-      console.error(error);
-      return rejectWithValue([]);
+//     if (error) {
+//       console.error(error);
+//       return rejectWithValue([]);
+//     }
+
+//     console.log("folder data", data)
+//     return data;
+//   }
+// );
+
+// export const getTemplates = createAsyncThunk(
+//   "template/getTemplates",
+//   async (payload: string, { rejectWithValue }) => {
+//     const { data, error } = await supabase.from("templates").select().eq('user_id', payload)
+
+//     if (error) {
+//       console.error(error);
+//       return rejectWithValue([]);
+//     }
+
+//     console.log("template data", data)
+//     return data;
+//   }
+// );
+
+export const getUserTemplateData = createAsyncThunk(
+  "template/getUserData",
+  async (payload: string, { rejectWithValue }) => {
+
+    const { data: folder_data, error: folder_erorr } = await supabase.from("folders").select().eq('user_id', payload)
+    const { data: template_data, error: template_error } = await supabase.from("templates").select().eq('user_id', payload)
+
+    if (template_error || folder_erorr) {
+      console.error(template_error || folder_erorr)
+      return rejectWithValue(template_error || folder_erorr)
     }
 
-    console.log("folder data", data)
-    return data;
+    return { templateData: template_data, folderData: folder_data }
+
   }
-);
-
-export const getTemplates = createAsyncThunk(
-  "template/getTemplates",
-  async (_, { rejectWithValue }) => {
-    const { data, error } = await supabase.from("templates").select()
-
-    if (error) {
-      console.error(error);
-      return rejectWithValue([]);
-    }
-
-    console.log("template data", data)
-    return data;
-  }
-);
+)
 
 export const { deleteFolder, emptyFolder, deleteTemplate } =
   templateSlice.actions;
