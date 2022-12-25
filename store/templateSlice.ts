@@ -141,11 +141,12 @@ const templateSlice = createSlice({
         state.status = "fulfilled"
       }).addCase(getUserTemplateData.rejected, (state, _) => {
         state.status = "rejected"
-      })
-      .addCase(deleteTemplate.fulfilled, (state, { payload }) => {
+      }).addCase(deleteTemplate.fulfilled, (state, { payload }) => {
         const { folderId, templateId } = payload;
 
         delete state.folders[folderId].templates[templateId];
+      }).addCase(deleteTemplate.rejected, (state, _) => {
+        state.status = "rejected"
       })
   },
 });
