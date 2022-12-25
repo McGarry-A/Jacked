@@ -19,11 +19,11 @@ const lineGraphWidget: React.FC<ILineProps> = (props) => {
       },
     ],
   };
-  
+
   return isLoaded ? (
     <LineChart
       data={chartData}
-      width={SCREEN_WIDTH - 20}
+      width={SCREEN_WIDTH}
       height={160}
       yAxisLabel=""
       chartConfig={CONFIG}
