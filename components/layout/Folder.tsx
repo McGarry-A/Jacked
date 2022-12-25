@@ -27,28 +27,10 @@ interface IProps {
 export default function Folder(props: IProps) {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
-  const [tempalteModalIsVisible, setTemplateModalIsVisible] =
-    useState<boolean>(false);
 
   const { templates, id, name } = props;
-  const navigation = useNavigation();
 
-  const renderTemplateModal = () => {
-    return (
-      <TemplateModal
-        isVisible={tempalteModalIsVisible}
-        setIsVisible={setTemplateModalIsVisible}
-      />
-    );
-  };
-
-  const {
-    h1ColorMode,
-    h2ColorMode,
-    pTextColorMode,
-    ctaIconColorMode,
-    screenColorMode,
-  } = useColorScheme();
+  const { pTextColorMode } = useColorScheme();
 
   const renderhead = () => {
     return (
@@ -86,8 +68,7 @@ export default function Folder(props: IProps) {
   };
 
   const renderTemplates = () => {
-
-    console.log(Object.values(templates))
+    console.log(Object.values(templates));
     return (
       <Collapse isOpen={!isCollapsed}>
         <FlatList
@@ -97,7 +78,6 @@ export default function Folder(props: IProps) {
           keyExtractor={(item) => item.tempId}
           renderItem={({ item }) => (
             <TemplateCard
-              setModalIsOpen={setTemplateModalIsVisible}
               key={item.tempId}
               title={item.templateName}
               exercises={item.exercises}
@@ -109,16 +89,21 @@ export default function Folder(props: IProps) {
     );
   };
 
-  return (
-    <Box key={id}>
-      {renderhead()}
-      {renderTemplates()}
+  const renderAddTemplateModal = () => {
+    return (
       <AddTemplateModal
         isVisible={modalIsOpen}
         setIsVisible={setModalIsOpen}
         folId={id}
       />
-      {renderTemplateModal()}
+    );
+  };
+
+  return (
+    <Box key={id}>
+      {renderhead()}
+      {renderTemplates()}
+      {renderAddTemplateModal()}
     </Box>
   );
 }
