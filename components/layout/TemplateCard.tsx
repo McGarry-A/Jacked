@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 interface TemplateCardProps {
   setModalIsOpen: React.Dispatch<SetStateAction<boolean>>;
   title: string;
+  templateId: string;
   exercises: {
     [key: string]: {
       exerciseId: number;
@@ -24,6 +25,7 @@ interface TemplateCardProps {
 
 const TemplateCard: React.FC<TemplateCardProps> = ({
   title,
+  templateId,
   exercises,
   setModalIsOpen,
 }) => {
@@ -58,7 +60,8 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
     // We should not have an object passed in the route params
     // We can now see Object Object in params
     // There should be something like activate_template which uses template ID and then starts the workout using that data
-    navigate("ActiveWorkout", { title, exercises });
+    
+    navigate("ActiveWorkout", { title });
   };
 
   const renderExercises = (

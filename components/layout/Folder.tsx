@@ -86,6 +86,8 @@ export default function Folder(props: IProps) {
   };
 
   const renderTemplates = () => {
+
+    console.log(Object.values(templates))
     return (
       <Collapse isOpen={!isCollapsed}>
         <FlatList
@@ -99,6 +101,7 @@ export default function Folder(props: IProps) {
               key={item.tempId}
               title={item.templateName}
               exercises={item.exercises}
+              templateId={String(item.tempId)}
             />
           )}
         />
