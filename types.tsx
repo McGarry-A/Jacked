@@ -23,6 +23,7 @@ type ActiveWorkoutParams =
   | undefined;
 
 export type RootStackParamList = {
+  Auth: undefined;
   Root: NavigatorScreenParams<RootTabParamList>;
   Modal: undefined;
   NotFound: undefined;
