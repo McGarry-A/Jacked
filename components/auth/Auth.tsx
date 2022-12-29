@@ -51,9 +51,6 @@ const Auth = () => {
     if (!password || !email)
       return setError("Please enter username and password");
 
-    // REVIEW:
-    // CHECK VALID EMAIL FUNCTION VALIDATEMAIL IF NOT THROW ERROR
-
     dispatch(userLogin({ email: email, password: password }));
   };
 
@@ -283,16 +280,7 @@ const Auth = () => {
 
   const renderAuth = () => {
     return (
-      <Box
-        mx={4}
-        backgroundColor={"whitesmoke"}
-        h={"sm"}
-        my={"auto"}
-        _web={{
-          width: "full",
-          maxW: "md",
-        }}
-      >
+      <Box mx={4} h={"sm"} my={"auto"} w={"full"} bgColor={"coolGray.100"}>
         {renderHeading()}
         {renderLogin()}
         {renderSignin()}
@@ -301,7 +289,13 @@ const Auth = () => {
   };
 
   return (
-    <View h={"full"} w={"full"} justifyContent={"center"} alignItems={"center"}>
+    <View
+      h={"full"}
+      justifyContent={"center"}
+      alignItems={"center"}
+      px={5}
+      backgroundColor={"white"}
+    >
       {renderAuth()}
     </View>
   );

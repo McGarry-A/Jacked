@@ -16,17 +16,21 @@ declare global {
   }
 }
 
+type ActiveWorkoutParams =
+  | {
+      title: string | null;
+    }
+  | undefined;
+
 export type RootStackParamList = {
+  Auth: undefined;
   Root: NavigatorScreenParams<RootTabParamList>;
   Modal: undefined;
   NotFound: undefined;
   Calendar: undefined;
   User: undefined;
   Settings: undefined;
-  ActiveWorkout: {
-    title: string;
-    exercises: any;
-  };
+  ActiveWorkout: ActiveWorkoutParams;
   AddExercises: undefined;
   CreateTemplate: undefined;
   BottomTabNavigator: undefined;

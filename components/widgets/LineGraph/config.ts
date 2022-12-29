@@ -2,9 +2,7 @@ import { Dimensions } from "react-native";
 
 const CONFIG = {
     backgroundGradientFrom: "#FFFFFF",
-    backgroundGradientFromOpacity: 1,
     backgroundGradientTo: "#FFFFFF",
-    backgroundGradientToOpacity: 1,
     color: () => "#808080",
     decimalPlaces: 1,
     propsForDots: {

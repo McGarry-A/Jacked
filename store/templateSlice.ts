@@ -63,13 +63,13 @@ const templateSlice = createSlice({
       const { folderId } = payload;
       state.folders[folderId].templates = {};
     },
-    deleteTemplate: (
-      state,
-      { payload }: PayloadAction<deleteTemplateInterface>
-    ) => {
-      const { folId, tempId } = payload;
-      delete state.folders[folId].templates[tempId];
-    },
+    // deleteTemplate: (
+    //   state,
+    //   { payload }: PayloadAction<deleteTemplateInterface>
+    // ) => {
+    //   const { folId, tempId } = payload;
+    //   delete state.folders[folId].templates[tempId];
+    // },
   },
   extraReducers: (builder) => {
     builder
@@ -141,6 +141,12 @@ const templateSlice = createSlice({
         state.status = "fulfilled"
       }).addCase(getUserTemplateData.rejected, (state, _) => {
         state.status = "rejected"
+      }).addCase(deleteTemplate.fulfilled, (state, { payload }) => {
+        const { folderId, templateId } = payload;
+
+        delete state.folders[folderId].templates[templateId];
+      }).addCase(deleteTemplate.rejected, (state, _) => {
+        state.status = "rejected"
       })
   },
 });
@@ -193,36 +199,6 @@ export const createTemplate = createAsyncThunk(
   }
 );
 
-// export const getFolders = createAsyncThunk(
-//   "template/getFolders",
-//   async (payload: string, { rejectWithValue }) => {
-//     const { data, error } = await supabase.from("folders").select().eq('user_id', payload)
-
-//     if (error) {
-//       console.error(error);
-//       return rejectWithValue([]);
-//     }
-
-//     console.log("folder data", data)
-//     return data;
-//   }
-// );
-
-// export const getTemplates = createAsyncThunk(
-//   "template/getTemplates",
-//   async (payload: string, { rejectWithValue }) => {
-//     const { data, error } = await supabase.from("templates").select().eq('user_id', payload)
-
-//     if (error) {
-//       console.error(error);
-//       return rejectWithValue([]);
-//     }
-
-//     console.log("template data", data)
-//     return data;
-//   }
-// );
-
 export const getUserTemplateData = createAsyncThunk(
   "template/getUserData",
   async (payload: string, { rejectWithValue }) => {
@@ -240,6 +216,25 @@ export const getUserTemplateData = createAsyncThunk(
   }
 )
 
-export const { deleteFolder, emptyFolder, deleteTemplate } =
+export const deleteTemplate = createAsyncThunk(
+  "template/deleteWidget",
+  async (payload: string, { rejectWithValue }) => {
+
+    const { data, error } = await supabase
+      .from("templates")
+      .delete()
+      .eq("id", payload)
+
+      if (error) {
+        return rejectWithValue(error)
+      }
+
+      console.log("data", data)
+
+      return { folderId: data[0].folder_id, templateId: data[0].id }
+  }
+)
+
+export const { deleteFolder, emptyFolder } =
   templateSlice.actions;
 export default templateSlice.reducer;

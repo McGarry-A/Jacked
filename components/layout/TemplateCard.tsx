@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { Text, VStack, Heading, Pressable, HStack, Box } from "native-base";
-import React, { SetStateAction } from "react";
+import { Text, VStack, Heading, Pressable, HStack } from "native-base";
+import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { faClock } from "@fortawesome/free-solid-svg-icons/faClock";
 import { SetInterface } from "../../types/CurrentWorkoutInterface";
@@ -9,10 +9,11 @@ import { addLift, startWorkout } from "../../store/currentWorkoutSlice";
 import useColorScheme from "../../hooks/useColorScheme";
 import Elipsis from "./Elipsis";
 import { useNavigation } from "@react-navigation/native";
+import TemplateModal from "../modal/TemplateModal";
 
 interface TemplateCardProps {
-  setModalIsOpen: React.Dispatch<SetStateAction<boolean>>;
   title: string;
+  templateId: string;
   exercises: {
     [key: string]: {
       exerciseId: number;
@@ -22,15 +23,13 @@ interface TemplateCardProps {
   };
 }
 
-const TemplateCard: React.FC<TemplateCardProps> = ({
-  title,
-  exercises,
-  setModalIsOpen,
-}) => {
+const TemplateCard: React.FC<TemplateCardProps> = ({ title, exercises, templateId }) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.userSlice.user);
   const { pTextColorMode } = useColorScheme();
   const { navigate } = useNavigation();
+  const [tempalteModalIsVisible, setTemplateModalIsVisible] =
+    useState<boolean>(false);
 
   const handleAddLiftsToWorkout = () => {
     const { userId } = user;
@@ -53,12 +52,17 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
     const { userId } = user;
     handleAddLiftsToWorkout();
     dispatch(startWorkout({ userId }));
+    navigate("ActiveWorkout", { title });
+  };
 
-    // NOTE: this is an antipattern
-    // We should not have an object passed in the route params
-    // We can now see Object Object in params
-    // There should be something like activate_template which uses template ID and then starts the workout using that data
-    navigate("ActiveWorkout", { title, exercises });
+  const renderTemplateModal = () => {
+    return (
+      <TemplateModal
+        templateId={templateId}
+        isVisible={tempalteModalIsVisible}
+        setIsVisible={setTemplateModalIsVisible}
+      />
+    );
   };
 
   const renderExercises = (
@@ -88,7 +92,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
         <Heading fontSize="sm" color={pTextColorMode} flex={1}>
           {title}
         </Heading>
-        <Elipsis size={10} onPress={() => setModalIsOpen(true)} />
+        <Elipsis size={10} onPress={() => setTemplateModalIsVisible(true)} />
       </HStack>
     );
   };
@@ -131,6 +135,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
         {renderBody()}
         {renderDate()}
       </VStack>
+      {renderTemplateModal()}
     </Pressable>
   );
 };

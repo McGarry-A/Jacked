@@ -30,9 +30,10 @@ import Exercises from "../screens/root/Exercises";
 import AddExercises from "../screens/modals/AddExercises";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { cancelWorkout } from "../store/currentWorkoutSlice";
-import { useAppDispatch } from "../store";
+import { useAppDispatch, useAppSelector } from "../store";
 import Start from "../screens/root/Start";
 import ColorThemeSwitch from "../components/layout/ColorThemeSwitch";
+import Auth from "../components/auth/Auth";
 
 export default function Navigation() {
   return (
@@ -50,6 +51,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   const dispatch = useAppDispatch();
+  const { isLoggedIn } = useAppSelector((state) => state.userSlice.user);
   const { screenColorModeHex } = useColorScheme();
   return (
     <Stack.Navigator
@@ -60,64 +62,83 @@ function RootNavigator() {
         },
       }}
     >
-      <Stack.Screen
-        name="Root"
-        component={BottomTabNavigator}
-        options={() => ({
-          headerShown: false,
-          headerStyle: {
-            backgroundColor: screenColorModeHex,
-          },
-        })}
-      />
-      <Stack.Screen
-        name="Settings"
-        component={Settings}
-        options={{ title: "Settings" }}
-      />
-      <Stack.Screen
-        name="ActiveWorkout"
-        component={ActiveWorkout}
-        options={({ navigation }) => ({
-          title: "Active Workout",
-          headerStyle: {
-            backgroundColor: screenColorModeHex,
-          },
-          headerRight: () => (
-            <Button
-              variant="ghost"
-              colorScheme={"red"}
-              onPress={() => {
-                dispatch(cancelWorkout());
-                navigation.navigate("Root");
-              }}
-            >
-              <Text textTransform={"uppercase"} color="red.400" fontSize={"xs"}>
-                Cancel
-              </Text>
-            </Button>
-          ),
-        })}
-      />
-      <Stack.Group screenOptions={{ presentation: "modal" }}>
-        <Stack.Screen name="Calendar" component={Calendar} />
+      {!isLoggedIn ? (
         <Stack.Screen
-          name="AddExercises"
-          component={AddExercises}
-          options={({ navigation }) => ({
-            title: "",
-            headerRight: () => (
-              <Pressable onPress={() => navigation.goBack()}>
-                <FontAwesomeIcon
-                  icon={faChevronDown}
-                  color={"skyblue"}
-                  size={20}
-                />
-              </Pressable>
-            ),
+          name="Auth"
+          component={Auth}
+          options={() => ({
+            headerShown: false,
+            headerStyle: {
+              backgroundColor: screenColorModeHex,
+            },
           })}
         />
-      </Stack.Group>
+      ) : (
+        <>
+          <Stack.Screen
+            name="Root"
+            component={BottomTabNavigator}
+            options={() => ({
+              headerShown: false,
+              headerStyle: {
+                backgroundColor: screenColorModeHex,
+              },
+            })}
+          />
+          <Stack.Screen
+            name="Settings"
+            component={Settings}
+            options={{ title: "Settings" }}
+          />
+          <Stack.Screen
+            name="ActiveWorkout"
+            component={ActiveWorkout}
+            options={({ navigation }) => ({
+              title: "Active Workout",
+              headerStyle: {
+                backgroundColor: screenColorModeHex,
+              },
+              headerRight: () => (
+                <Button
+                  variant="ghost"
+                  colorScheme={"red"}
+                  onPress={() => {
+                    dispatch(cancelWorkout());
+                    navigation.navigate("Root");
+                  }}
+                >
+                  <Text
+                    textTransform={"uppercase"}
+                    color="red.400"
+                    fontSize={"xs"}
+                  >
+                    Cancel
+                  </Text>
+                </Button>
+              ),
+            })}
+          />
+          <Stack.Group screenOptions={{ presentation: "modal" }}>
+            <Stack.Screen name="Calendar" component={Calendar} />
+            <Stack.Screen
+              name="AddExercises"
+              component={AddExercises}
+              options={({ navigation }) => ({
+                title: "",
+                headerRight: () => (
+                  <Pressable onPress={() => navigation.goBack()}>
+                    <FontAwesomeIcon
+                      icon={faChevronDown}
+                      color={"skyblue"}
+                      size={20}
+                    />
+                  </Pressable>
+                ),
+              })}
+            />
+          </Stack.Group>
+        </>
+      )}
     </Stack.Navigator>
   );
 }
