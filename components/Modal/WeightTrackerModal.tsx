@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { Select } from "native-base";
 import { SetStateAction } from "react";
 import { useAppDispatch } from "../../store";
 import { deleteWidget } from "../../store/WidgetsSlice";
@@ -7,13 +6,13 @@ import ModalItem from "./ModalItem";
 import ModalWrapper from "./ModalWrapper";
 import { faXmark } from "@fortawesome/free-solid-svg-icons/faXmark";
 
-interface ILineGraphWidgetModal {
+interface IWeightTrackerModal {
   modalIsVisible: boolean;
   setModalIsVisible: React.Dispatch<SetStateAction<boolean>>;
   widgetId: string;
 }
 
-const LineGraphWidgetModal = (props: ILineGraphWidgetModal) => {
+const WeightTrackerModal = (props: IWeightTrackerModal) => {
   const { modalIsVisible, setModalIsVisible, widgetId } = props;
   const dispatch = useAppDispatch();
 
@@ -46,4 +45,4 @@ const LineGraphWidgetModal = (props: ILineGraphWidgetModal) => {
   );
 };
 
-export default LineGraphWidgetModal;
+export default WeightTrackerModal;
