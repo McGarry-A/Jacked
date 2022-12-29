@@ -1,8 +1,9 @@
 import { Box } from "native-base";
 import { useState } from "react";
+import WidgetHeader from "./WidgetHeader";
 import BarChartWidgetModal from "../modal/BarChartWidgetModal";
 import LineGraphWidgetModal from "../modal/LineGraphWidgetModal";
-import WidgetHeader from "./WidgetHeader";
+import WeightTrackerModal from "../modal/WeightTrackerModal";
 
 interface IWidgetContainer {
   title: string;
@@ -39,6 +40,15 @@ const WidgetContainer = (props: IWidgetContainer) => {
       );
     }
 
+    if (type === "WEIGHT_TRACKER") {
+      return (
+        <WeightTrackerModal
+          modalIsVisible={modalIsVisible}
+          setModalIsVisible={setModalIsVisible}
+          widgetId={widgetId}
+        />
+      );
+    }
     return <></>;
   };
 

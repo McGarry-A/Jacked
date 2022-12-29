@@ -1,8 +1,5 @@
-import { FontAwesome } from "@expo/vector-icons";
-import { Box, Heading, Modal, Pressable, Text } from "native-base";
+import { Box, Heading, Text } from "native-base";
 import { SetStateAction } from "react";
-import useColorScheme from "../../hooks/useColorScheme";
-import DeleteButton from "../layout/DeleteButton";
 import Elipsis from "../layout/Elipsis";
 
 interface IWidgetHeader {
