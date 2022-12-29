@@ -41,11 +41,21 @@ export default function AddWidgetModal(props: IProps) {
     setStep("CHOOSE_WIDGET_TYPE");
   };
 
-  const handleCreateBarWidget = () => {
+  interface IHandleCreateWidget {
+    title: string;
+    type: "WEIGHT_TRACKER" | "SESSION_FREQUENCY";
+    subtitle: string;
+  }
+
+  const handleCreateWidget = ({
+    title,
+    type,
+    subtitle,
+  }: IHandleCreateWidget) => {
     const widget: IWidgetInterface = {
-      title: `Session Frequency`,
-      type: "SESSION_FREQUENCY",
-      subtitle: "",
+      title,
+      type,
+      subtitle,
       user_id: userId,
     };
     dispatch(createWidget({ ...widget }));
@@ -57,8 +67,27 @@ export default function AddWidgetModal(props: IProps) {
       return (
         <Modal.Body>
           <VStack space={1}>
-            <ModalItem pressHandler={handleCreateBarWidget}>
+            <ModalItem
+              pressHandler={() =>
+                handleCreateWidget({
+                  title: "Session Frequncy",
+                  subtitle: "",
+                  type: "SESSION_FREQUENCY",
+                })
+              }
+            >
               Session Frequency
+            </ModalItem>
+            <ModalItem
+              pressHandler={() =>
+                handleCreateWidget({
+                  title: "Weight Tracker",
+                  subtitle: "",
+                  type: "WEIGHT_TRACKER",
+                })
+              }
+            >
+              Weight Tracker
             </ModalItem>
             <ModalItem hasChevron pressHandler={handleChooseExerciseToTrack}>
               1 Rep Max Estimator

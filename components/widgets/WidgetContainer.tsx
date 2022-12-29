@@ -9,7 +9,7 @@ interface IWidgetContainer {
   subtitle: string;
   children: React.ReactNode;
   widgetId: string;
-  type: "ONE_REP_MAX_EST" | "SESSION_FREQUENCY";
+  type: "ONE_REP_MAX_EST" | "SESSION_FREQUENCY" | "WEIGHT_TRACKER";
 }
 
 const WidgetContainer = (props: IWidgetContainer) => {
@@ -28,6 +28,7 @@ const WidgetContainer = (props: IWidgetContainer) => {
         />
       );
     }
+
     if (type === "ONE_REP_MAX_EST") {
       return (
         <LineGraphWidgetModal
@@ -37,6 +38,7 @@ const WidgetContainer = (props: IWidgetContainer) => {
         />
       );
     }
+
     return <></>;
   };
 

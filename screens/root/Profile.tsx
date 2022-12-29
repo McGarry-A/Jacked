@@ -15,6 +15,7 @@ import { faGear } from "@fortawesome/free-solid-svg-icons/faGear";
 import { faRuler } from "@fortawesome/free-solid-svg-icons/faRuler";
 import useColorScheme from "../../hooks/useColorScheme";
 import AddMeasurementModal from "../../components/modal/AddMeasurementModal";
+import WeightTrackerWidget from "../../components/widgets/WeightTracker/WeightTrackerWidget";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
@@ -106,6 +107,18 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
           <SessionFrequncyWidget />
         </WidgetContainer>
       );
+    if (type === "WEIGHT_TRACKER") {
+      return (
+        <WidgetContainer
+          type={type}
+          title={title}
+          subtitle={subtitle}
+          widgetId={widgetId}
+        >
+          <WeightTrackerWidget />
+        </WidgetContainer>
+      );
+    }
 
     return <></>;
   };

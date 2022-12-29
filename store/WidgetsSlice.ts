@@ -10,7 +10,7 @@ export interface IOneRepMaxLine {
 }
 
 export interface IWidgetInterface {
-  type: "SESSION_FREQUENCY";
+  type: "SESSION_FREQUENCY" | "WEIGHT_TRACKER";
   title: string;
   subtitle: string;
   user_id: string;
