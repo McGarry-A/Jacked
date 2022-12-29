@@ -1,7 +1,7 @@
 import { RootTabScreenProps } from "../../types";
 import { Box, Heading, View, FlatList, HStack } from "native-base";
-import BarChartWidget from "../../components/widgets/BarChart/BarChartWidget";
-import LineGraphWidget from "../../components/widgets/LineGraph/LineGraphWidget";
+import SessionFrequncyWidget from "../../components/widgets/SessionFrequency/SessionFrequencyWidget";
+import OneRepMaxWidget from "../../components/widgets/OneRepMax/OneRepMaxWidget";
 import UserProfileBar from "../../components/layout/UserProfileBar";
 import { useAppDispatch, useAppSelector } from "../../store";
 import AddWidgetModal from "../../components/modal/AddWidgetModal";
@@ -91,7 +91,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
           subtitle={subtitle}
           widgetId={widgetId}
         >
-          <LineGraphWidget exerciseId={exerciseId} />
+          <OneRepMaxWidget exerciseId={exerciseId} />
         </WidgetContainer>
       );
     }
@@ -103,7 +103,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
           subtitle={subtitle}
           widgetId={widgetId}
         >
-          <BarChartWidget />
+          <SessionFrequncyWidget />
         </WidgetContainer>
       );
 

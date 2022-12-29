@@ -6,7 +6,7 @@ interface ILineProps {
   exerciseId: number;
 }
 
-const lineGraphWidget: React.FC<ILineProps> = (props) => {
+const OneRepMaxWidget: React.FC<ILineProps> = (props) => {
   const { exerciseId } = props;
   const { labels, values, isLoaded } = useOneRepMaxGraph({ exerciseId });
 
@@ -39,4 +39,4 @@ const lineGraphWidget: React.FC<ILineProps> = (props) => {
   ) : null;
 };
 
-export default lineGraphWidget;
+export default OneRepMaxWidget;
