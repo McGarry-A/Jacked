@@ -1,4 +1,5 @@
 import { Text } from "native-base";
+import { SetStateAction } from "react";
 
 interface IAuthStateSwitch {
   type: "SIGN_UP" | "LOG_IN";
