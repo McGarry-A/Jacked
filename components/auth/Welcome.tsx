@@ -1,8 +1,8 @@
 import { Box, Image, View, Text, VStack } from "native-base";
 import WelcomeHero from "../../images/welcome-hero.png";
-import Logo from "../../images/logo.png";
+import Logo from "../layout/Logo";
 import AuthStateSwitcher from "./AuthStateSwitcher";
-import PrimaryButton from "../layout/PrimaryButton";
+import PrimaryButton from "../layout/Buttons/PrimaryButton";
 
 const Welcome = () => {
   const handleSignUpWithEmail = () => {};
@@ -19,7 +19,7 @@ const Welcome = () => {
   const renderLogo = () => {
     return (
       <Box position={"absolute"} top={-100} left={0} right={0} margin={"auto"}>
-        <Image src={Logo} alt={"JACKED Logo"} />
+        <Logo />
       </Box>
     );
   };
