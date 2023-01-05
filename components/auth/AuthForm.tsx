@@ -1,11 +1,11 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { faLock } from "@fortawesome/free-solid-svg-icons/faLock";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { FormControl, Input } from "native-base";
 import { useState } from "react";
+import { useAppDispatch } from "../../store";
+import { userLogin, userSignup } from "../../store/userSlice";
 import PrimaryButton from "../layout/Buttons/PrimaryButton";
 import InputField from "../layout/InputField";
-import AuthStateSwitcher from "./AuthStateSwitcher";
 
 interface IAuthForm {
   type: "SIGN_UP" | "LOG_IN";
@@ -24,8 +24,25 @@ const AuthForm = ({ type }: IAuthForm) => {
     confirmPassword: "",
   });
 
-  const handleLogin = async () => {};
-  const handleSignup = async () => {};
+  const dispatch = useAppDispatch();
+
+  const handleLogin = () => {
+    const { password, email } = formData;
+
+    if (!password || !email) return;
+
+    dispatch(userLogin({ email, password }));
+  };
+
+  const handleSignup = () => {
+    const { password, email, confirmPassword } = formData;
+
+    if (!password || !email || !confirmPassword) return;
+    if (password !== confirmPassword) return;
+    if (password.length < 6) return;
+
+    dispatch(userSignup({ email, password }));
+  };
 
   const renderEmailField = () => {
     const { email } = formData;
@@ -52,6 +69,13 @@ const AuthForm = ({ type }: IAuthForm) => {
         label="Password"
         value={password}
         onChangeText={(text) => setFormData({ ...formData, password: text })}
+        InputRightElement={
+          <FontAwesomeIcon
+            icon={faLock}
+            size={15}
+            style={{ marginRight: 8, color: "gray" }}
+          />
+        }
       />
     );
   };
@@ -64,6 +88,13 @@ const AuthForm = ({ type }: IAuthForm) => {
         value={confirmPassword}
         onChangeText={(text) =>
           setFormData({ ...formData, confirmPassword: text })
+        }
+        InputRightElement={
+          <FontAwesomeIcon
+            icon={faLock}
+            size={15}
+            style={{ marginRight: 8, color: "gray" }}
+          />
         }
       />
     );

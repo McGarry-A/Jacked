@@ -1,5 +1,4 @@
 import { Text } from "native-base";
-import { SetStateAction } from "react";
 
 interface IAuthStateSwitch {
   type: "SIGN_UP" | "LOG_IN";
@@ -8,9 +7,9 @@ interface IAuthStateSwitch {
 const AuthStateSwitcher = ({ type }: IAuthStateSwitch) => {
   if (type === "LOG_IN") {
     return (
-      <Text>
+      <Text textAlign={"center"} my={5}>
         Already have an account?{" "}
-        <Text fontWeight={700} textDecoration={"underline"}>
+        <Text fontWeight={700} underline>
           Log in
         </Text>
       </Text>
@@ -18,9 +17,9 @@ const AuthStateSwitcher = ({ type }: IAuthStateSwitch) => {
   }
 
   return (
-    <Text>
+    <Text textAlign={"center"} my={5}>
       Dont have an account?{" "}
-      <Text fontWeight={700} textDecoration={"underline"}>
+      <Text fontWeight={700} underline>
         Sign up
       </Text>
     </Text>

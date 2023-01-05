@@ -22,6 +22,11 @@ type ActiveWorkoutParams =
     }
   | undefined;
 
+export type RootAuthStack = {
+  Auth: undefined;
+  Welcome: undefined;
+};
+
 export type RootStackParamList = {
   Auth: undefined;
   Root: NavigatorScreenParams<RootTabParamList>;

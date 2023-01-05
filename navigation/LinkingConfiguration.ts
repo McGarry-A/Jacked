@@ -14,7 +14,7 @@ const linking: LinkingOptions<RootStackParamList> = {
   config: {
     screens: {
       Root: {
-        path: "App",
+        path: "Root",
         screens: {
           Exercises: 'Exercises',
           History: 'History',

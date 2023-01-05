@@ -18,6 +18,7 @@ import Profile from "../screens/root/Profile";
 import History from "../screens/root/History";
 
 import {
+  RootAuthStack,
   RootStackParamList,
   RootTabParamList,
   RootTabScreenProps,
@@ -34,6 +35,7 @@ import { useAppDispatch, useAppSelector } from "../store";
 import Start from "../screens/root/Start";
 import ColorThemeSwitch from "../components/layout/ColorThemeSwitch";
 import Auth from "../components/auth/Auth";
+import Welcome from "../components/auth/Welcome";
 
 export default function Navigation() {
   return (
@@ -48,98 +50,108 @@ export default function Navigation() {
  * https://reactnavigation.org/docs/modal
  */
 const Stack = createNativeStackNavigator<RootStackParamList>();
+const AuthStack = createNativeStackNavigator<RootAuthStack>();
 
 function RootNavigator() {
   const dispatch = useAppDispatch();
   const { isLoggedIn } = useAppSelector((state) => state.userSlice.user);
   const { screenColorModeHex } = useColorScheme();
   return (
-    <Stack.Navigator
-      screenOptions={{
-        statusBarColor: screenColorModeHex,
-        headerStyle: {
-          backgroundColor: screenColorModeHex,
-        },
-      }}
-    >
+    <>
       {!isLoggedIn ? (
-        <Stack.Screen
-          name="Auth"
-          component={Auth}
-          options={() => ({
-            headerShown: false,
-            headerStyle: {
-              backgroundColor: screenColorModeHex,
-            },
-          })}
-        />
-      ) : (
-        <>
-          <Stack.Screen
-            name="Root"
-            component={BottomTabNavigator}
+        <AuthStack.Navigator initialRouteName="Welcome">
+          <AuthStack.Screen
+            name="Welcome"
+            component={Welcome}
             options={() => ({
               headerShown: false,
+            })}
+          />
+          <AuthStack.Screen
+            name="Auth"
+            component={Auth}
+            options={() => ({
+              headerShown: false,
+            })}
+          />
+        </AuthStack.Navigator>
+      ) : (
+        <>
+          <Stack.Navigator
+            initialRouteName="Root"
+            screenOptions={{
+              statusBarColor: screenColorModeHex,
               headerStyle: {
                 backgroundColor: screenColorModeHex,
               },
-            })}
-          />
-          <Stack.Screen
-            name="Settings"
-            component={Settings}
-            options={{ title: "Settings" }}
-          />
-          <Stack.Screen
-            name="ActiveWorkout"
-            component={ActiveWorkout}
-            options={({ navigation }) => ({
-              title: "Active Workout",
-              headerStyle: {
-                backgroundColor: screenColorModeHex,
-              },
-              headerRight: () => (
-                <Button
-                  variant="ghost"
-                  colorScheme={"red"}
-                  onPress={() => {
-                    dispatch(cancelWorkout());
-                    navigation.navigate("Root");
-                  }}
-                >
-                  <Text
-                    textTransform={"uppercase"}
-                    color="red.400"
-                    fontSize={"xs"}
-                  >
-                    Cancel
-                  </Text>
-                </Button>
-              ),
-            })}
-          />
-          <Stack.Group screenOptions={{ presentation: "modal" }}>
-            <Stack.Screen name="Calendar" component={Calendar} />
+            }}
+          >
             <Stack.Screen
-              name="AddExercises"
-              component={AddExercises}
+              name="Root"
+              component={BottomTabNavigator}
+              options={() => ({
+                headerShown: false,
+                headerStyle: {
+                  backgroundColor: screenColorModeHex,
+                },
+              })}
+            />
+            <Stack.Screen
+              name="Settings"
+              component={Settings}
+              options={{ title: "Settings" }}
+            />
+            <Stack.Screen
+              name="ActiveWorkout"
+              component={ActiveWorkout}
               options={({ navigation }) => ({
-                title: "",
+                title: "Active Workout",
+                headerStyle: {
+                  backgroundColor: screenColorModeHex,
+                },
                 headerRight: () => (
-                  <Pressable onPress={() => navigation.goBack()}>
-                    <FontAwesomeIcon
-                      icon={faChevronDown}
-                      color={"skyblue"}
-                      size={20}
-                    />
-                  </Pressable>
+                  <Button
+                    variant="ghost"
+                    colorScheme={"red"}
+                    onPress={() => {
+                      dispatch(cancelWorkout());
+                      navigation.navigate("Root");
+                    }}
+                  >
+                    <Text
+                      textTransform={"uppercase"}
+                      color="red.400"
+                      fontSize={"xs"}
+                    >
+                      Cancel
+                    </Text>
+                  </Button>
                 ),
               })}
             />
-          </Stack.Group>
+            <Stack.Group screenOptions={{ presentation: "modal" }}>
+              <Stack.Screen name="Calendar" component={Calendar} />
+              <Stack.Screen
+                name="AddExercises"
+                component={AddExercises}
+                options={({ navigation }) => ({
+                  title: "",
+                  headerRight: () => (
+                    <Pressable onPress={() => navigation.goBack()}>
+                      <FontAwesomeIcon
+                        icon={faChevronDown}
+                        color={"skyblue"}
+                        size={20}
+                      />
+                    </Pressable>
+                  ),
+                })}
+              />
+            </Stack.Group>
+          </Stack.Navigator>
         </>
       )}
-    </Stack.Navigator>
+    </>
   );
 }
 
