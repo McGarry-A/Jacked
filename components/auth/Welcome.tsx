@@ -5,10 +5,13 @@ import PrimaryButton from "../layout/Buttons/PrimaryButton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons/faEnvelope";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons/faGoogle";
+import { useNavigation } from "@react-navigation/core";
 
 const Welcome = () => {
+  const { navigate } = useNavigation();
+
   const handleSignUpWithEmail = () => {
-    // navigate to auth page
+    navigate("Auth");
   };
   const handleSignUpWithGoogle = () => {};
 
@@ -96,7 +99,13 @@ const Welcome = () => {
   const renderAuthStateSwitcher = () => <AuthStateSwitcher type="LOG_IN" />;
 
   return (
-    <View flex={1}>
+    <View
+      flex={1}
+      _web={{
+        maxW: "lg",
+        margin: "auto",
+      }}
+    >
       {renderHero()}
       {renderHeroContent()}
       {renderLoginOptions()}
