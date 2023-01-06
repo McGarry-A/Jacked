@@ -16,6 +16,8 @@ declare global {
   }
 }
 
+type LoginTypes = "SIGN_UP" | "LOG_IN";
+
 type ActiveWorkoutParams =
   | {
       title: string | null;
@@ -28,14 +30,14 @@ export type RootAuthStack = {
 };
 
 export type RootStackParamList = {
-  Auth: undefined;
+  Auth: { type: LoginTypes };
+  Welcome: undefined;
   Root: NavigatorScreenParams<RootTabParamList>;
   Modal: undefined;
   NotFound: undefined;
   Calendar: undefined;
   User: undefined;
   Settings: undefined;
-  ActiveWorkout: ActiveWorkoutParams;
   AddExercises: undefined;
   CreateTemplate: undefined;
   BottomTabNavigator: undefined;

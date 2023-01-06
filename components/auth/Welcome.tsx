@@ -11,8 +11,9 @@ const Welcome = () => {
   const { navigate } = useNavigation();
 
   const handleSignUpWithEmail = () => {
-    navigate("Auth");
+    navigate("Auth", { type: "SIGN_UP" });
   };
+
   const handleSignUpWithGoogle = () => {};
 
   const renderHero = () => {
@@ -96,11 +97,12 @@ const Welcome = () => {
     );
   };
 
-  const renderAuthStateSwitcher = () => <AuthStateSwitcher type="LOG_IN" />;
+  const renderAuthStateSwitcher = () => <AuthStateSwitcher type="SIGN_UP" />;
 
   return (
     <View
       flex={1}
+      backgroundColor={"white"}
       _web={{
         maxW: "lg",
         margin: "auto",

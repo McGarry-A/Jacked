@@ -4,35 +4,37 @@
  * https://reactnavigation.org/docs/configuring-links
  */
 
-import { LinkingOptions } from '@react-navigation/native';
-import * as Linking from 'expo-linking';
+import { LinkingOptions } from "@react-navigation/native";
+import * as Linking from "expo-linking";
 
-import { RootStackParamList } from '../types';
+import { RootStackParamList } from "../types";
 
 const linking: LinkingOptions<RootStackParamList> = {
-  prefixes: [Linking.createURL('/')],
+  prefixes: [Linking.createURL("/")],
   config: {
     screens: {
+      Auth: "auth",
+      Welcome: "welcome",
       Root: {
-        path: "Root",
+        path: "",
         screens: {
-          Exercises: 'Exercises',
-          History: 'History',
+          Exercises: "exercises",
+          History: "history",
           Profile: {
-            path: "Profile",
+            path: "profile",
             screens: {
-              path: "Settings"
-            }
+              path: "settings",
+            },
           },
           Start: {
-            path: "Start",
+            path: "start",
             screens: {
-              path: "ActiveWorkout",
-            }
-          }
-        }
+              path: "active-workout",
+            },
+          },
+        },
       },
-    }
+    },
   },
 };
 

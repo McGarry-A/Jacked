@@ -1,25 +1,19 @@
-import { FontAwesome } from "@expo/vector-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  View,
-  Text,
-  Box,
-  Input,
-  Pressable,
-  FormControl,
-  Spinner,
-  Checkbox,
-  Heading,
-  VStack,
-} from "native-base";
-import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { reset, userLogin, userSignup } from "../../store/userSlice";
-import { faLock } from "@fortawesome/free-solid-svg-icons/faLock";
+import { useRoute } from "@react-navigation/native";
+import { View, Text, Box, Heading, VStack } from "native-base";
+import React, { useState } from "react";
 import Logo from "../layout/Logo";
 import AuthForm from "./AuthForm";
+import AuthStateSwitcher from "./AuthStateSwitcher";
+import SocialIcons from "./SocialIcons";
 
-const Auth = () => {
+const Auth = ({ route }: any) => {
+
+  const { type: routeType } = route && route.params ? route.params : "LOG_IN";
+  
+  const [type, setType] = useState<"SIGN_UP" | "LOG_IN">(routeType);
+
+
+  
   // const dispatch = useAppDispatch();
 
   // const isLoading = useAppSelector(
@@ -293,43 +287,74 @@ const Auth = () => {
   // };
 
   const renderLogo = () => (
-    <Box w={"full"}>
+    <Box w={"40"} h={"16"} marginX={"auto"} marginY={10}>
       <Logo flex={1} position={"relative"} />
     </Box>
   );
 
   const renderHeroCopy = () => {
+    if (type === "LOG_IN") {
+      <VStack space={3}>
+        <Heading
+          color={"coolGray.900"}
+          fontSize={32}
+          fontWeight={900}
+          textAlign={"center"}
+        >
+          Welcome to Jacked
+        </Heading>
+        <Text
+          color={"coolGray.400"}
+          fontSize={14}
+          fontWeight={700}
+          textAlign={"center"}
+        >
+          Sign in to start your fitness journey
+        </Text>
+      </VStack>;
+    }
+
     return (
       <VStack space={3}>
-        <Heading color={"coolGray.900"} fontSize={32} fontWeight={900}>
+        <Heading
+          color={"coolGray.900"}
+          fontSize={32}
+          fontWeight={900}
+          textAlign={"center"}
+        >
           Welcome Back
         </Heading>
-        <Text color={"coolGray.400"} fontSize={14} fontWeight={700}>
+        <Text
+          color={"coolGray.400"}
+          fontSize={14}
+          fontWeight={700}
+          textAlign={"center"}
+        >
           Login to pick up where you left off
         </Text>
       </VStack>
     );
   };
 
-  const renderAuthForm = () => {
-    return <AuthForm type={"LOG_IN"} />;
-  };
-  const renderSocialLogins = () => {};
-  const renderButton = () => {};
-  const renderSwitchState = () => {};
+  const renderAuthForm = () => (
+    <AuthForm type={type} SocialsComponent={SocialIcons} />
+  );
+
+  const renderSwitchState = () => (
+    <AuthStateSwitcher type={type} setType={setType} />
+  );
 
   return (
     <View
       flex={1}
+      backgroundColor={"white"}
       _web={{
-        maxW: "lg",
-        margin: "auto",
+        maxW: "xl",
       }}
     >
       {renderLogo()}
       {renderHeroCopy()}
       {renderAuthForm()}
-      {renderSocialLogins()}
       {renderSwitchState()}
     </View>
   );

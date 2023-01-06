@@ -6,15 +6,13 @@ interface IInputField extends IInputProps {
 
 const InputField = ({ label, ...rest }: IInputField) => {
   return (
-    <FormControl>
-      <FormControl.Label>{label}</FormControl.Label>
+    <FormControl w={'full'}>
+      <FormControl.Label fontSize={18} fontWeight={700}>{label}</FormControl.Label>
       <Input
         {...rest}
+        h={"12"}
         w="full"
-        placeholder="Enter Password"
-        type={"password"}
         variant="filled"
-        backgroundColor={"white"}
         _focus={{
           borderColor: "info.200",
         }}
