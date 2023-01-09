@@ -15,6 +15,7 @@ const SocialIcons = () => {
           textTransform={"uppercase"}
           letterSpacing={"lg"}
           fontWeight={600}
+          fontSize={12}
         >
           Or Sign in with
         </Text>
