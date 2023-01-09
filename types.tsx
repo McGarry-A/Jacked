@@ -32,6 +32,7 @@ export type RootAuthStack = {
 export type RootStackParamList = {
   Auth: { type: LoginTypes };
   Welcome: undefined;
+  ActiveWorkout: undefined;
   Root: NavigatorScreenParams<RootTabParamList>;
   Modal: undefined;
   NotFound: undefined;

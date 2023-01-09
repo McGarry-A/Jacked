@@ -2,12 +2,13 @@ import { FontAwesome } from "@expo/vector-icons";
 import { faLock } from "@fortawesome/free-solid-svg-icons/faLock";
 import { faEye } from "@fortawesome/free-solid-svg-icons/faEye";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { Box, VStack } from "native-base";
-import { useState } from "react";
-import { useAppDispatch } from "../../store";
+import { Box, useToast, VStack } from "native-base";
+import { useEffect, useRef, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../store";
 import { userLogin, userSignup } from "../../store/userSlice";
 import PrimaryButton from "../layout/Buttons/PrimaryButton";
 import InputField from "../layout/InputField";
+import ToastAlert from "../utils/ToastAlert";
 
 interface IAuthForm {
   type: "SIGN_UP" | "LOG_IN";
@@ -27,7 +28,25 @@ const AuthForm = ({ type, SocialsComponent }: IAuthForm) => {
     confirmPassword: "",
   });
 
+  const toast = useToast();
   const dispatch = useAppDispatch();
+  const { status } = useAppSelector((state) => state.userSlice);
+
+  useEffect(() => {
+    if (status === "rejected") {
+      toast.show({
+        placement: "top",
+        render: () => (
+          <ToastAlert
+            title="Error logging in or signing up"
+            description="An error occured, please try again"
+            status="error"
+            variant="solid"
+          />
+        ),
+      });
+    }
+  }, [status]);
 
   const handleLogin = () => {
     const { password, email } = formData;
@@ -149,8 +168,8 @@ const AuthForm = ({ type, SocialsComponent }: IAuthForm) => {
   };
 
   const renderSocialsComponent = () => {
-    return <SocialsComponent />
-  }
+    return <SocialsComponent />;
+  };
 
   const renderSubmitButton = () => {
     if (type === "SIGN_UP") {

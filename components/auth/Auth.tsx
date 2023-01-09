@@ -7,13 +7,10 @@ import AuthStateSwitcher from "./AuthStateSwitcher";
 import SocialIcons from "./SocialIcons";
 
 const Auth = ({ route }: any) => {
-
   const { type: routeType } = route && route.params ? route.params : "LOG_IN";
-  
+
   const [type, setType] = useState<"SIGN_UP" | "LOG_IN">(routeType);
 
-
-  
   // const dispatch = useAppDispatch();
 
   // const isLoading = useAppSelector(
@@ -349,7 +346,9 @@ const Auth = ({ route }: any) => {
       flex={1}
       backgroundColor={"white"}
       _web={{
-        maxW: "xl",
+        maxW: "lg",
+        width: "100%",
+        margin: "auto",
       }}
     >
       {renderLogo()}

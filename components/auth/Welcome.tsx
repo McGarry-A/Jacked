@@ -105,6 +105,7 @@ const Welcome = () => {
       backgroundColor={"white"}
       _web={{
         maxW: "lg",
+        width: "100%",
         margin: "auto",
       }}
     >
