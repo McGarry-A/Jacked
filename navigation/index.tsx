@@ -168,7 +168,15 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="Profile"
       screenOptions={{
-        tabBarStyle: [{ backgroundColor: screenColorModeHex, paddingTop: 5 }],
+        tabBarStyle: [
+          {
+            backgroundColor: screenColorModeHex,
+            paddingTop: 5,
+            maxWidth: 512,
+            marginHorizontal: "auto",
+            width: "100%",
+          },
+        ],
         tabBarActiveTintColor: bottomNavColorMode,
         headerStyle: {
           backgroundColor: screenColorModeHex,

@@ -6,15 +6,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons/faEnvelope";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons/faGoogle";
 import { useNavigation } from "@react-navigation/core";
+import { useAppDispatch } from "../../store";
+import { signInWithGoogle } from "../../store/userSlice";
 
 const Welcome = () => {
   const { navigate } = useNavigation();
+  const dispatch = useAppDispatch();
 
   const handleSignUpWithEmail = () => {
     navigate("Auth", { type: "SIGN_UP" });
   };
 
-  const handleSignUpWithGoogle = () => {};
+  const handleSignUpWithGoogle = async () => {
+    dispatch(signInWithGoogle());
+  };
 
   const renderHero = () => {
     return (
@@ -29,7 +34,7 @@ const Welcome = () => {
   };
 
   const renderLogo = () => (
-    <Box w={"1/3"} margin={"auto"} h={"16"}>
+    <Box w={"1/3"} margin={"auto"} >
       <Logo
         size={"full"}
         position={"absolute"}
@@ -38,6 +43,7 @@ const Welcome = () => {
         right={0}
         margin={"auto"}
         flex={1}
+        h={"16"}
       />
     </Box>
   );
@@ -46,7 +52,7 @@ const Welcome = () => {
     return (
       <>
         {renderLogo()}
-        <Box flexGrow={1}>
+        <Box flexGrow={1} mt={12}>
           <Text
             fontWeight={700}
             color={"coolGray.400"}

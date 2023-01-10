@@ -145,7 +145,7 @@ const ActiveWorkout = ({ route, navigation }: any) => {
     }
 
     return (
-      <VStack flex={1} px={3} space={1}>
+      <VStack flex={1} px={2} space={1}>
         <FlatList
           data={Object.values(exercises)}
           renderItem={({ item }) => <Lift {...item} />}

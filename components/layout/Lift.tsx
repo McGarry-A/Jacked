@@ -134,12 +134,8 @@ const Lift = (props: IProps) => {
       containerStyle={{ marginVertical: 4, borderRadius: 10 }}
     >
       <VStack
-        borderRadius={10}
         key={liftId}
         backgroundColor={"white"}
-        borderColor={"whitesmoke"}
-        borderWidth={1}
-        overflow={"hidden"}
       >
         {renderHeading(exerciseName)}
         {renderTableHead()}

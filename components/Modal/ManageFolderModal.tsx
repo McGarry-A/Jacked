@@ -1,21 +1,25 @@
+import { faFile } from "@fortawesome/free-regular-svg-icons/faFile";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { Input, Text, VStack } from "native-base";
 import { useEffect, useState } from "react";
 import useId from "../../hooks/useId";
-import { LiftData } from "../../screens/pages/AddExercisesTemplates";
+import { LiftData } from "../../screens/modals/AddExercises";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { createTemplate } from "../../store/templateSlice";
+import { createTemplate, deleteFolder } from "../../store/templateSlice";
 import { ExerciseList } from "../layout/ExerciseList";
-import { faFile } from "@fortawesome/free-regular-svg-icons/faFile";
+import ModalItem from "./ModalItem";
 import ModalWrapper from "./ModalWrapper";
 
-interface IProps {
+interface IManageFolderModal {
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
   folId: string;
 }
 
-const AddTemplateModal = (props: IProps) => {
+type Tstep = "DEFAULT" | "ADD_TEMPLATE";
+
+const ManageFolderModal = (props: IManageFolderModal) => {
+  const [step, setStep] = useState<Tstep>("DEFAULT");
   const { isVisible, setIsVisible } = props;
 
   const [liftData, setLiftData] = useState<LiftData[]>([]);
@@ -23,8 +27,16 @@ const AddTemplateModal = (props: IProps) => {
   const [error, setError] = useState<string>("");
 
   const { userId } = useAppSelector((state) => state.userSlice.user);
-
   const dispatch = useAppDispatch();
+
+  const handleAddTemplate = () => {
+    setStep("ADD_TEMPLATE");
+  };
+
+  const handleDeleteFolder = () => {
+    dispatch(deleteFolder(props.folId));
+    setIsVisible(false)
+  };
 
   useEffect(() => {
     setError("");
@@ -97,21 +109,42 @@ const AddTemplateModal = (props: IProps) => {
     return <ExerciseList config={config} cardProps={templateProps} />;
   };
 
+  const renderAddTemplateStep = () => {
+    if (step === "ADD_TEMPLATE") {
+      return (
+        <VStack space={2} flex={1}>
+          {renderError()}
+          {renderTemplateName()}
+          {renderList()}
+        </VStack>
+      );
+    }
+  };
+
+  const renderDefaultStep = () => {
+    if (step !== "DEFAULT") return;
+    return (
+      <VStack space={2}>
+        <ModalItem hasChevron pressHandler={handleAddTemplate}>
+          Add Template
+        </ModalItem>
+        <ModalItem pressHandler={handleDeleteFolder}>Delete Folder</ModalItem>
+      </VStack>
+    );
+  };
+
   return (
     <ModalWrapper
-      header="Add Template"
       isOpen={isVisible}
       onClose={setIsVisible}
-      width={"full"}
+      header="Manage Folder"
+      w={"full"}
       saveHandler={handleCreateTemplate}
     >
-      <VStack space={1}>
-        {renderError()}
-        {renderTemplateName()}
-        {renderList()}
-      </VStack>
+      {renderDefaultStep()}
+      {renderAddTemplateStep()}
     </ModalWrapper>
   );
 };
 
-export default AddTemplateModal;
+export default ManageFolderModal;

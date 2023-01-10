@@ -1,7 +1,5 @@
-import { faFile } from "@fortawesome/free-regular-svg-icons/faFile";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons/faChevronDown";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { useNavigation } from "@react-navigation/native";
 import {
   Box,
   Collapse,
@@ -13,9 +11,8 @@ import {
 import { useState } from "react";
 import useColorScheme from "../../hooks/useColorScheme";
 import { TemplateInterface } from "../../types/TemplateSliceInterface";
-import AddTemplateModal from "../modal/AddTemplateModal";
-import TemplateModal from "../modal/TemplateModal";
-import CtaButton from "./CtaButton";
+import ManageFolderModal from "../modal/ManageFolderModal";
+import Elipsis from "./Elipsis";
 import TemplateCard from "./TemplateCard";
 
 interface IProps {
@@ -27,12 +24,13 @@ interface IProps {
 export default function Folder(props: IProps) {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [folderModalIsOpen, setFolderModalIsOpen] = useState<boolean>(false);
 
   const { templates, id, name } = props;
 
   const { pTextColorMode } = useColorScheme();
 
-  const renderhead = () => {
+  const renderHeader = () => {
     return (
       <Pressable onPress={() => setIsCollapsed((state) => !state)}>
         <HStack justifyContent={"space-between"}>
@@ -53,7 +51,13 @@ export default function Folder(props: IProps) {
               />
             </Box>
           </HStack>
-          <CtaButton
+
+          <Elipsis
+            size={14}
+            margin={1}
+            onPress={() => setFolderModalIsOpen(true)}
+          />
+          {/* <CtaButton
             isHollow
             leftIcon={
               <FontAwesomeIcon icon={faFile} color={"#0284c7"} size={10} />
@@ -61,7 +65,7 @@ export default function Folder(props: IProps) {
             onPress={() => setModalIsOpen(true)}
           >
             Add Template
-          </CtaButton>
+          </CtaButton> */}
         </HStack>
       </Pressable>
     );
@@ -89,11 +93,11 @@ export default function Folder(props: IProps) {
     );
   };
 
-  const renderAddTemplateModal = () => {
+  const renderFolderModal = () => {
     return (
-      <AddTemplateModal
-        isVisible={modalIsOpen}
-        setIsVisible={setModalIsOpen}
+      <ManageFolderModal
+        isVisible={folderModalIsOpen}
+        setIsVisible={setFolderModalIsOpen}
         folId={id}
       />
     );
@@ -101,9 +105,9 @@ export default function Folder(props: IProps) {
 
   return (
     <Box key={id}>
-      {renderhead()}
+      {renderHeader()}
       {renderTemplates()}
-      {renderAddTemplateModal()}
+      {renderFolderModal()}
     </Box>
   );
 }

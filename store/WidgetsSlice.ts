@@ -33,7 +33,11 @@ const initialState: IInitialState = {
 const widgetSlice = createSlice({
   name: "widget_slice",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    refreshWidgets: (state) => {
+      state = initialState
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(createWidget.fulfilled, (state, { payload }) => {
       if (!payload) return
@@ -161,3 +165,5 @@ export const deleteWidget = createAsyncThunk(
 )
 // export const { createWidget } = widgetSlice.actions
 export default widgetSlice.reducer;
+
+export const { refreshWidgets } = widgetSlice.actions

@@ -6,7 +6,7 @@ import UserProfileBar from "../../components/layout/UserProfileBar";
 import { useAppDispatch, useAppSelector } from "../../store";
 import AddWidgetModal from "../../components/modal/AddWidgetModal";
 import { useEffect, useState } from "react";
-import { getWidgets, IOneRepMaxLine } from "../../store/WidgetsSlice";
+import { getWidgets, IOneRepMaxLine, refreshWidgets } from "../../store/WidgetsSlice";
 import WidgetContainer from "../../components/widgets/WidgetContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faWrench } from "@fortawesome/free-solid-svg-icons/faWrench";
@@ -27,6 +27,9 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 
   const dispatch = useAppDispatch();
   const { userId } = useAppSelector((state) => state.userSlice.user);
+  const { status } = useAppSelector((state) => state.widgetSlice);
+
+  const isWidgetRefreshing = status === "pending";
 
   useEffect(() => {
     dispatch(getWidgets({ userId }));
@@ -35,6 +38,10 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const renderProfile = () => {
     return <UserProfileBar />;
   };
+
+  const handleRefreshWidgets = () => {
+    dispatch(refreshWidgets())
+  }
 
   const renderDashboard = () => {
     return (
@@ -128,6 +135,8 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
       <FlatList
         data={Object.keys(widgets)}
         renderItem={({ item }) => renderWidget(item)}
+        onRefresh={handleRefreshWidgets}
+        refreshing={isWidgetRefreshing}
       />
     );
   };
@@ -163,7 +172,17 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   );
 
   return (
-    <View padding="3" backgroundColor={screenColorMode} flexGrow={1} flex={1}>
+    <View
+      padding="3"
+      backgroundColor={screenColorMode}
+      flexGrow={1}
+      flex={1}
+      _web={{
+        maxW: "lg",
+        w: "100%",
+        mx: "auto",
+      }}
+    >
       {renderMeasurement()}
       {renderScreenHeading()}
       {renderProfile()}
