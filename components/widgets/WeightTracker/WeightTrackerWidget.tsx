@@ -3,7 +3,7 @@ import useWeightTracker from "../../../hooks/useWeightGraph";
 import { CONFIG, SCREEN_WIDTH } from "./config";
 
 const WeightTrackerWidget = () => {
-  const { isLoaded, labels, values } = useWeightTracker();
+  const { isLoading, labels, values } = useWeightTracker();
 
   const chartData = {
     labels: labels,
@@ -15,7 +15,7 @@ const WeightTrackerWidget = () => {
     ],
   };
 
-  return isLoaded ? (
+  return !isLoading ? (
     <LineChart
       data={chartData}
       width={SCREEN_WIDTH}

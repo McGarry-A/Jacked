@@ -1,50 +1,75 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import moment from "moment";
 import { supabase } from "../supabase/supabaseClient";
 
 interface IWeight {
-    weight: string;
-    date: string;
+    labels: string[]
+    values: number[]
 }
 
 interface InitialStateInterface {
-    weight: IWeight[];
-    status: "fulfilled" | "pending" | "rejected" | "idle";
+    weight: IWeight;
+    status: "fulfilled" | "pending" | "rejected" | "idle" | "refreshing";
 }
 
 const initialState: InitialStateInterface = {
-    weight: [],
+    weight: {
+        labels: [],
+        values: []
+    },
     status: "idle",
 };
 
 const weightSlice = createSlice({
     name: "weightSlice",
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        addWeight: (state, { payload }) => {
+            state.weight.labels.push(payload.date)
+            state.weight.values.push(payload.weight)
+
+            state.status = "refreshing"
+        }
+    },
     extraReducers: (builder) => {
         builder
-            .addCase(addWeight.fulfilled, (state, payload: PayloadAction<IWeight>) => {
-                state.weight.push(payload.payload)
+            .addCase(getWeight.fulfilled, (state, payload) => {
+                const { payload: data } = payload
+
+                const labels = data.map((item: any) => {
+                    const dateOnly = item.created_at.split(" ")[0];
+                    return moment(dateOnly).format("DD/MM");
+                })
+
+                const values = data.map(({ weight }: { weight: string }) => parseInt(weight))
+
+                state.weight.labels = labels
+                state.weight.values = values
+                state.status = "fulfilled"
             })
     },
 });
 
-interface getHistoryProps {
+interface getWeightProps {
     userId: string;
 }
 
 export const getWeight = createAsyncThunk(
     "workoutHistorySlice/getHistory",
-    async (payload: getHistoryProps, { rejectWithValue }) => {
+    async (payload: getWeightProps, { rejectWithValue }) => {
+
         const { data, error } = await supabase
             .from("weight")
             .select()
             .order("id", { ascending: false })
             .eq("user_id", payload.userId)
+            .limit(7)
 
         if (error) {
             console.error(error.message);
             return rejectWithValue(error.message)
         }
+
         return data;
     }
 );

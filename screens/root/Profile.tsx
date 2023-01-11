@@ -6,7 +6,11 @@ import UserProfileBar from "../../components/layout/UserProfileBar";
 import { useAppDispatch, useAppSelector } from "../../store";
 import AddWidgetModal from "../../components/modal/AddWidgetModal";
 import { useEffect, useState } from "react";
-import { getWidgets, IOneRepMaxLine, refreshWidgets } from "../../store/WidgetsSlice";
+import {
+  getWidgets,
+  IOneRepMaxLine,
+  refreshWidgets,
+} from "../../store/WidgetsSlice";
 import WidgetContainer from "../../components/widgets/WidgetContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faWrench } from "@fortawesome/free-solid-svg-icons/faWrench";
@@ -16,6 +20,7 @@ import { faRuler } from "@fortawesome/free-solid-svg-icons/faRuler";
 import useColorScheme from "../../hooks/useColorScheme";
 import AddMeasurementModal from "../../components/modal/AddMeasurementModal";
 import WeightTrackerWidget from "../../components/widgets/WeightTracker/WeightTrackerWidget";
+import { getWeight } from "../../store/weightSlice";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
@@ -29,7 +34,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const { userId } = useAppSelector((state) => state.userSlice.user);
   const { status } = useAppSelector((state) => state.widgetSlice);
 
-  const isWidgetRefreshing = status === "pending";
+  const [isWidgetRefreshing, setIsWidgetRefreshing] = useState(false);
 
   useEffect(() => {
     dispatch(getWidgets({ userId }));
@@ -40,8 +45,11 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   };
 
   const handleRefreshWidgets = () => {
-    dispatch(refreshWidgets())
-  }
+    setIsWidgetRefreshing(true);
+    dispatch(getWeight({ userId }));
+
+    setIsWidgetRefreshing(false);
+  };
 
   const renderDashboard = () => {
     return (
