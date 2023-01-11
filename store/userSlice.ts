@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { User } from "@supabase/supabase-js";
 import { supabase } from "../supabase/supabaseClient";
 
 interface InitialStateInterface {
@@ -31,8 +32,11 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(userSignup.fulfilled, (state, { payload }) => {
+        const { user } = payload
+
         state.status = "fulfilled";
         state.user.isLoggedIn = true;
+        state.user.userId = user!.id
       })
       .addCase(userSignup.rejected, (state, _) => {
         state.status = "rejected";
@@ -43,7 +47,6 @@ const userSlice = createSlice({
       .addCase(userLogin.fulfilled, (state) => {
         const user = supabase.auth.user();
 
-        state.status = "pending";
         state.user.isLoggedIn = true;
         state.user.userId = user!.id;
         state.status = "fulfilled";
@@ -79,18 +82,18 @@ interface AuthPayload {
 
 export const userSignup = createAsyncThunk(
   "user/userSignup",
-  async (details: AuthPayload, _) => {
+  async (details: AuthPayload, { rejectWithValue }) => {
     const { email, password } = details;
     const { user, session, error } = await supabase.auth.signUp({
       email: email,
       password: password,
     });
 
+    if (error) return rejectWithValue(error.message)
+
     const data = { user, session };
 
-    if (error) return console.error(error);
-
-    return data;
+    return data
   }
 );
 
@@ -122,13 +125,13 @@ export const userSignout = createAsyncThunk(
 export const signInWithGoogle = createAsyncThunk(
   "user/signInWithGoogle",
   async (_, { rejectWithValue }) => {
-      const { user, session, error } = await supabase.auth.signIn({
-        provider: "google",
-      });
+    const { user, session, error } = await supabase.auth.signIn({
+      provider: "google",
+    });
 
-      if (!user) return rejectWithValue({});
+    if (!user) return rejectWithValue({});
 
-      return user;
+    return user;
   }
 );
 
