@@ -1,7 +1,5 @@
-import { faXmark } from "@fortawesome/free-solid-svg-icons/faXmark";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { VStack } from "native-base";
-import { useAppDispatch } from "../../store";
+import useWorkout from "../../hooks/useWorkout";
 // import { deleteWorkout } from "../../store/workoutHistorySlice";
 import ModalItem from "./ModalItem";
 import ModalWrapper from "./ModalWrapper";
@@ -15,12 +13,13 @@ interface IHistoryCardModal {
 const HistoryCardModal = (props: IHistoryCardModal) => {
   // NOTE:
   // CANNOT DELETE WORKOUTS BECAUSE OF TABLE CASCADE EFFECTS ON LIFTS ETC
+  const { workoutId } = props;
+  const { isLoading, error, workout } = useWorkout(workoutId);
 
   const { isVisible, setIsVisible } = props;
   // const dispatch = useAppDispatch();
 
   const handleSeeWorkout = () => {
-    const { workoutId } = props;
     // dispatch(deleteWorkout(workoutId));
     setIsVisible(false);
   };
