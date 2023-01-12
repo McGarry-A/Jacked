@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { LiftData } from "../screens/modals/AddExercises";
 import { useAppSelector } from "../store";
 import { supabase } from "../supabase/supabaseClient";
 
@@ -6,22 +7,25 @@ const useWorkout = (workoutId: number) => {
     const { userId } = useAppSelector((state) => state.userSlice.user)
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>()
-    const [workout, setWorkout] = useState()
+    const [workout, setWorkout] = useState<LiftData[]>([])
 
     useEffect(() => {
         const fetchWorkout = async () => {
             try {
                 const { data, error } = await supabase
-                    .from("workout")
-                    .select(`id, date, title, lifts (
-                        exercise_name, exercise_id, set(
-                           weight, repps, setNumber )
-                        )`)
+                    .from("lifts")
+                    .select(`exercise_id, exercise_name, lift_id, user_id, set (weight, reps), workouts (id, date)`)
                     .eq("user_id", userId)
-                    .eq("id", workoutId)
+                    .eq("workout_id", workoutId)
 
-                console.log(data)
-                console.log(error)
+                if (error) {
+                    setError(error.message)
+                    setIsLoading(false)
+                    return
+                }
+
+                setWorkout(data)
+                setIsLoading(false)
             } catch (error) {
                 console.error(error)
             }

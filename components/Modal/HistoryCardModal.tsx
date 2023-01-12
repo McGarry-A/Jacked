@@ -1,5 +1,6 @@
 import { VStack } from "native-base";
 import useWorkout from "../../hooks/useWorkout";
+import { useNavigation } from "@react-navigation/native";
 // import { deleteWorkout } from "../../store/workoutHistorySlice";
 import ModalItem from "./ModalItem";
 import ModalWrapper from "./ModalWrapper";
@@ -14,13 +15,17 @@ const HistoryCardModal = (props: IHistoryCardModal) => {
   // NOTE:
   // CANNOT DELETE WORKOUTS BECAUSE OF TABLE CASCADE EFFECTS ON LIFTS ETC
   const { workoutId } = props;
+  // const { navigate } = useNavigation();
+  // NOTE: move this to a different page.
   const { isLoading, error, workout } = useWorkout(workoutId);
+  console.log(workout);
 
   const { isVisible, setIsVisible } = props;
   // const dispatch = useAppDispatch();
 
   const handleSeeWorkout = () => {
-    // dispatch(deleteWorkout(workoutId));
+    // NOTE: Something like this?
+    // navigate("/history:workoutId")
     setIsVisible(false);
   };
 
@@ -31,7 +36,7 @@ const HistoryCardModal = (props: IHistoryCardModal) => {
       header="Manage Workout"
     >
       <VStack>
-        <ModalItem pressHandler={handleSeeWorkout}>Workout Details</ModalItem>
+        <ModalItem pressHandler={handleSeeWorkout}>See Details</ModalItem>
       </VStack>
     </ModalWrapper>
   );
