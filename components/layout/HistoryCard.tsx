@@ -1,16 +1,17 @@
 import { faClock } from "@fortawesome/free-regular-svg-icons/faClock";
 import { Box, HStack, Skeleton, Text, VStack } from "native-base";
-import React, { memo, SetStateAction } from "react";
+import React, { memo, useState } from "react";
 import getDaysAgo from "../../utils/getDaysAgo";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import Elipsis from "./Elipsis";
 import useColorScheme from "../../hooks/useColorScheme";
+import HistoryCardModal from "../modal/HistoryCardModal";
 
 interface IHistoryCard {
   isLoaded: boolean;
   workoutName: string | null;
   date: string;
-  setModalIsVisible: React.Dispatch<SetStateAction<boolean>>;
+  workoutId: number;
   lifts: {
     [key: number]: {
       exercise_name: string;
@@ -27,11 +28,11 @@ const HistoryCard = ({
   date,
   lifts,
   isLoaded,
-  setModalIsVisible,
+  workoutId,
 }: IHistoryCard) => {
-  const isLifts = Object.keys(lifts).length > 0;
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  console.log(workoutName, date, JSON.stringify(lifts), isLoaded);
+  const isLifts = Object.keys(lifts).length > 0;
 
   const { pTextColorMode, h2ColorMode } = useColorScheme();
   const renderHeader = () => {
@@ -40,7 +41,7 @@ const HistoryCard = ({
         <Text flex={1} fontSize={"md"} fontWeight={"bold"} color={h2ColorMode}>
           {workoutName === null ? "Quick Workout" : workoutName}
         </Text>
-        <Elipsis size={14} onPress={() => setModalIsVisible(true)} />
+        <Elipsis size={14} onPress={() => setIsVisible(true)} />
       </HStack>
     );
   };
@@ -121,31 +122,44 @@ const HistoryCard = ({
     );
   };
 
+  const renderModal = () => {
+    return (
+      <HistoryCardModal
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+        workoutId={workoutId}
+      />
+    );
+  };
+
   return (
-    <Skeleton
-      my={2}
-      isLoaded={isLoaded}
-      startColor={"gray.200"}
-      endColor={"coolGray.200"}
-      h={24}
-    >
-      <VStack
-        space={1}
-        w={"full"}
-        borderRadius={5}
-        padding={3}
-        marginY={1}
-        borderWidth={2}
-        borderColor={"coolGray.100"}
-        backgroundColor={"transparent"}
+    <>
+      <Skeleton
+        my={2}
+        isLoaded={isLoaded}
+        startColor={"gray.200"}
+        endColor={"coolGray.200"}
+        h={24}
       >
-        {renderHeader()}
-        {renderLiftsHead()}
-        {renderLifts()}
-        {renderNoLifts()}
-        {renderDaysAgo()}
-      </VStack>
-    </Skeleton>
+        <VStack
+          space={1}
+          w={"full"}
+          borderRadius={5}
+          padding={3}
+          marginY={1}
+          borderWidth={2}
+          borderColor={"coolGray.100"}
+          backgroundColor={"transparent"}
+        >
+          {renderHeader()}
+          {renderLiftsHead()}
+          {renderLifts()}
+          {renderNoLifts()}
+          {renderDaysAgo()}
+        </VStack>
+      </Skeleton>
+      {renderModal()}
+    </>
   );
 };
 

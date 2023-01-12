@@ -1,21 +1,29 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons/faXmark";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { Input, VStack } from "native-base";
-import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { createFolder } from "../../store/templateSlice";
+import { VStack } from "native-base";
+import { useAppDispatch } from "../../store";
+// import { deleteWorkout } from "../../store/workoutHistorySlice";
 import ModalItem from "./ModalItem";
 import ModalWrapper from "./ModalWrapper";
 
 interface IHistoryCardModal {
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  workoutId: number;
 }
 
 const HistoryCardModal = (props: IHistoryCardModal) => {
-  const { isVisible, setIsVisible } = props;
+  // NOTE:
+  // CANNOT DELETE WORKOUTS BECAUSE OF TABLE CASCADE EFFECTS ON LIFTS ETC
 
-  const handleDeleteWorkout = () => {};
+  const { isVisible, setIsVisible } = props;
+  // const dispatch = useAppDispatch();
+
+  const handleSeeWorkout = () => {
+    const { workoutId } = props;
+    // dispatch(deleteWorkout(workoutId));
+    setIsVisible(false);
+  };
 
   return (
     <ModalWrapper
@@ -24,12 +32,7 @@ const HistoryCardModal = (props: IHistoryCardModal) => {
       header="Manage Workout"
     >
       <VStack>
-        <ModalItem
-          leftIcon={<FontAwesomeIcon icon={faXmark} size={13} color="red" />}
-          pressHandler={handleDeleteWorkout}
-        >
-          Delete Workout
-        </ModalItem>
+        <ModalItem pressHandler={handleSeeWorkout}>Workout Details</ModalItem>
       </VStack>
     </ModalWrapper>
   );

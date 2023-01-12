@@ -35,6 +35,21 @@ const workoutHistorySlice = createSlice({
       .addCase(getHistory.pending, (state) => {
         state.status = "pending"
       })
+    // .addCase(deleteWorkout.fulfilled, (state, { payload: workoutId }) => {
+    //   state.history.filter((el) => {
+    //     console.log(el.id)
+    //     console.log(workoutId)
+    //     return el.id !== workoutId
+    //   })
+
+    //   state.status = "fulfilled"
+    // })
+    // .addCase(deleteWorkout.pending, state => {
+    //   state.status = "pending"
+    // })
+    // .addCase(deleteWorkout.rejected, state => {
+    //   state.status = "rejected"
+    // })
   },
 });
 
@@ -57,6 +72,25 @@ export const getHistory = createAsyncThunk(
     return data as workoutHistoryType;
   }
 );
+
+// export const deleteWorkout = createAsyncThunk(
+//   "workoutHistorySlice/deleteWorkout",
+//   async (payload: number, { rejectWithValue }) => {
+//     const { error } = await supabase
+//       .from("workouts")
+//       .delete()
+//       .eq("id", payload)
+
+//     console.log(payload)
+
+//     if (error) {
+//       console.error(error)
+//       return rejectWithValue(error.message)
+//     }
+
+//     return payload
+//   }
+// )
 
 export const { refresh } = workoutHistorySlice.actions
 
