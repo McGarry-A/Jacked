@@ -55,9 +55,8 @@ interface getWeightProps {
 }
 
 export const getWeight = createAsyncThunk(
-    "workoutHistorySlice/getHistory",
+    "weightSlice/getWeight",
     async (payload: getWeightProps, { rejectWithValue }) => {
-
         const { data, error } = await supabase
             .from("weight")
             .select()

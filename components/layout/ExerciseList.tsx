@@ -205,7 +205,7 @@ export const ExerciseList: React.FC<Props> = ({
     return (
       <FlatList
         data={exercises.length ? exercises : exerciseList}
-        paddingBottom={40}
+        // paddingBottom={40}
         borderRadius={5}
         overflow={"hidden"}
         flexGrow={1}

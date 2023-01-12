@@ -1,7 +1,6 @@
-import { FontAwesome } from "@expo/vector-icons";
 import { faClock } from "@fortawesome/free-regular-svg-icons/faClock";
 import { Box, HStack, Skeleton, Text, VStack } from "native-base";
-import React, { memo } from "react";
+import React, { memo, SetStateAction } from "react";
 import getDaysAgo from "../../utils/getDaysAgo";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import Elipsis from "./Elipsis";
@@ -11,6 +10,7 @@ interface IHistoryCard {
   isLoaded: boolean;
   workoutName: string | null;
   date: string;
+  setModalIsVisible: React.Dispatch<SetStateAction<boolean>>;
   lifts: {
     [key: number]: {
       exercise_name: string;
@@ -22,22 +22,25 @@ interface IHistoryCard {
   };
 }
 
-const HistoryCard = ({ workoutName, date, lifts, isLoaded }: IHistoryCard) => {
+const HistoryCard = ({
+  workoutName,
+  date,
+  lifts,
+  isLoaded,
+  setModalIsVisible,
+}: IHistoryCard) => {
   const isLifts = Object.keys(lifts).length > 0;
+
+  console.log(workoutName, date, JSON.stringify(lifts), isLoaded);
 
   const { pTextColorMode, h2ColorMode } = useColorScheme();
   const renderHeader = () => {
     return (
       <HStack alignItems={"center"}>
-        <Text
-          flex={1}
-          fontSize={"md"}
-          fontWeight={"bold"}
-          color={h2ColorMode}
-        >
+        <Text flex={1} fontSize={"md"} fontWeight={"bold"} color={h2ColorMode}>
           {workoutName === null ? "Quick Workout" : workoutName}
         </Text>
-        <Elipsis size={14} />
+        <Elipsis size={14} onPress={() => setModalIsVisible(true)} />
       </HStack>
     );
   };

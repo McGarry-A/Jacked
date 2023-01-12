@@ -35,7 +35,7 @@ const ManageFolderModal = (props: IManageFolderModal) => {
 
   const handleDeleteFolder = () => {
     dispatch(deleteFolder(props.folId));
-    setIsVisible(false)
+    setIsVisible(false);
   };
 
   useEffect(() => {
@@ -138,7 +138,8 @@ const ManageFolderModal = (props: IManageFolderModal) => {
       isOpen={isVisible}
       onClose={setIsVisible}
       header="Manage Folder"
-      w={"full"}
+      width={"full"}
+      flex={1}
       saveHandler={handleCreateTemplate}
     >
       {renderDefaultStep()}

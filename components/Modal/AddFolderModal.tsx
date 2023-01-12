@@ -1,6 +1,5 @@
 import { Input, VStack } from "native-base";
 import { useState } from "react";
-import useId from "../../hooks/useId";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { createFolder } from "../../store/templateSlice";
 import ModalWrapper from "./ModalWrapper";
