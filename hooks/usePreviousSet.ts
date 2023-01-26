@@ -1,31 +1,63 @@
 import { useEffect, useState } from "react";
-import getPreviousSet from "../supabase/utils/getPreviousSet";
+import { supabase } from "../supabase/supabaseClient";
 
 interface IProps {
     exerciseId: number;
     setNumber: number;
 }
 
-export default function usePreviousSet(props: IProps) {
-    const [previous, setPrevious] = useState<string>("")
+interface ISet {
+    weight: string;
+    reps: string;
+    rpe: number;
+    setNumber: number;
+}
 
+
+// NOTE: FIX THIS AND THE SET TO USE A REF TO DECIDE THE INITIAL VALUE OF THE PLACEHOLDER 
+export default function usePreviousSet(props: IProps) {
+    const [previous, setPrevious] = useState<ISet>()
     const { exerciseId, setNumber } = props
 
     useEffect(() => {
-        const getPrevData = async () => {
-            try {
-                const previous = await getPreviousSet({ exerciseId, setNumber });
-                if (!previous) return setPrevious(`Na`);
-
-                const { weight: prevWeight, reps: prevReps } = previous;
-                return setPrevious(`${prevWeight} Kgs x ${prevReps}`);
-            } catch (error) {
-                console.error(error)
-            }
-        }
-
         getPrevData();
     }, [])
+
+    const getPrevData = async () => {
+        try {
+            try {
+                const { data, error } = await supabase
+                    .from("set")
+                    .select("weight, reps, liftId, setNumber, rpe")
+                    .eq("exerciseId", exerciseId)
+                    .eq("setNumber", setNumber)
+                    .order("liftId", { ascending: false })
+                    .limit(1);
+
+                if (error) {
+                    console.error(error);
+                    return null;
+                }
+
+                const { weight, reps, rpe } = data[0];
+
+                setPrevious({
+                    reps,
+                    weight,
+                    rpe,
+                    setNumber
+                })
+
+            } catch (error) {
+                console.error(error);
+                return null;
+            }
+
+
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     return previous;
 }

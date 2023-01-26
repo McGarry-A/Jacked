@@ -32,6 +32,14 @@ const Set = (props: Props) => {
 
   const backgroundColor = isDone ? "success.100" : "white";
 
+  const weightRef = useRef<HTMLInputElement>();
+  const repsRef = useRef<HTMLInputElement>();
+
+  useEffect(() => {
+    weightRef.current!.value = previous!.weight;
+    repsRef.current!.value = previous!.reps;
+  }, []);
+
   useEffect(() => {
     if (checked === true) setIsDone(true);
     if (checked === false) setIsDone(false);
@@ -99,11 +107,15 @@ const Set = (props: Props) => {
     </Box>
   );
 
-  const renderPrevious = () => (
-    <Text fontSize="xs" opacity={50} flex={2} fontWeight={700}>
-      {previous}
-    </Text>
-  );
+  const renderPrevious = () => {
+    if (!previous) return <Box flex={2}></Box>;
+
+    return (
+      <Text fontSize="xs" opacity={50} flex={2} fontWeight={700}>
+        {previous?.weight}KG x {previous?.reps}
+      </Text>
+    );
+  };
 
   const renderWeightInput = () => (
     <Box flex={2} py={1}>
@@ -117,6 +129,7 @@ const Set = (props: Props) => {
         fontWeight={700}
         textAlign={"center"}
         color={"coolGray.700"}
+        ref={weightRef}
       />
     </Box>
   );
@@ -133,6 +146,7 @@ const Set = (props: Props) => {
         fontWeight={700}
         textAlign={"center"}
         color={"text.900"}
+        ref={repsRef}
       />
     </Box>
   );
