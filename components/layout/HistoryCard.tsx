@@ -1,7 +1,7 @@
 import { faClock } from "@fortawesome/free-regular-svg-icons/faClock";
 import { Box, HStack, Skeleton, Text, VStack } from "native-base";
 import React, { memo, useState } from "react";
-import getDaysAgo from "../../utils/getDaysAgo";
+import getDaysAgo from "../../utils/Date/getDaysAgo";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import Elipsis from "./Elipsis";
 import useColorScheme from "../../hooks/useColorScheme";

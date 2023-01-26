@@ -1,7 +1,7 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../store";
-import calculateOneRepMax from "../utils/calculateOneRepMax";
+import calculateOneRepMax from "../utils/Workouts/calculateOneRepMax";
 import usePrevLifts from "./usePrevLifts";
 
 const useOneRepMaxGraph = ({ exerciseId }: { exerciseId: number }) => {

@@ -1,5 +1,5 @@
 import { useRoute } from "@react-navigation/native";
-import { View, Text, Box, Heading, VStack } from "native-base";
+import { View, Text, Box, Heading, VStack, Checkbox } from "native-base";
 import React, { useState } from "react";
 import Logo from "../layout/Logo";
 import AuthForm from "./AuthForm";

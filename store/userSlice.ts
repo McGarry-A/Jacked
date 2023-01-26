@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { User } from "@supabase/supabase-js";
+import { Session, User, UserCredentials } from "@supabase/supabase-js";
 import { supabase } from "../supabase/supabaseClient";
+import saveToLocalStorage from "../utils/Auth/saveToLocalStorage";
 
 interface InitialStateInterface {
   user: {
@@ -28,15 +29,23 @@ const userSlice = createSlice({
       state.user.userId = payload.user.id;
       state.status = "fulfilled";
     },
+    rememberSession: (state, { payload }) => {
+      const token = JSON.parse(payload)
+
+      state.user.isLoggedIn = true;
+      state.user.userId = token.user.id
+      state.status = "fulfilled"
+    }
   },
   extraReducers: (builder) => {
     builder
       .addCase(userSignup.fulfilled, (state, { payload }) => {
-        const { user } = payload
+        const { user, session, rememberMe } = payload
 
-        state.status = "fulfilled";
         state.user.isLoggedIn = true;
         state.user.userId = user!.id
+        state.status = "fulfilled";
+
       })
       .addCase(userSignup.rejected, (state, _) => {
         state.status = "rejected";
@@ -44,12 +53,14 @@ const userSlice = createSlice({
       .addCase(userSignup.pending, (state, _) => {
         state.status = "pending";
       })
-      .addCase(userLogin.fulfilled, (state) => {
-        const user = supabase.auth.user();
+      .addCase(userLogin.fulfilled, (state, { payload }) => {
+        const { user, session, rememberMe } = payload
 
         state.user.isLoggedIn = true;
         state.user.userId = user!.id;
         state.status = "fulfilled";
+
+        if (rememberMe) saveToLocalStorage(session as Session)
       })
       .addCase(signInWithGoogle.fulfilled, (state, { payload }) => {
         // state.status = "fulfilled";
@@ -78,12 +89,13 @@ const userSlice = createSlice({
 interface AuthPayload {
   email: string;
   password: string;
+  rememberMe: "TRUE" | "FALSE";
 }
 
 export const userSignup = createAsyncThunk(
   "user/userSignup",
   async (details: AuthPayload, { rejectWithValue }) => {
-    const { email, password } = details;
+    const { email, password, rememberMe } = details;
     const { user, session, error } = await supabase.auth.signUp({
       email: email,
       password: password,
@@ -91,7 +103,7 @@ export const userSignup = createAsyncThunk(
 
     if (error) return rejectWithValue(error.message)
 
-    const data = { user, session };
+    const data = { user, session, rememberMe };
 
     return data
   }
@@ -100,7 +112,7 @@ export const userSignup = createAsyncThunk(
 export const userLogin = createAsyncThunk(
   "user/userLogin",
   async (details: AuthPayload, thunkAPI) => {
-    const { email, password } = details;
+    const { email, password, rememberMe } = details;
     const { user, session, error } = await supabase.auth.signIn({
       email: email,
       password: password,
@@ -108,7 +120,7 @@ export const userLogin = createAsyncThunk(
 
     if (error) return thunkAPI.rejectWithValue(error);
 
-    const data = { user, session };
+    const data = { user, session, rememberMe };
     return data;
   }
 );
@@ -135,6 +147,6 @@ export const signInWithGoogle = createAsyncThunk(
   }
 );
 
-export const { reset } = userSlice.actions;
+export const { reset, rememberSession } = userSlice.actions;
 
 export default userSlice.reducer;

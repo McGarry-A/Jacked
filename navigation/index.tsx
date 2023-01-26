@@ -36,6 +36,10 @@ import Start from "../screens/root/Start";
 import ColorThemeSwitch from "../components/layout/ColorThemeSwitch";
 import Auth from "../components/auth/Auth";
 import Welcome from "../components/auth/Welcome";
+import WorkoutDetails from "../screens/pages/WorkoutDetails";
+import isSessionInLocalStorage from "../utils/Auth/isSessionInLocalStorage";
+import { rememberSession } from "../store/userSlice";
+import useSessionInLocalStorage from "../hooks/useSessionInLocalStorage";
 
 export default function Navigation() {
   return (
@@ -56,6 +60,7 @@ function RootNavigator() {
   const dispatch = useAppDispatch();
   const { isLoggedIn } = useAppSelector((state) => state.userSlice.user);
   const { screenColorModeHex } = useColorScheme();
+
   return (
     <>
       {!isLoggedIn ? (
@@ -100,6 +105,11 @@ function RootNavigator() {
               name="Settings"
               component={Settings}
               options={{ title: "Settings" }}
+            />
+            <Stack.Screen
+              name="WorkoutDetails"
+              component={WorkoutDetails}
+              options={{ title: "Workout Details" }}
             />
             <Stack.Screen
               name="ActiveWorkout"

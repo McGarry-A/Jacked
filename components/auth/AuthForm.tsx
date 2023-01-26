@@ -2,8 +2,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import { faLock } from "@fortawesome/free-solid-svg-icons/faLock";
 import { faEye } from "@fortawesome/free-solid-svg-icons/faEye";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { Box, useToast, VStack } from "native-base";
-import { useEffect, useRef, useState } from "react";
+import { Box, Checkbox, Text, useToast, VStack } from "native-base";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { userLogin, userSignup } from "../../store/userSlice";
 import PrimaryButton from "../layout/Buttons/PrimaryButton";
@@ -22,6 +22,7 @@ interface IFormData {
 }
 
 const AuthForm = ({ type, SocialsComponent }: IAuthForm) => {
+  const [rememberMe, setRememberMe] = useState<"TRUE" | "FALSE">("FALSE");
   const [formData, setFormData] = useState<IFormData>({
     email: "",
     password: "",
@@ -53,7 +54,7 @@ const AuthForm = ({ type, SocialsComponent }: IAuthForm) => {
 
     if (!password || !email) return;
 
-    dispatch(userLogin({ email, password }));
+    dispatch(userLogin({ email, password, rememberMe }));
   };
 
   const handleSignup = () => {
@@ -63,7 +64,7 @@ const AuthForm = ({ type, SocialsComponent }: IAuthForm) => {
     if (password !== confirmPassword) return;
     if (password.length < 6) return;
 
-    dispatch(userSignup({ email, password }));
+    dispatch(userSignup({ email, password, rememberMe }));
   };
 
   const renderEmailField = () => {
@@ -152,6 +153,7 @@ const AuthForm = ({ type, SocialsComponent }: IAuthForm) => {
         {renderEmailField()}
         {renderPasswordField()}
         {renderConfrimPasswordField()}
+        {renderRememberMe()}
       </VStack>
     );
   };
@@ -163,6 +165,7 @@ const AuthForm = ({ type, SocialsComponent }: IAuthForm) => {
       <VStack flex={1} space={3}>
         {renderEmailField()}
         {renderPasswordField()}
+        {renderRememberMe()}
       </VStack>
     );
   };
@@ -192,6 +195,23 @@ const AuthForm = ({ type, SocialsComponent }: IAuthForm) => {
       >
         Log In
       </PrimaryButton>
+    );
+  };
+
+  const renderRememberMe = () => {
+    return (
+      <Checkbox
+        value={rememberMe}
+        size="sm"
+        mt={2}
+        onChange={() => {
+          rememberMe === "FALSE"
+            ? setRememberMe("TRUE")
+            : setRememberMe("FALSE");
+        }}
+      >
+        <Text color={"gray.500"}>Remember Me</Text>
+      </Checkbox>
     );
   };
 

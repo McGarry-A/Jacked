@@ -3,7 +3,7 @@ import { ExerciseList as ExerciseListComponent } from "../../components/layout/E
 import useColorScheme from "../../hooks/useColorScheme";
 
 const Exercises = () => {
-  const { h1ColorMode, screenColorMode } = useColorScheme()
+  const { h1ColorMode, screenColorMode } = useColorScheme();
   const renderHeading = () => (
     <Heading size={"xl"} color={h1ColorMode} my={2}>
       Exercises

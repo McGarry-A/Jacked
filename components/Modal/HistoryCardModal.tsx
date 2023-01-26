@@ -15,7 +15,7 @@ const HistoryCardModal = (props: IHistoryCardModal) => {
   // NOTE:
   // CANNOT DELETE WORKOUTS BECAUSE OF TABLE CASCADE EFFECTS ON LIFTS ETC
   const { workoutId } = props;
-  // const { navigate } = useNavigation();
+  const { navigate } = useNavigation();
   // NOTE: move this to a different page.
   const { isLoading, error, workout } = useWorkout(workoutId);
   console.log(workout);
@@ -25,7 +25,10 @@ const HistoryCardModal = (props: IHistoryCardModal) => {
 
   const handleSeeWorkout = () => {
     // NOTE: Something like this?
-    // navigate("/history:workoutId")
+    navigate("WorkoutDetails", {
+      workoutId,
+    });
+
     setIsVisible(false);
   };
 
@@ -36,7 +39,7 @@ const HistoryCardModal = (props: IHistoryCardModal) => {
       header="Manage Workout"
     >
       <VStack>
-        <ModalItem pressHandler={handleSeeWorkout}>See Details</ModalItem>
+        <ModalItem pressHandler={handleSeeWorkout}>View Workout</ModalItem>
       </VStack>
     </ModalWrapper>
   );

@@ -18,12 +18,6 @@ declare global {
 
 type LoginTypes = "SIGN_UP" | "LOG_IN";
 
-type ActiveWorkoutParams =
-  | {
-      title: string | null;
-    }
-  | undefined;
-
 export type RootAuthStack = {
   Auth: undefined;
   Welcome: undefined;
@@ -42,6 +36,7 @@ export type RootStackParamList = {
   AddExercises: undefined;
   CreateTemplate: undefined;
   BottomTabNavigator: undefined;
+  WorkoutDetails: { workoutId: number };
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

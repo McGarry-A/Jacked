@@ -133,10 +133,7 @@ const Lift = (props: IProps) => {
       rightThreshold={10}
       containerStyle={{ marginVertical: 4, borderRadius: 10 }}
     >
-      <VStack
-        key={liftId}
-        backgroundColor={"white"}
-      >
+      <VStack key={liftId} backgroundColor={"white"}>
         {renderHeading(exerciseName)}
         {renderTableHead()}
         {renderSets(sets, liftId)}

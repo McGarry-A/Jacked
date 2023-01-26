@@ -35,11 +35,11 @@ export default function Start() {
 
   const handlePressQuickStart = () => {
     dispatch(startWorkout({ userId }));
-    navigation.navigate("ActiveWorkout", { title: null });
+    navigation.navigate("ActiveWorkout");
   };
 
   const handleContinueWorkout = () => {
-    navigation.navigate("ActiveWorkout", { title: null });
+    navigation.navigate("ActiveWorkout");
   };
 
   const renderHeading = () => (

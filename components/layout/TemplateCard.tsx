@@ -23,7 +23,11 @@ interface TemplateCardProps {
   };
 }
 
-const TemplateCard: React.FC<TemplateCardProps> = ({ title, exercises, templateId }) => {
+const TemplateCard: React.FC<TemplateCardProps> = ({
+  title,
+  exercises,
+  templateId,
+}) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.userSlice.user);
   const { pTextColorMode } = useColorScheme();
@@ -52,7 +56,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({ title, exercises, templateI
     const { userId } = user;
     handleAddLiftsToWorkout();
     dispatch(startWorkout({ userId }));
-    navigate("ActiveWorkout", { title });
+    navigate("ActiveWorkout");
   };
 
   const renderTemplateModal = () => {

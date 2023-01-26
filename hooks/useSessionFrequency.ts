@@ -1,7 +1,7 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../store";
-import getPreviousMondays from "../utils/getPreviousMonday";
+import getPreviousMondays from "../utils/Date/getPreviousMonday";
 import usePreviousWorkoutDates from "./usePreviousWorkoutDates";
 
 const useSessionFrequency = () => {

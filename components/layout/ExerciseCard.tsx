@@ -8,7 +8,7 @@ import {
   VStack,
 } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../store";
-import getExerciseInitials from "../../utils/getExerciseInitials";
+import getExerciseInitials from "../../utils/Workouts/getExerciseInitials";
 import { LiftData } from "../../screens/modals/AddExercises";
 import useId from "../../hooks/useId";
 import useToggleState from "../../hooks/useToggleState";
