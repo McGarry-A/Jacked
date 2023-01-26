@@ -46,6 +46,7 @@ const userSlice = createSlice({
         state.user.userId = user!.id
         state.status = "fulfilled";
 
+        if (rememberMe) saveToLocalStorage(session as Session)
       })
       .addCase(userSignup.rejected, (state, _) => {
         state.status = "rejected";
