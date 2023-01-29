@@ -37,11 +37,8 @@ import ColorThemeSwitch from "../components/layout/ColorThemeSwitch";
 import Auth from "../components/auth/Auth";
 import Welcome from "../components/auth/Welcome";
 import WorkoutDetails from "../screens/pages/WorkoutDetails";
-import useSessionInLocalStorage from "../hooks/useSessionInLocalStorage";
 
 export default function Navigation() {
-  useSessionInLocalStorage();
-
   return (
     <NavigationContainer linking={LinkingConfiguration}>
       <RootNavigator />

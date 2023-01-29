@@ -8,10 +8,12 @@ import { faGoogle } from "@fortawesome/free-brands-svg-icons/faGoogle";
 import { useNavigation } from "@react-navigation/core";
 import { useAppDispatch } from "../../store";
 import { signInWithGoogle } from "../../store/userSlice";
+import useRememberMe from "../../hooks/useRememberMe";
 
 const Welcome = () => {
   const { navigate } = useNavigation();
   const dispatch = useAppDispatch();
+  useRememberMe()
 
   const handleSignUpWithEmail = () => {
     navigate("Auth", { type: "SIGN_UP" });
@@ -34,7 +36,7 @@ const Welcome = () => {
   };
 
   const renderLogo = () => (
-    <Box w={"1/3"} margin={"auto"} >
+    <Box w={"1/3"} margin={"auto"}>
       <Logo
         size={"full"}
         position={"absolute"}

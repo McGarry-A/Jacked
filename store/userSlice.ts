@@ -1,6 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Session, User, UserCredentials } from "@supabase/supabase-js";
+import { Platform } from "react-native";
+import useIsApp from "../hooks/useIsApp";
 import { supabase } from "../supabase/supabaseClient";
+import saveToAsyncStorage from "../utils/Auth/saveToAsyncStorage";
 import saveToLocalStorage from "../utils/Auth/saveToLocalStorage";
 
 interface InitialStateInterface {
@@ -30,23 +33,21 @@ const userSlice = createSlice({
       state.status = "fulfilled";
     },
     rememberSession: (state, { payload }) => {
-      const token = JSON.parse(payload)
+      const token = JSON.parse(payload);
 
       state.user.isLoggedIn = true;
-      state.user.userId = token.user.id
-      state.status = "fulfilled"
-    }
+      state.user.userId = token.user.id;
+      state.status = "fulfilled";
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(userSignup.fulfilled, (state, { payload }) => {
-        const { user, session, rememberMe } = payload
+        const { user, session, rememberMe } = payload;
 
         state.user.isLoggedIn = true;
-        state.user.userId = user!.id
+        state.user.userId = user!.id;
         state.status = "fulfilled";
-
-        if (rememberMe) saveToLocalStorage(session as Session)
       })
       .addCase(userSignup.rejected, (state, _) => {
         state.status = "rejected";
@@ -55,13 +56,19 @@ const userSlice = createSlice({
         state.status = "pending";
       })
       .addCase(userLogin.fulfilled, (state, { payload }) => {
-        const { user, session, rememberMe } = payload
+        const { user, session, rememberMe } = payload;
+
+        const platform = Platform
+
+        if (platform.OS === "web") {
+          saveToLocalStorage("JACKED__SESSION_TOKEN", session);
+        } else {
+          saveToAsyncStorage("JACKED__SESSION_TOKEN", session);
+        }
 
         state.user.isLoggedIn = true;
         state.user.userId = user!.id;
         state.status = "fulfilled";
-
-        if (rememberMe) saveToLocalStorage(session as Session)
       })
       .addCase(signInWithGoogle.fulfilled, (state, { payload }) => {
         // state.status = "fulfilled";
@@ -102,11 +109,11 @@ export const userSignup = createAsyncThunk(
       password: password,
     });
 
-    if (error) return rejectWithValue(error.message)
+    if (error) return rejectWithValue(error.message);
 
     const data = { user, session, rememberMe };
 
-    return data
+    return data;
   }
 );
 
