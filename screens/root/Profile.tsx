@@ -98,7 +98,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
     const { type, title, subtitle } = widgets[widgetId];
     const { exerciseId } = (widgets[widgetId] as IOneRepMaxLine) || null;
 
-    const lookup = {
+    const WIDGET_MAP = {
       ONE_REP_MAX_EST: <OneRepMaxWidget exerciseId={exerciseId} />,
       SESSION_FREQUENCY: <SessionFrequncyWidget />,
       WEIGHT_TRACKER: <WeightTrackerWidget />,
@@ -111,49 +111,9 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
         subtitle={subtitle}
         widgetId={widgetId}
       >
-        {lookup[type]}
+        {WIDGET_MAP[type]}
       </WidgetContainer>
     );
-
-    // if (type === "ONE_REP_MAX_EST") {
-    //   const { exerciseId } = widgets[widgetId] as IOneRepMaxLine;
-
-    //   return (
-    //     <WidgetContainer
-    //       type={type}
-    //       title={title}
-    //       subtitle={subtitle}
-    //       widgetId={widgetId}
-    //     >
-    //       <OneRepMaxWidget exerciseId={exerciseId} />
-    //     </WidgetContainer>
-    //   );
-    // }
-    // if (type === "SESSION_FREQUENCY")
-    //   return (
-    //     <WidgetContainer
-    //       type={type}
-    //       title={title}
-    //       subtitle={subtitle}
-    //       widgetId={widgetId}
-    //     >
-    //       <SessionFrequncyWidget />
-    //     </WidgetContainer>
-    //   );
-    // if (type === "WEIGHT_TRACKER") {
-    //   return (
-    //     <WidgetContainer
-    //       type={type}
-    //       title={title}
-    //       subtitle={subtitle}
-    //       widgetId={widgetId}
-    //     >
-    //       <WeightTrackerWidget />
-    //     </WidgetContainer>
-    //   );
-    // }
-
-    return <></>;
   };
 
   const renderWidgets = () => {
