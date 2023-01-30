@@ -2,7 +2,7 @@ import { LineChart } from "react-native-chart-kit";
 import useWeightTracker from "../../../hooks/useWeightGraph";
 import { CONFIG, SCREEN_WIDTH } from "./config";
 
-const WeightTrackerWidget = () => {
+const WeightTrackerWidget: React.FC = () => {
   const { isLoading, labels, values } = useWeightTracker();
 
   const chartData = {

@@ -5,7 +5,7 @@ import OneRepMaxWidget from "../../components/widgets/OneRepMax/OneRepMaxWidget"
 import UserProfileBar from "../../components/layout/UserProfileBar";
 import { useAppDispatch, useAppSelector } from "../../store";
 import AddWidgetModal from "../../components/modal/AddWidgetModal";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   getWidgets,
   IOneRepMaxLine,
@@ -96,44 +96,62 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 
   const renderWidget = (widgetId: string) => {
     const { type, title, subtitle } = widgets[widgetId];
+    const { exerciseId } = (widgets[widgetId] as IOneRepMaxLine) || null;
 
-    if (type === "ONE_REP_MAX_EST") {
-      const { exerciseId } = widgets[widgetId] as IOneRepMaxLine;
+    const lookup = {
+      ONE_REP_MAX_EST: <OneRepMaxWidget exerciseId={exerciseId} />,
+      SESSION_FREQUENCY: <SessionFrequncyWidget />,
+      WEIGHT_TRACKER: <WeightTrackerWidget />,
+    };
 
-      return (
-        <WidgetContainer
-          type={type}
-          title={title}
-          subtitle={subtitle}
-          widgetId={widgetId}
-        >
-          <OneRepMaxWidget exerciseId={exerciseId} />
-        </WidgetContainer>
-      );
-    }
-    if (type === "SESSION_FREQUENCY")
-      return (
-        <WidgetContainer
-          type={type}
-          title={title}
-          subtitle={subtitle}
-          widgetId={widgetId}
-        >
-          <SessionFrequncyWidget />
-        </WidgetContainer>
-      );
-    if (type === "WEIGHT_TRACKER") {
-      return (
-        <WidgetContainer
-          type={type}
-          title={title}
-          subtitle={subtitle}
-          widgetId={widgetId}
-        >
-          <WeightTrackerWidget />
-        </WidgetContainer>
-      );
-    }
+    return (
+      <WidgetContainer
+        type={type}
+        title={title}
+        subtitle={subtitle}
+        widgetId={widgetId}
+      >
+        {lookup[type]}
+      </WidgetContainer>
+    );
+
+    // if (type === "ONE_REP_MAX_EST") {
+    //   const { exerciseId } = widgets[widgetId] as IOneRepMaxLine;
+
+    //   return (
+    //     <WidgetContainer
+    //       type={type}
+    //       title={title}
+    //       subtitle={subtitle}
+    //       widgetId={widgetId}
+    //     >
+    //       <OneRepMaxWidget exerciseId={exerciseId} />
+    //     </WidgetContainer>
+    //   );
+    // }
+    // if (type === "SESSION_FREQUENCY")
+    //   return (
+    //     <WidgetContainer
+    //       type={type}
+    //       title={title}
+    //       subtitle={subtitle}
+    //       widgetId={widgetId}
+    //     >
+    //       <SessionFrequncyWidget />
+    //     </WidgetContainer>
+    //   );
+    // if (type === "WEIGHT_TRACKER") {
+    //   return (
+    //     <WidgetContainer
+    //       type={type}
+    //       title={title}
+    //       subtitle={subtitle}
+    //       widgetId={widgetId}
+    //     >
+    //       <WeightTrackerWidget />
+    //     </WidgetContainer>
+    //   );
+    // }
 
     return <></>;
   };
