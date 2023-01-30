@@ -58,6 +58,11 @@ export default function History() {
       padding={3}
       paddingBottom={10}
       h={"full"}
+      _web={{
+        maxW: "lg",
+        w: "100%",
+        mx: "auto",
+      }}
     >
       {renderHeader()}
       {renderSessions()}

@@ -13,11 +13,22 @@ export default function Calendar() {
   const maxDate = useTodaysDate();
 
   return (
-    <View backgroundColor={"white"} flex={1}>
+    <View
+      backgroundColor={"white"}
+      flex={1}
+      _web={{
+        maxW: "lg",
+        w: "100%",
+        mx: "auto",
+        backgroundColor: "white",
+        display: "flex"
+      }}
+    >
       <CalendarList
         maxDate={maxDate}
         markedDates={historyObj}
         minDate={"2022-01-01"}
+        calendarWidth={500}
       />
     </View>
   );

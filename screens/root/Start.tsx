@@ -128,7 +128,16 @@ export default function Start() {
   };
 
   return (
-    <View padding={3} backgroundColor={screenColorMode} flex={1}>
+    <View
+      padding={3}
+      backgroundColor={screenColorMode}
+      flex={1}
+      _web={{
+        maxW: "lg",
+        w: "100%",
+        mx: "auto",
+      }}
+    >
       <VStack space={2}>
         {renderHeading()}
         {renderQuickStart()}
