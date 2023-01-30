@@ -2,21 +2,7 @@ import { useEffect, useState } from "react";
 import { LiftData } from "../screens/modals/AddExercises";
 import { useAppSelector } from "../store";
 import { supabase } from "../supabase/supabaseClient";
-
-interface ILifts extends LiftData {
-  sets: {
-    weight: string;
-    reps: string;
-    setNumber: number;
-  };
-}
-
-interface IWorkout {
-  name: string;
-  id: string;
-  date: string;
-  lifts: ILifts[];
-}
+import { ILifts, IWorkout } from "../types/WorkoutInterface";
 
 const useWorkout = (workoutId: number) => {
   const { userId } = useAppSelector((state) => state.userSlice.user);

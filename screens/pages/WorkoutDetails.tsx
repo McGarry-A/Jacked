@@ -1,11 +1,10 @@
 import { Box, Text, Heading, ScrollView, HStack, VStack } from "native-base";
 import useWorkout from "../../hooks/useWorkout";
+import { ISet } from "../../types/WorkoutInterface";
 import numbericDateToString from "../../utils/Date/numericDateToString";
 import calculateOneRepMax from "../../utils/Workouts/calculateOneRepMax";
 
 const WorkoutDetails = ({ route }: any) => {
-
-  // NOTE: INTERFACE IS NOT CORRECT HERE
   const { workoutId } = route && route.params;
 
   const { isLoading, error, workout } = useWorkout(workoutId);
@@ -52,7 +51,7 @@ const WorkoutDetails = ({ route }: any) => {
       <VStack space={3} my={3}>
         {lifts.map((lift, index) => {
           return (
-            <VStack>
+            <VStack key={index}>
               {renderLiftHead(lift.exercise_name)}
               {lift.set.map((set) => renderLiftSet(set))}
             </VStack>
@@ -62,13 +61,14 @@ const WorkoutDetails = ({ route }: any) => {
     );
   };
 
-  const renderLiftSet = (sets: { weight: string; reps: string }) => {
+  const renderLiftSet = ({ setNumber, weight, reps }: ISet) => {
+
     return (
       <HStack justifyContent={"space-between"}>
-        <Text color={"gray.500"}>{sets.setNumber}</Text>
-        <Text color={"gray.500"}>{sets.weight}</Text>
-        <Text color={"gray.500"}>{sets.reps}</Text>
-        <Text color={"gray.500"}>{calculateOneRepMax([{weight: sets.weight, reps: sets.reps}])}</Text>
+        <Text color={"gray.500"}>{setNumber}</Text>
+        <Text color={"gray.500"}>{weight}</Text>
+        <Text color={"gray.500"}>{reps}</Text>
+        <Text color={"gray.500"}>{calculateOneRepMax([{ weight, reps }])}</Text>
       </HStack>
     );
   };

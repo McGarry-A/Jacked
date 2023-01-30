@@ -1,11 +1,12 @@
 import { faClock } from "@fortawesome/free-regular-svg-icons/faClock";
 import { Box, HStack, Skeleton, Text, VStack } from "native-base";
-import React, { memo, useState } from "react";
+import React, { memo, useState, lazy, Suspense } from "react";
 import getDaysAgo from "../../utils/Date/getDaysAgo";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import Elipsis from "./Elipsis";
 import useColorScheme from "../../hooks/useColorScheme";
-import HistoryCardModal from "../modal/HistoryCardModal";
+
+const HistoryCardModal = lazy(() => import("../modal/HistoryCardModal"));
 
 interface IHistoryCard {
   isLoaded: boolean;
@@ -35,6 +36,7 @@ const HistoryCard = ({
   const isLifts = Object.keys(lifts).length > 0;
 
   const { pTextColorMode, h2ColorMode } = useColorScheme();
+
   const renderHeader = () => {
     return (
       <HStack alignItems={"center"}>
@@ -124,11 +126,13 @@ const HistoryCard = ({
 
   const renderModal = () => {
     return (
-      <HistoryCardModal
-        isVisible={isVisible}
-        setIsVisible={setIsVisible}
-        workoutId={workoutId}
-      />
+      <Suspense>
+        <HistoryCardModal
+          isVisible={isVisible}
+          setIsVisible={setIsVisible}
+          workoutId={workoutId}
+        />
+      </Suspense>
     );
   };
 
