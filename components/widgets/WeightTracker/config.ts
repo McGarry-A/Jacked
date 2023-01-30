@@ -24,6 +24,7 @@ const CONFIG = {
     bezier: true,
 };
 
-const SCREEN_WIDTH = Dimensions.get("window").width;
+const SCREEN_WIDTH_APP = Dimensions.get("window").width;
+const SCREEN_WIDTH_WEB = 500;
 
-export { CONFIG, SCREEN_WIDTH }
+export { CONFIG, SCREEN_WIDTH_APP, SCREEN_WIDTH_WEB }
