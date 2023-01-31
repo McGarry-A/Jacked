@@ -19,7 +19,16 @@ const Exercises = () => {
   };
 
   return (
-    <View flex={1} backgroundColor={screenColorMode} padding={3}>
+    <View
+      flex={1}
+      backgroundColor={screenColorMode}
+      padding={3}
+      _web={{
+        maxW: "lg",
+        w: "100%",
+        mx: "auto",
+      }}
+    >
       {renderHeading()}
       {renderExerciseList()}
     </View>

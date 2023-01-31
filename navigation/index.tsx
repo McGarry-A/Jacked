@@ -36,7 +36,7 @@ import Start from "../screens/root/Start";
 import ColorThemeSwitch from "../components/layout/ColorThemeSwitch";
 import Auth from "../components/auth/Auth";
 import Welcome from "../components/auth/Welcome";
-import WorkoutDetails from "../screens/pages/WorkoutDetails";
+import Header from "../components/layout/Header";
 
 export default function Navigation() {
   return (
@@ -79,24 +79,13 @@ function RootNavigator() {
         </AuthStack.Navigator>
       ) : (
         <>
-          <Stack.Navigator
-            initialRouteName="Root"
-            screenOptions={{
-              statusBarColor: screenColorModeHex,
-              headerStyle: {
-                backgroundColor: screenColorModeHex,
-              },
-            }}
-          >
+          <Stack.Navigator initialRouteName="Root">
             <Stack.Screen
               name="Root"
               component={BottomTabNavigator}
-              options={() => ({
+              options={{
                 headerShown: false,
-                headerStyle: {
-                  backgroundColor: screenColorModeHex,
-                },
-              })}
+              }}
             />
             <Stack.Screen
               name="Settings"
@@ -104,53 +93,67 @@ function RootNavigator() {
               options={{ title: "Settings" }}
             />
             <Stack.Screen
-              name="WorkoutDetails"
-              component={WorkoutDetails}
-              options={{ title: "Workout Details" }}
-            />
-            <Stack.Screen
               name="ActiveWorkout"
               component={ActiveWorkout}
               options={({ navigation }) => ({
                 title: "Active Workout",
-                headerStyle: {
-                  backgroundColor: screenColorModeHex,
-                },
-                headerRight: () => (
-                  <Button
-                    variant="ghost"
-                    colorScheme={"red"}
-                    onPress={() => {
-                      dispatch(cancelWorkout());
-                      navigation.navigate("Root");
-                    }}
-                  >
-                    <Text
-                      textTransform={"uppercase"}
-                      color="red.400"
-                      fontSize={"xs"}
-                    >
-                      Cancel
-                    </Text>
-                  </Button>
+                header: (props) => (
+                  <Header
+                    showBack={false}
+                    showRouteTitle={false}
+                    {...props}
+                    ComponentRight={() => (
+                      <Button
+                        variant="ghost"
+                        colorScheme={"red"}
+                        onPress={() => {
+                          dispatch(cancelWorkout());
+                          navigation.navigate("Root");
+                        }}
+                      >
+                        <Text
+                          textTransform={"uppercase"}
+                          color="red.400"
+                          fontSize={"xs"}
+                        >
+                          Cancel
+                        </Text>
+                      </Button>
+                    )}
+                  />
                 ),
               })}
             />
             <Stack.Group screenOptions={{ presentation: "modal" }}>
-              <Stack.Screen name="Calendar" component={Calendar} />
+              <Stack.Screen
+                name="Calendar"
+                component={Calendar}
+                options={() => ({
+                  header: (props) => (
+                    <Header showBack={true} showRouteTitle={true} {...props} />
+                  ),
+                })}
+              />
               <Stack.Screen
                 name="AddExercises"
                 component={AddExercises}
                 options={({ navigation }) => ({
                   title: "",
-                  headerRight: () => (
-                    <Pressable onPress={() => navigation.goBack()}>
-                      <FontAwesomeIcon
-                        icon={faChevronDown}
-                        color={"skyblue"}
-                        size={20}
-                      />
-                    </Pressable>
+                  header: (props) => (
+                    <Header
+                      showBack={false}
+                      showRouteTitle={false}
+                      {...props}
+                      ComponentRight={() => (
+                        <Pressable onPress={() => navigation.goBack()}>
+                          <FontAwesomeIcon
+                            icon={faChevronDown}
+                            color={"skyblue"}
+                            size={20}
+                          />
+                        </Pressable>
+                      )}
+                    />
                   ),
                 })}
               />
@@ -196,10 +199,17 @@ function BottomTabNavigator() {
         options={({ navigation }: RootTabScreenProps<"Profile">) => ({
           title: "Profile",
           headerTitle: "",
+          header: (props) => (
+            <Header
+              showBack={false}
+              showRouteTitle={false}
+              {...props}
+              ComponentRight={() => <ColorThemeSwitch />}
+            />
+          ),
           tabBarIcon: ({ color }) => (
             <FontAwesomeIcon icon={faUser} color={color} size={25} />
           ),
-          headerRight: () => <ColorThemeSwitch />,
         })}
       />
       <BottomTab.Screen
@@ -208,6 +218,9 @@ function BottomTabNavigator() {
         options={{
           headerTitle: "",
           title: "Start",
+          header: (props) => (
+            <Header showBack={false} showRouteTitle={false} {...props} />
+          ),
           tabBarIcon: ({ color }) => (
             <FontAwesomeIcon icon={faPlus} color={color} size={25} />
           ),
@@ -219,6 +232,9 @@ function BottomTabNavigator() {
         options={{
           headerTitle: "",
           title: "Exercises",
+          header: (props) => (
+            <Header showBack={false} showRouteTitle={false} {...props} />
+          ),
           tabBarIcon: ({ color }) => (
             <FontAwesomeIcon icon={faDumbbell} color={color} size={25} />
           ),
@@ -230,6 +246,9 @@ function BottomTabNavigator() {
         options={() => ({
           headerTitle: "",
           title: "History",
+          header: (props) => (
+            <Header showBack={false} showRouteTitle={false} {...props} />
+          ),
           tabBarIcon: ({ color }) => (
             <FontAwesomeIcon icon={faClockRotateLeft} color={color} size={25} />
           ),

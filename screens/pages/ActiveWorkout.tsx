@@ -156,7 +156,17 @@ const ActiveWorkout = ({ route, navigation }: any) => {
   };
 
   return (
-    <View backgroundColor={"coolGray.50"} h={"full"} px={1} py={3}>
+    <View
+      backgroundColor={"coolGray.50"}
+      h={"full"}
+      px={1}
+      py={3}
+      _web={{
+        maxW: "lg",
+        w: "100%",
+        mx: "auto",
+      }}
+    >
       {renderHeading()}
       {renderTimer()}
       {renderLifts()}

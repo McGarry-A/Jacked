@@ -17,7 +17,7 @@ interface IColorSwitch extends IHStackProps {
   switchProps?: ISwitchProps;
 }
 
-export default function ColorThemeSwitch(props: IColorSwitch) {
+const ColorThemeSwitch = (props: IColorSwitch) => {
   const { switchProps, ...rest } = props;
   const { toggleColorMode, colorMode } = useColorMode();
   const { pTextColorMode } = useColorScheme();
@@ -57,3 +57,5 @@ export default function ColorThemeSwitch(props: IColorSwitch) {
 LogBox.ignoreLogs([
   "We can not support a function callback. See Github Issues for details https://github.com/adobe/react-spectrum/issues/2320",
 ]);
+
+export default ColorThemeSwitch;
