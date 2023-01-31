@@ -17,14 +17,14 @@ const workoutHistorySlice = createSlice({
   initialState: initialState,
   reducers: {
     refresh: (state) => {
-      state.status = 'idle'
-    }
+      state.status = "idle";
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getHistory.fulfilled, (state, { payload }) => {
         if (typeof payload === "object") {
-          state.history = []
+          state.history = [];
           payload.map((el) => (state.history = [...state.history, el]));
         }
         state.status = "fulfilled";
@@ -33,8 +33,8 @@ const workoutHistorySlice = createSlice({
         state.status = "rejected";
       })
       .addCase(getHistory.pending, (state) => {
-        state.status = "pending"
-      })
+        state.status = "pending";
+      });
     // .addCase(deleteWorkout.fulfilled, (state, { payload: workoutId }) => {
     //   state.history.filter((el) => {
     //     console.log(el.id)
@@ -60,13 +60,14 @@ interface getHistoryProps {
 export const getHistory = createAsyncThunk(
   "workoutHistorySlice/getHistory",
   async (payload: getHistoryProps) => {
-    console.log("Get History");
     const { data, error } = await supabase
       .from("workouts")
-      .select(`id, workout_name, date, lifts (exercise_name, set (weight, reps))`)
+      .select(
+        `id, workout_name, date, lifts (exercise_name, set (weight, reps))`
+      )
       .order("id", { ascending: false })
       .eq("user_id", payload.userId)
-      .limit(10)
+      .limit(10);
 
     if (error) return console.error(error);
     return data as workoutHistoryType;
@@ -92,6 +93,6 @@ export const getHistory = createAsyncThunk(
 //   }
 // )
 
-export const { refresh } = workoutHistorySlice.actions
+export const { refresh } = workoutHistorySlice.actions;
 
 export default workoutHistorySlice.reducer;

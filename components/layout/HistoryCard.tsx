@@ -1,13 +1,12 @@
 import { faClock } from "@fortawesome/free-regular-svg-icons/faClock";
 import { Box, HStack, Skeleton, Text, VStack } from "native-base";
-import React, { memo, useState, lazy, Suspense } from "react";
+import React, { memo, useState, lazy, Suspense, useEffect } from "react";
 import getDaysAgo from "../../utils/Date/getDaysAgo";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import useColorScheme from "../../hooks/useColorScheme";
 import { Pressable } from "react-native";
 
 const WorkoutDetailsModal = lazy(() => import("../modal/WorkoutDetailsModal"));
-const HistoryCardModal = lazy(() => import("../modal/HistoryCardModal"));
 
 interface IHistoryCard {
   isLoaded: boolean;
@@ -126,9 +125,8 @@ const HistoryCard = ({
   };
 
   const renderModal = () => {
-
     if (!isVisible) return null;
-    
+
     return (
       <Suspense>
         <WorkoutDetailsModal
@@ -141,35 +139,33 @@ const HistoryCard = ({
   };
 
   return (
-    <>
-      <Skeleton
-        my={2}
-        isLoaded={isLoaded}
-        startColor={"gray.200"}
-        endColor={"coolGray.200"}
-        h={24}
-      >
-        <Pressable onPress={() => setIsVisible(true)}>
-          <VStack
-            space={1}
-            w={"full"}
-            borderRadius={5}
-            padding={3}
-            marginY={1}
-            borderWidth={2}
-            borderColor={"coolGray.100"}
-            backgroundColor={"transparent"}
-          >
-            {renderHeader()}
-            {renderLiftsHead()}
-            {renderLifts()}
-            {renderNoLifts()}
-            {renderDaysAgo()}
-          </VStack>
-        </Pressable>
-      </Skeleton>
+    <Skeleton
+      my={2}
+      isLoaded={isLoaded}
+      startColor={"gray.200"}
+      endColor={"coolGray.200"}
+      h={24}
+    >
+      <Pressable onPress={() => setIsVisible(true)}>
+        <VStack
+          space={1}
+          w={"full"}
+          borderRadius={5}
+          padding={3}
+          marginY={1}
+          borderWidth={2}
+          borderColor={"coolGray.100"}
+          backgroundColor={"transparent"}
+        >
+          {renderHeader()}
+          {renderLiftsHead()}
+          {renderLifts()}
+          {renderNoLifts()}
+          {renderDaysAgo()}
+        </VStack>
+      </Pressable>
       {renderModal()}
-    </>
+    </Skeleton>
   );
 };
 

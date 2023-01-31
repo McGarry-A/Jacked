@@ -1,16 +1,22 @@
 import { faCalendar } from "@fortawesome/free-regular-svg-icons/faCalendar";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
-import { FlatList, Heading, HStack, View } from "native-base";
+import { FlatList, Heading, HStack, Skeleton, View } from "native-base";
+import { lazy, Suspense, useEffect } from "react";
 import CtaButton from "../../components/layout/CtaButton";
-import HistoryCard from "../../components/layout/HistoryCard";
 import useColorScheme from "../../hooks/useColorScheme";
 import useHistory from "../../hooks/useHistory";
+import { useAppSelector } from "../../store";
+
+const HistoryCard = lazy(() => import("../../components/layout/HistoryCard"));
 
 export default function History() {
-  const { history, isLoading, refreshHistory } = useHistory();
+  const { history, refreshHistory } = useHistory();
   const { screenColorMode, h1ColorMode } = useColorScheme();
   const navigation = useNavigation();
+
+  const isLoaded =
+    useAppSelector((state) => state.workoutHistorySlice.status) === "fulfilled";
 
   const renderHeader = () => {
     return (
@@ -35,18 +41,27 @@ export default function History() {
       <FlatList
         data={history}
         initialNumToRender={6}
-        onRefresh={refreshHistory}
-        refreshing={isLoading}
         keyExtractor={({ id }) => String(id)}
         flexGrow={1}
         renderItem={({ item: { workout_name, lifts, date, id } }) => (
-          <HistoryCard
-            workoutName={workout_name}
-            lifts={lifts}
-            date={date}
-            isLoaded={!isLoading}
-            workoutId={id}
-          />
+          <Suspense
+            fallback={
+              <Skeleton
+                startColor={"gray.50"}
+                endColor={"gray.100"}
+                h={"40"}
+                my={2}
+              />
+            }
+          >
+            <HistoryCard
+              workoutName={workout_name}
+              lifts={lifts}
+              date={date}
+              isLoaded={isLoaded}
+              workoutId={id}
+            />
+          </Suspense>
         )}
       />
     );

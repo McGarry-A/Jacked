@@ -48,8 +48,6 @@ const WorkoutDetails = ({ workoutId }: IWorkoutDetails) => {
   const renderLifts = () => {
     const { lifts } = workout;
 
-    console.log("lifts", lifts);
-
     return (
       <VStack space={3} my={3}>
         {lifts.map((lift, index) => {
