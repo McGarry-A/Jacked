@@ -31,7 +31,7 @@ const AddExercises: React.FC<Props> = () => {
         userId,
       };
     });
-    console.log(params)
+    console.log(params);
     dispatch(addLift(params));
     navigation.goBack();
   };
@@ -79,7 +79,18 @@ const AddExercises: React.FC<Props> = () => {
   };
 
   return (
-    <View padding={3} backgroundColor={"white"} h="full" flex={1} flexGrow={1}>
+    <View
+      padding={3}
+      backgroundColor={"white"}
+      h="full"
+      flex={1}
+      flexGrow={1}
+      _web={{
+        maxW: "lg",
+        w: "100%",
+        mx: "auto",
+      }}
+    >
       {renderHeading()}
       {renderList()}
       {renderAddExercises()}

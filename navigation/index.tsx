@@ -138,7 +138,7 @@ function RootNavigator() {
                   header: (props) => (
                     <Header
                       showBack={true}
-                      showRouteTitle={false}
+                      showRouteTitle={true}
                       {...props}
                     />
                   ),

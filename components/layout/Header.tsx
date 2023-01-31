@@ -54,20 +54,26 @@ const Header = (props: IHeaderBottomTab | IHeaderStack) => {
 
   return (
     <View
-      p={3}
-      h={"16"}
+      py={3}
+      px={2}
+      h={"20"}
       borderBottomWidth={1}
       borderBottomColor={"gray.200"}
-      my={"auto"}
       justifyContent={"center"}
+      backgroundColor={"white"}
       _web={{
         maxW: "lg",
         w: "100%",
         mx: "auto",
-        backgroundColor: "white",
+        h: "16",
       }}
     >
-      <HStack alignItems={"baseline"} justifyContent={"space-between"}>
+      <HStack
+        alignItems={"flex-end"}
+        justifyContent={"space-between"}
+        h={"100%"}
+        _web={{ alignItems: "baseline" }}
+      >
         {renderBackButton()}
         {renderRouteTitle()}
         {renderComponentRight()}

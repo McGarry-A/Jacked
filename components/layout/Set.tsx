@@ -36,11 +36,6 @@ const Set = (props: Props) => {
   const repsRef = useRef<HTMLInputElement>();
 
   useEffect(() => {
-    weightRef.current!.value = previous!.weight;
-    repsRef.current!.value = previous!.reps;
-  }, []);
-
-  useEffect(() => {
     if (checked === true) setIsDone(true);
     if (checked === false) setIsDone(false);
   }, [checked]);

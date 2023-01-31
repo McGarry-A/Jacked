@@ -3,6 +3,8 @@ import { CalendarList } from "react-native-calendars";
 import { useAppSelector } from "../../store";
 
 import useTodaysDate from "../../hooks/useTodaysDate";
+import { Dimensions } from "react-native";
+import useIsApp from "../../hooks/useIsApp";
 
 export default function Calendar() {
   const history = useAppSelector((state) => state.workoutHistorySlice.history);
@@ -11,6 +13,11 @@ export default function Calendar() {
     .reduce((ac, a) => ({ ...ac, [a]: { selected: true } }), {});
 
   const maxDate = useTodaysDate();
+
+  const isApp = useIsApp()
+
+  const SCREEN_WIDTH_APP = Dimensions.get("window").width;
+  const SCREEN_WIDTH = isApp ? SCREEN_WIDTH_APP : 500;
 
   return (
     <View
@@ -28,7 +35,7 @@ export default function Calendar() {
         maxDate={maxDate}
         markedDates={historyObj}
         minDate={"2022-01-01"}
-        calendarWidth={500}
+        calendarWidth={SCREEN_WIDTH}
       />
     </View>
   );
