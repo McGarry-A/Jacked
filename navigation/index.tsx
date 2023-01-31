@@ -36,7 +36,6 @@ import Start from "../screens/root/Start";
 import ColorThemeSwitch from "../components/layout/ColorThemeSwitch";
 import Auth from "../components/auth/Auth";
 import Welcome from "../components/auth/Welcome";
-import WorkoutDetails from "../screens/pages/WorkoutDetails";
 import Header from "../components/layout/Header";
 
 export default function Navigation() {
@@ -94,11 +93,6 @@ function RootNavigator() {
               options={{ title: "Settings" }}
             />
             <Stack.Screen
-              name="WorkoutDetails"
-              component={WorkoutDetails}
-              options={{ title: "Workout Details" }}
-            />
-            <Stack.Screen
               name="ActiveWorkout"
               component={ActiveWorkout}
               options={({ navigation }) => ({
@@ -136,11 +130,7 @@ function RootNavigator() {
                 component={Calendar}
                 options={() => ({
                   header: (props) => (
-                    <Header
-                      showBack={true}
-                      showRouteTitle={true}
-                      {...props}
-                    />
+                    <Header showBack={true} showRouteTitle={true} {...props} />
                   ),
                 })}
               />
