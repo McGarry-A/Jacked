@@ -73,8 +73,7 @@ const useWorkout = (workoutId: number) => {
       setIsLoading(false);
     }
   };
-
-  console.log("workout ", workout);
+  
   return { isLoading, error, workout };
 };
 
