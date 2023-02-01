@@ -17,6 +17,7 @@ const workoutHistorySlice = createSlice({
   initialState: initialState,
   reducers: {
     refresh: (state) => {
+      state.history = []
       state.status = "idle";
     },
   },
