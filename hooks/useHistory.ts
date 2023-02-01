@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../store";
 import { getHistory } from "../store/workoutHistorySlice";
 import { refresh } from "../store/workoutHistorySlice";
 
-export default function useHistory() {
+export default function useHistory(page = 1) {
   const dispatch = useAppDispatch();
   const { userId } = useAppSelector((state) => state.userSlice.user);
   const { status, history } = useAppSelector(
@@ -14,7 +14,7 @@ export default function useHistory() {
 
   useEffect(() => {
     if (status === "idle") {
-      dispatch(getHistory({ userId }));
+      dispatch(getHistory({ userId, page }));
     }
   }, [status]);
 

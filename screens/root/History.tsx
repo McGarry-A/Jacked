@@ -2,8 +2,9 @@ import { faCalendar } from "@fortawesome/free-regular-svg-icons/faCalendar";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
 import { FlatList, Heading, HStack, Skeleton, View } from "native-base";
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useState } from "react";
 import CtaButton from "../../components/layout/CtaButton";
+import ListFooter from "../../components/layout/ListFooter";
 import useColorScheme from "../../hooks/useColorScheme";
 import useHistory from "../../hooks/useHistory";
 import { useAppSelector } from "../../store";
@@ -11,7 +12,8 @@ import { useAppSelector } from "../../store";
 const HistoryCard = lazy(() => import("../../components/layout/HistoryCard"));
 
 export default function History() {
-  const { history, refreshHistory } = useHistory();
+  const [page, setPage] = useState<number>(1);
+  const { history } = useHistory(page);
   const { screenColorMode, h1ColorMode } = useColorScheme();
   const navigation = useNavigation();
 
@@ -43,6 +45,8 @@ export default function History() {
         initialNumToRender={6}
         keyExtractor={({ id }) => String(id)}
         flexGrow={1}
+        onEndReached={() => setPage((page) => (page += 1))}
+        ListFooterComponent={<ListFooter />}
         renderItem={({ item: { workout_name, lifts, date, id } }) => (
           <Suspense
             fallback={
