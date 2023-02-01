@@ -24,7 +24,6 @@ const workoutHistorySlice = createSlice({
     builder
       .addCase(getHistory.fulfilled, (state, { payload }) => {
         if (typeof payload === "object") {
-          state.history = [];
           payload.map((el) => (state.history = [...state.history, el]));
         }
         state.status = "fulfilled";

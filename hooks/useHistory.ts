@@ -1,22 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../store";
 import { getHistory } from "../store/workoutHistorySlice";
-import { refresh } from "../store/workoutHistorySlice";
 
 export default function useHistory(page = 1) {
   const dispatch = useAppDispatch();
   const { userId } = useAppSelector((state) => state.userSlice.user);
-  const { status, history } = useAppSelector(
+  const { history } = useAppSelector(
     (state) => state.workoutHistorySlice
   );
 
-  const refreshHistory = () => dispatch(refresh());
-
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(getHistory({ userId, page }));
-    }
-  }, [status]);
+    dispatch(getHistory({ userId, page }));
+  }, [page]);
 
-  return { history, refreshHistory };
+  return { history };
 }

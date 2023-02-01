@@ -45,7 +45,11 @@ export default function History() {
         initialNumToRender={6}
         keyExtractor={({ id }) => String(id)}
         flexGrow={1}
-        onEndReached={() => setPage((page) => (page += 1))}
+        onEndReached={() => {
+          console.log("PAGE " + page);
+          setPage((page) => page + 1);
+        }}
+        onEndReachedThreshold={0.2}
         ListFooterComponent={<ListFooter />}
         renderItem={({ item: { workout_name, lifts, date, id } }) => (
           <Suspense
