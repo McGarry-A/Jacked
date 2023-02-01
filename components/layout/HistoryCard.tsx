@@ -139,13 +139,7 @@ const HistoryCard = ({
   };
 
   return (
-    <Skeleton
-      my={2}
-      isLoaded={isLoaded}
-      startColor={"gray.200"}
-      endColor={"coolGray.200"}
-      h={24}
-    >
+    <>
       <Pressable onPress={() => setIsVisible(true)}>
         <VStack
           space={1}
@@ -165,7 +159,7 @@ const HistoryCard = ({
         </VStack>
       </Pressable>
       {renderModal()}
-    </Skeleton>
+    </>
   );
 };
 

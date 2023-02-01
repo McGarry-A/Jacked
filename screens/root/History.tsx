@@ -49,7 +49,7 @@ export default function History() {
           console.log("PAGE " + page);
           setPage((page) => page + 1);
         }}
-        onEndReachedThreshold={0.2}
+        onEndReachedThreshold={0.1}
         ListFooterComponent={<ListFooter />}
         renderItem={({ item: { workout_name, lifts, date, id } }) => (
           <Suspense

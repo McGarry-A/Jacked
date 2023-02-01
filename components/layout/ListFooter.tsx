@@ -1,6 +1,11 @@
 import { HStack, Spinner, Text } from "native-base";
+import { useAppSelector } from "../../store";
 
 const ListFooter = () => {
+  const { status } = useAppSelector((state) => state.workoutHistorySlice);
+
+  if (status !== "pending") return null;
+
   return (
     <HStack
       justifyContent={"center"}
