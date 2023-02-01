@@ -48,7 +48,12 @@ const ExerciseCard = (props: IProps) => {
 
   const handlePressCard = () => {
     const { liftData } = props;
-    if (!liftData || !setLiftData) return;
+    if (!liftData || !setLiftData) {
+      // NOTE:
+      // open modal to show previous lift details
+      return
+    };
+
     handleAddToLiftData();
   };
 

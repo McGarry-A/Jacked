@@ -32,7 +32,6 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 
   const dispatch = useAppDispatch();
   const { userId } = useAppSelector((state) => state.userSlice.user);
-  const { status } = useAppSelector((state) => state.widgetSlice);
 
   const [isWidgetRefreshing, setIsWidgetRefreshing] = useState(false);
 
