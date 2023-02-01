@@ -24,7 +24,6 @@ const workoutHistorySlice = createSlice({
     builder
       .addCase(getHistory.fulfilled, (state, { payload }) => {
         if (typeof payload === "object") {
-          state.history = [];
           payload.map((el) => (state.history = [...state.history, el]));
         }
         state.status = "fulfilled";
@@ -35,63 +34,35 @@ const workoutHistorySlice = createSlice({
       .addCase(getHistory.pending, (state) => {
         state.status = "pending";
       });
-    // .addCase(deleteWorkout.fulfilled, (state, { payload: workoutId }) => {
-    //   state.history.filter((el) => {
-    //     console.log(el.id)
-    //     console.log(workoutId)
-    //     return el.id !== workoutId
-    //   })
-
-    //   state.status = "fulfilled"
-    // })
-    // .addCase(deleteWorkout.pending, state => {
-    //   state.status = "pending"
-    // })
-    // .addCase(deleteWorkout.rejected, state => {
-    //   state.status = "rejected"
-    // })
   },
 });
 
 interface getHistoryProps {
   userId: string;
+  page: number;
 }
 
 export const getHistory = createAsyncThunk(
   "workoutHistorySlice/getHistory",
   async (payload: getHistoryProps) => {
+    const { userId, page } = payload
+
+    const currentPage = page - 1
+
     const { data, error } = await supabase
       .from("workouts")
       .select(
         `id, workout_name, date, lifts (exercise_name, set (weight, reps))`
       )
       .order("id", { ascending: false })
-      .eq("user_id", payload.userId)
+      .eq("user_id", userId)
+      .range(currentPage * 10, page * 10)
       .limit(10);
 
     if (error) return console.error(error);
     return data as workoutHistoryType;
   }
 );
-
-// export const deleteWorkout = createAsyncThunk(
-//   "workoutHistorySlice/deleteWorkout",
-//   async (payload: number, { rejectWithValue }) => {
-//     const { error } = await supabase
-//       .from("workouts")
-//       .delete()
-//       .eq("id", payload)
-
-//     console.log(payload)
-
-//     if (error) {
-//       console.error(error)
-//       return rejectWithValue(error.message)
-//     }
-
-//     return payload
-//   }
-// )
 
 export const { refresh } = workoutHistorySlice.actions;
 
