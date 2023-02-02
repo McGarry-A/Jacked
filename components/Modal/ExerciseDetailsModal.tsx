@@ -2,13 +2,14 @@ import {
   Pressable,
   HStack,
   Text,
-  View,
   VStack,
-  Spinner,
   useToast,
+  Heading,
 } from "native-base";
 import { SetStateAction, useEffect, useState } from "react";
 import useExerciseDetails from "../../hooks/useExerciseDetails";
+import { ISet } from "../../types/WorkoutInterface";
+import calculateOneRepMax from "../../utils/Workouts/calculateOneRepMax";
 import Loader from "../utils/Loader";
 import ToastAlert from "../utils/ToastAlert";
 import ModalWrapper from "./ModalWrapper";
@@ -26,6 +27,11 @@ const ExerciseDetailsModal = (props: IExerciseDetailsModal) => {
   const [activeTab, setActiveTab] = useState<TTabs>("ABOUT");
   const { isOpen, onClose, exerciseName, exerciseId } = props;
   const { details, error, isLoading } = useExerciseDetails({ exerciseId });
+
+  // NOTE:
+  // CREATE A COMPOENENT FOR EACH TAB AND LAZY LOAD THEM
+
+  console.log("details", details);
   const toast = useToast();
 
   useEffect(() => {
@@ -79,11 +85,75 @@ const ExerciseDetailsModal = (props: IExerciseDetailsModal) => {
   };
 
   const renderAbout = () => {
-    return <Text>About</Text>;
+    if (!details) return null;
+
+    const {
+      exercise_details: { description, name, category },
+    } = details;
+
+    return (
+      <VStack space={2}>
+        <Text fontSize={"lg"} fontWeight={500}>
+          {name}
+        </Text>
+        <Text>{category}</Text>
+        <Text>{description}</Text>
+      </VStack>
+    );
   };
   const renderHistory = () => {
-    return <Text>History</Text>;
+
+    //NOTE: 
+    // WE CAN ADD OUR OWN COMPONENT HERE
+    // WE NEED TO MAKE IT INFINITE SCROLL
+    if (!details) return null;
+
+    const { exercise_history } = details;
+
+    return (
+      <VStack>
+        {Object.values(exercise_history).map((history: any, index) => {
+          const { date, time, sets, workout_name } = history;
+          return (
+            <VStack
+              key={index}
+              space={2}
+              borderWidth={1}
+              borderColor={"coolGray.200"}
+              p={3}
+              rounded={"md"}
+              my={1}
+            >
+              <Heading size={"md"}>{workout_name}</Heading>
+              <Text
+                fontSize={"sm"}
+                fontWeight={600}
+                color={"coolGray.400"}
+              >{`${date}, ${time}`}</Text>
+              <HStack justifyContent={"space-between"}>
+                <Text fontWeight={600}>Sets Performed</Text>
+                <Text fontWeight={600}>1RM</Text>
+              </HStack>
+              {sets.map((set: ISet) => {
+                const { reps, weight, setNumber } = set;
+                return (
+                  <HStack justifyContent={"space-between"}>
+                    <HStack space={3}>
+                      <Text>{setNumber}</Text>
+                      <Text>{`${weight} kg x ${reps}`}</Text>
+                    </HStack>
+                    <Text>{calculateOneRepMax([{ weight, reps }])}</Text>
+                  </HStack>
+                );
+              })}
+            </VStack>
+          );
+        })}
+      </VStack>
+    );
   };
+
+
   const renderRecords = () => {
     return <Text>Records</Text>;
   };
@@ -95,7 +165,7 @@ const ExerciseDetailsModal = (props: IExerciseDetailsModal) => {
       RECORDS: renderRecords(),
     };
 
-    if (isLoading) return <Loader />;
+    if (isLoading || error) return <Loader />;
 
     return TAB_LIST[activeTab];
   };
