@@ -5,6 +5,7 @@ import {
   Pressable,
   Skeleton,
   Text,
+  useDisclose,
   VStack,
 } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../store";
@@ -14,6 +15,8 @@ import useId from "../../hooks/useId";
 import useToggleState from "../../hooks/useToggleState";
 import { deleteLift } from "../../store/currentWorkoutSlice";
 import useColorScheme from "../../hooks/useColorScheme";
+import ExerciseDetailsModal from "../modal/ExerciseDetailsModal";
+import { useState } from "react";
 
 interface IProps {
   exercise_name: string;
@@ -29,6 +32,7 @@ interface IProps {
 
 const ExerciseCard = (props: IProps) => {
   const dispatch = useAppDispatch();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const { isLoading, setLiftData, id } = props;
 
   const exercises = useAppSelector(
@@ -48,11 +52,8 @@ const ExerciseCard = (props: IProps) => {
 
   const handlePressCard = () => {
     const { liftData } = props;
-    if (!liftData || !setLiftData) {
-      // NOTE:
-      // open modal to show previous lift details
-      return
-    };
+
+    if (!liftData || !setLiftData) return setIsOpen(true);
 
     handleAddToLiftData();
   };
@@ -144,33 +145,51 @@ const ExerciseCard = (props: IProps) => {
     );
   };
 
+  const renderExerciseDetailsModal = () => {
+    if (!isOpen) return null;
+
+    const { exercise_name } = props;
+
+    return (
+      <ExerciseDetailsModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        exerciseName={exercise_name}
+        exerciseId={id}
+      />
+    );
+  };
+
   return (
-    <Skeleton
-      my={2}
-      h={12}
-      startColor={"gray.200"}
-      endColor={"coolGray.200"}
-      isLoaded={isLoading}
-    >
-      <Box
-        padding={3}
-        backgroundColor={backgroundColor}
-        _dark={{
-          backgroundColor: "coolGray.700",
-          borderColor: "coolGray.700",
-        }}
+    <>
+      <Skeleton
+        my={2}
+        h={12}
+        startColor={"gray.200"}
+        endColor={"coolGray.200"}
+        isLoaded={isLoading}
       >
-        <Pressable
-          flexDirection={"row"}
-          alignItems="center"
-          onPress={handlePressCard}
+        <Box
+          padding={3}
+          backgroundColor={backgroundColor}
+          _dark={{
+            backgroundColor: "coolGray.700",
+            borderColor: "coolGray.700",
+          }}
         >
-          {renderAvatar()}
-          {renderBody()}
-          {renderCheckbox()}
-        </Pressable>
-      </Box>
-    </Skeleton>
+          <Pressable
+            flexDirection={"row"}
+            alignItems="center"
+            onPress={handlePressCard}
+          >
+            {renderAvatar()}
+            {renderBody()}
+            {renderCheckbox()}
+          </Pressable>
+        </Box>
+      </Skeleton>
+      {renderExerciseDetailsModal()}
+    </>
   );
 };
 

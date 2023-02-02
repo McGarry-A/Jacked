@@ -8,7 +8,6 @@ interface IToastAlert {
 }
 
 const ToastAlert = ({ status, title, description, variant }: IToastAlert) => {
-  const toast = useToast();
   return (
     <Center>
       <Alert

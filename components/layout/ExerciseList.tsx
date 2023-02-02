@@ -37,7 +37,7 @@ export const ExerciseList: React.FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    if (!error) {
+    if (error) {
       toast.show({
         placement: "top",
         render: () => (
