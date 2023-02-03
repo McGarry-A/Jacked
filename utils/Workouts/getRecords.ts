@@ -36,14 +36,14 @@ export const getAcheivedOneRepMax = (history: IExerciseHistory) => {
 export const getBestVolume = (history: IExerciseHistory) => {
   const sets = Object.values(history)
     .map((lift) => lift.sets)
-    .flat(1);
+    .flat(2);
 
   const volume = sets.reduce((acc, set) => {
     if (!set) return acc;
     const weight = parseInt(set.weight);
     const reps = parseInt(set.reps);
     const volume = weight * reps;
-    return acc + volume;
+    return volume > acc ? volume : acc;
   }, 0);
 
   return volume;
