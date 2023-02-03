@@ -50,7 +50,14 @@ export const getBestVolume = (history: IExerciseHistory) => {
 };
 
 export const getBestPerformance = (history: IExerciseHistory) => {
-  let bestPerformance: object[] = []
+
+  interface set {
+    weight: number;
+    reps: number;
+    setNumber: number;
+  }
+
+  let bestPerformance: set[] = []
   const repsArr = Array.from({ length: 10 }, (_, i) => i + 1);
 
   const sets = Object.values(history)

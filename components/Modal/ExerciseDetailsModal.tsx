@@ -1,16 +1,6 @@
-import {
-  Pressable,
-  HStack,
-  Text,
-  VStack,
-  useToast,
-  Heading,
-  Skeleton,
-} from "native-base";
+import { Pressable, HStack, Text, VStack, useToast } from "native-base";
 import { lazy, SetStateAction, Suspense, useEffect, useState } from "react";
 import useExerciseDetails from "../../hooks/useExerciseDetails";
-import { ISet } from "../../types/WorkoutInterface";
-import calculateOneRepMax from "../../utils/Workouts/calculateOneRepMax";
 import Loader from "../utils/Loader";
 import ToastAlert from "../utils/ToastAlert";
 import ModalWrapper from "./ModalWrapper";
@@ -24,7 +14,8 @@ interface IExerciseDetailsModal {
 
 type TTabs = "ABOUT" | "HISTORY" | "RECORDS";
 
-const ExerciseDetailsHistory = lazy(() => import("../ExerciseDetailsHistory"))
+const ExerciseDetailsHistory = lazy(() => import("../ExerciseDetailsHistory"));
+const ExerciseDetailsRecords = lazy(() => import("../ExerciseDetailsRecords"));
 
 const ExerciseDetailsModal = (props: IExerciseDetailsModal) => {
   const [activeTab, setActiveTab] = useState<TTabs>("ABOUT");
@@ -104,29 +95,17 @@ const ExerciseDetailsModal = (props: IExerciseDetailsModal) => {
       </VStack>
     );
   };
-  const renderHistory = () => {};
-  //NOTE:
-  // WE CAN ADD OUR OWN COMPONENT HERE
-  // WE NEED TO MAKE IT INFINITE SCROLL
-
-  const renderRecords = () => {
-    return <Text>Records</Text>;
-  };
 
   const renderContent = () => {
     const TAB_LIST = {
       ABOUT: renderAbout(),
       HISTORY: <ExerciseDetailsHistory exerciseId={exerciseId} />,
-      RECORDS: renderRecords(),
+      RECORDS: <ExerciseDetailsRecords exerciseId={exerciseId} />,
     };
 
     if (isLoading || error) return <Loader />;
 
-    return (
-      <Suspense fallback={<Loader />}>
-        {TAB_LIST[activeTab]}
-      </Suspense>
-    ) 
+    return <Suspense fallback={<Loader />}>{TAB_LIST[activeTab]}</Suspense>;
   };
 
   return (

@@ -44,7 +44,7 @@ const ExerciseDetailsHistory = ({ exerciseId }: IExerciseDetailsHistory) => {
           rounded={"md"}
           my={1}
         >
-          <Heading size={"md"}>{workout_name}</Heading>
+          <Heading size={"sm"}>{workout_name}</Heading>
           <Text
             fontSize={"sm"}
             fontWeight={600}
