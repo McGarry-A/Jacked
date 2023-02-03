@@ -5,8 +5,9 @@ import {
   VStack,
   useToast,
   Heading,
+  Skeleton,
 } from "native-base";
-import { SetStateAction, useEffect, useState } from "react";
+import { lazy, SetStateAction, Suspense, useEffect, useState } from "react";
 import useExerciseDetails from "../../hooks/useExerciseDetails";
 import { ISet } from "../../types/WorkoutInterface";
 import calculateOneRepMax from "../../utils/Workouts/calculateOneRepMax";
@@ -22,6 +23,8 @@ interface IExerciseDetailsModal {
 }
 
 type TTabs = "ABOUT" | "HISTORY" | "RECORDS";
+
+const ExerciseDetailsHistory = lazy(() => import("../ExerciseDetailsHistory"))
 
 const ExerciseDetailsModal = (props: IExerciseDetailsModal) => {
   const [activeTab, setActiveTab] = useState<TTabs>("ABOUT");
@@ -101,58 +104,10 @@ const ExerciseDetailsModal = (props: IExerciseDetailsModal) => {
       </VStack>
     );
   };
-  const renderHistory = () => {
-
-    //NOTE: 
-    // WE CAN ADD OUR OWN COMPONENT HERE
-    // WE NEED TO MAKE IT INFINITE SCROLL
-    if (!details) return null;
-
-    const { exercise_history } = details;
-
-    return (
-      <VStack>
-        {Object.values(exercise_history).map((history: any, index) => {
-          const { date, time, sets, workout_name } = history;
-          return (
-            <VStack
-              key={index}
-              space={2}
-              borderWidth={1}
-              borderColor={"coolGray.200"}
-              p={3}
-              rounded={"md"}
-              my={1}
-            >
-              <Heading size={"md"}>{workout_name}</Heading>
-              <Text
-                fontSize={"sm"}
-                fontWeight={600}
-                color={"coolGray.400"}
-              >{`${date}, ${time}`}</Text>
-              <HStack justifyContent={"space-between"}>
-                <Text fontWeight={600}>Sets Performed</Text>
-                <Text fontWeight={600}>1RM</Text>
-              </HStack>
-              {sets.map((set: ISet) => {
-                const { reps, weight, setNumber } = set;
-                return (
-                  <HStack justifyContent={"space-between"}>
-                    <HStack space={3}>
-                      <Text>{setNumber}</Text>
-                      <Text>{`${weight} kg x ${reps}`}</Text>
-                    </HStack>
-                    <Text>{calculateOneRepMax([{ weight, reps }])}</Text>
-                  </HStack>
-                );
-              })}
-            </VStack>
-          );
-        })}
-      </VStack>
-    );
-  };
-
+  const renderHistory = () => {};
+  //NOTE:
+  // WE CAN ADD OUR OWN COMPONENT HERE
+  // WE NEED TO MAKE IT INFINITE SCROLL
 
   const renderRecords = () => {
     return <Text>Records</Text>;
@@ -161,13 +116,17 @@ const ExerciseDetailsModal = (props: IExerciseDetailsModal) => {
   const renderContent = () => {
     const TAB_LIST = {
       ABOUT: renderAbout(),
-      HISTORY: renderHistory(),
+      HISTORY: <ExerciseDetailsHistory exerciseId={exerciseId} />,
       RECORDS: renderRecords(),
     };
 
     if (isLoading || error) return <Loader />;
 
-    return TAB_LIST[activeTab];
+    return (
+      <Suspense fallback={<Loader />}>
+        {TAB_LIST[activeTab]}
+      </Suspense>
+    ) 
   };
 
   return (
