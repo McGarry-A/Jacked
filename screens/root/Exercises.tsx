@@ -11,11 +11,7 @@ const Exercises = () => {
   );
 
   const renderExerciseList = () => {
-    const config = {
-      showInput: true,
-      showFilterButtons: true,
-    };
-    return <ExerciseListComponent config={config} />;
+    return <ExerciseListComponent showExerciseDetails />;
   };
 
   return (

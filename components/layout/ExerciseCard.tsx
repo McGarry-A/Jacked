@@ -9,11 +9,10 @@ import {
 } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../store";
 import getExerciseInitials from "../../utils/Workouts/getExerciseInitials";
-import { LiftData } from "../../screens/modals/AddExercises";
-import useId from "../../hooks/useId";
-import useToggleState from "../../hooks/useToggleState";
-import { deleteLift } from "../../store/currentWorkoutSlice";
+import { addLift, deleteLift } from "../../store/currentWorkoutSlice";
 import useColorScheme from "../../hooks/useColorScheme";
+import ExerciseDetailsModal from "../modal/ExerciseDetailsModal";
+import { useEffect, useState } from "react";
 
 interface IProps {
   exercise_name: string;
@@ -23,63 +22,55 @@ interface IProps {
   image: string;
   id: number;
   isLoading: boolean;
-  setLiftData?: React.Dispatch<React.SetStateAction<LiftData[]>>;
-  liftData?: LiftData[];
+  showExerciseDetails: boolean;
 }
 
 const ExerciseCard = (props: IProps) => {
+  const { isLoading, id } = props;
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isActive, setIsActive] = useState<boolean>(false);
+
   const dispatch = useAppDispatch();
-  const { isLoading, setLiftData, id } = props;
 
-  const exercises = useAppSelector(
-    (state) => state.currentWorkoutSlice.exercises
+  const { userId } = useAppSelector((state) => state.userSlice.user);
+  const { exerciseOrder } = useAppSelector(
+    (state) => state.currentWorkoutSlice
   );
 
-  const exerciseIdsInWorkout = Object.values(exercises).map(
-    (exercise) => exercise.exerciseId
-  );
+  const liftId = `lift-${id}`;
 
-  const isInWorkout = exerciseIdsInWorkout.includes(id);
-
-  const { state: isActive, setToggleState: setIsActive } =
-    useToggleState(isInWorkout);
+  useEffect(() => {
+    if (exerciseOrder.includes(liftId)) {
+      setIsActive(true);
+    }
+  }, [exerciseOrder]);
 
   const backgroundColor = isActive ? "info.50" : "white";
 
   const handlePressCard = () => {
-    const { liftData } = props;
-    if (!liftData || !setLiftData) return;
-    handleAddToLiftData();
+    const { showExerciseDetails } = props;
+
+    if (showExerciseDetails) return setIsOpen(true);
+
+    return handleAddToLiftData();
   };
 
   const handleAddToLiftData = () => {
-    const { liftData, id, exercise_name } = props;
+    const { id, exercise_name } = props;
 
-    if (!isActive) {
-      console.log("adding to lift data");
-      const liftId = useId("lift");
-      const lift = {
-        exerciseId: id,
-        exerciseName: exercise_name,
-        liftId,
-      };
+    const lift = {
+      exerciseId: id,
+      exerciseName: exercise_name,
+      liftId,
+      userId,
+    };
 
-      setLiftData!((liftData) => [...liftData, lift]);
-      setIsActive(true);
+    if (!isActive) return dispatch(addLift([lift]));
 
-      return;
-    }
-
-    const newState = [...(liftData as LiftData[])];
-    const newData = newState.filter((el) => el.exerciseId !== id);
-    const liftIdOfRemoved = Object.values(exercises).filter(
-      (el) => el.exerciseId === id
-    )[0]?.liftId;
-
-    dispatch(deleteLift({ liftId: liftIdOfRemoved }));
-    setLiftData!(newData);
-
+    dispatch(deleteLift({ liftId: liftId }));
     setIsActive(false);
+    return;
   };
 
   const renderAvatar = () => {
@@ -101,9 +92,9 @@ const ExerciseCard = (props: IProps) => {
   };
 
   const renderCheckbox = () => {
-    const { setLiftData, exercise_name } = props;
+    const { exercise_name, showExerciseDetails } = props;
 
-    if (setLiftData) {
+    if (!showExerciseDetails) {
       return (
         <Box>
           <Checkbox
@@ -139,33 +130,51 @@ const ExerciseCard = (props: IProps) => {
     );
   };
 
+  const renderExerciseDetailsModal = () => {
+    if (!isOpen) return null;
+
+    const { exercise_name } = props;
+
+    return (
+      <ExerciseDetailsModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        exerciseName={exercise_name}
+        exerciseId={id}
+      />
+    );
+  };
+
   return (
-    <Skeleton
-      my={2}
-      h={12}
-      startColor={"gray.200"}
-      endColor={"coolGray.200"}
-      isLoaded={isLoading}
-    >
-      <Box
-        padding={3}
-        backgroundColor={backgroundColor}
-        _dark={{
-          backgroundColor: "coolGray.700",
-          borderColor: "coolGray.700",
-        }}
+    <>
+      <Skeleton
+        my={2}
+        h={12}
+        startColor={"gray.200"}
+        endColor={"coolGray.200"}
+        isLoaded={isLoading}
       >
-        <Pressable
-          flexDirection={"row"}
-          alignItems="center"
-          onPress={handlePressCard}
+        <Box
+          padding={3}
+          backgroundColor={backgroundColor}
+          _dark={{
+            backgroundColor: "coolGray.700",
+            borderColor: "coolGray.700",
+          }}
         >
-          {renderAvatar()}
-          {renderBody()}
-          {renderCheckbox()}
-        </Pressable>
-      </Box>
-    </Skeleton>
+          <Pressable
+            flexDirection={"row"}
+            alignItems="center"
+            onPress={handlePressCard}
+          >
+            {renderAvatar()}
+            {renderBody()}
+            {renderCheckbox()}
+          </Pressable>
+        </Box>
+      </Skeleton>
+      {renderExerciseDetailsModal()}
+    </>
   );
 };
 

@@ -1,41 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../store";
 import { fetchAllExercises } from "../store/exerciseList";
 
 export default function useExerciseList() {
-  const [list, setList] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  const dispatch = useAppDispatch();
-  const { exerciseList, status } = useAppSelector(
-    (state) => state.exerciseListSlice
-  );
+  const dispatch = useAppDispatch()
+  const { exerciseList, status } = useAppSelector((state) => state.exerciseListSlice)
 
   useEffect(() => {
-    if (status === "idle") {
+    if (!Object.keys(exerciseList).length) {
       dispatch(fetchAllExercises());
-      setIsLoading(false);
-      return;
-    }
-
-    if (status === "rejected") {
-      setIsLoading(false);
-      setError(true);
-      return;
-    }
-
-    if (status === "pending") {
-      setIsLoading(true);
-      return;
-    }
-
-    if (status === "fulfilled") {
-      setIsLoading(false);
-      setList(exerciseList);
       return;
     }
   }, [status]);
 
-  return { list, isLoading, error };
+  return { exerciseList, status };
 }
