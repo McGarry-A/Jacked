@@ -1,6 +1,8 @@
 import { Pressable, HStack, Text, VStack, useToast } from "native-base";
 import { lazy, SetStateAction, Suspense, useEffect, useState } from "react";
 import useExerciseDetails from "../../hooks/useExerciseDetails";
+import useExerciseHistory from "../../hooks/useExerciseHistory";
+import ExerciseDetailsAbout from "../ExerciseDetails/ExerciseDetailsAbout";
 import Loader from "../utils/Loader";
 import ToastAlert from "../utils/ToastAlert";
 import ModalWrapper from "./ModalWrapper";
@@ -14,22 +16,49 @@ interface IExerciseDetailsModal {
 
 type TTabs = "ABOUT" | "HISTORY" | "RECORDS";
 
-const ExerciseDetailsHistory = lazy(() => import("../ExerciseDetailsHistory"));
-const ExerciseDetailsRecords = lazy(() => import("../ExerciseDetailsRecords"));
+const ExerciseDetailsHistory = lazy(
+  () => import("../ExerciseDetails/ExerciseDetailsHistory")
+);
+const ExerciseDetailsRecords = lazy(
+  () => import("../ExerciseDetails/ExerciseDetailsRecords")
+);
 
 const ExerciseDetailsModal = (props: IExerciseDetailsModal) => {
-  const [activeTab, setActiveTab] = useState<TTabs>("ABOUT");
+  const [ACTIVE_TAB, setActiveTab] = useState<TTabs>("ABOUT");
   const { isOpen, onClose, exerciseName, exerciseId } = props;
-  const { details, error, isLoading } = useExerciseDetails({ exerciseId });
+  const {
+    details,
+    isLoading: detailsIsLoading,
+    error: detailsError,
+  } = useExerciseDetails({
+    exerciseId,
+  });
+  const {
+    exerciseHistory,
+    isLoading: historyIsLoading,
+    error: historyError,
+  } = useExerciseHistory(exerciseId);
 
-  // NOTE:
-  // CREATE A COMPOENENT FOR EACH TAB AND LAZY LOAD THEM
+  const TAB_LIST = {
+    ABOUT: <ExerciseDetailsAbout {...details} />,
+    HISTORY: (
+      <ExerciseDetailsHistory
+        exerciseHistory={exerciseHistory}
+        isLoading={historyIsLoading}
+      />
+    ),
+    RECORDS: (
+      <ExerciseDetailsRecords
+        exerciseHistory={exerciseHistory}
+        isLoading={detailsIsLoading}
+      />
+    ),
+  };
 
-  console.log("details", details);
   const toast = useToast();
 
   useEffect(() => {
-    if (error) {
+    if (detailsError || historyError) {
       toast.show({
         placement: "top",
         render: () => (
@@ -42,71 +71,43 @@ const ExerciseDetailsModal = (props: IExerciseDetailsModal) => {
         ),
       });
     }
-  }, [error]);
+  }, [historyError, detailsError]);
 
   const renderTabs = () => {
     return (
       <HStack
         justifyContent={"space-evenly"}
-        bg={"gray.200"}
-        py={2}
         rounded={"md"}
-        color={"gray.800"}
+        backgroundColor={"gray.300"}
       >
-        <Pressable
-          flex={1}
-          textAlign={"center"}
-          onPress={() => setActiveTab("ABOUT")}
-        >
-          <Text>About</Text>
-        </Pressable>
-        <Pressable
-          flex={1}
-          textAlign={"center"}
-          onPress={() => setActiveTab("HISTORY")}
-        >
-          <Text>History</Text>
-        </Pressable>
-        <Pressable
-          flex={1}
-          textAlign={"center"}
-          onPress={() => setActiveTab("RECORDS")}
-        >
-          <Text>Records</Text>
-        </Pressable>
+        {Object.keys(TAB_LIST).map((el, index) => {
+          const activeWeight = ACTIVE_TAB === el ? "700" : "500";
+          const activeBackground =
+            ACTIVE_TAB === el ? "coolGray.50" : "coolGray.200";
+          const activeShadow = ACTIVE_TAB === el ? "lg" : null;
+
+          return (
+            <Pressable
+              key={index}
+              flex={1}
+              textAlign={"center"}
+              onPress={() => setActiveTab(el as TTabs)}
+              fontWeight={activeWeight}
+              background={activeBackground}
+              shadow={activeShadow}
+              p={2}
+            >
+              <Text textTransform={"capitalize"}>{el}</Text>
+            </Pressable>
+          );
+        })}
       </HStack>
     );
   };
 
-  const renderAbout = () => {
-    if (!details) return null;
-
-    const {
-      exercise_details: { description, name, category },
-    } = details;
-
-    return (
-      <VStack space={2}>
-        <Text fontSize={"lg"} fontWeight={500}>
-          {name}
-        </Text>
-        <Text>{category}</Text>
-        <Text>{description}</Text>
-      </VStack>
-    );
-  };
-
-  const renderContent = () => {
-    const TAB_LIST = {
-      ABOUT: renderAbout(),
-      HISTORY: <ExerciseDetailsHistory exerciseId={exerciseId} />,
-      RECORDS: <ExerciseDetailsRecords exerciseId={exerciseId} />,
-    };
-
-    if (isLoading || error) return <Loader />;
-
-    return <Suspense fallback={<Loader />}>{TAB_LIST[activeTab]}</Suspense>;
-  };
+  const renderContent = () => (
+    <Suspense fallback={<Loader />}>{TAB_LIST[ACTIVE_TAB]}</Suspense>
+  );
 
   return (
     <ModalWrapper

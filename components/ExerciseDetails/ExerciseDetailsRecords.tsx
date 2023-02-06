@@ -1,5 +1,7 @@
 import { HStack, Text, VStack } from "native-base";
-import useExerciseHistory from "../hooks/useExerciseHistory";
+import useExerciseHistory, {
+  IExerciseHistory,
+} from "../hooks/useExerciseHistory";
 import calculateOneRepMax from "../utils/Workouts/calculateOneRepMax";
 import {
   getAcheivedOneRepMax,
@@ -7,11 +9,18 @@ import {
   getBestVolume,
   getEstimatedOneRepMax,
 } from "../utils/Workouts/getRecords";
+import Loader from "./utils/Loader";
 
-const ExerciseDetailsRecords = ({ exerciseId }: { exerciseId: number }) => {
-  const { exerciseHistory, error, isLoading } = useExerciseHistory(exerciseId);
+interface IExerciseDetailsRecods {
+  exerciseHistory: IExerciseHistory | undefined;
+  isLoading: boolean;
+}
 
-  if (!exerciseHistory) return null;
+const ExerciseDetailsRecords = ({
+  exerciseHistory,
+  isLoading,
+}: IExerciseDetailsRecods) => {
+  if (!exerciseHistory || isLoading) return <Loader />;
 
   const renderAchievedPR = () => {
     const oneRepMax = getAcheivedOneRepMax(exerciseHistory);
@@ -50,7 +59,7 @@ const ExerciseDetailsRecords = ({ exerciseId }: { exerciseId: number }) => {
 
     return (
       <VStack my={2}>
-        <HStack justifyContent={'space-between'}>
+        <HStack justifyContent={"space-between"}>
           <Text textAlign={"center"} fontWeight={600}>
             Reps
           </Text>

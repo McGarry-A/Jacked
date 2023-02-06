@@ -1,16 +1,19 @@
 import { Heading, HStack, Skeleton, Text, VStack } from "native-base";
-import useExerciseHistory from "../hooks/useExerciseHistory";
+import { IExerciseHistory } from "../hooks/useExerciseHistory";
 import { ISet } from "../types/WorkoutInterface";
 import calculateOneRepMax from "../utils/Workouts/calculateOneRepMax";
+import Loader from "./utils/Loader";
 
 interface IExerciseDetailsHistory {
-  exerciseId: number;
+  exerciseHistory: IExerciseHistory | undefined;
+  isLoading: boolean;
 }
 
-const ExerciseDetailsHistory = ({ exerciseId }: IExerciseDetailsHistory) => {
-  const { exerciseHistory, error, isLoading } = useExerciseHistory(exerciseId);
-
-  if (!exerciseHistory) return null;
+const ExerciseDetailsHistory = ({
+  exerciseHistory,
+  isLoading,
+}: IExerciseDetailsHistory) => {
+  if (!exerciseHistory || isLoading) return <Loader />;
 
   const renderSet = (set: ISet, index: number) => {
     const { reps, weight, setNumber } = set;
