@@ -1,15 +1,12 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { FlatList, Input, Skeleton, Text, VStack, useToast } from "native-base";
+import { FlatList, Input, Skeleton, VStack, useToast } from "native-base";
 import { lazy, Suspense, useEffect, useState } from "react";
 import useExerciseList from "../../hooks/useExerciseList";
-import { LiftData } from "../../screens/modals/AddExercises";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { fetchAllExercises } from "../../store/exerciseList";
 import ExerciseInterface from "../../types/ExerciseInterface";
-import ToastAlert from "../utils/ToastAlert";
 
 interface Props {
-  // REVIEW:
   showExerciseDetails: boolean;
 }
 
@@ -19,38 +16,8 @@ export const ExerciseList: React.FC<Props> = ({
   showExerciseDetails = false,
 }) => {
   const [exercises, setExercises] = useState<ExerciseInterface[]>([]);
+  const { exerciseList, status } = useExerciseList();
 
-  // REVIEW:
-  // WE SHOULD JUST GET THE LIST FROM REDUX APP SELECTOR
-  // const { list: exerciseList, isLoading, error } = useExerciseList();
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchAllExercises());
-  }, []);
-
-  const { exerciseList, status } = useAppSelector(
-    (state) => state.exerciseListSlice
-  );
-  const toast = useToast();
-
-  // useEffect(() => {
-  //   if (error) {
-  //     toast.show({
-  //       placement: "top",
-  //       render: () => (
-  //         <ToastAlert
-  //           description="There was an error loading the cards. Please try again later."
-  //           status="error"
-  //           title="Error loading cards!"
-  //           variant="solid"
-  //         />
-  //       ),
-  //     });
-  //   }
-  // }, [error]);
-
-  // OK
   const handleFilter = (text: string) => {
     const filteredExercises = exerciseList.filter((el) =>
       el.exercise_name.includes(text)
@@ -58,7 +25,6 @@ export const ExerciseList: React.FC<Props> = ({
     setExercises(filteredExercises);
   };
 
-  // OK
   const renderSearchBar = () => {
     return (
       <Input

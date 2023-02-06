@@ -7,7 +7,7 @@ export default function useExerciseList() {
   const { exerciseList, status } = useAppSelector((state) => state.exerciseListSlice)
 
   useEffect(() => {
-    if (status === "idle") {
+    if (!Object.keys(exerciseList).length) {
       dispatch(fetchAllExercises());
       return;
     }

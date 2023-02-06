@@ -20,7 +20,7 @@ const currentWorkoutSlice = createSlice({
   name: "current_workout",
   initialState: initialState,
   reducers: {
-    startWorkout: (state, { payload }: { payload: startWorkoutProps }) => {
+    startWorkout: (state, _) => {
       const startTime = new Date().toLocaleTimeString();
       state.startTime = startTime;
       state.isActive = true;
@@ -39,7 +39,7 @@ const currentWorkoutSlice = createSlice({
           liftId,
         };
 
-        if (!state.exerciseOrder.includes(liftId)) state.exerciseOrder.push(liftId);
+        state.exerciseOrder.push(liftId);
       });
     },
     deleteLift: (state, { payload }: { payload: deleteLiftProps }) => {
@@ -47,7 +47,6 @@ const currentWorkoutSlice = createSlice({
       delete state.exercises[liftId];
       const index = state.exerciseOrder.indexOf(liftId)
       state.exerciseOrder.splice(index, 1)
-
     },
     addSet: (state, { payload }: { payload: addSetProps }) => {
       const { liftId, setId } = payload;

@@ -66,8 +66,6 @@ const ExerciseCard = (props: IProps) => {
       userId,
     };
 
-    console.log("LIFT ", lift);
-
     if (!isActive) return dispatch(addLift([lift]));
 
     dispatch(deleteLift({ liftId: liftId }));
