@@ -5,18 +5,14 @@ import {
   Pressable,
   Skeleton,
   Text,
-  useDisclose,
   VStack,
 } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../store";
 import getExerciseInitials from "../../utils/Workouts/getExerciseInitials";
-import { LiftData } from "../../screens/modals/AddExercises";
-import useId from "../../hooks/useId";
-import useToggleState from "../../hooks/useToggleState";
-import { deleteLift } from "../../store/currentWorkoutSlice";
+import { addLift, deleteLift } from "../../store/currentWorkoutSlice";
 import useColorScheme from "../../hooks/useColorScheme";
 import ExerciseDetailsModal from "../modal/ExerciseDetailsModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface IProps {
   exercise_name: string;
@@ -26,65 +22,58 @@ interface IProps {
   image: string;
   id: number;
   isLoading: boolean;
-  setLiftData?: React.Dispatch<React.SetStateAction<LiftData[]>>;
-  liftData?: LiftData[];
+  showExerciseDetails: boolean;
 }
 
 const ExerciseCard = (props: IProps) => {
-  const dispatch = useAppDispatch();
+  const { isLoading, id } = props;
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { isLoading, setLiftData, id } = props;
+  const [isActive, setIsActive] = useState<boolean>(false);
 
-  const exercises = useAppSelector(
-    (state) => state.currentWorkoutSlice.exercises
+  const dispatch = useAppDispatch();
+
+  const { userId } = useAppSelector((state) => state.userSlice.user);
+  const { exercises } = useAppSelector((state) => state.currentWorkoutSlice);
+  const { exerciseOrder } = useAppSelector(
+    (state) => state.currentWorkoutSlice
   );
 
-  const exerciseIdsInWorkout = Object.values(exercises).map(
-    (exercise) => exercise.exerciseId
-  );
+  const liftId = `lift-${id}`;
 
-  const isInWorkout = exerciseIdsInWorkout.includes(id);
-
-  const { state: isActive, setToggleState: setIsActive } =
-    useToggleState(isInWorkout);
+  useEffect(() => {
+    if (exerciseOrder.includes(liftId)) {
+      setIsActive(true);
+    }
+  }, [exerciseOrder]);
 
   const backgroundColor = isActive ? "info.50" : "white";
 
   const handlePressCard = () => {
-    const { liftData } = props;
+    const { showExerciseDetails } = props;
 
-    if (!liftData || !setLiftData) return setIsOpen(true);
+    if (showExerciseDetails) return setIsOpen(true);
 
     handleAddToLiftData();
   };
 
   const handleAddToLiftData = () => {
-    const { liftData, id, exercise_name } = props;
+    const { id, exercise_name } = props;
 
-    if (!isActive) {
-      console.log("adding to lift data");
-      const liftId = useId("lift");
-      const lift = {
-        exerciseId: id,
-        exerciseName: exercise_name,
-        liftId,
-      };
+    const lift = {
+      exerciseId: id,
+      exerciseName: exercise_name,
+      liftId,
+      userId,
+    };
 
-      setLiftData!((liftData) => [...liftData, lift]);
-      setIsActive(true);
+    if (!isActive) dispatch(addLift([lift]));
 
-      return;
-    }
-
-    const newState = [...(liftData as LiftData[])];
-    const newData = newState.filter((el) => el.exerciseId !== id);
     const liftIdOfRemoved = Object.values(exercises).filter(
       (el) => el.exerciseId === id
     )[0]?.liftId;
 
     dispatch(deleteLift({ liftId: liftIdOfRemoved }));
-    setLiftData!(newData);
-
     setIsActive(false);
   };
 
@@ -107,9 +96,9 @@ const ExerciseCard = (props: IProps) => {
   };
 
   const renderCheckbox = () => {
-    const { setLiftData, exercise_name } = props;
+    const { exercise_name, showExerciseDetails } = props;
 
-    if (setLiftData) {
+    if (!showExerciseDetails) {
       return (
         <Box>
           <Checkbox

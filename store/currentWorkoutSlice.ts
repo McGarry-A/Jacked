@@ -50,7 +50,7 @@ const currentWorkoutSlice = createSlice({
       const { liftId, setId } = payload;
 
       const setNumber = Object.keys(state.exercises[liftId].sets).length + 1
-      
+
       const newSet: SetInterface = {
         [setId]: {
           weight: "0",
@@ -62,10 +62,11 @@ const currentWorkoutSlice = createSlice({
       };
 
       state.exercises[liftId].sets[setId] = newSet[setId];
+      state.exerciseOrder.push(liftId)
     },
     deleteSet: (state, { payload }: { payload: deleteSetProps }) => {
       const { setId, liftId } = payload;
-      const newState = {...state}
+      const newState = { ...state }
       delete newState.exercises[liftId].sets[setId];
       const newSetsArray = Object.values(newState.exercises[liftId].sets).map((el, index) => {
         return [el.setId, { ...el, setNumber: index + 1 }]
@@ -144,18 +145,12 @@ export const saveWorkout = createAsyncThunk(
         };
       });
 
-      console.log("formattedSets");
-      console.log(formattedSets);
-
       const { data: set_id, error: set_error } = await supabase
         .from("set")
         .insert(formattedSets)
         .select("id");
 
       if (set_error) return console.error(set_error);
-
-      console.log("set_id");
-      console.log(set_id);
     });
   }
 );
