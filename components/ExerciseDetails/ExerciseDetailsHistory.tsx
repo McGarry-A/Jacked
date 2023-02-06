@@ -1,8 +1,8 @@
 import { Heading, HStack, Skeleton, Text, VStack } from "native-base";
-import { IExerciseHistory } from "../hooks/useExerciseHistory";
-import { ISet } from "../types/WorkoutInterface";
-import calculateOneRepMax from "../utils/Workouts/calculateOneRepMax";
-import Loader from "./utils/Loader";
+import { IExerciseHistory } from "../../hooks/useExerciseHistory";
+import { ISet } from "../../types/WorkoutInterface";
+import calculateOneRepMax from "../../utils/Workouts/calculateOneRepMax";
+import Loader from "../utils/Loader";
 
 interface IExerciseDetailsHistory {
   exerciseHistory: IExerciseHistory | undefined;

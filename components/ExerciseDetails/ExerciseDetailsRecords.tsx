@@ -1,15 +1,13 @@
 import { HStack, Text, VStack } from "native-base";
-import useExerciseHistory, {
-  IExerciseHistory,
-} from "../hooks/useExerciseHistory";
-import calculateOneRepMax from "../utils/Workouts/calculateOneRepMax";
+import { IExerciseHistory } from "../../hooks/useExerciseHistory";
+import calculateOneRepMax from "../../utils/Workouts/calculateOneRepMax";
 import {
   getAcheivedOneRepMax,
   getBestPerformance,
   getBestVolume,
   getEstimatedOneRepMax,
-} from "../utils/Workouts/getRecords";
-import Loader from "./utils/Loader";
+} from "../../utils/Workouts/getRecords";
+import Loader from "../utils/Loader";
 
 interface IExerciseDetailsRecods {
   exerciseHistory: IExerciseHistory | undefined;
