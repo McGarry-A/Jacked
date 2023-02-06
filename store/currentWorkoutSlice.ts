@@ -39,12 +39,15 @@ const currentWorkoutSlice = createSlice({
           liftId,
         };
 
-        state.exerciseOrder.push(liftId);
+        if (!state.exerciseOrder.includes(liftId)) state.exerciseOrder.push(liftId);
       });
     },
     deleteLift: (state, { payload }: { payload: deleteLiftProps }) => {
       const { liftId } = payload;
       delete state.exercises[liftId];
+      const index = state.exerciseOrder.indexOf(liftId)
+      state.exerciseOrder.splice(index, 1)
+
     },
     addSet: (state, { payload }: { payload: addSetProps }) => {
       const { liftId, setId } = payload;

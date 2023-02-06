@@ -34,7 +34,6 @@ const ExerciseCard = (props: IProps) => {
   const dispatch = useAppDispatch();
 
   const { userId } = useAppSelector((state) => state.userSlice.user);
-  const { exercises } = useAppSelector((state) => state.currentWorkoutSlice);
   const { exerciseOrder } = useAppSelector(
     (state) => state.currentWorkoutSlice
   );
@@ -54,7 +53,7 @@ const ExerciseCard = (props: IProps) => {
 
     if (showExerciseDetails) return setIsOpen(true);
 
-    handleAddToLiftData();
+    return handleAddToLiftData();
   };
 
   const handleAddToLiftData = () => {
@@ -67,14 +66,13 @@ const ExerciseCard = (props: IProps) => {
       userId,
     };
 
-    if (!isActive) dispatch(addLift([lift]));
+    console.log("LIFT ", lift);
 
-    const liftIdOfRemoved = Object.values(exercises).filter(
-      (el) => el.exerciseId === id
-    )[0]?.liftId;
+    if (!isActive) return dispatch(addLift([lift]));
 
-    dispatch(deleteLift({ liftId: liftIdOfRemoved }));
+    dispatch(deleteLift({ liftId: liftId }));
     setIsActive(false);
+    return;
   };
 
   const renderAvatar = () => {
