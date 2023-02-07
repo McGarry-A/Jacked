@@ -1,5 +1,11 @@
 import { Pressable, HStack, Text, VStack, useToast } from "native-base";
-import { lazy, SetStateAction, Suspense, useEffect, useState } from "react";
+import React, {
+  lazy,
+  SetStateAction,
+  Suspense,
+  useEffect,
+  useState,
+} from "react";
 import useExerciseDetails from "../../hooks/useExerciseDetails";
 import useExerciseHistory from "../../hooks/useExerciseHistory";
 import ExerciseDetailsAbout from "../ExerciseDetails/ExerciseDetailsAbout";
@@ -78,13 +84,15 @@ const ExerciseDetailsModal = (props: IExerciseDetailsModal) => {
       <HStack
         justifyContent={"space-evenly"}
         rounded={"md"}
+        overflow={"hidden"}
         backgroundColor={"gray.300"}
       >
         {Object.keys(TAB_LIST).map((el, index) => {
           const activeWeight = ACTIVE_TAB === el ? "700" : "500";
           const activeBackground =
-            ACTIVE_TAB === el ? "coolGray.50" : "coolGray.200";
+            ACTIVE_TAB === el ? "info.400" : "coolGray.200";
           const activeShadow = ACTIVE_TAB === el ? "lg" : null;
+          const activeText = ACTIVE_TAB === el ? "white" : "coolGray.800";
 
           return (
             <Pressable
@@ -97,7 +105,15 @@ const ExerciseDetailsModal = (props: IExerciseDetailsModal) => {
               shadow={activeShadow}
               p={2}
             >
-              <Text textTransform={"capitalize"}>{el}</Text>
+              <Text
+                color={activeText}
+                textTransform={"capitalize"}
+                fontWeight={700}
+                fontSize={"xs"}
+                letterSpacing={"xl"}
+              >
+                {el}
+              </Text>
             </Pressable>
           );
         })}
