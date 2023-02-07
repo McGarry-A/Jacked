@@ -1,6 +1,6 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { Input, Skeleton, VStack, SectionList, Text } from "native-base";
-import { lazy, Suspense, useState } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import useExerciseList from "../../hooks/useExerciseList";
 import ExerciseInterface from "../../types/ExerciseInterface";
 import exerciseListToSections from "../../utils/ExerciseList/exerciseListToSections";

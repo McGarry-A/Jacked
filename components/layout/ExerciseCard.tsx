@@ -12,7 +12,7 @@ import getExerciseInitials from "../../utils/Workouts/getExerciseInitials";
 import { addLift, deleteLift } from "../../store/currentWorkoutSlice";
 import useColorScheme from "../../hooks/useColorScheme";
 import ExerciseDetailsModal from "../modal/ExerciseDetailsModal";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface IProps {
   exercise_name: string;
