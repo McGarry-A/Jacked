@@ -1,10 +1,9 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { FlatList, Input, Skeleton, VStack, useToast } from "native-base";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { Input, Skeleton, VStack, SectionList, Text } from "native-base";
+import { lazy, Suspense, useState } from "react";
 import useExerciseList from "../../hooks/useExerciseList";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { fetchAllExercises } from "../../store/exerciseList";
 import ExerciseInterface from "../../types/ExerciseInterface";
+import exerciseListToSections from "../../utils/ExerciseList/exerciseListToSections";
 
 interface Props {
   showExerciseDetails: boolean;
@@ -55,12 +54,20 @@ export const ExerciseList: React.FC<Props> = ({
   };
 
   const renderList = () => {
+    const sectionList = exercises.length
+      ? exerciseListToSections(exercises)
+      : exerciseListToSections(exerciseList);
     return (
-      <FlatList
-        data={exercises.length ? exercises : exerciseList}
+      <SectionList
+        sections={sectionList}
         borderRadius={5}
         overflow={"hidden"}
         flexGrow={1}
+        renderSectionHeader={({ section: { title } }) => (
+          <Text fontWeight={700} color={"coolGray.300"} fontSize={"xs"} p={2}>
+            {title}
+          </Text>
+        )}
         renderItem={({ item }) => (
           <Suspense
             fallback={

@@ -1,25 +1,30 @@
 import ExerciseInterface from "../../types/ExerciseInterface";
 
 interface IReturn {
-    title: string;
-    data: ExerciseInterface[]
+  title: string;
+  data: ExerciseInterface[];
 }
 const exerciseListToSections = (list: ExerciseInterface[]): IReturn[] => {
-    let newList: IReturn[] = []
-    const sortedList = list.sort(
-        (a, b) => a.exercise_name.toLocaleLowerCase().
-            localeCompare(b.exercise_name.toLowerCase()))
+  const newList = list.map((el) => {
+    const sectionTitle = el.exercise_name[0].toUpperCase();
+    return {
+      title: sectionTitle,
+      data: [el],
+    };
+  });
 
-    sortedList.forEach((el) => {
-        const firstLetter = el.exercise_name[0]
-        newList.push({ data: [el], title: firstLetter })
-    })
+  const sections = newList.reduce((acc, curr) => {
+    const index = acc.findIndex((el) => el.title === curr.title);
+    if (index !== -1) {
+      acc[index].data.push(curr.data[0]);
+    } else {
+      acc.push(curr);
+    }
+    return acc;
+  }, [] as IReturn[]);
 
-    const sad = newList.reduce((acc, curr) => {
-
-    }, [{ title: "", data: [] }])
-
-    return []
-}
+  console.log(sections)
+  return sections
+};
 
 export default exerciseListToSections;
