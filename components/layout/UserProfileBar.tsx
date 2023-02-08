@@ -1,72 +1,81 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { Avatar, Box, Pressable, Text } from "native-base";
+import { Avatar, HStack, Skeleton, Text, VStack } from "native-base";
+import { useState } from "react";
+import { Pressable } from "react-native";
 import useColorScheme from "../../hooks/useColorScheme";
+import useTotalWorkouts from "../../hooks/useTotalWorkouts";
+import SettingsModal from "../modal/SettingsModal";
 
-interface Props {
-  isClickable?: boolean;
-}
+const UserProfileBar = () => {
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
-const UserProfileBar = ({ isClickable = true }: Props) => {
-  const navigation = useNavigation();
   const { h1ColorMode } = useColorScheme();
 
-  const renderChevron = () => {
-    if (isClickable) {
-      return (
-        <Box marginLeft={"auto"}>
-          <FontAwesome name="chevron-right" color="skyblue" size={15} />
-        </Box>
-      );
-    }
-
-    return null;
-  };
-
   const { avatarBgColorMode } = useColorScheme();
+  const { totalWorkouts, isLoading } = useTotalWorkouts();
 
-  const renderBody = () => {
+  const handlePress = () => setModalIsOpen(true);
+
+  const renderInitials = () => (
+    // NOTE:
+    // also need to update the name here
+    <Avatar
+      size={"lg"}
+      marginY={3}
+      backgroundColor={avatarBgColorMode}
+      marginRight={"3"}
+    >
+      <Text color={"info.50"} fontSize={"lg"} fontWeight={"bold"}>
+        AM
+      </Text>
+    </Avatar>
+  );
+
+  const renderDetails = () => {
+    // NOTE:
+    // need to dynamically load the name too
     return (
-      <Box flexDirection="row" alignItems="center" w="full">
-        <Avatar
-          size={"lg"}
-          marginY={3}
-          backgroundColor={avatarBgColorMode}
-          marginRight={"3"}
-        >
-          <Text color={"info.50"} fontSize={"lg"} fontWeight={"bold"}>
-            AM
-          </Text>
-        </Avatar>
-        <Box flex={1}>
-          <Text fontSize="md" fontWeight="semibold" color={h1ColorMode}>
-            Ahmed McGarry
-          </Text>
+      <VStack flex={1} pl={2}>
+        <Text fontSize="md" fontWeight="semibold" color={h1ColorMode}>
+          Ahmed McGarry
+        </Text>
+        <Skeleton isLoaded={!isLoading} w={"32"} h={"6"} endColor={"gray.200"}>
           <Text fontSize="sm" color={"coolGray.400"}>
-            19 Workouts
+            {totalWorkouts} Workouts
           </Text>
-        </Box>
-        {renderChevron()}
-      </Box>
+        </Skeleton>
+      </VStack>
     );
   };
 
-  if (isClickable && navigation) {
-    return (
-      <Pressable
+  const renderRightIcon = () => (
+    <FontAwesome name="chevron-right" color="skyblue" size={15} />
+  );
+
+  const renderSettingsModal = () => (
+    <SettingsModal isVisible={modalIsOpen} setIsVisible={setModalIsOpen} />
+  );
+
+  const renderUserProfileBar = () => (
+    <Pressable onPress={handlePress}>
+      <HStack
+        w={"full"}
         flexDirection="row"
         alignItems="center"
-        onPress={() => navigation.navigate("User")}
+        justifyContent={"space-between"}
       >
-        {renderBody()}
-      </Pressable>
-    );
-  }
+        {renderInitials()}
+        {renderDetails()}
+        {renderRightIcon()}
+      </HStack>
+    </Pressable>
+  );
 
   return (
-    <Box paddingRight={2} marginTop={2}>
-      {renderBody()}
-    </Box>
+    <>
+      {renderUserProfileBar()}
+      {renderSettingsModal()}
+    </>
   );
 };
 

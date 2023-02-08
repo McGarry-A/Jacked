@@ -1,13 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Session, User, UserCredentials } from "@supabase/supabase-js";
 import { Platform } from "react-native";
-import useIsApp from "../hooks/useIsApp";
 import { supabase } from "../supabase/supabaseClient";
 import saveToAsyncStorage from "../utils/Auth/saveToAsyncStorage";
 import saveToLocalStorage from "../utils/Auth/saveToLocalStorage";
 
 interface InitialStateInterface {
   user: {
+    userName: string;
     isLoggedIn: boolean;
     userId: string;
   };
@@ -16,6 +15,7 @@ interface InitialStateInterface {
 
 const initialState: InitialStateInterface = {
   user: {
+    userName: "",
     isLoggedIn: false,
     userId: "",
   },
@@ -27,6 +27,9 @@ const userSlice = createSlice({
   initialState: initialState,
   reducers: {
     reset: (state) => (state = initialState),
+    logout: (state) => {
+
+    },
     loginWithGoogle: (state, { payload }) => {
       state.user.isLoggedIn = true;
       state.user.userId = payload.user.id;

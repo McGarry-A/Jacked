@@ -23,7 +23,6 @@ const exerciseListToSections = (list: ExerciseInterface[]): IReturn[] => {
     return acc;
   }, [] as IReturn[]);
 
-  console.log(sections)
   return sections
 };
 
