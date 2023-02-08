@@ -27,6 +27,9 @@ const userSlice = createSlice({
   initialState: initialState,
   reducers: {
     reset: (state) => (state = initialState),
+    logout: (state) => {
+
+    },
     loginWithGoogle: (state, { payload }) => {
       state.user.isLoggedIn = true;
       state.user.userId = payload.user.id;

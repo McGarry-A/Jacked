@@ -21,7 +21,7 @@ export default function AddWidgetModal(props: IProps) {
   const [step, setStep] = useState<TStep>("CHOOSE_WIDGET_TYPE");
 
   const { isVisible, setIsVisible } = props;
-  const { list: exerciseList, isLoading, error } = useExerciseList();
+  const { exerciseList, status } = useExerciseList();
   const { userId } = useAppSelector((state) => state.userSlice.user);
 
   const dispatch = useAppDispatch();
@@ -114,7 +114,7 @@ export default function AddWidgetModal(props: IProps) {
         </Modal.Body>
       );
 
-    if (step === "CHOOSE_EXERCISE_TO_TRACK" && isLoading)
+    if (step === "CHOOSE_EXERCISE_TO_TRACK" && status === "pending")
       return <Skeleton h="full" />;
   };
 
