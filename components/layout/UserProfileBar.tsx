@@ -7,14 +7,14 @@ import useTotalWorkouts from "../../hooks/useTotalWorkouts";
 import SettingsModal from "../modal/SettingsModal";
 
 const UserProfileBar = () => {
-  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  
 
   const { h1ColorMode } = useColorScheme();
 
   const { avatarBgColorMode } = useColorScheme();
   const { totalWorkouts, isLoading } = useTotalWorkouts();
 
-  const handlePress = () => setModalIsOpen(true);
+  
 
   const renderInitials = () => (
     // NOTE:
@@ -48,16 +48,7 @@ const UserProfileBar = () => {
     );
   };
 
-  const renderRightIcon = () => (
-    <FontAwesome name="chevron-right" color="skyblue" size={15} />
-  );
-
-  const renderSettingsModal = () => (
-    <SettingsModal isVisible={modalIsOpen} setIsVisible={setModalIsOpen} />
-  );
-
   const renderUserProfileBar = () => (
-    <Pressable onPress={handlePress}>
       <HStack
         w={"full"}
         flexDirection="row"
@@ -66,15 +57,12 @@ const UserProfileBar = () => {
       >
         {renderInitials()}
         {renderDetails()}
-        {renderRightIcon()}
       </HStack>
-    </Pressable>
   );
 
   return (
     <>
       {renderUserProfileBar()}
-      {renderSettingsModal()}
     </>
   );
 };

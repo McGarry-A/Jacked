@@ -28,7 +28,9 @@ const userSlice = createSlice({
   reducers: {
     reset: (state) => (state = initialState),
     logout: (state) => {
-
+      state.user.isLoggedIn = false;
+      state.user.userId = "";
+      state.status = "idle";
     },
     loginWithGoogle: (state, { payload }) => {
       state.user.isLoggedIn = true;
@@ -158,6 +160,6 @@ export const signInWithGoogle = createAsyncThunk(
   }
 );
 
-export const { reset, rememberSession } = userSlice.actions;
+export const { reset, rememberSession, logout } = userSlice.actions;
 
 export default userSlice.reducer;
