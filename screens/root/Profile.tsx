@@ -6,11 +6,7 @@ import UserProfileBar from "../../components/layout/UserProfileBar";
 import { useAppDispatch, useAppSelector } from "../../store";
 import AddWidgetModal from "../../components/modal/AddWidgetModal";
 import React, { useEffect, useState } from "react";
-import {
-  getWidgets,
-  IOneRepMaxLine,
-  refreshWidgets,
-} from "../../store/WidgetsSlice";
+import { getWidgets, IOneRepMaxLine } from "../../store/WidgetsSlice";
 import WidgetContainer from "../../components/widgets/WidgetContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faWrench } from "@fortawesome/free-solid-svg-icons/faWrench";
