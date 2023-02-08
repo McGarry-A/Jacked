@@ -17,11 +17,16 @@ import useColorScheme from "../../hooks/useColorScheme";
 import AddMeasurementModal from "../../components/modal/AddMeasurementModal";
 import WeightTrackerWidget from "../../components/widgets/WeightTracker/WeightTrackerWidget";
 import { getWeight } from "../../store/weightSlice";
+import SettingsModal from "../../components/modal/SettingsModal";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
   const [weightModalIsVisible, setWeightModalIsVisible] =
     useState<boolean>(false);
+
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  
+  
 
   const { widgets } = useAppSelector((state) => state.widgetSlice);
   const { h1ColorMode, screenColorMode, ctaIconColorMode } = useColorScheme();
@@ -45,6 +50,8 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 
     setIsWidgetRefreshing(false);
   };
+
+  const handlePress = () => setModalIsOpen(true);
 
   const renderDashboard = () => {
     return (
@@ -71,15 +78,18 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
     );
   };
 
+
+  const renderSettingsModal = () => (
+    <SettingsModal isVisible={modalIsOpen} setIsVisible={setModalIsOpen} />
+  );
+
   const renderScreenHeading = () => (
     <HStack justifyContent={"space-between"} alignItems={"center"} my={2}>
       <Heading size="xl" color={h1ColorMode}>
         My Profile
       </Heading>
       <CtaButton
-        onPress={() => {
-          navigation.navigate("Settings");
-        }}
+        onPress={handlePress}
         leftIcon={
           <FontAwesomeIcon icon={faGear} size={12} color={ctaIconColorMode} />
         }
@@ -171,6 +181,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
       {renderWidgets()}
       {renderAddWidgetModal()}
       {renderAddMeasurementModal()}
+      {renderSettingsModal()}
     </View>
   );
 }

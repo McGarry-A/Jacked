@@ -34,14 +34,18 @@ const AddMeasurementModal = (props: IAddMeasurementModal) => {
     return (
       <Input
         placeholder="Add Weight"
+        fontSize={"sm"}
         keyboardType="numeric"
         variant={"filled"}
+        backgroundColor={"coolGray.100"}
+        rounded={5}
         onChangeText={(text) => setWeight(text)}
+        h={9}
         leftElement={
           <FontAwesomeIcon
             icon={faWeightScale}
             size={15}
-            style={{ marginLeft: 6, marginRight: 6, color: "gray" }}
+            style={{ marginLeft: 12, marginRight: 6, color: "darkgray" }}
           />
         }
       />
