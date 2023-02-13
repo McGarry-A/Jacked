@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
-import { Box, HStack, Input, Pressable, Text } from "native-base";
+import { Box, Center, HStack, Input, Pressable, Text } from "native-base";
 import { useRef, useState } from "react";
 import { useAppDispatch } from "../../store";
 import { deleteSet, updateSet } from "../../store/currentWorkoutSlice";
@@ -98,18 +98,18 @@ const Set = (props: Props) => {
     </Box>
   );
 
+  const renderDash = () => {
+    return <FontAwesomeIcon icon={faMinus} size={18} />;
+  };
+
   const renderPrevious = () => {
-    if (!previous) {
-      return (
-        <Box flex={2} justifyContent={"center"} alignItems={"center"}>
-          <FontAwesomeIcon icon={faMinus} size={18} />
-        </Box>
-      );
-    }
+    if (!previous) return <Center flex={2}>{renderDash()}</Center>;
+
+    const previousString = `${previous?.weight}KG x ${previous?.reps}`;
 
     return (
       <Text fontSize="xs" opacity={50} flex={2} fontWeight={700}>
-        {previous.weight}KG x {previous.reps}
+        <Center>{template ? renderDash() : previousString}</Center>
       </Text>
     );
   };
@@ -149,13 +149,13 @@ const Set = (props: Props) => {
   );
 
   const renderCheck = () => {
-    return template ? null : (
+    return (
       <Pressable
         alignItems={"flex-end"}
         flexShrink={1}
         onPress={handleUpdateSet}
       >
-        <FontAwesomeIcon icon={faCheck} size={15} />
+        <FontAwesomeIcon icon={template ? faMinus : faCheck} size={15} />
       </Pressable>
     );
   };

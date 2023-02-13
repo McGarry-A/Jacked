@@ -39,6 +39,10 @@ export default function usePreviousSet(props: IProps) {
                     return null;
                 }
 
+                // NOTE: 
+                // ERROR HERE WHEN THERE IS NO DATA RETURNED
+                // NEED TO HANDLE THAT CASE
+
                 const { weight, reps, rpe } = data[0];
 
                 setPrevious({
