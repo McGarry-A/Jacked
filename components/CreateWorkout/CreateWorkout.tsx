@@ -14,14 +14,11 @@ import Timer from "../../components/utils/Timer";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { saveWorkout, setWorkoutTitle } from "../../store/currentWorkoutSlice";
 import Lift from "../../components/layout/Lift";
-import { RouteProp, useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { createTemplate } from "../../store/templateSlice";
 
-interface IRouteProp {
-  params: {
-    folderId: string;
-    templateId: string;
-    template_name: string;
-  };
+interface IParams {
+  folderId: string;
 }
 
 interface ICreateWorkout {
@@ -33,6 +30,8 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
   const state = useAppSelector((state) => state.currentWorkoutSlice);
   const dispatch = useAppDispatch();
   const { navigate, goBack } = useNavigation();
+  const { params } = useRoute();
+  const { userId } = useAppSelector((state) => state.userSlice.user);
 
   const handleEndWorkout = () => {
     dispatch(setWorkoutTitle(title));
@@ -40,7 +39,20 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
     goBack();
   };
 
-  const handleSaveTemplate = () => {};
+  const handleSaveTemplate = () => {
+    const { folderId: folId } = params as IParams;
+
+    const templateParams = {
+      folId,
+      title,
+      params: [],
+      userId,
+    };
+
+    dispatch(setWorkoutTitle(title));
+    dispatch(createTemplate(templateParams));
+    goBack();
+  };
 
   const renderHeading = () => {
     return (
@@ -96,7 +108,7 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
   };
 
   const renderSaveTemplate = () => {
-    return (
+    return !template ? null : (
       <Pressable
         onPress={handleSaveTemplate}
         backgroundColor="success.400"

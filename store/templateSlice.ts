@@ -20,10 +20,21 @@ interface RemoveLiftInterface {
   liftId: LiftIdType;
 }
 
+// NOTE: 
+// CREATE THIS AND SQUASH ANY ISSUES THAT COME UP
+// WITH USING THE NEW INTERFACE
+interface ILiftDataWithSets extends LiftData {
+  sets: {
+    reps: string;
+    weight: string;
+    setNumber: string;
+  }
+}
+
 interface CreateTemplateInterface {
   folId: FolderIdType;
   title: TemplateNameType;
-  params: LiftData[];
+  params: ILiftDataWithSets[];
   userId: string;
 }
 
