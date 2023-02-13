@@ -16,10 +16,11 @@ interface Props {
   setId: string;
   checked: boolean;
   exerciseId: number;
+  template: boolean;
 }
 
 const Set = (props: Props) => {
-  const { exerciseId, setNumber, checked, weight, reps } = props;
+  const { exerciseId, setNumber, checked, weight, reps, template } = props;
 
   const [newWeight, setNewWeight] = useState<string>("0");
   const [newReps, setNewReps] = useState<string>("0");
@@ -103,7 +104,7 @@ const Set = (props: Props) => {
   );
 
   const renderPrevious = () => {
-    if (!previous) return <Box flex={2}></Box>;
+    if (!previous || template) return <Box flex={2}></Box>;
 
     return (
       <Text fontSize="xs" opacity={50} flex={2} fontWeight={700}>
@@ -146,11 +147,17 @@ const Set = (props: Props) => {
     </Box>
   );
 
-  const renderCheck = () => (
-    <Pressable alignItems={"flex-end"} flexShrink={1} onPress={handleUpdateSet}>
-      <FontAwesomeIcon icon={faCheck} size={15} />
-    </Pressable>
-  );
+  const renderCheck = () => {
+    return template ? null : (
+      <Pressable
+        alignItems={"flex-end"}
+        flexShrink={1}
+        onPress={handleUpdateSet}
+      >
+        <FontAwesomeIcon icon={faCheck} size={15} />
+      </Pressable>
+    );
+  };
 
   return (
     <Swipeable

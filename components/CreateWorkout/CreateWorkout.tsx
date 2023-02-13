@@ -17,7 +17,11 @@ import { saveWorkout, setWorkoutTitle } from "../../store/currentWorkoutSlice";
 import Lift from "../../components/layout/Lift";
 import { useNavigation } from "@react-navigation/native";
 
-const CreateWorkout = () => {
+interface ICreateWorkout {
+  template: boolean;
+}
+
+const CreateWorkout = ({ template }: ICreateWorkout) => {
   const [title, setTitle] = useState<string>("");
   const state = useAppSelector((state) => state.currentWorkoutSlice);
   const dispatch = useAppDispatch();
@@ -132,7 +136,7 @@ const CreateWorkout = () => {
       <VStack flex={1} px={2} space={1}>
         <FlatList
           data={Object.values(exercises)}
-          renderItem={({ item }) => <Lift {...item} />}
+          renderItem={({ item }) => <Lift {...item} template={template} />}
           keyExtractor={(item) => item.liftId}
         />
       </VStack>

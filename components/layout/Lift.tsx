@@ -15,6 +15,7 @@ interface IProps {
   sets: SetInterface;
   liftNumber: number;
   liftId: string;
+  template: boolean;
 }
 const Lift = (props: IProps) => {
   const [allDone, setAllDone] = useState<boolean>(false);
@@ -63,34 +64,40 @@ const Lift = (props: IProps) => {
     </Heading>
   );
 
-  const renderTableHead = () => (
-    <HStack
-      alignItems="center"
-      justifyContent={"space-between"}
-      my={2}
-      paddingX={2}
-    >
-      <Heading size="xs" flexShrink={1}>
-        Sets
-      </Heading>
-      <Heading size="xs" flex={2} textAlign="center">
-        Previous
-      </Heading>
-      <Heading size="xs" flex={2} textAlign="center" mr={1}>
-        Kg
-      </Heading>
-      <Heading size="xs" flex={2} textAlign="center" mr={4}>
-        Reps
-      </Heading>
-      <Pressable
-        flexShrink={1}
-        onPress={() => handleCheckAllSets()}
-        padding={1}
+  const renderTableHead = () => {
+    const { template } = props;
+
+    return (
+      <HStack
+        alignItems="center"
+        justifyContent={"space-between"}
+        my={2}
+        paddingX={2}
       >
-        <FontAwesomeIcon icon={faCheckDouble} size={10} />
-      </Pressable>
-    </HStack>
-  );
+        <Heading size="xs" flexShrink={1}>
+          Sets
+        </Heading>
+        <Heading size="xs" flex={2} textAlign="center">
+          Previous
+        </Heading>
+        <Heading size="xs" flex={2} textAlign="center" mr={1}>
+          Kg
+        </Heading>
+        <Heading size="xs" flex={2} textAlign="center" mr={4}>
+          Reps
+        </Heading>
+        {template ? null : (
+          <Pressable
+            flexShrink={1}
+            onPress={() => handleCheckAllSets()}
+            padding={1}
+          >
+            <FontAwesomeIcon icon={faCheckDouble} size={10} />
+          </Pressable>
+        )}
+      </HStack>
+    );
+  };
 
   const renderAddSet = (liftId: string) => {
     return (
@@ -108,6 +115,7 @@ const Lift = (props: IProps) => {
   };
 
   const renderSets = (sets: SetInterface, liftId: string) => {
+    const { template } = props;
     const setList = Object.values(sets);
 
     return (
@@ -119,6 +127,7 @@ const Lift = (props: IProps) => {
             key={set.setId}
             checked={allDone}
             exerciseId={exerciseId}
+            template={template}
           />
         ))}
       </VStack>

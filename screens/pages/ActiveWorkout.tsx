@@ -14,7 +14,7 @@ const ActiveWorkout = () => {
         mx: "auto",
       }}
     >
-      <CreateWorkout />
+      <CreateWorkout template={false} />
     </View>
   );
 };
