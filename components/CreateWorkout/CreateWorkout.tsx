@@ -91,12 +91,11 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
     return (
       <Pressable
         onPress={handleSaveTemplate}
-        marginY={1}
         backgroundColor="success.400"
         height={9}
         justifyContent={"center"}
       >
-        <Text color="white" fontWeight={700} textAlign={"center"}>
+        <Text color="success.50" fontWeight={700} textAlign={"center"}>
           Save Template
         </Text>
       </Pressable>
@@ -107,12 +106,11 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
     return (
       <Pressable
         onPress={() => navigate("AddExercises")}
-        marginY={1}
         backgroundColor="info.400"
         height={9}
         justifyContent={"center"}
       >
-        <Text color="white" fontWeight={700} textAlign={"center"}>
+        <Text color="info.50" fontWeight={700} textAlign={"center"}>
           Add A Lift
         </Text>
       </Pressable>
