@@ -23,6 +23,7 @@ interface RemoveLiftInterface {
 // NOTE: 
 // CREATE THIS AND SQUASH ANY ISSUES THAT COME UP
 // WITH USING THE NEW INTERFACE
+
 interface ILiftDataWithSets extends LiftData {
   sets: {
     reps: string;
