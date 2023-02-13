@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LiftData } from "../screens/modals/AddExercises";
 import { supabase } from "../supabase/supabaseClient";
 import { TemplateSliceInterface } from "../types/TemplateSliceInterface";
 
@@ -24,7 +23,10 @@ interface RemoveLiftInterface {
 // CREATE THIS AND SQUASH ANY ISSUES THAT COME UP
 // WITH USING THE NEW INTERFACE
 
-interface ILiftDataWithSets extends LiftData {
+interface ILiftDataWithSets {
+  exerciseId: number;
+  exerciseName: string;
+  liftId: string;
   sets: {
     reps: string;
     weight: string;
@@ -174,11 +176,13 @@ export const createFolder = createAsyncThunk(
 export const createTemplate = createAsyncThunk(
   "template/createTemplate",
   async (payload: CreateTemplateInterface, { rejectWithValue }) => {
+    const { params: exercises, folId, title, userId } = payload
+
     const newTemplate: any = {
-      exercises: JSON.stringify(payload.params),
-      folder_id: payload.folId,
-      template_name: payload.title,
-      user_id: payload.userId
+      exercises: JSON.stringify(exercises),
+      folder_id: folId,
+      template_name: title,
+      user_id: userId
     };
 
     const { data, error } = await supabase
@@ -187,10 +191,8 @@ export const createTemplate = createAsyncThunk(
 
     if (error) {
       console.error(error);
-      return rejectWithValue([]);
+      return rejectWithValue(error.message);
     }
-
-    console.log("data", data);
 
     newTemplate.tempId = data[0].id;
 

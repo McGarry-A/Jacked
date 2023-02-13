@@ -1,7 +1,7 @@
 import { View } from "native-base";
 import CreateWorkout from "../../components/CreateWorkout/CreateWorkout";
 
-const CreateTemplate = ({ route }: any) => {
+const CreateTemplate = () => {
   return (
     <View
       backgroundColor={"coolGray.50"}
