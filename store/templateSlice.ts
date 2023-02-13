@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { folders } from "../data";
 import { LiftData } from "../screens/modals/AddExercises";
 import { supabase } from "../supabase/supabaseClient";
 import { TemplateSliceInterface } from "../types/TemplateSliceInterface";
@@ -14,11 +13,6 @@ type FolderNameType = string;
 type FolderIdType = string;
 type TemplateIdType = string;
 type LiftIdType = string;
-
-interface deleteTemplateInterface {
-  tempId: TemplateIdType;
-  folId: FolderIdType;
-}
 
 interface RemoveLiftInterface {
   folId: FolderIdType;
@@ -63,13 +57,6 @@ const templateSlice = createSlice({
       const { folderId } = payload;
       state.folders[folderId].templates = {};
     },
-    // deleteTemplate: (
-    //   state,
-    //   { payload }: PayloadAction<deleteTemplateInterface>
-    // ) => {
-    //   const { folId, tempId } = payload;
-    //   delete state.folders[folId].templates[tempId];
-    // },
   },
   extraReducers: (builder) => {
     builder
@@ -225,13 +212,13 @@ export const deleteTemplate = createAsyncThunk(
       .delete()
       .eq("id", payload)
 
-      if (error) {
-        return rejectWithValue(error)
-      }
+    if (error) {
+      return rejectWithValue(error)
+    }
 
-      console.log("data", data)
+    console.log("data", data)
 
-      return { folderId: data[0].folder_id, templateId: data[0].id }
+    return { folderId: data[0].folder_id, templateId: data[0].id }
   }
 )
 

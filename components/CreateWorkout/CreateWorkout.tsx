@@ -14,7 +14,15 @@ import Timer from "../../components/utils/Timer";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { saveWorkout, setWorkoutTitle } from "../../store/currentWorkoutSlice";
 import Lift from "../../components/layout/Lift";
-import { useNavigation } from "@react-navigation/native";
+import { RouteProp, useNavigation } from "@react-navigation/native";
+
+interface IRouteProp {
+  params: {
+    folderId: string;
+    templateId: string;
+    template_name: string;
+  };
+}
 
 interface ICreateWorkout {
   template: boolean;
@@ -62,9 +70,9 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
   };
 
   const renderEndWorkout = () => {
-    if (template) return <></>;
-
-    return (
+    return template ? (
+      <></>
+    ) : (
       <Button
         mt={2}
         px={3}
@@ -120,8 +128,8 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
   const renderButtons = () => {
     return (
       <VStack space={1}>
-        {renderSaveTemplate()}
         {renderAddLift()}
+        {renderSaveTemplate()}
       </VStack>
     );
   };

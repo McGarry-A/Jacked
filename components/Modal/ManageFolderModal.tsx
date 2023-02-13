@@ -23,7 +23,7 @@ const ManageFolderModal = (props: IManageFolderModal) => {
   };
 
   const handleCreateTemplate = () => {
-    navigate("CreateTemplate");
+    navigate("CreateTemplate", { folderId: folId });
   };
 
   const renderBody = () => {
