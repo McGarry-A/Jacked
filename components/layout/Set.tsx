@@ -103,13 +103,13 @@ const Set = (props: Props) => {
   };
 
   const renderPrevious = () => {
-    if (!previous) return <Center flex={2}>{renderDash()}</Center>;
+    if (!previous || !template) return <Center flex={2}>{renderDash()}</Center>;
 
     const previousString = `${previous?.weight}KG x ${previous?.reps}`;
 
     return (
       <Text fontSize="xs" opacity={50} flex={2} fontWeight={700}>
-        <Center>{template ? renderDash() : previousString}</Center>
+        <Center>{previousString}</Center>
       </Text>
     );
   };

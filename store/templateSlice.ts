@@ -19,7 +19,7 @@ interface RemoveLiftInterface {
   liftId: LiftIdType;
 }
 
-// NOTE: 
+// NOTE:
 // CREATE THIS AND SQUASH ANY ISSUES THAT COME UP
 // WITH USING THE NEW INTERFACE
 
@@ -27,11 +27,14 @@ interface ILiftDataWithSets {
   exerciseId: number;
   exerciseName: string;
   liftId: string;
+  liftNumber: number;
   sets: {
-    reps: string;
-    weight: string;
-    setNumber: string;
-  }
+    [key: string]: {
+      reps: string;
+      weight: string;
+      setNumber: number;
+    };
+  };
 }
 
 interface CreateTemplateInterface {
@@ -120,35 +123,38 @@ const templateSlice = createSlice({
         state.status = "rejected";
       })
       .addCase(getUserTemplateData.fulfilled, (state, { payload }) => {
-        const { templateData, folderData } = payload
+        const { templateData, folderData } = payload;
 
-        folderData.map(folder => {
+        folderData.map((folder) => {
           state.folders[folder.id] = {
             name: folder.title,
             id: folder.id,
-            templates: {}
-          }
-        })
+            templates: {},
+          };
+        });
 
-        templateData.map(template => {
+        templateData.map((template) => {
           state.folders[template.folder_id].templates[template.id] = {
             exerciseOrder: [],
             templateName: template.template_name,
             tempId: template.id,
-            exercises: JSON.parse(template.exercises)
-          }
-        })
+            exercises: JSON.parse(template.exercises),
+          };
+        });
 
-        state.status = "fulfilled"
-      }).addCase(getUserTemplateData.rejected, (state, _) => {
-        state.status = "rejected"
-      }).addCase(deleteTemplate.fulfilled, (state, { payload }) => {
+        state.status = "fulfilled";
+      })
+      .addCase(getUserTemplateData.rejected, (state, _) => {
+        state.status = "rejected";
+      })
+      .addCase(deleteTemplate.fulfilled, (state, { payload }) => {
         const { folderId, templateId } = payload;
 
         delete state.folders[folderId].templates[templateId];
-      }).addCase(deleteTemplate.rejected, (state, _) => {
-        state.status = "rejected"
       })
+      .addCase(deleteTemplate.rejected, (state, _) => {
+        state.status = "rejected";
+      });
   },
 });
 
@@ -158,7 +164,7 @@ export const createFolder = createAsyncThunk(
     const { title, userId: user_id } = payload;
     const newFolder: any = {
       title,
-      user_id
+      user_id,
     };
     const { data, error } = await supabase.from("folders").insert(newFolder);
 
@@ -176,18 +182,18 @@ export const createFolder = createAsyncThunk(
 export const createTemplate = createAsyncThunk(
   "template/createTemplate",
   async (payload: CreateTemplateInterface, { rejectWithValue }) => {
-    const { params: exercises, folId, title, userId } = payload
+    const { params: exercises, folId, title, userId } = payload;
 
     const newTemplate: any = {
       exercises: JSON.stringify(exercises),
       folder_id: folId,
       template_name: title,
-      user_id: userId
+      user_id: userId,
     };
 
     const { data, error } = await supabase
       .from("templates")
-      .insert(newTemplate)
+      .insert(newTemplate);
 
     if (error) {
       console.error(error);
@@ -203,39 +209,41 @@ export const createTemplate = createAsyncThunk(
 export const getUserTemplateData = createAsyncThunk(
   "template/getUserData",
   async (payload: string, { rejectWithValue }) => {
-
-    const { data: folder_data, error: folder_erorr } = await supabase.from("folders").select().eq('user_id', payload)
-    const { data: template_data, error: template_error } = await supabase.from("templates").select().eq('user_id', payload)
+    const { data: folder_data, error: folder_erorr } = await supabase
+      .from("folders")
+      .select()
+      .eq("user_id", payload);
+    const { data: template_data, error: template_error } = await supabase
+      .from("templates")
+      .select()
+      .eq("user_id", payload);
 
     if (template_error || folder_erorr) {
-      console.error(template_error || folder_erorr)
-      return rejectWithValue(template_error || folder_erorr)
+      console.error(template_error || folder_erorr);
+      return rejectWithValue(template_error || folder_erorr);
     }
 
-    return { templateData: template_data, folderData: folder_data }
-
+    return { templateData: template_data, folderData: folder_data };
   }
-)
+);
 
 export const deleteTemplate = createAsyncThunk(
   "template/deleteWidget",
   async (payload: string, { rejectWithValue }) => {
-
     const { data, error } = await supabase
       .from("templates")
       .delete()
-      .eq("id", payload)
+      .eq("id", payload);
 
     if (error) {
-      return rejectWithValue(error)
+      return rejectWithValue(error);
     }
 
-    console.log("data", data)
+    console.log("data", data);
 
-    return { folderId: data[0].folder_id, templateId: data[0].id }
+    return { folderId: data[0].folder_id, templateId: data[0].id };
   }
-)
+);
 
-export const { deleteFolder, emptyFolder } =
-  templateSlice.actions;
+export const { deleteFolder, emptyFolder } = templateSlice.actions;
 export default templateSlice.reducer;

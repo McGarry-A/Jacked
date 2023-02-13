@@ -41,13 +41,16 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
 
   const handleSaveTemplate = () => {
     const { folderId: folId } = params as IParams;
+    
 
     const templateParams = {
       folId,
       title,
-      params: [],
+      params: Object.values(state.exercises),
       userId,
     };
+
+    console.log("templateParams", templateParams)
 
     dispatch(setWorkoutTitle(title));
     dispatch(createTemplate(templateParams));
