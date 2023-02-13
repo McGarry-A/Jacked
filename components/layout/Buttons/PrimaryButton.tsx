@@ -7,7 +7,12 @@ interface IPrimaryButton extends IButtonProps {
 
 const PrimaryButton = ({ children, textDark, ...rest }: IPrimaryButton) => {
   return (
-    <Button borderRadius={10} h={"16"} {...rest}>
+    <Button
+      borderRadius={10}
+      h={"16"}
+      {...rest}
+      backgroundColor={"coolGray.800"}
+    >
       <Text
         color={textDark ? "coolGray.900" : "gray.50"}
         fontWeight={700}

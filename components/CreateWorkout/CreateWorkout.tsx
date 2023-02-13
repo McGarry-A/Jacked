@@ -8,7 +8,6 @@ import {
   Image,
   FlatList,
   Button,
-  HStack,
 } from "native-base";
 import { useState } from "react";
 import Timer from "../../components/utils/Timer";
@@ -22,16 +21,18 @@ interface ICreateWorkout {
 }
 
 const CreateWorkout = ({ template }: ICreateWorkout) => {
-  const [title, setTitle] = useState<string>("");
+  const [title, setTitle] = useState<string>("Quick Workout");
   const state = useAppSelector((state) => state.currentWorkoutSlice);
   const dispatch = useAppDispatch();
-  const { navigate } = useNavigation();
+  const { navigate, goBack } = useNavigation();
 
   const handleEndWorkout = () => {
     dispatch(setWorkoutTitle(title));
     dispatch(saveWorkout());
-    // navigate("Profile");
+    goBack();
   };
+
+  const handleSaveTemplate = () => {};
 
   const renderHeading = () => {
     return (
@@ -52,58 +53,78 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
     );
   };
 
-  const renderTimer = () => (
-    <Box paddingX={3} mb={2}>
-      <Timer />
-    </Box>
-  );
+  const renderTimer = () => {
+    return template ? null : (
+      <Box paddingX={3} mb={2}>
+        <Timer />
+      </Box>
+    );
+  };
 
   const renderEndWorkout = () => {
+    if (template) return <></>;
+
     return (
-      <HStack
-        flexDir={"row"}
-        alignItems="center"
-        justifyContent={"flex-end"}
-        pr={2}
+      <Button
+        mt={2}
+        px={3}
+        py={2}
+        shadow={1}
+        borderRadius={5}
+        backgroundColor="green.400"
+        onPress={handleEndWorkout}
       >
-        <Button
-          mt={2}
-          px={3}
-          py={2}
-          shadow={1}
-          borderRadius={5}
-          backgroundColor="green.400"
-          onPress={handleEndWorkout}
+        <Text
+          color="green.50"
+          fontWeight={700}
+          textAlign={"center"}
+          fontSize="xs"
+          letterSpacing={"xl"}
         >
-          <Text
-            color="green.50"
-            fontWeight={700}
-            textAlign={"center"}
-            fontSize="xs"
-            letterSpacing={"xl"}
-          >
-            FINISH
-          </Text>
-        </Button>
-      </HStack>
+          FINISH
+        </Text>
+      </Button>
+    );
+  };
+
+  const renderSaveTemplate = () => {
+    return (
+      <Pressable
+        onPress={handleSaveTemplate}
+        marginY={1}
+        backgroundColor="success.400"
+        height={9}
+        justifyContent={"center"}
+      >
+        <Text color="white" fontWeight={700} textAlign={"center"}>
+          Save Template
+        </Text>
+      </Pressable>
+    );
+  };
+
+  const renderAddLift = () => {
+    return (
+      <Pressable
+        onPress={() => navigate("AddExercises")}
+        marginY={1}
+        backgroundColor="info.400"
+        height={9}
+        justifyContent={"center"}
+      >
+        <Text color="white" fontWeight={700} textAlign={"center"}>
+          Add A Lift
+        </Text>
+      </Pressable>
     );
   };
 
   const renderButtons = () => {
     return (
-      <Box padding={3}>
-        <Pressable
-          onPress={() => navigate("AddExercises")}
-          marginY={1}
-          backgroundColor="info.400"
-          height={9}
-          justifyContent={"center"}
-        >
-          <Text color="white" fontWeight={700} textAlign={"center"}>
-            Add A Lift
-          </Text>
-        </Pressable>
-      </Box>
+      <VStack space={1}>
+        {renderSaveTemplate()}
+        {renderAddLift()}
+      </VStack>
     );
   };
 
@@ -144,7 +165,7 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
   };
 
   return (
-    <View backgroundColor={"coolGray.50"}>
+    <View backgroundColor={"coolGray.50"} flex={1}>
       {renderHeading()}
       {renderTimer()}
       {renderLifts()}

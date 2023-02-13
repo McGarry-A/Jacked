@@ -15,6 +15,7 @@ const linking: LinkingOptions<RootStackParamList> = {
     screens: {
       Auth: "auth",
       Welcome: "welcome",
+      CreateTemplate: "create-template",
       Root: {
         path: "",
         screens: {
