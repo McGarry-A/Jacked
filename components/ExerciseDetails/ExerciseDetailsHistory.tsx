@@ -1,8 +1,11 @@
-import { Heading, HStack, Skeleton, Text, VStack } from "native-base";
+import { Badge, Heading, HStack, Skeleton, Text, VStack } from "native-base";
 import { IExerciseHistory } from "../../hooks/useExerciseHistory";
 import { ISet } from "../../types/WorkoutInterface";
 import calculateOneRepMax from "../../utils/Workouts/calculateOneRepMax";
 import Loader from "../utils/Loader";
+import { faWeightHanging } from "@fortawesome/free-solid-svg-icons/faWeightHanging";
+import { faRepeat } from "@fortawesome/free-solid-svg-icons/faRepeat";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 interface IExerciseDetailsHistory {
   exerciseHistory: IExerciseHistory | undefined;
@@ -14,6 +17,49 @@ const ExerciseDetailsHistory = ({
   isLoading,
 }: IExerciseDetailsHistory) => {
   if (!exerciseHistory || isLoading) return <Loader />;
+
+  const renderHeader = (workout_name: string) => (
+    <Heading size={"sm"}>{workout_name}</Heading>
+  );
+
+  const renderBadges = (sets: ISet[]) => {
+    const totalVolume = 0;
+
+    return (
+      <HStack justifyContent={"start"}>
+        <Badge
+          backgroundColor={"info.100"}
+          borderWidth={"2"}
+          borderColor={"info.500"}
+          px={2}
+        >
+          <Text
+            fontWeight={"semibold"}
+            color={"info.900"}
+            textTransform={"uppercase"}
+            fontSize={"xs"}
+          >
+            {totalVolume} Volume
+          </Text>
+        </Badge>
+      </HStack>
+    );
+  };
+
+  const renderDateAndTime = (date: string, time: string) => (
+    <Text
+      fontSize={"sm"}
+      fontWeight={600}
+      color={"coolGray.400"}
+    >{`${date}, ${time}`}</Text>
+  );
+
+  const renderSetHead = () => (
+    <HStack justifyContent={"space-between"}>
+      <Text fontWeight={600}>Sets Performed</Text>
+      <Text fontWeight={600}>1RM</Text>
+    </HStack>
+  );
 
   const renderSet = (set: ISet, index: number) => {
     const { reps, weight, setNumber } = set;
@@ -47,16 +93,10 @@ const ExerciseDetailsHistory = ({
           rounded={"md"}
           my={1}
         >
-          <Heading size={"sm"}>{workout_name}</Heading>
-          <Text
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"coolGray.400"}
-          >{`${date}, ${time}`}</Text>
-          <HStack justifyContent={"space-between"}>
-            <Text fontWeight={600}>Sets Performed</Text>
-            <Text fontWeight={600}>1RM</Text>
-          </HStack>
+          {renderHeader(workout_name)}
+          {renderBadges(sets)}
+          {renderDateAndTime(date, time)}
+          {renderSetHead()}
           {sets.map(renderSet)}
         </VStack>
       </Skeleton>

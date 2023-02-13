@@ -1,10 +1,6 @@
-import { FontAwesome } from "@expo/vector-icons";
 import { Avatar, HStack, Skeleton, Text, VStack } from "native-base";
-import { useState } from "react";
-import { Pressable } from "react-native";
 import useColorScheme from "../../hooks/useColorScheme";
 import useTotalWorkouts from "../../hooks/useTotalWorkouts";
-import SettingsModal from "../modal/SettingsModal";
 
 const UserProfileBar = () => {
   

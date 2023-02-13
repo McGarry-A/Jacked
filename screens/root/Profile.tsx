@@ -26,8 +26,6 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   
-  
-
   const { widgets } = useAppSelector((state) => state.widgetSlice);
   const { h1ColorMode, screenColorMode, ctaIconColorMode } = useColorScheme();
 
