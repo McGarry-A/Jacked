@@ -140,17 +140,7 @@ const CreateWorkout = () => {
   };
 
   return (
-    <View
-      backgroundColor={"coolGray.50"}
-      h={"full"}
-      px={1}
-      py={3}
-      _web={{
-        maxW: "lg",
-        w: "100%",
-        mx: "auto",
-      }}
-    >
+    <View backgroundColor={"coolGray.50"}>
       {renderHeading()}
       {renderTimer()}
       {renderLifts()}
