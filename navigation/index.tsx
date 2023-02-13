@@ -91,7 +91,12 @@ function RootNavigator() {
             <Stack.Screen
               name="CreateTemplate"
               component={CreateTemplate}
-              options={{ title: "Create Template" }}
+              options={{
+                title: "Create Template",
+                header: (props) => (
+                  <Header showBack={true} showRouteTitle={false} {...props} />
+                ),
+              }}
             />
             <Stack.Screen
               name="ActiveWorkout"

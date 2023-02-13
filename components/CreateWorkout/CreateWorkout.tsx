@@ -109,37 +109,37 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
 
   const renderSaveTemplate = () => {
     return !template ? null : (
-      <Pressable
+      <Button
         onPress={handleSaveTemplate}
         backgroundColor="success.400"
-        height={9}
         justifyContent={"center"}
+        size={"sm"}
       >
         <Text color="success.50" fontWeight={700} textAlign={"center"}>
           Save Template
         </Text>
-      </Pressable>
+      </Button>
     );
   };
 
   const renderAddLift = () => {
     return (
-      <Pressable
+      <Button
         onPress={() => navigate("AddExercises")}
         backgroundColor="info.400"
-        height={9}
         justifyContent={"center"}
+        size={"sm"}
       >
         <Text color="info.50" fontWeight={700} textAlign={"center"}>
           Add A Lift
         </Text>
-      </Pressable>
+      </Button>
     );
   };
 
   const renderButtons = () => {
     return (
-      <VStack space={1}>
+      <VStack space={1} mt={2}>
         {renderAddLift()}
         {renderSaveTemplate()}
       </VStack>
@@ -183,7 +183,7 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
   };
 
   return (
-    <View backgroundColor={"coolGray.50"} flex={1}>
+    <View flex={1}>
       {renderHeading()}
       {renderTimer()}
       {renderLifts()}

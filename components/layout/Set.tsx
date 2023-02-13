@@ -1,11 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
 import { Box, HStack, Input, Pressable, Text } from "native-base";
-import { useEffect, useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
+import { useRef, useState } from "react";
+import { useAppDispatch } from "../../store";
 import { deleteSet, updateSet } from "../../store/currentWorkoutSlice";
 import { Swipeable } from "react-native-gesture-handler";
 import usePreviousSet from "../../hooks/usePreviousSet";
+import { faMinus } from "@fortawesome/free-solid-svg-icons/faMinus";
 
 interface Props {
   weight: string;
@@ -14,13 +15,12 @@ interface Props {
   setNumber: number;
   liftId: string;
   setId: string;
-  checked: boolean;
   exerciseId: number;
   template: boolean;
 }
 
 const Set = (props: Props) => {
-  const { exerciseId, setNumber, checked, weight, reps, template } = props;
+  const { exerciseId, setNumber, weight, reps, template } = props;
 
   const [newWeight, setNewWeight] = useState<string>("0");
   const [newReps, setNewReps] = useState<string>("0");
@@ -35,11 +35,6 @@ const Set = (props: Props) => {
 
   const weightRef = useRef<HTMLInputElement>();
   const repsRef = useRef<HTMLInputElement>();
-
-  useEffect(() => {
-    if (checked === true) setIsDone(true);
-    if (checked === false) setIsDone(false);
-  }, [checked]);
 
   const handleSwipeRight = () => {
     const { liftId, setId } = props;
@@ -104,11 +99,17 @@ const Set = (props: Props) => {
   );
 
   const renderPrevious = () => {
-    if (!previous || template) return <Box flex={2}></Box>;
+    if (!previous) {
+      return (
+        <Box flex={2} justifyContent={"center"} alignItems={"center"}>
+          <FontAwesomeIcon icon={faMinus} size={18} />
+        </Box>
+      );
+    }
 
     return (
       <Text fontSize="xs" opacity={50} flex={2} fontWeight={700}>
-        {previous?.weight}KG x {previous?.reps}
+        {previous.weight}KG x {previous.reps}
       </Text>
     );
   };
