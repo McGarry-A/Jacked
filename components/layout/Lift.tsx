@@ -53,7 +53,7 @@ const Lift = (props: IProps) => {
   };
 
   const renderHeading = (exerciseName: string) => (
-    <Heading size="sm" color={"info.400"} my={1} padding={2}>
+    <Heading size={"md"} color={"info.400"} my={1} padding={2}>
       {exerciseName}
     </Heading>
   );
@@ -133,9 +133,9 @@ const Lift = (props: IProps) => {
       renderRightActions={renderOnSwipeRight}
       onSwipeableOpen={handleSwipeRight}
       rightThreshold={10}
-      containerStyle={{ marginVertical: 4, borderRadius: 10 }}
+      containerStyle={{ marginVertical: 4 }}
     >
-      <VStack key={liftId} backgroundColor={"white"}>
+      <VStack key={liftId} backgroundColor={"white"} p={3}>
         {renderHeading(exerciseName)}
         {renderTableHead()}
         {renderSets(sets, liftId)}

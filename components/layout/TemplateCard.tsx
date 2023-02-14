@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { faClock } from "@fortawesome/free-solid-svg-icons/faClock";
 import { SetInterface } from "../../types/CurrentWorkoutInterface";
 import useId from "../../hooks/useId";
-import { addLift, startWorkout } from "../../store/currentWorkoutSlice";
+import { addLift, setWorkoutTitle, startWorkout } from "../../store/currentWorkoutSlice";
 import useColorScheme from "../../hooks/useColorScheme";
 import Elipsis from "./Elipsis";
 import { useNavigation } from "@react-navigation/native";
@@ -56,6 +56,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
   const handlePress = () => {
     const { userId } = user;
     handleAddLiftsToWorkout();
+    dispatch(setWorkoutTitle(title))
     dispatch(startWorkout({ userId }));
     navigate("ActiveWorkout");
   };

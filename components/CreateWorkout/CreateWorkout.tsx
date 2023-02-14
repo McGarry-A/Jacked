@@ -84,7 +84,7 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
         }}
         fontSize={"2xl"}
         editable
-        mx={3}
+        mx={2}
         rightElement={renderEndWorkout()}
       />
     );
@@ -207,13 +207,12 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
     if (Object.keys(exercises).length < 1) return renderNoLifts();
 
     return (
-      <VStack flex={1} px={2} space={1}>
         <FlatList
           data={Object.values(exercises)}
           renderItem={({ item }) => <Lift {...item} template={template} />}
           keyExtractor={(item) => item.liftId}
+          flex={1}
         />
-      </VStack>
     );
   };
 

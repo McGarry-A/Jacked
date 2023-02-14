@@ -1,8 +1,22 @@
-import { HStack, Spinner, Text } from "native-base";
+import { Center, HStack, Spinner, Text } from "native-base";
+import useTotalWorkouts from "../../hooks/useTotalWorkouts";
 import { useAppSelector } from "../../store";
 
 const ListFooter = () => {
-  const { status } = useAppSelector((state) => state.workoutHistorySlice);
+  const { status, history } = useAppSelector(
+    (state) => state.workoutHistorySlice
+  );
+  const { totalWorkouts } = useTotalWorkouts();
+
+  if (history.length === totalWorkouts) {
+    return (
+      <Center mt={2}>
+        <Text color={"coolGray.400"} fontSize={"sm"}>
+          You have reached the end!
+        </Text>
+      </Center>
+    );
+  }
 
   if (status !== "pending") return null;
 

@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
-import { Box, Center, HStack, Input, Pressable, Text } from "native-base";
+import { Box, HStack, Input, Pressable, Text } from "native-base";
 import { useRef, useState } from "react";
 import { useAppDispatch } from "../../store";
-import { deleteSet, updateReps, updateSet, updateWeight } from "../../store/currentWorkoutSlice";
+import { deleteSet, updateReps, updateWeight } from "../../store/currentWorkoutSlice";
 import { Swipeable } from "react-native-gesture-handler";
 import usePreviousSet from "../../hooks/usePreviousSet";
 import { faMinus } from "@fortawesome/free-solid-svg-icons/faMinus";
@@ -103,13 +103,13 @@ const Set = (props: Props) => {
   );
 
   const renderDash = () => {
-    return <FontAwesomeIcon icon={faMinus} size={18} />;
+    return <FontAwesomeIcon icon={faMinus} size={18} style={{ color: "darkGray" }} />;
   };
 
   const renderPrevious = () => {
-    if (!previous || !template) return <Center flex={2}>{renderDash()}</Center>;
+    if (!previous) return <Box flex={2}>{renderDash()}</Box>;
 
-    const previousString = `${previous?.weight}KG x ${previous?.reps}`;
+    const previousString = `${previous?.weight} kg x ${previous?.reps}`;
 
     return (
       <Text fontSize="xs" opacity={50} flex={2} fontWeight={700}>
