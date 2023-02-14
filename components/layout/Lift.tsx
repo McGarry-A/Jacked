@@ -8,7 +8,7 @@ import { addSet, deleteLift } from "../../store/currentWorkoutSlice";
 import useId from "../../hooks/useId";
 import { useAppDispatch } from "../../store";
 import { Swipeable } from "react-native-gesture-handler";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 interface IProps {
   exerciseId: number;
