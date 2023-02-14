@@ -105,27 +105,9 @@ function RootNavigator() {
                 title: "Active Workout",
                 header: (props) => (
                   <Header
-                    showBack={false}
+                    showBack={true}
                     showRouteTitle={false}
                     {...props}
-                    ComponentRight={() => (
-                      <Button
-                        variant="ghost"
-                        colorScheme={"red"}
-                        onPress={() => {
-                          dispatch(cancelWorkout());
-                          navigation.navigate("Root");
-                        }}
-                      >
-                        <Text
-                          textTransform={"uppercase"}
-                          color="red.400"
-                          fontSize={"xs"}
-                        >
-                          Cancel
-                        </Text>
-                      </Button>
-                    )}
                   />
                 ),
               })}
