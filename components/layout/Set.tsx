@@ -3,7 +3,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
 import { Box, Center, HStack, Input, Pressable, Text } from "native-base";
 import { useRef, useState } from "react";
 import { useAppDispatch } from "../../store";
-import { deleteSet, updateSet } from "../../store/currentWorkoutSlice";
+import { deleteSet, updateReps, updateSet, updateWeight } from "../../store/currentWorkoutSlice";
 import { Swipeable } from "react-native-gesture-handler";
 import usePreviousSet from "../../hooks/usePreviousSet";
 import { faMinus } from "@fortawesome/free-solid-svg-icons/faMinus";
@@ -21,9 +21,6 @@ interface Props {
 
 const Set = (props: Props) => {
   const { exerciseId, setNumber, weight, reps, template } = props;
-
-  const [newWeight, setNewWeight] = useState<string>("0");
-  const [newReps, setNewReps] = useState<string>("0");
   const [isDone, setIsDone] = useState<boolean>(false);
 
   const swipeableRef = useRef<null | any>(null);
@@ -43,24 +40,31 @@ const Set = (props: Props) => {
     swipeableRef.current && swipeableRef.current.close();
   };
 
-  const handleUpdateSet = () => {
+  const handleUpdateWeight = (newwWeight: string) => { 
     const { setId, liftId } = props;
 
-    const newSet = {
-      weight: newWeight,
-      reps: newReps,
-      rpe: 0,
-      setNumber: setNumber,
+    const params = {
+      liftId,
       setId,
-    };
+      weight: newwWeight
+    }
 
-    dispatch(
-      updateSet({
-        setId,
-        liftId,
-        newSet,
-      })
-    );
+    dispatch(updateWeight(params))
+  }
+
+  const handleUpdateReps = (newwReps: string) => {
+    const { setId, liftId } = props;
+
+    const params = {
+      liftId,
+      setId,
+      reps: newwReps
+    }
+
+    dispatch(updateReps(params))
+   } 
+
+  const handleCheckSet = () => {
 
     setIsDone((isDone) => !isDone);
   };
@@ -121,7 +125,7 @@ const Set = (props: Props) => {
         backgroundColor={"whitesmoke"}
         keyboardType={"numeric"}
         isDisabled={isDone}
-        onChangeText={(text) => setNewWeight(text)}
+        onChangeText={(text) => handleUpdateWeight(text)}
         w={16}
         fontWeight={700}
         textAlign={"center"}
@@ -138,7 +142,7 @@ const Set = (props: Props) => {
         backgroundColor={"whitesmoke"}
         keyboardType={"numeric"}
         isDisabled={isDone}
-        onChangeText={(text) => setNewReps(text)}
+        onChangeText={(text) => handleUpdateReps(text)}
         w={16}
         fontWeight={700}
         textAlign={"center"}
@@ -153,7 +157,7 @@ const Set = (props: Props) => {
       <Pressable
         alignItems={"flex-end"}
         flexShrink={1}
-        onPress={handleUpdateSet}
+        onPress={handleCheckSet}
       >
         <FontAwesomeIcon icon={template ? faMinus : faCheck} size={15} />
       </Pressable>

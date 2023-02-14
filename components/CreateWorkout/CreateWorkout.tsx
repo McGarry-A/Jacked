@@ -11,7 +11,7 @@ import {
 import { useState } from "react";
 import Timer from "../../components/utils/Timer";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { saveWorkout, setWorkoutTitle } from "../../store/currentWorkoutSlice";
+import { cancelWorkout, saveWorkout, setWorkoutTitle } from "../../store/currentWorkoutSlice";
 import Lift from "../../components/layout/Lift";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { createTemplate } from "../../store/templateSlice";
@@ -55,6 +55,7 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
 
     dispatch(setWorkoutTitle(title));
     dispatch(createTemplate(templateParams));
+    dispatch(cancelWorkout())
     goBack();
   };
 

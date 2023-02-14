@@ -28,6 +28,16 @@ const currentWorkoutSlice = createSlice({
     setWorkoutTitle: (state, { payload }: { payload: setWorkoutTitleType }) => {
       state.workoutTitle = payload;
     },
+    updateReps: (state, { payload }: { payload: IUpdateReps }) => {
+      const { liftId, setId, reps } = payload;
+
+      state.exercises[liftId].sets[setId].reps = reps;
+    },
+    updateWeight: (state, { payload }: { payload: IUpdateWeight }) => {
+      const { liftId, setId, weight } = payload;
+      
+      state.exercises[liftId].sets[setId].weight = weight;
+    },
     addLift: (state, { payload }: { payload: addLiftProps[] }) => {
       payload.map((el, index) => {
         const { exerciseId, exerciseName, liftId, sets = {} } = el;
@@ -207,6 +217,17 @@ interface deleteLiftProps {
   liftId: string;
 }
 
+interface IUpdateReps {
+  liftId: string;
+  setId: string;
+  reps: string;
+}
+interface IUpdateWeight {
+  liftId: string;
+  setId: string;
+  weight: string;
+}
+
 export const {
   cancelWorkout,
   setWorkoutTitle,
@@ -216,6 +237,8 @@ export const {
   deleteSet,
   updateSet,
   deleteLift,
+  updateReps,
+  updateWeight,
 } = currentWorkoutSlice.actions;
 
 export default currentWorkoutSlice.reducer;
