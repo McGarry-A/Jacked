@@ -7,6 +7,7 @@ import {
   Image,
   FlatList,
   Button,
+  Center,
 } from "native-base";
 import { useState } from "react";
 import Timer from "../../components/utils/Timer";
@@ -29,10 +30,9 @@ interface ICreateWorkout {
 }
 
 const CreateWorkout = ({ template }: ICreateWorkout) => {
-  const [title, setTitle] = useState<string>("Quick Workout");
-
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.currentWorkoutSlice);
+  const title = state.workoutTitle || "Untitled Workout";
   const { userId } = useAppSelector((state) => state.userSlice.user);
   const { navigate, goBack } = useNavigation();
   const { params } = useRoute();
@@ -41,6 +41,10 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
     dispatch(setWorkoutTitle(title));
     dispatch(saveWorkout());
     goBack();
+  };
+
+  const handleChangeWorkoutTitle = (text: string) => {
+    dispatch(setWorkoutTitle(text));
   };
 
   const handleSaveTemplate = () => {
@@ -69,13 +73,18 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
         alignItems="center"
         justifyContent={"space-between"}
         value={title}
-        onChangeText={(text) => setTitle(text)}
+        onChangeText={(text) => handleChangeWorkoutTitle(text)}
         borderWidth={0}
         fontWeight={700}
         color={"coolGray.700"}
-        _focus={{ backgroundColor: "white" }}
+        _focus={{
+          backgroundColor: "white",
+          borderWidth: 0,
+          focusOutlineColor: "white",
+        }}
         fontSize={"2xl"}
         editable
+        mx={3}
         rightElement={renderEndWorkout()}
       />
     );
@@ -83,7 +92,7 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
 
   const renderTimer = () => {
     return template ? null : (
-      <Box paddingX={3} mb={2}>
+      <Box paddingX={3} m={2}>
         <Timer />
       </Box>
     );
@@ -93,26 +102,24 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
     return template ? (
       <></>
     ) : (
-      <Button
-        mt={2}
-        px={3}
-        py={2}
-        mr={2}
-        shadow={1}
-        borderRadius={5}
-        backgroundColor="green.400"
-        onPress={handleEndWorkout}
-      >
-        <Text
-          color="green.50"
-          fontWeight={700}
-          textAlign={"center"}
-          fontSize="xs"
-          letterSpacing={"xl"}
+      <Center>
+        <Button
+          shadow={1}
+          borderRadius={5}
+          backgroundColor="green.400"
+          onPress={handleEndWorkout}
         >
-          FINISH
-        </Text>
-      </Button>
+          <Text
+            color="green.50"
+            fontWeight={900}
+            textAlign={"center"}
+            fontSize="xs"
+            letterSpacing={"xl"}
+          >
+            FINISH
+          </Text>
+        </Button>
+      </Center>
     );
   };
 

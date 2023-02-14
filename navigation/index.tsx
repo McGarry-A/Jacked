@@ -12,7 +12,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import { Button, Pressable, Text } from "native-base";
+import { Pressable } from "native-base";
 import useColorScheme from "../hooks/useColorScheme";
 import Profile from "../screens/root/Profile";
 import History from "../screens/root/History";
@@ -25,12 +25,10 @@ import {
 } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
 import Calendar from "../screens/modals/Calendar";
-import Settings from "../screens/pages/Settings";
 import ActiveWorkout from "../screens/pages/ActiveWorkout";
 import Exercises from "../screens/root/Exercises";
 import AddExercises from "../screens/modals/AddExercises";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { cancelWorkout } from "../store/currentWorkoutSlice";
 import { useAppDispatch, useAppSelector } from "../store";
 import Start from "../screens/root/Start";
 import ColorThemeSwitch from "../components/layout/ColorThemeSwitch";
@@ -192,7 +190,6 @@ function BottomTabNavigator() {
               showBack={false}
               showRouteTitle={false}
               {...props}
-              ComponentRight={() => <ColorThemeSwitch />}
             />
           ),
           tabBarIcon: ({ color }) => (

@@ -11,7 +11,6 @@ const PrimaryButton = ({ children, textDark, ...rest }: IPrimaryButton) => {
       borderRadius={10}
       h={"16"}
       {...rest}
-      backgroundColor={"coolGray.800"}
     >
       <Text
         color={textDark ? "coolGray.900" : "gray.50"}
