@@ -1,7 +1,6 @@
 import {
   Box,
   Text,
-  Pressable,
   Input,
   View,
   VStack,
@@ -27,12 +26,13 @@ interface ICreateWorkout {
 
 const CreateWorkout = ({ template }: ICreateWorkout) => {
   const [title, setTitle] = useState<string>("Quick Workout");
-  const state = useAppSelector((state) => state.currentWorkoutSlice);
+  
   const dispatch = useAppDispatch();
+  const state = useAppSelector((state) => state.currentWorkoutSlice);
+  const { userId } = useAppSelector((state) => state.userSlice.user);
   const { navigate, goBack } = useNavigation();
   const { params } = useRoute();
-  const { userId } = useAppSelector((state) => state.userSlice.user);
-
+  
   const handleEndWorkout = () => {
     dispatch(setWorkoutTitle(title));
     dispatch(saveWorkout());
@@ -41,12 +41,13 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
 
   const handleSaveTemplate = () => {
     const { folderId: folId } = params as IParams;
+    const exercisesArray = Object.values(state.exercises)
     
 
     const templateParams = {
       folId,
       title,
-      params: Object.values(state.exercises),
+      params: exercisesArray,
       userId,
     };
 

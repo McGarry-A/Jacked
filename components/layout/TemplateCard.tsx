@@ -39,10 +39,11 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
     const { userId } = user;
 
     const params = Object.values(exercises).map(
-      ({ exerciseId, exerciseName }) => {
+      ({ exerciseId, exerciseName, sets }) => {
         return {
           exerciseId,
           exerciseName,
+          sets,
           userId,
           liftId: useId("lift"),
         };

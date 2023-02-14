@@ -109,7 +109,7 @@ const Set = (props: Props) => {
 
     return (
       <Text fontSize="xs" opacity={50} flex={2} fontWeight={700}>
-        <Center>{previousString}</Center>
+        {previousString}
       </Text>
     );
   };

@@ -30,11 +30,11 @@ const currentWorkoutSlice = createSlice({
     },
     addLift: (state, { payload }: { payload: addLiftProps[] }) => {
       payload.map((el, index) => {
-        const { exerciseId, exerciseName, liftId } = el;
+        const { exerciseId, exerciseName, liftId, sets = {} } = el;
         state.exercises[liftId] = {
           exerciseId,
           exerciseName,
-          sets: {},
+          sets,
           liftNumber: index,
           liftId,
         };
@@ -45,13 +45,13 @@ const currentWorkoutSlice = createSlice({
     deleteLift: (state, { payload }: { payload: deleteLiftProps }) => {
       const { liftId } = payload;
       delete state.exercises[liftId];
-      const index = state.exerciseOrder.indexOf(liftId)
-      state.exerciseOrder.splice(index, 1)
+      const index = state.exerciseOrder.indexOf(liftId);
+      state.exerciseOrder.splice(index, 1);
     },
     addSet: (state, { payload }: { payload: addSetProps }) => {
       const { liftId, setId } = payload;
 
-      const setNumber = Object.keys(state.exercises[liftId].sets).length + 1
+      const setNumber = Object.keys(state.exercises[liftId].sets).length + 1;
 
       const newSet: SetInterface = {
         [setId]: {
@@ -64,18 +64,19 @@ const currentWorkoutSlice = createSlice({
       };
 
       state.exercises[liftId].sets[setId] = newSet[setId];
-      state.exerciseOrder.push(liftId)
+      state.exerciseOrder.push(liftId);
     },
     deleteSet: (state, { payload }: { payload: deleteSetProps }) => {
       const { setId, liftId } = payload;
-      const newState = { ...state }
+      const newState = { ...state };
       delete newState.exercises[liftId].sets[setId];
-      const newSetsArray = Object.values(newState.exercises[liftId].sets).map((el, index) => {
-        return [el.setId, { ...el, setNumber: index + 1 }]
-      })
-      const newSetsObj = Object.fromEntries(newSetsArray)
-      newState.exercises[liftId].sets = newSetsObj
-
+      const newSetsArray = Object.values(newState.exercises[liftId].sets).map(
+        (el, index) => {
+          return [el.setId, { ...el, setNumber: index + 1 }];
+        }
+      );
+      const newSetsObj = Object.fromEntries(newSetsArray);
+      newState.exercises[liftId].sets = newSetsObj;
     },
     updateSet: (state, { payload }: { payload: updateSetProps }) => {
       const { liftId, setId, newSet } = payload;
@@ -187,6 +188,15 @@ interface addLiftProps {
   exerciseName: string;
   userId: string;
   liftId: string;
+  sets: {
+    [key: string]: {
+      weight: string;
+      reps: string;
+      setNumber: number;
+      rpe: number;
+      setId: string;
+    };
+  };
 }
 
 interface startWorkoutProps {
@@ -205,7 +215,7 @@ export const {
   addSet,
   deleteSet,
   updateSet,
-  deleteLift
+  deleteLift,
 } = currentWorkoutSlice.actions;
 
 export default currentWorkoutSlice.reducer;
