@@ -34,7 +34,9 @@ export type RootStackParamList = {
   User: undefined;
   Settings: undefined;
   AddExercises: undefined;
-  CreateTemplate: undefined;
+  CreateTemplate: {
+    folderId: string;
+  };
   BottomTabNavigator: undefined;
   WorkoutDetails: { workoutId: number };
 };

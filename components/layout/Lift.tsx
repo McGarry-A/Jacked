@@ -1,6 +1,7 @@
 import { Box, Heading, HStack, Pressable, Text, VStack } from "native-base";
 import { SetInterface } from "../../types/CurrentWorkoutInterface";
 import { faCheckDouble } from "@fortawesome/free-solid-svg-icons/faCheckDouble";
+import { faLock } from "@fortawesome/free-solid-svg-icons/faLock";
 import Set from "./Set";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { addSet, deleteLift } from "../../store/currentWorkoutSlice";
@@ -15,19 +16,13 @@ interface IProps {
   sets: SetInterface;
   liftNumber: number;
   liftId: string;
+  template: boolean;
 }
 const Lift = (props: IProps) => {
-  const [allDone, setAllDone] = useState<boolean>(false);
   const { exerciseName, sets, liftId, exerciseId } = props;
   const dispatch = useAppDispatch();
 
   const swipeableRef = useRef<null | any>(null);
-
-  const handleCheckAllSets = () => {
-    if (allDone === false) setAllDone(true);
-    if (allDone === true) setAllDone(false);
-    console.log("sets", sets);
-  };
 
   const handleSwipeRight = () => {
     dispatch(deleteLift({ liftId }));
@@ -63,34 +58,40 @@ const Lift = (props: IProps) => {
     </Heading>
   );
 
-  const renderTableHead = () => (
-    <HStack
-      alignItems="center"
-      justifyContent={"space-between"}
-      my={2}
-      paddingX={2}
-    >
-      <Heading size="xs" flexShrink={1}>
-        Sets
-      </Heading>
-      <Heading size="xs" flex={2} textAlign="center">
-        Previous
-      </Heading>
-      <Heading size="xs" flex={2} textAlign="center" mr={1}>
-        Kg
-      </Heading>
-      <Heading size="xs" flex={2} textAlign="center" mr={4}>
-        Reps
-      </Heading>
-      <Pressable
-        flexShrink={1}
-        onPress={() => handleCheckAllSets()}
-        padding={1}
-      >
-        <FontAwesomeIcon icon={faCheckDouble} size={10} />
+  const renderCheck = () => {
+    const { template } = props;
+
+    return (
+      <Pressable flexShrink={1} padding={1}>
+        <FontAwesomeIcon icon={template ? faLock : faCheckDouble} size={10} />
       </Pressable>
-    </HStack>
-  );
+    );
+  };
+
+  const renderTableHead = () => {
+    return (
+      <HStack
+        alignItems="center"
+        justifyContent={"space-between"}
+        my={2}
+        paddingX={2}
+      >
+        <Heading size="xs" flexShrink={1}>
+          Sets
+        </Heading>
+        <Heading size="xs" flex={2} textAlign="center">
+          Previous
+        </Heading>
+        <Heading size="xs" flex={2} textAlign="center" mr={1}>
+          Kg
+        </Heading>
+        <Heading size="xs" flex={2} textAlign="center" mr={4}>
+          Reps
+        </Heading>
+        {renderCheck()}
+      </HStack>
+    );
+  };
 
   const renderAddSet = (liftId: string) => {
     return (
@@ -108,6 +109,7 @@ const Lift = (props: IProps) => {
   };
 
   const renderSets = (sets: SetInterface, liftId: string) => {
+    const { template } = props;
     const setList = Object.values(sets);
 
     return (
@@ -117,8 +119,8 @@ const Lift = (props: IProps) => {
             {...set}
             liftId={liftId}
             key={set.setId}
-            checked={allDone}
             exerciseId={exerciseId}
+            template={template}
           />
         ))}
       </VStack>

@@ -1,5 +1,4 @@
 import { Heading, Pressable, Text, View } from "native-base";
-import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { addLift } from "../../store/currentWorkoutSlice";
 import { RootStackScreenProps } from "../../types";
@@ -15,23 +14,20 @@ export interface LiftData {
 type Props = RootStackScreenProps<"AddExercises">;
 
 const AddExercises: React.FC<Props> = () => {
-  const [liftData, setLiftData] = useState<LiftData[]>([]);
   const { userId } = useAppSelector((state) => state.userSlice.user);
+  const { exercises } = useAppSelector((state) => state.currentWorkoutSlice);
 
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
   const handleAddExercises = () => {
-    // NOTE: IF CHECK
-    // IF A ID HAS BEEN REMOVED FROM THE LIST
-    // WE DISPATCH AN ACTION WHICH REMOVES IT FROM THE CURRENT WORKOUT
-    const params = liftData.map((el) => {
+    const params = Object.values(exercises).map((el) => {
       return {
         ...el,
         userId,
       };
     });
-    console.log(params);
+
     dispatch(addLift(params));
     navigation.goBack();
   };
@@ -42,26 +38,15 @@ const AddExercises: React.FC<Props> = () => {
     </Heading>
   );
 
-  const renderList = () => {
-    const props = {
-      cardProps: {
-        setLiftData,
-        liftData,
-      },
-      config: {
-        showInput: true,
-        showFilterButtons: false,
-      },
-    };
-
-    return <ExerciseList {...props} />;
-  };
+  const renderList = () => <ExerciseList showExerciseDetails={false} />;
 
   const renderAddExercises = () => {
+    const exercisesLength = Object.keys(exercises).length;
+
     const buttonText =
-      liftData.length < 1
+      exercisesLength < 1
         ? "Add Exercise"
-        : `Add Selected Exercises (${liftData.length})`;
+        : `Add Selected Exercises (${exercisesLength})`;
 
     return (
       <Pressable
@@ -80,7 +65,8 @@ const AddExercises: React.FC<Props> = () => {
 
   return (
     <View
-      padding={3}
+      paddingTop={3}
+      paddingX={3}
       backgroundColor={"white"}
       h="full"
       flex={1}

@@ -1,11 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
-import { Box, HStack, Input, Pressable, Text } from "native-base";
-import { useEffect, useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { deleteSet, updateSet } from "../../store/currentWorkoutSlice";
+import { Box, Center, HStack, Input, Pressable, Text } from "native-base";
+import { useRef, useState } from "react";
+import { useAppDispatch } from "../../store";
+import { deleteSet, updateReps, updateSet, updateWeight } from "../../store/currentWorkoutSlice";
 import { Swipeable } from "react-native-gesture-handler";
 import usePreviousSet from "../../hooks/usePreviousSet";
+import { faMinus } from "@fortawesome/free-solid-svg-icons/faMinus";
 
 interface Props {
   weight: string;
@@ -14,15 +15,12 @@ interface Props {
   setNumber: number;
   liftId: string;
   setId: string;
-  checked: boolean;
   exerciseId: number;
+  template: boolean;
 }
 
 const Set = (props: Props) => {
-  const { exerciseId, setNumber, checked, weight, reps } = props;
-
-  const [newWeight, setNewWeight] = useState<string>("0");
-  const [newReps, setNewReps] = useState<string>("0");
+  const { exerciseId, setNumber, weight, reps, template } = props;
   const [isDone, setIsDone] = useState<boolean>(false);
 
   const swipeableRef = useRef<null | any>(null);
@@ -35,11 +33,6 @@ const Set = (props: Props) => {
   const weightRef = useRef<HTMLInputElement>();
   const repsRef = useRef<HTMLInputElement>();
 
-  useEffect(() => {
-    if (checked === true) setIsDone(true);
-    if (checked === false) setIsDone(false);
-  }, [checked]);
-
   const handleSwipeRight = () => {
     const { liftId, setId } = props;
 
@@ -47,24 +40,31 @@ const Set = (props: Props) => {
     swipeableRef.current && swipeableRef.current.close();
   };
 
-  const handleUpdateSet = () => {
+  const handleUpdateWeight = (newwWeight: string) => { 
     const { setId, liftId } = props;
 
-    const newSet = {
-      weight: newWeight,
-      reps: newReps,
-      rpe: 0,
-      setNumber: setNumber,
+    const params = {
+      liftId,
       setId,
-    };
+      weight: newwWeight
+    }
 
-    dispatch(
-      updateSet({
-        setId,
-        liftId,
-        newSet,
-      })
-    );
+    dispatch(updateWeight(params))
+  }
+
+  const handleUpdateReps = (newwReps: string) => {
+    const { setId, liftId } = props;
+
+    const params = {
+      liftId,
+      setId,
+      reps: newwReps
+    }
+
+    dispatch(updateReps(params))
+   } 
+
+  const handleCheckSet = () => {
 
     setIsDone((isDone) => !isDone);
   };
@@ -102,12 +102,18 @@ const Set = (props: Props) => {
     </Box>
   );
 
+  const renderDash = () => {
+    return <FontAwesomeIcon icon={faMinus} size={18} />;
+  };
+
   const renderPrevious = () => {
-    if (!previous) return <Box flex={2}></Box>;
+    if (!previous || !template) return <Center flex={2}>{renderDash()}</Center>;
+
+    const previousString = `${previous?.weight}KG x ${previous?.reps}`;
 
     return (
       <Text fontSize="xs" opacity={50} flex={2} fontWeight={700}>
-        {previous?.weight}KG x {previous?.reps}
+        {previousString}
       </Text>
     );
   };
@@ -119,7 +125,7 @@ const Set = (props: Props) => {
         backgroundColor={"whitesmoke"}
         keyboardType={"numeric"}
         isDisabled={isDone}
-        onChangeText={(text) => setNewWeight(text)}
+        onChangeText={(text) => handleUpdateWeight(text)}
         w={16}
         fontWeight={700}
         textAlign={"center"}
@@ -136,7 +142,7 @@ const Set = (props: Props) => {
         backgroundColor={"whitesmoke"}
         keyboardType={"numeric"}
         isDisabled={isDone}
-        onChangeText={(text) => setNewReps(text)}
+        onChangeText={(text) => handleUpdateReps(text)}
         w={16}
         fontWeight={700}
         textAlign={"center"}
@@ -146,11 +152,17 @@ const Set = (props: Props) => {
     </Box>
   );
 
-  const renderCheck = () => (
-    <Pressable alignItems={"flex-end"} flexShrink={1} onPress={handleUpdateSet}>
-      <FontAwesomeIcon icon={faCheck} size={15} />
-    </Pressable>
-  );
+  const renderCheck = () => {
+    return (
+      <Pressable
+        alignItems={"flex-end"}
+        flexShrink={1}
+        onPress={handleCheckSet}
+      >
+        <FontAwesomeIcon icon={template ? faMinus : faCheck} size={15} />
+      </Pressable>
+    );
+  };
 
   return (
     <Swipeable

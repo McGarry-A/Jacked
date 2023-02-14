@@ -28,13 +28,23 @@ const currentWorkoutSlice = createSlice({
     setWorkoutTitle: (state, { payload }: { payload: setWorkoutTitleType }) => {
       state.workoutTitle = payload;
     },
+    updateReps: (state, { payload }: { payload: IUpdateReps }) => {
+      const { liftId, setId, reps } = payload;
+
+      state.exercises[liftId].sets[setId].reps = reps;
+    },
+    updateWeight: (state, { payload }: { payload: IUpdateWeight }) => {
+      const { liftId, setId, weight } = payload;
+      
+      state.exercises[liftId].sets[setId].weight = weight;
+    },
     addLift: (state, { payload }: { payload: addLiftProps[] }) => {
       payload.map((el, index) => {
-        const { exerciseId, exerciseName, liftId } = el;
+        const { exerciseId, exerciseName, liftId, sets = {} } = el;
         state.exercises[liftId] = {
           exerciseId,
           exerciseName,
-          sets: {},
+          sets,
           liftNumber: index,
           liftId,
         };
@@ -45,13 +55,13 @@ const currentWorkoutSlice = createSlice({
     deleteLift: (state, { payload }: { payload: deleteLiftProps }) => {
       const { liftId } = payload;
       delete state.exercises[liftId];
-      const index = state.exerciseOrder.indexOf(liftId)
-      state.exerciseOrder.splice(index, 1)
+      const index = state.exerciseOrder.indexOf(liftId);
+      state.exerciseOrder.splice(index, 1);
     },
     addSet: (state, { payload }: { payload: addSetProps }) => {
       const { liftId, setId } = payload;
 
-      const setNumber = Object.keys(state.exercises[liftId].sets).length + 1
+      const setNumber = Object.keys(state.exercises[liftId].sets).length + 1;
 
       const newSet: SetInterface = {
         [setId]: {
@@ -64,18 +74,19 @@ const currentWorkoutSlice = createSlice({
       };
 
       state.exercises[liftId].sets[setId] = newSet[setId];
-      state.exerciseOrder.push(liftId)
+      state.exerciseOrder.push(liftId);
     },
     deleteSet: (state, { payload }: { payload: deleteSetProps }) => {
       const { setId, liftId } = payload;
-      const newState = { ...state }
+      const newState = { ...state };
       delete newState.exercises[liftId].sets[setId];
-      const newSetsArray = Object.values(newState.exercises[liftId].sets).map((el, index) => {
-        return [el.setId, { ...el, setNumber: index + 1 }]
-      })
-      const newSetsObj = Object.fromEntries(newSetsArray)
-      newState.exercises[liftId].sets = newSetsObj
-
+      const newSetsArray = Object.values(newState.exercises[liftId].sets).map(
+        (el, index) => {
+          return [el.setId, { ...el, setNumber: index + 1 }];
+        }
+      );
+      const newSetsObj = Object.fromEntries(newSetsArray);
+      newState.exercises[liftId].sets = newSetsObj;
     },
     updateSet: (state, { payload }: { payload: updateSetProps }) => {
       const { liftId, setId, newSet } = payload;
@@ -187,6 +198,15 @@ interface addLiftProps {
   exerciseName: string;
   userId: string;
   liftId: string;
+  sets: {
+    [key: string]: {
+      weight: string;
+      reps: string;
+      setNumber: number;
+      rpe: number;
+      setId: string;
+    };
+  };
 }
 
 interface startWorkoutProps {
@@ -197,6 +217,17 @@ interface deleteLiftProps {
   liftId: string;
 }
 
+interface IUpdateReps {
+  liftId: string;
+  setId: string;
+  reps: string;
+}
+interface IUpdateWeight {
+  liftId: string;
+  setId: string;
+  weight: string;
+}
+
 export const {
   cancelWorkout,
   setWorkoutTitle,
@@ -205,7 +236,9 @@ export const {
   addSet,
   deleteSet,
   updateSet,
-  deleteLift
+  deleteLift,
+  updateReps,
+  updateWeight,
 } = currentWorkoutSlice.actions;
 
 export default currentWorkoutSlice.reducer;

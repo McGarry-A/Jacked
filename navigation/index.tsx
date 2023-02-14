@@ -37,6 +37,7 @@ import ColorThemeSwitch from "../components/layout/ColorThemeSwitch";
 import Auth from "../components/auth/Auth";
 import Welcome from "../components/auth/Welcome";
 import Header from "../components/layout/Header";
+import CreateTemplate from "../screens/pages/CreateTemplate";
 
 export default function Navigation() {
   return (
@@ -88,9 +89,14 @@ function RootNavigator() {
               }}
             />
             <Stack.Screen
-              name="Settings"
-              component={Settings}
-              options={{ title: "Settings" }}
+              name="CreateTemplate"
+              component={CreateTemplate}
+              options={{
+                title: "Create Template",
+                header: (props) => (
+                  <Header showBack={true} showRouteTitle={false} {...props} />
+                ),
+              }}
             />
             <Stack.Screen
               name="ActiveWorkout"
@@ -99,27 +105,9 @@ function RootNavigator() {
                 title: "Active Workout",
                 header: (props) => (
                   <Header
-                    showBack={false}
+                    showBack={true}
                     showRouteTitle={false}
                     {...props}
-                    ComponentRight={() => (
-                      <Button
-                        variant="ghost"
-                        colorScheme={"red"}
-                        onPress={() => {
-                          dispatch(cancelWorkout());
-                          navigation.navigate("Root");
-                        }}
-                      >
-                        <Text
-                          textTransform={"uppercase"}
-                          color="red.400"
-                          fontSize={"xs"}
-                        >
-                          Cancel
-                        </Text>
-                      </Button>
-                    )}
                   />
                 ),
               })}

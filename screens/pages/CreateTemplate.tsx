@@ -1,7 +1,7 @@
 import { View } from "native-base";
 import CreateWorkout from "../../components/CreateWorkout/CreateWorkout";
 
-const ActiveWorkout = () => {
+const CreateTemplate = () => {
   return (
     <View
       backgroundColor={"coolGray.50"}
@@ -14,9 +14,9 @@ const ActiveWorkout = () => {
         mx: "auto",
       }}
     >
-      <CreateWorkout template={false} />
+      <CreateWorkout template />
     </View>
   );
 };
 
-export default ActiveWorkout;
+export default CreateTemplate;
