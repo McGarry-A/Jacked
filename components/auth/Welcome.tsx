@@ -27,7 +27,7 @@ const Welcome = () => {
     return (
       <Box w={"full"} h={"lg"} position={"relative"}>
         <Image
-          source={require("../../images/logo.png")}
+          source={require("../../images/welcome-hero.png")}
           alt={"Hero Banner"}
           size={"full"}
         />
@@ -46,6 +46,7 @@ const Welcome = () => {
         margin={"auto"}
         flex={1}
         h={"16"}
+        resizeMode={"contain"}
       />
     </Box>
   );

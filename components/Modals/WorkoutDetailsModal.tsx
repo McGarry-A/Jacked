@@ -1,14 +1,9 @@
-import { Heading, View } from "native-base";
 import { memo, SetStateAction, Suspense } from "react";
 import ModalWrapper from "./ModalWrapper";
 import { lazy } from "react";
 import Loader from "../Utils/Loader";
 
-const WorkoutDetails = lazy(() => {
-  return new Promise((resolve) => setTimeout(resolve, 1000)).then(
-    () => import("../WorkoutDetails")
-  );
-});
+const WorkoutDetails = lazy(() => import("../WorkoutDetails"));
 
 interface IWorkoutDetailsModal {
   isVisible: boolean;

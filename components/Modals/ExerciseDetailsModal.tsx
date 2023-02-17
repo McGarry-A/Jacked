@@ -39,12 +39,16 @@ const ExerciseDetailsModal = (props: IExerciseDetailsModal) => {
   } = useExerciseDetails({
     exerciseId,
   });
+
   const {
     exerciseHistory,
     isLoading: historyIsLoading,
     error: historyError,
   } = useExerciseHistory(exerciseId);
 
+  console.log(details);
+  console.log(exerciseHistory);
+  
   const TAB_LIST = {
     ABOUT: <ExerciseDetailsAbout {...details} />,
     HISTORY: (

@@ -3,9 +3,6 @@ import { IExerciseHistory } from "../../hooks/useExerciseHistory";
 import { ISet } from "../../types/WorkoutInterface";
 import calculateOneRepMax from "../../utils/Workouts/calculateOneRepMax";
 import Loader from "../Utils/Loader";
-import { faWeightHanging } from "@fortawesome/free-solid-svg-icons/faWeightHanging";
-import { faRepeat } from "@fortawesome/free-solid-svg-icons/faRepeat";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 interface IExerciseDetailsHistory {
   exerciseHistory: IExerciseHistory | undefined;
@@ -22,29 +19,29 @@ const ExerciseDetailsHistory = ({
     <Heading size={"sm"}>{workout_name}</Heading>
   );
 
-  const renderBadges = (sets: ISet[]) => {
-    const totalVolume = 0;
+  // const renderBadges = (sets: ISet[]) => {
+  //   const totalVolume = 0;
 
-    return (
-      <HStack justifyContent={"start"}>
-        <Badge
-          backgroundColor={"info.100"}
-          borderWidth={"2"}
-          borderColor={"info.500"}
-          px={2}
-        >
-          <Text
-            fontWeight={"semibold"}
-            color={"info.900"}
-            textTransform={"uppercase"}
-            fontSize={"xs"}
-          >
-            {totalVolume} Volume
-          </Text>
-        </Badge>
-      </HStack>
-    );
-  };
+  //   return (
+  //     <HStack justifyContent={"start"}>
+  //       <Badge
+  //         backgroundColor={"info.100"}
+  //         borderWidth={"2"}
+  //         borderColor={"info.500"}
+  //         px={2}
+  //       >
+  //         <Text
+  //           fontWeight={"semibold"}
+  //           color={"info.900"}
+  //           textTransform={"uppercase"}
+  //           fontSize={"xs"}
+  //         >
+  //           {totalVolume} Volume
+  //         </Text>
+  //       </Badge>
+  //     </HStack>
+  //   );
+  // };
 
   const renderDateAndTime = (date: string, time: string) => (
     <Text
@@ -94,7 +91,6 @@ const ExerciseDetailsHistory = ({
           my={1}
         >
           {renderHeader(workout_name)}
-          {renderBadges(sets)}
           {renderDateAndTime(date, time)}
           {renderSetHead()}
           {sets.map(renderSet)}

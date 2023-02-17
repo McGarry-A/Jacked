@@ -21,13 +21,35 @@ const ExerciseDetailsAbout = (props: IExerciseDetailsAbout) => {
 
   const { name, category, description } = exercise_details;
 
+  const renderCategory = () => {
+    return (
+      <VStack>
+        <Text fontWeight={600} fontSize={"md"}>Category</Text>
+        <Text>{category}</Text>
+      </VStack>
+    );
+  };
+
+  const renderDescription = () => {
+    return (
+      <VStack>
+        <Text fontWeight={600} fontSize={"md"}>Description</Text>
+        <Text>{description}</Text>
+      </VStack>
+    )
+  };
+
+  const renderName = () => {
+    <Text fontSize={"lg"} fontWeight={500}>
+      {name}
+    </Text>;
+  };
+
   return (
     <VStack space={2}>
-      <Text fontSize={"lg"} fontWeight={500}>
-        {name}
-      </Text>
-      <Text>{category}</Text>
-      <Text>{description}</Text>
+      {renderName()}
+      {renderCategory()}
+      {renderDescription()}
     </VStack>
   );
 };

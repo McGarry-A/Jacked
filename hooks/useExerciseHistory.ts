@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase/supabaseClient";
 import { ISet } from "../types/WorkoutInterface";
-import { getAcheivedOneRepMax, getBestPerformance } from "../utils/Workouts/getRecords";
+import {
+  getAcheivedOneRepMax,
+  getBestPerformance,
+} from "../utils/Workouts/getRecords";
 
 export interface IExerciseHistory {
   [key: string]: {
     date: string;
     time: string;
     exercise_name: string;
-    sets: ISet[]
+    sets: ISet[];
   };
 }
 
@@ -20,10 +23,6 @@ const useExerciseHistory = (exerciseId: number) => {
   useEffect(() => {
     fetchExerciseHistory();
   }, []);
-
-  useEffect(() => {
-    exerciseHistory && console.log(getBestPerformance(exerciseHistory))
-  }, [exerciseHistory]);
 
   const fetchExerciseHistory = async () => {
     try {
@@ -46,32 +45,35 @@ const useExerciseHistory = (exerciseId: number) => {
       }
 
       const newExerciseHistory = exercise_history_data.reduce((acc, lift) => {
+        const {
+          lift_id,
+          exercise_name,
+          set,
+          workout_id: { workout_name },
+        } = lift;
         const liftDate = new Date(lift.created_at).toLocaleDateString();
         const liftTime = new Date(lift.created_at).toLocaleTimeString();
 
         return {
           ...acc,
-          [lift.lift_id]: {
-            workout_name: lift.workout_id.workout_name,
+          [lift_id]: {
+            workout_name,
             date: liftDate,
             time: liftTime,
-            exercise_name: lift.exercise_name,
-            sets: lift.set,
+            exercise_name,
+            sets: set,
           },
         };
       }, {}) as IExerciseHistory;
 
       setIsLoading(false);
       setExerciseHistory(newExerciseHistory);
-      
     } catch (e) {
       console.error(e.message);
       setError(e.message);
       setIsLoading(false);
     }
   };
-
-  console.log(exerciseHistory);
 
   return { exerciseHistory, error, isLoading };
 };

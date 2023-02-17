@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase/supabaseClient";
-import { ISet } from "../types/WorkoutInterface";
 
 interface IUseExerciseDetails {
     exerciseId: number;
@@ -14,21 +13,12 @@ interface IExerciseDetails {
     category: string;
 }
 
-interface IReturn {
-    details: {
-        exercise_details: IExerciseDetails;
-    };
-    error: string | undefined;
-    isLoading: boolean;
-}
-
 const useExerciseDetails = ({ exerciseId }: IUseExerciseDetails) => {
     const [details, setDetails] = useState<any>();
     const [error, setError] = useState<string>();
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        console.log("ISLOADING", isLoading);
         const fetchExerciseDetails = async () => {
             try {
                 const { data: exercise_details_data, error: exercise_details_error } =
@@ -72,9 +62,6 @@ const useExerciseDetails = ({ exerciseId }: IUseExerciseDetails) => {
         };
 
         fetch();
-        console.log("ISLOADING", isLoading);
-        console.log("DETAILS", details);
-        console.log("ERROR", error);
     }, []);
 
     return { details, error, isLoading };

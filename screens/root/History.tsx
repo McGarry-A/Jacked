@@ -46,7 +46,6 @@ export default function History() {
         keyExtractor={({ id }) => String(id)}
         flexGrow={1}
         onEndReached={() => {
-          console.log("PAGE " + page);
           setPage((page) => page + 1);
         }}
         onEndReachedThreshold={0.1}

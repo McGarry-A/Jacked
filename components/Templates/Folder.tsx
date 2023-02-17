@@ -72,7 +72,6 @@ export default function Folder(props: IProps) {
   };
 
   const renderTemplates = () => {
-    console.log(Object.values(templates));
     return (
       <Collapse isOpen={!isCollapsed}>
         <FlatList
