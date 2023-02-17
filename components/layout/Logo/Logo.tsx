@@ -4,7 +4,7 @@ export default function Logo({ ...rest }: IImageProps) {
   return (
     <Image
       {...rest}
-      source={require("../../images/logo.png")}
+      source={require("../../../images/logo.png")}
       alt={"JACKED Logo"}
     />
   );

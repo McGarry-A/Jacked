@@ -1,5 +1,5 @@
 import { View, Heading } from "native-base";
-import { ExerciseList as ExerciseListComponent } from "../../components/layout/ExerciseList";
+import { ExerciseList as ExerciseListComponent } from "../../components/Lists/ExerciseList";
 import useColorScheme from "../../hooks/useColorScheme";
 
 const Exercises = () => {

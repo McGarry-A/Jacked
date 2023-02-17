@@ -1,6 +1,6 @@
 import { Box, Heading, Text } from "native-base";
 import { SetStateAction } from "react";
-import Elipsis from "../layout/Elipsis";
+import Elipsis from "../Layout/Buttons/Elipsis";
 
 interface IWidgetHeader {
   title: string;

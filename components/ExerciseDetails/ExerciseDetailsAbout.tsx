@@ -1,5 +1,5 @@
 import { Text, VStack } from "native-base";
-import Loader from "../utils/Loader";
+import Loader from "../Utils/Loader";
 
 interface IExerciseDetailsAbout {
   exercise_details:

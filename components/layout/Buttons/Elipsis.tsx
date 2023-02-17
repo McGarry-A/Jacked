@@ -1,6 +1,6 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { Box, IBoxProps, IPressableProps, Pressable } from "native-base";
-import useColorScheme from "../../hooks/useColorScheme";
+import useColorScheme from "../../../hooks/useColorScheme";
 
 interface IElipsis extends IPressableProps {
   size: number;

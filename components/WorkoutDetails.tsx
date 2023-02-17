@@ -1,10 +1,10 @@
-import { ISet, IWorkout } from "../types/WorkoutInterface";
+import { ISet } from "../types/WorkoutInterface";
 import { Box, Heading, HStack, Text, View, VStack } from "native-base";
 import numbericDateToString from "../utils/Date/numericDateToString";
 import calculateOneRepMax from "../utils/Workouts/calculateOneRepMax";
 import useWorkout from "../hooks/useWorkout";
 import { Suspense } from "react";
-import Loader from "./utils/Loader";
+import Loader from "./Utils/Loader";
 
 interface IWorkoutDetails {
   workoutId: number;

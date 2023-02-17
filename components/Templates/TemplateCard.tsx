@@ -7,9 +7,9 @@ import { SetInterface } from "../../types/CurrentWorkoutInterface";
 import useId from "../../hooks/useId";
 import { addLift, setWorkoutTitle, startWorkout } from "../../store/currentWorkoutSlice";
 import useColorScheme from "../../hooks/useColorScheme";
-import Elipsis from "./Elipsis";
+import Elipsis from "../Layout/Buttons/Elipsis";
 import { useNavigation } from "@react-navigation/native";
-import TemplateModal from "../modal/TemplateModal";
+import TemplateModal from "../Modals/TemplateModal";
 
 interface TemplateCardProps {
   title: string;

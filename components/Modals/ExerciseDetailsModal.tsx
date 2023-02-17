@@ -9,8 +9,8 @@ import React, {
 import useExerciseDetails from "../../hooks/useExerciseDetails";
 import useExerciseHistory from "../../hooks/useExerciseHistory";
 import ExerciseDetailsAbout from "../ExerciseDetails/ExerciseDetailsAbout";
-import Loader from "../utils/Loader";
-import ToastAlert from "../utils/ToastAlert";
+import Loader from "../Utils/Loader";
+import ToastAlert from "../Utils/ToastAlert";
 import ModalWrapper from "./ModalWrapper";
 
 interface IExerciseDetailsModal {

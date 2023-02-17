@@ -4,10 +4,10 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { startWorkout } from "../../store/currentWorkoutSlice";
 import { faFolder } from "@fortawesome/free-regular-svg-icons/faFolder";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import Folder from "../../components/layout/Folder";
-import AddFolderModal from "../../components/modal/AddFolderModal";
+import Folder from "../../components/Templates/Folder";
+import AddFolderModal from "../../components/Modals/AddFolderModal";
 import { useState } from "react";
-import CtaButton from "../../components/layout/CtaButton";
+import CtaButton from "../../components/Layout/Buttons/CtaButton";
 import useColorScheme from "../../hooks/useColorScheme";
 import useTemplatesAndFolders from "../../hooks/useTemplatesAndFolders";
 

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { addLift } from "../../store/currentWorkoutSlice";
 import { RootStackScreenProps } from "../../types";
-import { ExerciseList } from "../../components/layout/ExerciseList";
+import { ExerciseList } from "../../components/Lists/ExerciseList";
 
 export interface LiftData {
   exerciseId: number;
@@ -25,6 +25,7 @@ const AddExercisesTemplates = ({
       return {
         ...el,
         userId,
+        sets: {}
       };
     });
 
@@ -39,18 +40,8 @@ const AddExercisesTemplates = ({
   );
 
   const renderList = () => {
-    const props = {
-      cardProps: {
-        setLiftData,
-        liftData,
-      },
-      config: {
-        showInput: true,
-        showFilterButtons: false,
-      },
-    };
 
-    return <ExerciseList {...props} />;
+    return <ExerciseList showExerciseDetails={false} />;
   };
 
   const renderAddExercises = () => {

@@ -1,7 +1,7 @@
 import { Image, Box, View, Text, VStack } from "native-base";
-import Logo from "../layout/Logo";
+import Logo from "../Layout/Logo/Logo";
 import AuthStateSwitcher from "./AuthStateSwitcher";
-import PrimaryButton from "../layout/Buttons/PrimaryButton";
+import PrimaryButton from "../Layout/Buttons/PrimaryButton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons/faEnvelope";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons/faGoogle";
@@ -27,7 +27,7 @@ const Welcome = () => {
     return (
       <Box w={"full"} h={"lg"} position={"relative"}>
         <Image
-          source={require("../../images/welcome-hero.png")}
+          source={require("../../images/logo.png")}
           alt={"Hero Banner"}
           size={"full"}
         />

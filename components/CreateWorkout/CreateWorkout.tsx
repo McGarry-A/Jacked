@@ -9,15 +9,14 @@ import {
   Button,
   Center,
 } from "native-base";
-import { useState } from "react";
-import Timer from "../../components/utils/Timer";
+import Timer from "../Utils/Timer";
 import { useAppDispatch, useAppSelector } from "../../store";
 import {
   cancelWorkout,
   saveWorkout,
   setWorkoutTitle,
 } from "../../store/currentWorkoutSlice";
-import Lift from "../../components/layout/Lift";
+import ActiveWorkoutLift from "../ActiveWorkout/ActiveWorkoutLift";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { createTemplate } from "../../store/templateSlice";
 
@@ -207,12 +206,14 @@ const CreateWorkout = ({ template }: ICreateWorkout) => {
     if (Object.keys(exercises).length < 1) return renderNoLifts();
 
     return (
-        <FlatList
-          data={Object.values(exercises)}
-          renderItem={({ item }) => <Lift {...item} template={template} />}
-          keyExtractor={(item) => item.liftId}
-          flex={1}
-        />
+      <FlatList
+        data={Object.values(exercises)}
+        renderItem={({ item }) => (
+          <ActiveWorkoutLift {...item} template={template} />
+        )}
+        keyExtractor={(item) => item.liftId}
+        flex={1}
+      />
     );
   };
 

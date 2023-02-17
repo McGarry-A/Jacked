@@ -31,10 +31,10 @@ import AddExercises from "../screens/modals/AddExercises";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useAppDispatch, useAppSelector } from "../store";
 import Start from "../screens/root/Start";
-import ColorThemeSwitch from "../components/layout/ColorThemeSwitch";
-import Auth from "../components/auth/Auth";
-import Welcome from "../components/auth/Welcome";
-import Header from "../components/layout/Header";
+import ColorThemeSwitch from "../components/Layout/ColorThemeSwitch";
+import Auth from "../components/Auth/Auth";
+import Welcome from "../components/Auth/Welcome";
+import Header from "../components/Layout/ScreenHeader";
 import CreateTemplate from "../screens/pages/CreateTemplate";
 
 export default function Navigation() {

@@ -1,9 +1,9 @@
 import { Box } from "native-base";
 import { useState } from "react";
 import WidgetHeader from "./WidgetHeader";
-import BarChartWidgetModal from "../modal/BarChartWidgetModal";
-import LineGraphWidgetModal from "../modal/LineGraphWidgetModal";
-import WeightTrackerModal from "../modal/WeightTrackerModal";
+import BarChartWidgetModal from "../Modals/BarChartWidgetModal";
+import LineGraphWidgetModal from "../Modals/LineGraphWidgetModal";
+import WeightTrackerModal from "../Modals/WeightTrackerModal";
 
 interface IWidgetContainer {
   title: string;

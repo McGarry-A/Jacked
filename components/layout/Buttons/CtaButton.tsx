@@ -1,7 +1,7 @@
 import { Button, Text, useColorModeValue } from "native-base";
 import { InterfaceButtonProps } from "native-base/lib/typescript/components/primitives/Button/types";
 import React from "react";
-import useColorScheme from "../../hooks/useColorScheme";
+import useColorScheme from "../../../hooks/useColorScheme";
 
 interface ICtaButton extends InterfaceButtonProps {
   children: React.ReactNode;

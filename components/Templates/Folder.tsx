@@ -11,8 +11,8 @@ import {
 import { useState } from "react";
 import useColorScheme from "../../hooks/useColorScheme";
 import { TemplateInterface } from "../../types/TemplateSliceInterface";
-import ManageFolderModal from "../modal/ManageFolderModal";
-import Elipsis from "./Elipsis";
+import ManageFolderModal from "../Modals/ManageFolderModal";
+import Elipsis from "../Layout/Buttons/Elipsis";
 import TemplateCard from "./TemplateCard";
 
 interface IProps {

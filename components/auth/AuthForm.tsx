@@ -6,9 +6,9 @@ import { Box, Checkbox, Text, useToast, VStack } from "native-base";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { userLogin, userSignup } from "../../store/userSlice";
-import PrimaryButton from "../layout/Buttons/PrimaryButton";
-import InputField from "../layout/InputField";
-import ToastAlert from "../utils/ToastAlert";
+import PrimaryButton from "../Layout/Buttons/PrimaryButton";
+import InputField from "../Layout/InputField";
+import ToastAlert from "../Utils/ToastAlert";
 
 interface IAuthForm {
   type: "SIGN_UP" | "LOG_IN";

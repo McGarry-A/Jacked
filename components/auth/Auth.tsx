@@ -1,6 +1,6 @@
 import { View, Text, Box, Heading, VStack } from "native-base";
 import React, { useState } from "react";
-import Logo from "../layout/Logo";
+import Logo from "../Layout/Logo/Logo";
 import AuthForm from "./AuthForm";
 import AuthStateSwitcher from "./AuthStateSwitcher";
 import SocialIcons from "./SocialIcons";

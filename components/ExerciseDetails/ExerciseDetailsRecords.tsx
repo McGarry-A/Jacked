@@ -7,7 +7,7 @@ import {
   getBestVolume,
   getEstimatedOneRepMax,
 } from "../../utils/Workouts/getRecords";
-import Loader from "../utils/Loader";
+import Loader from "../Utils/Loader";
 
 interface IExerciseDetailsRecods {
   exerciseHistory: IExerciseHistory | undefined;

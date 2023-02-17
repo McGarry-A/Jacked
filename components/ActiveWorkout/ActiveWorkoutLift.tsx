@@ -2,7 +2,7 @@ import { Box, Heading, HStack, Pressable, Text, VStack } from "native-base";
 import { SetInterface } from "../../types/CurrentWorkoutInterface";
 import { faCheckDouble } from "@fortawesome/free-solid-svg-icons/faCheckDouble";
 import { faLock } from "@fortawesome/free-solid-svg-icons/faLock";
-import Set from "./Set";
+import ActiveWorkoutSet from "./ActiveWorkoutSet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { addSet, deleteLift } from "../../store/currentWorkoutSlice";
 import useId from "../../hooks/useId";
@@ -18,7 +18,7 @@ interface IProps {
   liftId: string;
   template: boolean;
 }
-const Lift = (props: IProps) => {
+const ActiveWorkoutLift = (props: IProps) => {
   const { exerciseName, sets, liftId, exerciseId } = props;
   const dispatch = useAppDispatch();
 
@@ -115,7 +115,7 @@ const Lift = (props: IProps) => {
     return (
       <VStack>
         {setList.map((set) => (
-          <Set
+          <ActiveWorkoutSet
             {...set}
             liftId={liftId}
             key={set.setId}
@@ -145,4 +145,4 @@ const Lift = (props: IProps) => {
   );
 };
 
-export default Lift;
+export default ActiveWorkoutLift;

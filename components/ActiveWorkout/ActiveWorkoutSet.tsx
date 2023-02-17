@@ -19,7 +19,7 @@ interface Props {
   template: boolean;
 }
 
-const Set = (props: Props) => {
+const ActiveWorkoutSet = (props: Props) => {
   const { exerciseId, setNumber, weight, reps, template } = props;
   const [isDone, setIsDone] = useState<boolean>(false);
 
@@ -187,4 +187,4 @@ const Set = (props: Props) => {
   );
 };
 
-export default Set;
+export default ActiveWorkoutSet;

@@ -2,7 +2,7 @@ import { Heading, Pressable, Text, View } from "native-base";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { addLift } from "../../store/currentWorkoutSlice";
 import { RootStackScreenProps } from "../../types";
-import { ExerciseList } from "../../components/layout/ExerciseList";
+import { ExerciseList } from "../../components/Lists/ExerciseList";
 import { useNavigation } from "@react-navigation/native";
 
 export interface LiftData {

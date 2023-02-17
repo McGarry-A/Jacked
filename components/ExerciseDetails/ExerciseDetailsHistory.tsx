@@ -2,7 +2,7 @@ import { Badge, Heading, HStack, Skeleton, Text, VStack } from "native-base";
 import { IExerciseHistory } from "../../hooks/useExerciseHistory";
 import { ISet } from "../../types/WorkoutInterface";
 import calculateOneRepMax from "../../utils/Workouts/calculateOneRepMax";
-import Loader from "../utils/Loader";
+import Loader from "../Utils/Loader";
 import { faWeightHanging } from "@fortawesome/free-solid-svg-icons/faWeightHanging";
 import { faRepeat } from "@fortawesome/free-solid-svg-icons/faRepeat";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";

@@ -3,13 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
 import { FlatList, Heading, HStack, Skeleton, View } from "native-base";
 import { lazy, Suspense, useState } from "react";
-import CtaButton from "../../components/layout/CtaButton";
-import ListFooter from "../../components/layout/ListFooter";
+import CtaButton from "../../components/Layout/Buttons/CtaButton";
+import ListFooter from "../../components/Lists/ListFooter";
 import useColorScheme from "../../hooks/useColorScheme";
 import useHistory from "../../hooks/useHistory";
 import { useAppSelector } from "../../store";
 
-const HistoryCard = lazy(() => import("../../components/layout/HistoryCard"));
+const HistoryCard = lazy(() => import("../../components/Layout/Cards/HistoryCard"));
 
 export default function History() {
   const [page, setPage] = useState<number>(1);

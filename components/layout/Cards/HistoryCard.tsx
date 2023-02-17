@@ -1,12 +1,12 @@
 import { faClock } from "@fortawesome/free-regular-svg-icons/faClock";
 import { Box, HStack, Skeleton, Text, VStack } from "native-base";
 import React, { memo, useState, lazy, Suspense, useEffect } from "react";
-import getDaysAgo from "../../utils/Date/getDaysAgo";
+import getDaysAgo from "../../../utils/Date/getDaysAgo";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import useColorScheme from "../../hooks/useColorScheme";
+import useColorScheme from "../../../hooks/useColorScheme";
 import { Pressable } from "react-native";
 
-const WorkoutDetailsModal = lazy(() => import("../modal/WorkoutDetailsModal"));
+const WorkoutDetailsModal = lazy(() => import("../../Modals/WorkoutDetailsModal"));
 
 interface IHistoryCard {
   isLoaded: boolean;

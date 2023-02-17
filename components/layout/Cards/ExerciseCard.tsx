@@ -7,11 +7,11 @@ import {
   Text,
   VStack,
 } from "native-base";
-import { useAppDispatch, useAppSelector } from "../../store";
-import getExerciseInitials from "../../utils/Workouts/getExerciseInitials";
-import { addLift, deleteLift } from "../../store/currentWorkoutSlice";
-import useColorScheme from "../../hooks/useColorScheme";
-import ExerciseDetailsModal from "../modal/ExerciseDetailsModal";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import getExerciseInitials from "../../../utils/Workouts/getExerciseInitials";
+import { addLift, deleteLift } from "../../../store/currentWorkoutSlice";
+import useColorScheme from "../../../hooks/useColorScheme";
+import ExerciseDetailsModal from "../../Modals/ExerciseDetailsModal";
 import React, { useEffect, useState } from "react";
 
 interface IProps {
@@ -64,6 +64,7 @@ const ExerciseCard = (props: IProps) => {
       exerciseName: exercise_name,
       liftId,
       userId,
+      sets: {}
     };
 
     if (!isActive) return dispatch(addLift([lift]));

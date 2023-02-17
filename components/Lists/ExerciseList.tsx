@@ -9,7 +9,7 @@ interface Props {
   showExerciseDetails: boolean;
 }
 
-const ExerciseCard = lazy(() => import("./ExerciseCard"));
+const ExerciseCard = lazy(() => import("../Layout/Cards/ExerciseCard"));
 
 export const ExerciseList: React.FC<Props> = ({
   showExerciseDetails = false,

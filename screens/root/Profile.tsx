@@ -1,23 +1,23 @@
 import { RootTabScreenProps } from "../../types";
 import { Box, Heading, View, FlatList, HStack } from "native-base";
-import SessionFrequncyWidget from "../../components/widgets/SessionFrequency/SessionFrequencyWidget";
-import OneRepMaxWidget from "../../components/widgets/OneRepMax/OneRepMaxWidget";
-import UserProfileBar from "../../components/layout/UserProfileBar";
+import SessionFrequncyWidget from "../../components/Widgets/SessionFrequency/SessionFrequencyWidget";
+import OneRepMaxWidget from "../../components/Widgets/OneRepMax/OneRepMaxWidget";
+import UserProfileBar from "../../components/Layout/UserProfileBar";
 import { useAppDispatch, useAppSelector } from "../../store";
-import AddWidgetModal from "../../components/modal/AddWidgetModal";
+import AddWidgetModal from "../../components/Modals/AddWidgetModal";
 import React, { useEffect, useState } from "react";
 import { getWidgets, IOneRepMaxLine } from "../../store/WidgetsSlice";
-import WidgetContainer from "../../components/widgets/WidgetContainer";
+import WidgetContainer from "../../components/Widgets/WidgetContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faWrench } from "@fortawesome/free-solid-svg-icons/faWrench";
-import CtaButton from "../../components/layout/CtaButton";
+import CtaButton from "../../components/Layout/Buttons/CtaButton";
 import { faGear } from "@fortawesome/free-solid-svg-icons/faGear";
 import { faRuler } from "@fortawesome/free-solid-svg-icons/faRuler";
 import useColorScheme from "../../hooks/useColorScheme";
-import AddMeasurementModal from "../../components/modal/AddMeasurementModal";
-import WeightTrackerWidget from "../../components/widgets/WeightTracker/WeightTrackerWidget";
+import AddMeasurementModal from "../../components/Modals/AddMeasurementModal";
+import WeightTrackerWidget from "../../components/Widgets/WeightTracker/WeightTrackerWidget";
 import { getWeight } from "../../store/weightSlice";
-import SettingsModal from "../../components/modal/SettingsModal";
+import SettingsModal from "../../components/Modals/SettingsModal";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
