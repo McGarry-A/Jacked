@@ -103,7 +103,7 @@ const ActiveWorkoutSet = (props: Props) => {
   );
 
   const renderDash = () => {
-    return <FontAwesomeIcon icon={faMinus} size={18} style={{ color: "darkGray" }} />;
+    return <FontAwesomeIcon icon={faMinus} size={18} />;
   };
 
   const renderPrevious = () => {

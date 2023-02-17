@@ -11,8 +11,8 @@ const Auth = ({ route }: any) => {
   const [type, setType] = useState<"SIGN_UP" | "LOG_IN">(routeType);
 
   const renderLogo = () => (
-    <Box w={"40"} h={"16"} marginX={"auto"} marginY={10}>
-      <Logo flex={1} position={"relative"} />
+    <Box h={"16"} marginX={"auto"} marginTop={20} marginBottom={5} alignItems="flex-end">
+      <Logo flex={1} position={"relative"} resizeMode="contain" />
     </Box>
   );
 

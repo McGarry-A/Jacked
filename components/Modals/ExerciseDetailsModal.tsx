@@ -48,7 +48,7 @@ const ExerciseDetailsModal = (props: IExerciseDetailsModal) => {
 
   console.log(details);
   console.log(exerciseHistory);
-  
+
   const TAB_LIST = {
     ABOUT: <ExerciseDetailsAbout {...details} />,
     HISTORY: (
@@ -92,7 +92,6 @@ const ExerciseDetailsModal = (props: IExerciseDetailsModal) => {
         backgroundColor={"gray.300"}
       >
         {Object.keys(TAB_LIST).map((el, index) => {
-          const activeWeight = ACTIVE_TAB === el ? "700" : "500";
           const activeBackground =
             ACTIVE_TAB === el ? "info.400" : "coolGray.200";
           const activeShadow = ACTIVE_TAB === el ? "lg" : null;
@@ -104,7 +103,7 @@ const ExerciseDetailsModal = (props: IExerciseDetailsModal) => {
               flex={1}
               textAlign={"center"}
               onPress={() => setActiveTab(el as TTabs)}
-              fontWeight={activeWeight}
+              fontWeight={500}
               background={activeBackground}
               shadow={activeShadow}
               p={2}
@@ -115,6 +114,7 @@ const ExerciseDetailsModal = (props: IExerciseDetailsModal) => {
                 fontWeight={700}
                 fontSize={"xs"}
                 letterSpacing={"xl"}
+                textAlign={"center"}
               >
                 {el}
               </Text>

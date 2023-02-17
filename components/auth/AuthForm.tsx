@@ -24,8 +24,8 @@ interface IFormData {
 const AuthForm = ({ type, SocialsComponent }: IAuthForm) => {
   const [rememberMe, setRememberMe] = useState<"TRUE" | "FALSE">("FALSE");
   const [formData, setFormData] = useState<IFormData>({
-    email: "",
-    password: "",
+    email: "ahmedmcgarry@hotmail.com",
+    password: "adriano911",
     confirmPassword: "",
   });
 
@@ -48,6 +48,20 @@ const AuthForm = ({ type, SocialsComponent }: IAuthForm) => {
       });
     }
   }, [status]);
+
+  useEffect(() => {
+      toast.show({
+        placement: "top",
+        render: () => (
+          <ToastAlert
+            title="Notice!"
+            description="For the purpose of this demo, use the login credentials provided"
+            status="info"
+            variant="solid"
+          />
+        ),
+      });
+  }, []);
 
   const handleLogin = () => {
     const { password, email } = formData;

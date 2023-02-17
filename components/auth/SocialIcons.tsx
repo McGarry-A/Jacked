@@ -6,7 +6,7 @@ const SocialIcons = () => {
   const renderHeader = () => {
     return (
       <HStack space={"4"} alignItems={"center"}>
-        <Box w={"1/3"} borderWidth={1} borderColor={"coolGray.200"} h={"0"} />
+        <Box w={"1/4"} borderWidth={1} borderColor={"coolGray.200"} h={"0"} />
         <Text
           flexGrow={1}
           flex={1}
@@ -19,7 +19,7 @@ const SocialIcons = () => {
         >
           Or Sign in with
         </Text>
-        <Box w={"1/3"} borderWidth={1} borderColor={"coolGray.200"} h={"0"} />
+        <Box w={"1/4"} borderWidth={1} borderColor={"coolGray.200"} h={"0"} />
       </HStack>
     );
   };
