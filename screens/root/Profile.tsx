@@ -126,7 +126,6 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
         renderItem={({ item }) => renderWidget(item)}
         onRefresh={handleRefreshWidgets}
         refreshing={isWidgetRefreshing}
-        scrollEnabled={false}
       />
     );
   };
@@ -162,7 +161,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   );
 
   return (
-    <ScrollView
+    <View
       padding="3"
       backgroundColor={screenColorMode}
       flexGrow={1}
@@ -181,6 +180,6 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
       {renderAddWidgetModal()}
       {renderAddMeasurementModal()}
       {renderSettingsModal()}
-    </ScrollView>
+    </View>
   );
 }

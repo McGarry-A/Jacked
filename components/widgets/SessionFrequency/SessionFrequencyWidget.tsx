@@ -1,5 +1,5 @@
 import { BarChart } from "react-native-chart-kit";
-import { BAR_CONFIG } from "./config";
+import { CONFIG } from "./config";
 import useSessionFrequency from "../../../hooks/useSessionFrequency";
 import { SCREEN_WIDTH_APP, SCREEN_WIDTH_WEB } from "../ScreenWidth";
 import useIsApp from "../../../hooks/useIsApp";
@@ -46,7 +46,7 @@ const SessionFrequencyWidget: React.FC = () => {
         data={data}
         width={SCREEN_WIDTH - 49}
         height={160}
-        chartConfig={BAR_CONFIG}
+        chartConfig={CONFIG}
         showBarTops={false}
         withInnerLines={true}
         segments={segmentCount}

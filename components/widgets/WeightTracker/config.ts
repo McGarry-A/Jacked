@@ -16,9 +16,6 @@ const CONFIG = {
         strokeLinecap: "round",
         strokeDasharray: "0, 0",
     },
-    propsForLabels: {
-        // fontFamily: "sans-serif",
-    },
     fillShadowGradient: "#FFFFFF",
     fillShadowGradientOpacity: 0,
     bezier: true,

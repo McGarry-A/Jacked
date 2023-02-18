@@ -5,11 +5,11 @@
     "owner": "ahmedmcgarry",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo.png",
+    "icon": "./images/logo.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

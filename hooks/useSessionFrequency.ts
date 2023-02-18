@@ -7,11 +7,13 @@ import usePreviousWorkoutDates from "./usePreviousWorkoutDates";
 const useSessionFrequency = () => {
   const [labels, setLabels] = useState<string[]>([]);
   const [values, setValues] = useState<number[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const { userId } = useAppSelector((state) => state.userSlice.user);
-  const { workoutDates, isLoading } = usePreviousWorkoutDates(userId);
+  const { workoutDates, isLoading: isFetching } = usePreviousWorkoutDates(userId);
 
   useEffect(() => {
+    if (isFetching) return 
     const labels = getPreviousMondays(6);
     const moments = workoutDates.map((el) => {
       return moment(el.date).startOf("week").format("DD/MM");
@@ -31,7 +33,8 @@ const useSessionFrequency = () => {
 
     setLabels(Object.keys(newMoments));
     setValues(Object.values(newMoments));
-  }, [isLoading]);
+    setIsLoading(false);
+  }, [isFetching]);
 
   return { labels, values, isLoading };
 };
