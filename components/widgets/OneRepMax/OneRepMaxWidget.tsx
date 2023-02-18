@@ -3,7 +3,7 @@ import { LineChart } from "react-native-chart-kit";
 import useIsApp from "../../../hooks/useIsApp";
 import useOneRepMaxGraph from "../../../hooks/useOneRepMaxGraph";
 import { SCREEN_WIDTH_APP, SCREEN_WIDTH_WEB } from "../ScreenWidth";
-import { CONFIG, SCREEN_WIDTH } from "./config";
+import { CONFIG } from "./config";
 
 interface ILineProps {
   exerciseId: number;
