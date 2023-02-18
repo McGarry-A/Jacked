@@ -33,8 +33,6 @@ const SessionFrequencyWidget: React.FC = () => {
     ],
   };
 
-  console.log("data", data)
-
   return (
     <Skeleton
       height={160}
