@@ -1,5 +1,5 @@
 import { RootTabScreenProps } from "../../types";
-import { Box, Heading, View, FlatList, HStack } from "native-base";
+import { Box, Heading, View, FlatList, HStack, ScrollView } from "native-base";
 import SessionFrequncyWidget from "../../components/Widgets/SessionFrequency/SessionFrequencyWidget";
 import OneRepMaxWidget from "../../components/Widgets/OneRepMax/OneRepMaxWidget";
 import UserProfileBar from "../../components/Layout/UserProfileBar";
@@ -126,6 +126,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
         renderItem={({ item }) => renderWidget(item)}
         onRefresh={handleRefreshWidgets}
         refreshing={isWidgetRefreshing}
+        scrollEnabled={false}
       />
     );
   };
@@ -161,7 +162,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   );
 
   return (
-    <View
+    <ScrollView
       padding="3"
       backgroundColor={screenColorMode}
       flexGrow={1}
@@ -180,6 +181,6 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
       {renderAddWidgetModal()}
       {renderAddMeasurementModal()}
       {renderSettingsModal()}
-    </View>
+    </ScrollView>
   );
 }

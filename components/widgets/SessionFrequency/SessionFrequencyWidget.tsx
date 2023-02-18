@@ -1,5 +1,5 @@
 import { BarChart } from "react-native-chart-kit";
-import { CONFIG, SCREEN_WIDTH } from "./config";
+import { BAR_CONFIG } from "./config";
 import useSessionFrequency from "../../../hooks/useSessionFrequency";
 import { SCREEN_WIDTH_APP, SCREEN_WIDTH_WEB } from "../ScreenWidth";
 import useIsApp from "../../../hooks/useIsApp";
@@ -21,17 +21,19 @@ const SessionFrequencyWidget: React.FC = () => {
       {
         data: values,
         colors: [
-          (opacity = 1) => `#702963`,
-          (opacity = 1) => `#702963`,
-          (opacity = 1) => `#702963`,
-          (opacity = 1) => `#702963`,
-          (opacity = 1) => `#702963`,
-          (opacity = 1) => `#702963`,
-          (opacity = 1) => `#702963`,
+          () => `#604187`,
+          () => `#604187`,
+          () => `#604187`,
+          () => `#604187`,
+          () => `#604187`,
+          () => `#604187`,
+          () => `#604187`,
         ],
       },
     ],
   };
+
+  console.log("data", data)
 
   return (
     <Skeleton
@@ -47,12 +49,13 @@ const SessionFrequencyWidget: React.FC = () => {
         data={data}
         width={SCREEN_WIDTH - 49}
         height={160}
-        chartConfig={CONFIG}
+        chartConfig={BAR_CONFIG}
         showBarTops={false}
         withInnerLines={true}
         segments={segmentCount}
         withCustomBarColorFromData={true}
         yAxisInterval={1}
+        flatColor
         style={{
           marginVertical: 8,
           borderRadius: 16,
