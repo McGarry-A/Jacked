@@ -9,7 +9,6 @@ const SessionFrequencyWidget: React.FC = () => {
   const { labels, values, isLoading } = useSessionFrequency();
 
   const isApp = useIsApp();
-
   const SCREEN_WIDTH = isApp ? SCREEN_WIDTH_APP : SCREEN_WIDTH_WEB;
 
   const maxInValues = Math.max(...values);
