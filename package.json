@@ -7,9 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest --watchAll",
-    "deploy": "gh-pages -d web-build",
-    "predeploy": "expo export:web"
+    "test": "jest --watchAll"
   },
   "jest": {
     "preset": "jest-expo"
@@ -68,6 +66,5 @@
     "react-test-renderer": "18.0.0",
     "typescript": "~4.3.5"
   },
-  "private": true,
-  "homepage": "https://mcgarry-a.github.io/Jacked/"
+  "private": true
 }
