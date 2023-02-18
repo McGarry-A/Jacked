@@ -239,8 +239,6 @@ export const deleteTemplate = createAsyncThunk(
       return rejectWithValue(error);
     }
 
-    console.log("data", data);
-
     return { folderId: data[0].folder_id, templateId: data[0].id };
   }
 );

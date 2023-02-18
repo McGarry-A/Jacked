@@ -23,10 +23,6 @@ const WeightTrackerWidget: React.FC = () => {
       },
     ],
   };
-
-  console.log("WEIGHT chartData", chartData);
-
-  if (isLoading) return <></>;
   
   return (
     <Skeleton
