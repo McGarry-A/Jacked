@@ -2,10 +2,14 @@ import { Skeleton } from "native-base";
 import { LineChart } from "react-native-chart-kit";
 import useIsApp from "../../../hooks/useIsApp";
 import useWeightTracker from "../../../hooks/useWeightGraph";
+import { useAppSelector } from "../../../store";
 import { CONFIG, SCREEN_WIDTH_APP, SCREEN_WIDTH_WEB } from "./config";
 
 const WeightTrackerWidget: React.FC = () => {
-  const { isLoading, labels, values } = useWeightTracker();
+  const { isLoading } = useWeightTracker();
+  const { labels, values } = useAppSelector(
+    (state) => state.weightSlice.weight
+  );
   const isApp = useIsApp();
 
   const SCREEN_WIDTH = isApp ? SCREEN_WIDTH_APP : SCREEN_WIDTH_WEB;
@@ -20,6 +24,10 @@ const WeightTrackerWidget: React.FC = () => {
     ],
   };
 
+  console.log("WEIGHT chartData", chartData);
+
+  if (isLoading) return <></>;
+  
   return (
     <Skeleton
       height={160}

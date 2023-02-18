@@ -26,6 +26,8 @@ const OneRepMaxWidget: React.FC<ILineProps> = (props) => {
     ],
   };
 
+  console.log("MAX chartData", chartData)
+
   return (
     <Skeleton
       height={160}
