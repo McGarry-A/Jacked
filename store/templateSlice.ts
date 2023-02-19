@@ -64,12 +64,12 @@ const templateSlice = createSlice({
         (el) => el === liftId
       );
     },
-    deleteFolder: (
-      state,
-      { payload: folderId }: PayloadAction<FolderIdType>
-    ) => {
-      delete state.folders[folderId];
-    },
+    // deleteFolder: (
+    //   state,
+    //   { payload: folderId }: PayloadAction<FolderIdType>
+    // ) => {
+    //   delete state.folders[folderId];
+    // },
     emptyFolder: (state, { payload }) => {
       const { folderId } = payload;
       state.folders[folderId].templates = {};
@@ -153,6 +153,14 @@ const templateSlice = createSlice({
         delete state.folders[folderId].templates[templateId];
       })
       .addCase(deleteTemplate.rejected, (state, _) => {
+        state.status = "rejected";
+      })
+      .addCase(deleteFolder.fulfilled, (state, { payload }) => {
+        const { folderId } = payload;
+
+        delete state.folders[folderId];
+      })
+      .addCase(deleteFolder.rejected, (state, _) => {
         state.status = "rejected";
       });
   },
@@ -243,5 +251,21 @@ export const deleteTemplate = createAsyncThunk(
   }
 );
 
-export const { deleteFolder, emptyFolder } = templateSlice.actions;
+export const deleteFolder = createAsyncThunk(
+  "template/deleteFolder",
+  async (payload: string, { rejectWithValue }) => {
+    const { data, error } = await supabase
+      .from("folders")
+      .delete()
+      .eq("id", payload);
+
+    if (error) {
+      return rejectWithValue(error);
+    }
+
+    return { folderId: data[0].id };
+  }
+);
+
+export const { emptyFolder } = templateSlice.actions;
 export default templateSlice.reducer;
