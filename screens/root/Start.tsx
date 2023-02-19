@@ -1,5 +1,14 @@
 import { useNavigation } from "@react-navigation/native";
-import { Text, Heading, Box, Button, View, HStack, VStack } from "native-base";
+import {
+  Text,
+  Heading,
+  Box,
+  Button,
+  View,
+  HStack,
+  VStack,
+  Skeleton,
+} from "native-base";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { startWorkout } from "../../store/currentWorkoutSlice";
 import { faFolder } from "@fortawesome/free-regular-svg-icons/faFolder";
@@ -16,7 +25,7 @@ export default function Start() {
     useState<boolean>(false);
 
   const { userId } = useAppSelector((state) => state.userSlice.user);
-  const { folders } = useAppSelector((state) => state.templateSlice);
+  const { folders, status } = useAppSelector((state) => state.templateSlice);
   const { isActive } = useAppSelector((state) => state.currentWorkoutSlice);
 
   const {
@@ -108,12 +117,17 @@ export default function Start() {
   );
 
   const renderFolders = () => {
+    const isLoaded = status === "fulfilled";
     return (
       <>
         {renderTemplatesSectionHeader()}
-        {Object.values(folders).map(({ id, name, templates }) => {
-          return <Folder key={id} templates={templates} id={id} name={name} />;
-        })}
+        <Skeleton h={"48"} endColor={"gray.200"} isLoaded={isLoaded}>
+          {Object.values(folders).map(({ id, name, templates }) => {
+            return (
+              <Folder key={id} templates={templates} id={id} name={name} />
+            );
+          })}
+        </Skeleton>
       </>
     );
   };

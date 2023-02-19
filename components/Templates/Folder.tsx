@@ -57,15 +57,6 @@ export default function Folder(props: IProps) {
             margin={1}
             onPress={() => setFolderModalIsOpen(true)}
           />
-          {/* <CtaButton
-            isHollow
-            leftIcon={
-              <FontAwesomeIcon icon={faFile} color={"#0284c7"} size={10} />
-            }
-            onPress={() => setModalIsOpen(true)}
-          >
-            Add Template
-          </CtaButton> */}
         </HStack>
       </Pressable>
     );
