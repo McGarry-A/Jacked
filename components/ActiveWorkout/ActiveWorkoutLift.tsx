@@ -8,7 +8,9 @@ import { addSet, deleteLift } from "../../store/currentWorkoutSlice";
 import useId from "../../hooks/useId";
 import { useAppDispatch } from "../../store";
 import { Swipeable } from "react-native-gesture-handler";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import ActiveWorkoutLiftModal from "../Modals/ActiveWorkoutLiftModal";
+import Elipsis from "../Layout/Buttons/Elipsis";
 
 interface IProps {
   exerciseId: number;
@@ -20,6 +22,8 @@ interface IProps {
 }
 const ActiveWorkoutLift = (props: IProps) => {
   const { exerciseName, sets, liftId, exerciseId } = props;
+  const [isVisible, setIsVisible] = useState(false);
+
   const dispatch = useAppDispatch();
 
   const swipeableRef = useRef<null | any>(null);
@@ -53,9 +57,12 @@ const ActiveWorkoutLift = (props: IProps) => {
   };
 
   const renderHeading = (exerciseName: string) => (
-    <Heading size={"md"} color={"info.400"} my={1} padding={2}>
-      {exerciseName}
-    </Heading>
+    <HStack justifyContent={"space-between"} alignItems={"center"}>
+      <Heading size={"md"} color={"info.400"} my={1} padding={2}>
+        {exerciseName}
+      </Heading>
+      <Elipsis size={12} onPress={() => setIsVisible(true)} />
+    </HStack>
   );
 
   const renderCheck = () => {
@@ -127,21 +134,22 @@ const ActiveWorkoutLift = (props: IProps) => {
     );
   };
 
+  const renderModal = () => (
+    <ActiveWorkoutLiftModal
+      isVisible={isVisible}
+      setIsVisible={setIsVisible}
+      liftId={liftId}
+    />
+  );
+
   return (
-    <Swipeable
-      ref={swipeableRef}
-      renderRightActions={renderOnSwipeRight}
-      onSwipeableOpen={handleSwipeRight}
-      rightThreshold={10}
-      containerStyle={{ marginVertical: 4 }}
-    >
-      <VStack key={liftId} backgroundColor={"white"} p={3}>
-        {renderHeading(exerciseName)}
-        {renderTableHead()}
-        {renderSets(sets, liftId)}
-        {renderAddSet(liftId)}
-      </VStack>
-    </Swipeable>
+    <VStack key={liftId} backgroundColor={"white"} p={3} my={2}>
+      {renderHeading(exerciseName)}
+      {renderTableHead()}
+      {renderSets(sets, liftId)}
+      {renderAddSet(liftId)}
+      {renderModal()}
+    </VStack>
   );
 };
 
