@@ -3,8 +3,7 @@
 
 ## Current state of Jacked
 
-This application is currently still in progress and I work on it during my free time. Although most of the MVP is there, I am still working on this application to squash bugs, improve UI/UX and 
-add additional features I think are important to the USP of this applcation. 
+This application is currently still in progress and I work on it during my free time. Although most of the MVP is there, I am still working on this application to squash bugs, improve UI/UX and add additional features I think are important to the USP of this applcation. 
 
 Eventually, I aim to release this application to the Andriod and iOS app stores.
 
@@ -45,7 +44,7 @@ going through the application on my iPhone 11.
 ### Pre-release using Expo Go (Detailed Look)
 
 For those who want a more indepth look into the application on your own device, you can download the [Expo go app](https://apps.apple.com/us/app/expo-go/id982107779)
-and visit my page to preview the application.
+and visit my [expo profile](https://expo.dev/@ahmedmcgarry) to build the application.
 
 ## Final Thoughts
 
