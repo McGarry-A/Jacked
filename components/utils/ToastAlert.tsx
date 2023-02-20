@@ -11,7 +11,7 @@ const ToastAlert = ({ status, title, description, variant }: IToastAlert) => {
   return (
     <Center>
       <Alert
-        maxWidth="100%"
+        maxWidth="90%"
         alignSelf="center"
         flexDirection="row"
         status={status ? status : "info"}

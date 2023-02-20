@@ -5,7 +5,7 @@
     "owner": "ahmedmcgarry",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./images/logo.png",
+    "icon": "./images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -27,14 +27,15 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.ahmedmcgarry.jacked"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "6560e4ac-1329-46dd-bf8b-b098a7bf5d05"
+        "projectId": "f7d670d2-f093-460d-a321-2814be8c88a6"
       }
     }
   }
