@@ -34,7 +34,7 @@ const useExerciseHistory = (exerciseId: number) => {
             `lift_id, created_at, exercise_name, set (weight, reps, setNumber), workout_id (workout_name)`
           )
           .eq("exercise_id", exerciseId)
-          .order("created_at", { ascending: false })
+          .order("lift_id", { ascending: false })
           .limit(10);
 
       if (exercise_history_error) {
