@@ -23,7 +23,6 @@ interface IProps {
 
 export default function Folder(props: IProps) {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
-  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [folderModalIsOpen, setFolderModalIsOpen] = useState<boolean>(false);
 
   const { templates, id, name } = props;
@@ -84,11 +83,14 @@ export default function Folder(props: IProps) {
   };
 
   const renderFolderModal = () => {
+    const childrenIds = Object.keys(templates);
+    const hasChildren = childrenIds.length > 0;
     return (
       <ManageFolderModal
         isVisible={folderModalIsOpen}
         setIsVisible={setFolderModalIsOpen}
         folId={id}
+        templateIds={hasChildren ? childrenIds : undefined}
       />
     );
   };
