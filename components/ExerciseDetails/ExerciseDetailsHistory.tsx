@@ -1,4 +1,12 @@
-import { Badge, Heading, HStack, Skeleton, Text, VStack } from "native-base";
+import {
+  Badge,
+  FlatList,
+  Heading,
+  HStack,
+  Skeleton,
+  Text,
+  VStack,
+} from "native-base";
 import { IExerciseHistory } from "../../hooks/useExerciseHistory";
 import { ISet } from "../../types/WorkoutInterface";
 import calculateOneRepMax from "../../utils/Workouts/calculateOneRepMax";
@@ -18,30 +26,6 @@ const ExerciseDetailsHistory = ({
   const renderHeader = (workout_name: string) => (
     <Heading size={"sm"}>{workout_name}</Heading>
   );
-
-  // const renderBadges = (sets: ISet[]) => {
-  //   const totalVolume = 0;
-
-  //   return (
-  //     <HStack justifyContent={"start"}>
-  //       <Badge
-  //         backgroundColor={"info.100"}
-  //         borderWidth={"2"}
-  //         borderColor={"info.500"}
-  //         px={2}
-  //       >
-  //         <Text
-  //           fontWeight={"semibold"}
-  //           color={"info.900"}
-  //           textTransform={"uppercase"}
-  //           fontSize={"xs"}
-  //         >
-  //           {totalVolume} Volume
-  //         </Text>
-  //       </Badge>
-  //     </HStack>
-  //   );
-  // };
 
   const renderDateAndTime = (date: string, time: string) => (
     <Text
@@ -99,7 +83,13 @@ const ExerciseDetailsHistory = ({
     );
   };
 
-  return <VStack>{Object.values(exerciseHistory).map(renderCard)}</VStack>;
+  return (
+    <FlatList
+      data={Object.values(exerciseHistory).reverse()}
+      renderItem={({ item, index }) => renderCard(item, index)}
+      keyExtractor={(item, index) => index.toString()}
+    ></FlatList>
+  );
 };
 
 export default ExerciseDetailsHistory;
