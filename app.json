@@ -20,7 +20,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ahmedmcgarry.jacked"
     },
     "android": {
       "adaptiveIcon": {
@@ -30,6 +31,11 @@
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6560e4ac-1329-46dd-bf8b-b098a7bf5d05"
+      }
     }
   }
 }

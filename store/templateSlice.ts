@@ -106,11 +106,11 @@ const templateSlice = createSlice({
         const { exercises } = payload;
 
         JSON.parse(exercises).map(
-          ({ exerciseId, exerciseName, liftId }: any) => {
+          ({ exerciseId, exerciseName, liftId, sets }: any) => {
             state.folders[folder_id].templates[tempId].exercises[liftId] = {
               exerciseId,
               exerciseName,
-              sets: {},
+              sets,
             };
 
             state.folders[folder_id].templates[tempId].exerciseOrder.push(
