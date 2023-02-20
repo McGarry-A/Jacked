@@ -251,15 +251,36 @@ export const deleteTemplate = createAsyncThunk(
   }
 );
 
+interface IDeleteFolder {
+  folderId: string;
+  templateIds?: string[];
+}
+
 export const deleteFolder = createAsyncThunk(
   "template/deleteFolder",
-  async (payload: string, { rejectWithValue }) => {
+  async (payload: IDeleteFolder, { rejectWithValue }) => {
+    const { folderId, templateIds } = payload;
+
+    if (templateIds) {
+      const templateIdsAsNumbers = templateIds.map((id) => parseInt(id));
+      const { error } = await supabase
+        .from("templates")
+        .delete()
+        .in("id", templateIdsAsNumbers);
+
+      if (error) {
+        console.log(error);
+        return rejectWithValue(error);
+      }
+    }
+
     const { data, error } = await supabase
       .from("folders")
       .delete()
-      .eq("id", payload);
+      .eq("id", folderId);
 
     if (error) {
+      console.log(error);
       return rejectWithValue(error);
     }
 

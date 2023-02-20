@@ -9,16 +9,17 @@ interface IManageFolderModal {
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
   folId: string;
+  templateIds?: string[] | undefined;
 }
 
 const ManageFolderModal = (props: IManageFolderModal) => {
-  const { isVisible, setIsVisible, folId } = props;
+const { isVisible, setIsVisible, folId, templateIds } = props;
 
   const dispatch = useAppDispatch();
   const { navigate } = useNavigation();
 
   const handleDeleteFolder = () => {
-    dispatch(deleteFolder(folId));
+    dispatch(deleteFolder({ folderId: folId, templateIds }));
     setIsVisible(false);
   };
 
