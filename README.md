@@ -10,8 +10,14 @@ Eventually, I aim to release this application to the Andriod and iOS app stores.
 
 ## The Purpose of the App
 
-This is an application that's main function is tracking and logging workouts for active gym members. I decided to create this app because working out is a personal hobby
-and alot of the apps on the market either lack functionality or are cumbersome to use. 
+This is an application that's main function is tracking and logging workouts for active gym members. I decided to create this app because working out is a personal hobby and many of the apps on the market either lack functionality or are cumbersome to use. 
+
+Some apps I loved using included [Strong](https://www.strong.app/) and [Boostcamp](https://apps.apple.com/us/app/boostcamp-workout-plans-log/id1529354455) for very different reasons.
+
+Strong is a fantastic app that is intuative to use and includes so many awesome features including graphs and charts to visualise your progress.
+Boostcamp was less intuative in the workout part of the application, but its unique selling point is that you can enroll onto coaches programmes and have set workouts based on your current fitness levels.
+
+Hence, I would like to create an application that encompasses the strengths of both these apps. A slick and simple UI that helps you track and log progress, but also cater to individuals who like a structured routine in the gym and perhaps even coaches who would like to push their programmes to gym goers world-wide.
 
 ## The Technologies 
 
