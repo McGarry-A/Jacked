@@ -31,7 +31,6 @@ import AddExercises from "../screens/modals/AddExercises";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useAppDispatch, useAppSelector } from "../store";
 import Start from "../screens/root/Start";
-import ColorThemeSwitch from "../components/Utils/ColorThemeSwitch";
 import Auth from "../components/Auth/Auth";
 import Welcome from "../components/Auth/Welcome";
 import Header from "../components/Layout/ScreenHeader";
