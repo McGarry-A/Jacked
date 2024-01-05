@@ -1,13 +1,12 @@
-import { View, Heading } from "native-base";
+import { StyleSheet, View, Text } from "react-native";
+import { constants } from "../../constants";
 import { ExerciseList as ExerciseListComponent } from "../../components/Lists/ExerciseList";
 import useColorScheme from "../../hooks/useColorScheme";
 
+
 const Exercises = () => {
-  const { h1ColorMode, screenColorMode } = useColorScheme();
   const renderHeading = () => (
-    <Heading size={"xl"} color={h1ColorMode} my={2}>
-      Exercises
-    </Heading>
+    <Text style={styles.heading}>Exercises</Text>
   );
 
   const renderExerciseList = () => {
@@ -15,20 +14,25 @@ const Exercises = () => {
   };
 
   return (
-    <View
-      flex={1}
-      backgroundColor={screenColorMode}
-      padding={3}
-      _web={{
-        maxW: "lg",
-        w: "100%",
-        mx: "auto",
-      }}
-    >
+    <View style={styles.view}>
       {renderHeading()}
       {renderExerciseList()}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+    view: {
+        flex: 1,
+        marginHorizontal: 12,
+    },
+
+    heading: {
+        // color: h1ColorMode,
+        fontSize: constants.fonts.heading.size.md,
+        fontWeight: 'bold',
+        marginVertical: 12
+    }
+})
 
 export default Exercises;

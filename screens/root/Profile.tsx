@@ -1,5 +1,5 @@
 import { RootTabScreenProps } from "../../types";
-import { Box, Heading, View, FlatList, HStack, ScrollView } from "native-base";
+import { View, Text, FlatList, StyleSheet } from "react-native"
 import SessionFrequncyWidget from "../../components/Widgets/SessionFrequency/SessionFrequencyWidget";
 import OneRepMaxWidget from "../../components/Widgets/OneRepMax/OneRepMaxWidget";
 import UserProfileBar from "../../components/Layout/UserProfileBar";
@@ -18,6 +18,7 @@ import AddMeasurementModal from "../../components/Modals/AddMeasurementModal";
 import WeightTrackerWidget from "../../components/Widgets/WeightTracker/WeightTrackerWidget";
 import { getWeight } from "../../store/weightSlice";
 import SettingsModal from "../../components/Modals/SettingsModal";
+import { constants } from "../../constants";
 
 export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
@@ -53,13 +54,8 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
 
   const renderDashboard = () => {
     return (
-      <Box
-        flexDirection="row"
-        alignItems={"center"}
-        justifyContent="space-between"
-        marginY={5}
-      >
-        <Heading size={"sm"}>Dashboard</Heading>
+      <View style={styles.dashboardContainer}>
+        <Text style={styles.dashboardHeading}>Dashboard</Text>
         <CtaButton
           onPress={() => setModalIsVisible(true)}
           leftIcon={
@@ -72,7 +68,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
         >
           Add Widget
         </CtaButton>
-      </Box>
+      </View>
     );
   };
 
@@ -82,10 +78,10 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   );
 
   const renderScreenHeading = () => (
-    <HStack justifyContent={"space-between"} alignItems={"center"} my={2}>
-      <Heading size="xl" color={h1ColorMode}>
+    <View style={styles.headingContainer}>
+      <Text style={styles.heading}>
         My Profile
-      </Heading>
+      </Text>
       <CtaButton
         onPress={handlePress}
         leftIcon={
@@ -94,7 +90,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
       >
         Settings
       </CtaButton>
-    </HStack>
+    </View>
   );
 
   const renderWidget = (widgetId: string) => {
@@ -140,9 +136,8 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   const renderMeasurement = () => {
     return (
       <CtaButton
+      style={styles.measurementCta}
         isHollow
-        pl={0}
-        justifyContent={"flex-start"}
         onPress={() => setWeightModalIsVisible(true)}
         leftIcon={
           <FontAwesomeIcon icon={faRuler} size={20} color={ctaIconColorMode} />
@@ -161,17 +156,7 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
   );
 
   return (
-    <View
-      padding="3"
-      backgroundColor={screenColorMode}
-      flexGrow={1}
-      flex={1}
-      _web={{
-        maxW: "lg",
-        w: "100%",
-        mx: "auto",
-      }}
-    >
+    <View style={styles.profileContainer}>
       {renderMeasurement()}
       {renderScreenHeading()}
       {renderProfile()}
@@ -183,3 +168,39 @@ export default function Profile({ navigation }: RootTabScreenProps<"Profile">) {
     </View>
   );
 }
+
+
+const styles = StyleSheet.create({
+    profileContainer: {
+        paddingVertical: 12,
+        paddingHorizontal: 12,
+        backgroundColor: "white",
+        flexGrow: 1,
+        flex: 1,
+    },
+    measurementCta: {
+        paddingLeft: 0,
+        justifyContent: "flex-start"
+    },
+    headingContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginVertical: 12
+    },
+    heading: {
+        fontSize: constants.fonts.heading.size.md,
+        fontWeight: "bold"
+    },
+    dashboardContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginVertical: 12
+    },
+    dashboardHeading: {
+        fontSize: constants.fonts.heading.size.sm,
+        fontWeight: "bold"
+    }
+    
+})

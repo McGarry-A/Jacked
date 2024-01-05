@@ -1,13 +1,15 @@
 import { faCalendar } from "@fortawesome/free-regular-svg-icons/faCalendar";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
-import { FlatList, Heading, HStack, Skeleton, View } from "native-base";
+import { Skeleton } from "native-base";
+import { View, FlatList, Text, StyleSheet } from "react-native"
 import { lazy, Suspense, useState } from "react";
 import CtaButton from "../../components/Layout/Buttons/CtaButton";
 import ListFooter from "../../components/Lists/ListFooter";
 import useColorScheme from "../../hooks/useColorScheme";
 import useHistory from "../../hooks/useHistory";
 import { useAppSelector } from "../../store";
+import { constants } from "../../constants";
 
 const HistoryCard = lazy(() => import("../../components/Layout/Cards/HistoryCard"));
 
@@ -22,10 +24,10 @@ export default function History() {
 
   const renderHeader = () => {
     return (
-      <HStack justifyContent={"space-between"} alignItems={"center"} my={2}>
-        <Heading size={"xl"} color={h1ColorMode}>
+      <View style={styles.headerContainer}>
+        <Text style={styles.header}>
           History
-        </Heading>
+        </Text>
         <CtaButton
           onPress={() => navigation.navigate("Calendar")}
           leftIcon={
@@ -34,7 +36,7 @@ export default function History() {
         >
           Calendar
         </CtaButton>
-      </HStack>
+      </View>
     );
   };
 
@@ -44,7 +46,7 @@ export default function History() {
         data={history}
         initialNumToRender={6}
         keyExtractor={({ id }) => String(id)}
-        flexGrow={1}
+        style={styles.list}
         onEndReached={() => {
           setPage((page) => page + 1);
         }}
@@ -75,19 +77,35 @@ export default function History() {
   };
 
   return (
-    <View
-      backgroundColor={screenColorMode}
-      padding={3}
-      paddingBottom={10}
-      h={"full"}
-      _web={{
-        maxW: "lg",
-        w: "100%",
-        mx: "auto",
-      }}
-    >
+    <View style={styles.viewContainer}>
       {renderHeader()}
       {renderSessions()}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+    viewContainer: {
+        backgroundColor: "white",
+        padding: 3,
+        paddingBottom: 10,
+        height: "100%",
+        paddingHorizontal: 12,
+    },
+
+    headerContainer: {
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginVertical: 12,
+        flexDirection: "row",
+    },
+
+    header: {
+        fontSize: constants.fonts.heading.size.md,
+        fontWeight: "bold"
+    },
+
+    list: {
+        flexGrow: 1,
+    }
+})
