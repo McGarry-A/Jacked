@@ -1,6 +1,15 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@Components/*": ["components/*"],
+      "@Supabase/*": ["supabase/*"],
+      "@Store/*": ["store/*"],
+      "@Navigation/*": ["navigation/*"],
+      "@Hooks/*": ["hooks/*"],
+      "@Constants/*": ["constants/*"]
+    },
     "strict": true,
     "target": "es6",
     "module": "esnext",
