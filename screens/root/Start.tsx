@@ -21,13 +21,7 @@ export default function Start() {
     const { folders, status } = useAppSelector((state) => state.templateSlice);
     const { isActive } = useAppSelector((state) => state.currentWorkoutSlice);
 
-    const {
-        h1ColorMode,
-        h2ColorMode,
-        buttonColorMode,
-        ctaIconColorMode,
-        screenColorMode,
-    } = useColorScheme();
+    const { ctaIconColorMode } = useColorScheme();
 
     const navigation = useNavigation();
     const dispatch = useAppDispatch();
@@ -164,7 +158,7 @@ const styles = StyleSheet.create({
         backgroundColor: "skyblue",
         borderRadius: 4,
         overflow: "hidden",
-        marginVertical: 8
+        marginVertical: 8,
     },
 
     quickStartCtaText: {
@@ -178,7 +172,7 @@ const styles = StyleSheet.create({
         backgroundColor: "success",
         borderRadius: 4,
         overflow: "hidden",
-        marginVertical: 8
+        marginVertical: 8,
     },
 
     continueCtaText: {
@@ -186,6 +180,5 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "white",
         textAlign: "center",
-    }
+    },
 });
-

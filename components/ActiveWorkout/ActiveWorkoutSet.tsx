@@ -1,12 +1,16 @@
+import usePreviousSet from "@Hooks/usePreviousSet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
-import { Box, HStack, Input, Pressable, Text } from "native-base";
+import { View, TextInput, Pressable, StyleSheet, Text } from "react-native";
 import { useRef, useState } from "react";
 import { useAppDispatch } from "@Store/index";
-import { deleteSet, updateReps, updateWeight } from "@Store/currentWorkoutSlice";
 import { Swipeable } from "react-native-gesture-handler";
-import usePreviousSet from "@Hooks/usePreviousSet";
 import { faMinus } from "@fortawesome/free-solid-svg-icons/faMinus";
+import {
+    deleteSet,
+    updateReps,
+    updateWeight,
+} from "@Store/currentWorkoutSlice";
 
 interface Props {
     weight: string;
@@ -28,11 +32,6 @@ const ActiveWorkoutSet = (props: Props) => {
     const previous = usePreviousSet({ exerciseId, setNumber });
     const dispatch = useAppDispatch();
 
-    const backgroundColor = isDone ? "success.100" : "white";
-
-    const weightRef = useRef<HTMLInputElement>();
-    const repsRef = useRef<HTMLInputElement>();
-
     const handleSwipeRight = () => {
         const { liftId, setId } = props;
 
@@ -46,11 +45,11 @@ const ActiveWorkoutSet = (props: Props) => {
         const params = {
             liftId,
             setId,
-            weight: newwWeight
-        }
+            weight: newwWeight,
+        };
 
-        dispatch(updateWeight(params))
-    }
+        dispatch(updateWeight(params));
+    };
 
     const handleUpdateReps = (newwReps: string) => {
         const { setId, liftId } = props;
@@ -58,107 +57,71 @@ const ActiveWorkoutSet = (props: Props) => {
         const params = {
             liftId,
             setId,
-            reps: newwReps
-        }
+            reps: newwReps,
+        };
 
-        dispatch(updateReps(params))
-    }
+        dispatch(updateReps(params));
+    };
 
     const handleCheckSet = () => {
-
         setIsDone((isDone) => !isDone);
     };
 
     const renderOnSwipeRight = () => {
         return (
-            <Box
-                backgroundColor={"red.500"}
-                w={"full"}
-                justifyContent={"center"}
-                flexDir={"row"}
-                alignItems="center"
-                pr={6}
-            >
-                <Text fontWeight={"700"} textAlign={"center"} color={"white"}>
-                    Delete Set
-                </Text>
-            </Box>
+            <View style={styles.deleteSetContainer}>
+                <Text style={styles.deleteSetText}>Delete Set</Text>
+            </View>
         );
     };
 
     const renderSetNumber = () => (
-        <Box flex={1}>
-            <Pressable
-                w={"1/2"}
-                alignItems="center"
-                justifyContent={"center"}
-                borderRadius={6}
-                zIndex={"-1"}
-            >
-                <Text color="text.600" textAlign={"center"} w={5} fontWeight={700}>
-                    {setNumber}
-                </Text>
+        <View style={styles.setNumberContainer}>
+            <Pressable style={styles.setNumberPressable}>
+                <Text style={styles.setNumberText}>{setNumber}</Text>
             </Pressable>
-        </Box>
+        </View>
     );
 
-    const renderDash = () => {
-        return <FontAwesomeIcon icon={faMinus} size={18} />;
-    };
-
     const renderPrevious = () => {
-        if (!previous) return <Box flex={2}>{renderDash()}</Box>;
+        if (!previous) {
+            return (
+                <View style={styles.previousContainer}>
+                    <FontAwesomeIcon icon={faMinus} size={18} />
+                </View>
+            );
+        }
 
-        const previousString = `${previous?.weight} kg x ${previous?.reps}`;
+        const previousString = `${previous?.weight} kg x ${previous?.reps}`
 
-        return (
-            <Text fontSize="xs" opacity={50} flex={2} fontWeight={700}>
-                {previousString}
-            </Text>
-        );
+        return <Text style={styles.previousContainerText}>{previousString}</Text>
     };
 
     const renderWeightInput = () => (
-        <Box flex={2} py={1}>
-            <Input
+        <View style={styles.inputContainer}>
+            <TextInput
                 placeholder={weight}
-                backgroundColor={"whitesmoke"}
-                keyboardType={"numeric"}
-                isDisabled={isDone}
+                keyboardType={"phone-pad"}
+                editable={!isDone}
                 onChangeText={(text) => handleUpdateWeight(text)}
-                w={16}
-                fontWeight={700}
-                textAlign={"center"}
-                color={"coolGray.700"}
-                ref={weightRef}
             />
-        </Box>
+        </View>
     );
 
     const renderRepsInput = () => (
-        <Box flex={2} py={1}>
-            <Input
+        <View style={styles.inputContainer}>
+            <TextInput
                 placeholder={reps}
-                backgroundColor={"whitesmoke"}
-                keyboardType={"numeric"}
-                isDisabled={isDone}
-                onChangeText={(text) => handleUpdateReps(text)}
-                w={16}
-                fontWeight={700}
-                textAlign={"center"}
-                color={"text.900"}
-                ref={repsRef}
+                keyboardType={"phone-pad"}
+                editable={!isDone}
+                onChangeText={(text: string) => handleUpdateReps(text)}
             />
-        </Box>
+        </View>
     );
 
     const renderCheck = () => {
         return (
-            <Pressable
-                alignItems={"flex-end"}
-                flexShrink={1}
-                onPress={handleCheckSet}
-            >
+            <Pressable style={styles.checkmarkPressable} onPress={handleCheckSet}>
                 <FontAwesomeIcon icon={template ? faMinus : faCheck} size={15} />
             </Pressable>
         );
@@ -171,20 +134,68 @@ const ActiveWorkoutSet = (props: Props) => {
             rightThreshold={10}
             ref={swipeableRef}
         >
-            <HStack
-                alignItems={"center"}
-                justifyContent={"space-between"}
-                backgroundColor={backgroundColor}
-                paddingX={2}
-            >
+            <View style={isDone ? styles.setContainerSuccess : styles.setContainer}>
                 {renderSetNumber()}
                 {renderPrevious()}
                 {renderWeightInput()}
                 {renderRepsInput()}
                 {renderCheck()}
-            </HStack>
+            </View>
         </Swipeable>
     );
 };
+
+const styles = StyleSheet.create({
+    setContainer: {
+        backgroundColor: "white",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: 12,
+    },
+    setContainerSuccess: {
+        backgroundColor: "green",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: 12,
+    },
+    deleteSetContainer: {
+        backgroundColor: "red",
+        width: "100%",
+        justifyContent: "center",
+        flexDirection: "row",
+        alignItems: "center",
+        paddingRight: 12,
+    },
+
+    deleteSetText: {
+        fontWeight: "bold",
+        textAlign: "center",
+        color: "white",
+    },
+    setNumberContainer: { flex: 1 },
+    setNumberPressable: {
+        width: "50%",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 12,
+        zIndex: -1,
+    },
+    setNumberText: { textAlign: "center", fontWeight: "bold" },
+    checkmarkPressable: { alignItems: "flex-end", flexShrink: -1 },
+    inputContainer: {
+        flex: 2,
+    },
+    previousContainer: {
+        flex: 2,
+    },
+    previousContainerText: {
+        fontSize: 12,
+        opacity: 0.5,
+        flex: 2,
+        fontWeight: "bold",
+    },
+});
 
 export default ActiveWorkoutSet;
